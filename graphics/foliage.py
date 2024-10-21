@@ -114,8 +114,12 @@ class PlantSystem:
         self.root_stiffness_range = (0.01, 0.1)
         self.density = 0.0005
 
-        self.step_effect_radius = 50
-        self.step_bend_force = 0.03
+        self.hitbox_lx = 60
+        self.hitbox_ly = 30
+        self.step_effect_radius = self.hitbox_ly # sqrt(self.hitbox_lx**2 + self.hitbox_ly**2)
+
+        self.step_bend_force = 0.05
+
         self.gravity = 0.01
 
         self.num_leaves_range = (1,1)
@@ -178,7 +182,9 @@ class PlantSystem:
             num_leaves = len(plant)
             plant_x_base, plant_y_base = plant[0].x_base, plant[0].y_base
             distance_to_base = sqrt((plant_x_base - self.x_player) ** 2 + (plant_y_base - self.y_player) ** 2)
-            if distance_to_base < self.step_effect_radius:
+            in_hitbox_x = (self.x_player < plant_x_base + self.hitbox_lx/2) and (self.x_player > plant_x_base - self.hitbox_lx/2)
+            in_hitbox_y = (self.y_player > plant_y_base - self.hitbox_ly/2) and (self.y_player < plant_y_base + self.hitbox_ly/2)
+            if in_hitbox_x and in_hitbox_y:
                 for i in range(num_leaves):
                     plant[i].external_force = self.step_bend_force * (1 - distance_to_base / self.step_effect_radius) * copysign(1, plant_x_base - self.x_player)
             else:

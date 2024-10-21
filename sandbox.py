@@ -6,72 +6,15 @@ from numpy import sign
 from statistics import mean
 import random
 
-from foliage import PlantSystem
-from particles import ParticleSystem
+from graphics.foliage import PlantSystem
+from graphics.particles import ParticleSystem
 
+from map_effects.weather import Wind
 
 pygame.init()
 
 
 
-
-class Wind:
-    def __init__(self):
-        self.t = 0
-        self.dt = 0.1
-        self.amplitudes = [0]
-        self.frequencies = [0]
-
-    def update(self):
-        self.t += self.dt
-
-    def get_wind_force(self):
-        wind_force = 0
-        for amplitude, frequency in zip(self.amplitudes, self.frequencies):
-            wind_force += amplitude * sin(2 * pi * frequency * self.t)
-        return wind_force
-
-
-
-class HandlePlayerMovement:
-    def __init__(self, player):
-        self.player = player
-
-    def handle_keys(self, keys):
-        vx_left = 0
-        vx_right = 0
-        vy_up = 0
-        vy_down = 0
-
-        if keys[pygame.K_LEFT]:
-            if keys[pygame.K_UP] or keys[pygame.K_UP]:
-                vx_left = -sqrt(2)/2*self.player.movement_acceleration
-            else:
-                vx_left = -self.player.movement_acceleration
-
-        if keys[pygame.K_RIGHT]:
-            if keys[pygame.K_UP] or keys[pygame.K_UP]:
-                vx_right = -sqrt(2)/2*self.player.movement_acceleration
-            else:
-                vx_right = self.player.movement_acceleration
-
-        if keys[pygame.K_UP]:
-            if keys[pygame.K_LEFT] or keys[pygame.K_RIGHT]:
-                vy_up = -sqrt(2)/2*self.player.movement_acceleration
-            else:
-                vy_up = -self.player.movement_acceleration
-
-        if keys[pygame.K_DOWN]:
-            if keys[pygame.K_LEFT] or keys[pygame.K_RIGHT]:
-                vy_down = sqrt(2)/2*self.player.movement_acceleration
-            else:
-                vy_down = self.player.movement_acceleration
-
-        if keys[pygame.K_SPACE]:
-           self.player.jump()
-
-        self.player.vx = vx_left + vx_right
-        self.player.vy = vy_up + vy_down
 
 
 
@@ -99,7 +42,7 @@ class Game:
         self.flame.lifetime_range = (10, 80)
         self.flame.acceleration_range = (20, 100)
 
-        self.shrubs = PlantSystem(plant_folder='plants/branchy_bush')
+        self.shrubs = PlantSystem(plant_folder='graphics/textures/plants/branchy_bush')
         self.shrubs.mask_name = 'test_mask'
         self.shrubs.num_leaves_range = (1,20)
         self.shrubs.stiffness_range = (0.005, 0.05)
@@ -107,7 +50,7 @@ class Game:
         self.shrubs.density = 1
         self.shrubs.generate_plants()
 
-        self.grass = PlantSystem(plant_folder='plants/grass')
+        self.grass = PlantSystem(plant_folder='graphics/textures/plants/grass')
         self.grass.mask_name = 'test_mask'
         self.grass.num_leaves_range = (1,3)
         self.grass.stiffness_range = (0.01, 0.1)
@@ -115,7 +58,7 @@ class Game:
         self.grass.density = 1
         self.grass.generate_plants()
 
-        self.flower = PlantSystem(plant_folder='plants/flower')
+        self.flower = PlantSystem(plant_folder='graphics/textures/plants/flower')
         self.flower.mask_name = 'test_mask'
         self.flower.num_leaves_range = (1,1)
         self.flower.stiffness_range = (0.02, 0.04)
@@ -154,9 +97,6 @@ class Game:
 
     def update_screen_game(self):
         self.screen.blit(self.background, (0, 0))
-        
-        """ self.grass.update_grass()
-        self.grass.draw_grass(self.screen) """
 
         self.flame.create_particle()
         self.flame.update_particles()

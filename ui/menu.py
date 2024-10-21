@@ -15,14 +15,16 @@ from ui.vertical_layout import VerticalLayout
 class MainMenu:
     def __init__(self, size : Tuple[int, int]) -> None:
         
-        self.manager = UIManager(size)
+        self.manager = UIManager(size, 'ui/styles.json')
         panel_width = int(size[0] / 4)
         panel_height = int(size[1] / 4)
         self.panel = UIPanel(
             relative_rect=Rect((size[0]/2 - panel_width/2, size[1]/2 - panel_height/2), (panel_width, panel_height)),
             starting_height=1,
-            manager=self.manager
+            manager=self.manager,
+        
         )
+
         self.layout = VerticalLayout(self.panel.get_relative_rect(), spacing=10, margins=(10,10,10,10))
         
         self.start_button = UIButton(

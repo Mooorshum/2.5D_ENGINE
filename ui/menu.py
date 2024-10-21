@@ -23,7 +23,7 @@ class MainMenu:
             starting_height=1,
             manager=self.manager
         )
-        self.layout = VerticalLayout(Rect((0, 0), (panel_width, panel_height)), spacing=10, margins=(10,10,10,10))
+        self.layout = VerticalLayout(self.panel.get_relative_rect(), spacing=10, margins=(10,10,10,10))
         
         self.start_button = UIButton(
             relative_rect=Rect((0, 0), (20, 20)),

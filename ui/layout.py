@@ -15,4 +15,4 @@ class Layout:
         pass
 
     def set_position(self, widget, position: Tuple[int, int]) -> None:
-        widget.set_relative_position(position)
+        widget.set_position(position)

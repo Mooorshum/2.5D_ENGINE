@@ -11,8 +11,16 @@ from graphics.particles import ParticleSystem
 
 from map_effects.weather import Wind
 
+from ui.menu import MainMenu
+from ui import START_GAME_EVENT
 pygame.init()
 
+from enum import Enum
+
+class GameStates(Enum):
+    PLAYING = 1
+    PAUSED = 2
+    AT_EXIT = 3
 
 
 
@@ -20,15 +28,15 @@ pygame.init()
 
 class Game:
     def __init__(self):
+        self.game_state = GameStates.PAUSED
         self.screen_width = 962
-        self.screen_height = 542
+        self.screen_height = 540
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height), pygame.SCALED)
         self.background = pygame.image.load("background.png").convert()
         self.background_hitbox = pygame.image.load("background_hitbox.png").convert()
 
         pygame.display.set_caption("SANDBOX")
         self.clock = pygame.time.Clock()
-        self.running = True
         self.mouse_x, self.mouse_y = None, None
 
         self.wind = Wind()
@@ -66,18 +74,43 @@ class Game:
         self.flower.density = 1
         self.flower.generate_plants()
 
+        self.main_menu = MainMenu(pygame.display.get_surface().size)
+
+
+
     def run(self):
-        while self.running:
+        clock = pygame.time.Clock()
+        while self.game_state != GameStates.AT_EXIT:
+            time_delta = clock.tick(60) / 1000.0
             self.handle_events()
-            self.update_screen_game()
+            if self.game_state == GameStates.PLAYING:
+                self.screen.blit(self.background, (0, 0))
+                self.update_screen_game(time_delta)
+            elif self.game_state == GameStates.PAUSED:
+                self.screen.blit(self.background, (0, 0))
+                self.main_menu.draw(self.screen, time_delta)
+                pygame.display.update()
+
         pygame.quit()
 
     def handle_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                self.running = False
+                self.game_state = GameStates.AT_EXIT
+
+            else:
+                if event.type == START_GAME_EVENT:
+                    self.main_menu.hide()
+                    self.game_state = GameStates.PLAYING
+                else:
+                    self.main_menu.process_events(event)
+
         self.mouse_x, self.mouse_y = pygame.mouse.get_pos()
         keys = pygame.key.get_pressed()
+
+        if keys[pygame.K_ESCAPE]:
+            self.game_state = GameStates.PAUSED
+            self.main_menu.show()
             
         # Generating flame at cursor location
         self.flame.x = self.mouse_x
@@ -95,8 +128,11 @@ class Game:
         self.flower.x_player = self.mouse_x
         self.flower.y_player = self.mouse_y
 
-    def update_screen_game(self):
-        self.screen.blit(self.background, (0, 0))
+    def update_screen_game(self, time_delta : float):
+        #self.screen.blit(self.background, (0, 0))
+        
+        """ self.grass.update_grass()
+        self.grass.draw_grass(self.screen) """
 
         self.flame.create_particle()
         self.flame.update_particles()
@@ -110,6 +146,7 @@ class Game:
 
         self.flower.update_plants()
         self.flower.draw_plants(self.screen)
+        
 
         pygame.display.update()
 

@@ -19,14 +19,14 @@ class MainMenu:
         panel_width = int(size[0] / 3)
         panel_height = int(size[1] / 4)
         display_rect = Rect((size[0]/2 - panel_width/2, size[1]/2 - panel_height/2), (panel_width, panel_height))
-        self.layout = VerticalLayout(display_rect, self.manager, spacing=10, margins=(5,5,5,5))
+        self.vertical_layout = VerticalLayout(display_rect, self.manager, spacing=10, margins=(5,5,5,5))
         self.horizontal_layout = HorizontalLayout(display_rect, self.manager, spacing=10, margins=(0, 0, 0, 0))
-        
+
         self.start_button = UIButton(
             relative_rect=Rect((0, 0), (20, 20)),
             text='Start Game',
             manager=self.manager,
-            container=self.layout
+            container=self.vertical_layout
         )
 
         self.preferences_button = UIButton(
@@ -42,14 +42,13 @@ class MainMenu:
             manager=self.manager,
             container=self.horizontal_layout
         )
-        self.layout.add_element(self.horizontal_layout)
-        
-        
+        self.vertical_layout.add_element(self.horizontal_layout)
+
     def hide(self) -> None:
-        self.layout.hide()
+        self.vertical_layout.hide()
 
     def show(self) -> None:
-        self.layout.show()
+        self.vertical_layout.show()
 
     def process_events(self, event) -> None:
         self.manager.process_events(event)
@@ -60,10 +59,10 @@ class MainMenu:
                 evt.post(evt.Event(QUIT))
 
     def is_visible(self) -> bool:
-        return self.layout.visible
+        return self.vertical_layout.visible
 
     def draw(self, screen, time_delta) -> None:
-        if self.layout.visible:
+        if self.vertical_layout.visible:
             self.manager.update(time_delta)
             self.manager.draw_ui(screen)
 

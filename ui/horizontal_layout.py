@@ -3,9 +3,11 @@ from pygame import Rect
 from typing import Tuple
 
 class HorizontalLayout(Layout):
-    def __init__(self, relative_rect: Rect, manager, spacing: int = 0, margins: Tuple[int, int, int, int] = (0, 0, 0, 0)) -> None:
-        super().__init__(relative_rect, manager, margins)
-        self.spacing = spacing
+    def __init__(self, relative_rect: Rect, 
+                 manager, 
+                 spacing: int = 0, 
+                 margins: Tuple[int, int, int, int] = (0, 0, 0, 0)) -> None:
+        super().__init__(relative_rect, manager, spacing, margins)
 
     def update_layout(self) -> None:
         if len(self.elements) > 0:

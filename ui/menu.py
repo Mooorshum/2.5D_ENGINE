@@ -8,6 +8,7 @@ from pygame_gui.elements import UIPanel, UIButton
 
 from ui import START_GAME_EVENT
 from ui.vertical_layout import VerticalLayout
+from ui.horizontal_layout import HorizontalLayout
 
 
 
@@ -15,11 +16,12 @@ class MainMenu:
     def __init__(self, size : Tuple[int, int]) -> None:
         
         self.manager = UIManager(size, 'ui/styles.json')
-        panel_width = int(size[0] / 4)
+        panel_width = int(size[0] / 3)
         panel_height = int(size[1] / 4)
         display_rect = Rect((size[0]/2 - panel_width/2, size[1]/2 - panel_height/2), (panel_width, panel_height))
-        self.layout = VerticalLayout(display_rect, self.manager, spacing=10, margins=(10,10,10,10))
-
+        self.layout = VerticalLayout(display_rect, self.manager, spacing=10, margins=(5,5,5,5))
+        self.horizontal_layout = HorizontalLayout(display_rect, self.manager, spacing=10, margins=(0, 0, 0, 0))
+        
         self.start_button = UIButton(
             relative_rect=Rect((0, 0), (20, 20)),
             text='Start Game',
@@ -31,16 +33,17 @@ class MainMenu:
             relative_rect=Rect((0, 0), (20, 20)),
             text='Preferences',
             manager=self.manager,
-            container=self.layout
+            container=self.horizontal_layout
         )
 
         self.exit_button = UIButton(
             relative_rect=Rect((0, 0), (20, 20)),
             text='Exit',
             manager=self.manager,
-            container=self.layout
+            container=self.horizontal_layout
         )
-
+        self.layout.add_element(self.horizontal_layout)
+        
         
     def hide(self) -> None:
         self.layout.hide()

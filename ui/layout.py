@@ -14,5 +14,3 @@ class Layout(UIContainer):
     def update_layout(self) -> None:
         pass
 
-    def set_position(self, widget, position: Tuple[int, int]) -> None:
-        widget.set_position(position)

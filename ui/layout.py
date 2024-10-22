@@ -6,8 +6,8 @@ class Layout(UIContainer):
     def __init__(self, relative_rect: Rect, 
                  manager,
                  spacing : int,
-                 margins: Tuple[int, int, int, int] = (0, 0, 0, 0)) -> None:
-        super().__init__(relative_rect=relative_rect, manager=manager)
+                 margins: Tuple[int, int, int, int] = (0, 0, 0, 0), container = None) -> None:
+        super().__init__(relative_rect=relative_rect, manager=manager, container=container)
         self.margins = margins
         self.spacing = spacing
 
@@ -17,4 +17,3 @@ class Layout(UIContainer):
 
     def update_layout(self) -> None:
         pass
-

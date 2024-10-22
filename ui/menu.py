@@ -20,7 +20,6 @@ class MainMenu:
         panel_height = int(size[1] / 4)
         display_rect = Rect((size[0]/2 - panel_width/2, size[1]/2 - panel_height/2), (panel_width, panel_height))
         self.vertical_layout = VerticalLayout(display_rect, self.manager, spacing=10, margins=(5,5,5,5))
-        self.horizontal_layout = HorizontalLayout(display_rect, self.manager, spacing=10, margins=(0, 0, 0, 0))
 
         self.start_button = UIButton(
             relative_rect=Rect((0, 0), (20, 20)),
@@ -28,6 +27,9 @@ class MainMenu:
             manager=self.manager,
             container=self.vertical_layout
         )
+        self.horizontal_layout = HorizontalLayout(display_rect, self.manager,
+                                                  spacing=10, margins=(0, 0, 0, 0),
+                                                  container=self.vertical_layout)
 
         self.preferences_button = UIButton(
             relative_rect=Rect((0, 0), (20, 20)),
@@ -42,7 +44,7 @@ class MainMenu:
             manager=self.manager,
             container=self.horizontal_layout
         )
-        self.vertical_layout.add_element(self.horizontal_layout)
+        #self.vertical_layout.add_element(self.horizontal_layout)
 
     def hide(self) -> None:
         self.vertical_layout.hide()

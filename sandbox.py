@@ -29,10 +29,12 @@ class GameStates(Enum):
 class Game:
     def __init__(self):
         self.game_state = GameStates.PAUSED
-        self.screen_width = 962
-        self.screen_height = 540
-        self.screen = pygame.display.set_mode((self.screen_width, self.screen_height), pygame.SCALED)
+        self.screen_width = 960
+        self.screen_height = 541
+
+        self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
         self.background = pygame.image.load("background.png").convert()
+        self.background
         self.background_hitbox = pygame.image.load("background_hitbox.png").convert()
 
         pygame.display.set_caption("SANDBOX")

@@ -3,17 +3,24 @@
     {
         "colours":
          {
-             "dark_bg":"#000000",
+             "dark_bg":"#00000000",
              "normal_border": "#999999"
          }
     },
 
     "button":
     {
+        "font":
+        {
+            "name": "Arial",
+            "size": "20",
+            "bold": "true",
+            "italic": "false"
+        },
         "colours":
         {
             "normal_bg": "#25292e",
-            "hovered_bg": "#35393e",
+            "hovered_bg": "#FFFFFF",
             "disabled_bg": "#25292e",
             "selected_bg": "#25292e",
             "active_bg": "#193784",
@@ -36,12 +43,12 @@
         "misc":
         {
              "shape": "rounded_rectangle",
-             "shape_corner_radius": "5,0,0,0",
+             "shape_corner_radius": "9,9,9,9",
              "border_width": "1",
              "shadow_width": "1",
              "tool_tip_delay": "1.0",
-             "text_horiz_alignment": "left",
-             "text_vert_alignment": "top",
+             "text_horiz_alignment": "center",
+             "text_vert_alignment": "center",
              "text_horiz_alignment_padding": "10",
              "text_vert_alignment_padding": "5",
              "text_shadow_size": "1",

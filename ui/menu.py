@@ -36,6 +36,15 @@ class MainMenu:
 
         self.layout.add_widget(self.start_button)
 
+        self.preferences_button = UIButton(
+            relative_rect=Rect((0, 0), (20, 20)),
+            text='Preferences',
+            manager=self.manager,
+            container=self.panel
+        )
+
+        self.layout.add_widget(self.preferences_button)
+
         self.exit_button = UIButton(
             relative_rect=Rect((0, 0), (20, 20)),
             text='Exit',

@@ -6,7 +6,7 @@ import pygame.event as evt
 from pygame_gui import UIManager, UI_BUTTON_PRESSED
 from pygame_gui.elements import UIPanel, UIButton
 
-from ui import START_GAME_EVENT
+from ui import START_GAME_EVENT, PREFERENCES_EVENT, ABOUT_EVENT
 from ui.vertical_layout import VerticalLayout
 from ui.horizontal_layout import HorizontalLayout
 
@@ -38,11 +38,18 @@ class MainMenu:
             container=self.horizontal_layout
         )
 
+        self.about_button = UIButton(
+            relative_rect=Rect((0, 0), (20, 20)),
+            text='About',
+            manager=self.manager,
+            container=self.horizontal_layout
+        )
+
         self.exit_button = UIButton(
             relative_rect=Rect((0, 0), (20, 20)),
             text='Exit',
             manager=self.manager,
-            container=self.horizontal_layout
+            container=self.vertical_layout
         )
         #self.vertical_layout.add_element(self.horizontal_layout)
 
@@ -57,6 +64,10 @@ class MainMenu:
         if event.type == UI_BUTTON_PRESSED:
             if event.ui_element == self.start_button:
                 evt.post(evt.Event(START_GAME_EVENT))
+            elif event.ui_element == self.preferences_button:
+                evt.post(evt.Event(PREFERENCES_EVENT))
+            elif event.ui_element == self.about_button:
+                evt.post(evt.Event(ABOUT_EVENT))
             elif event.ui_element == self.exit_button:
                 evt.post(evt.Event(QUIT))
 

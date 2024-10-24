@@ -27,6 +27,20 @@ class GameStates(Enum):
 
 
 
+font = pygame.font.SysFont(None, 20)
+
+def display_fps(screen, clock, font):
+    fps = str(int(clock.get_fps()))
+    fps_text = font.render(f'fps: {fps}', True, pygame.Color("white"))
+    screen_width, screen_height = screen.get_size()
+    text_rect = fps_text.get_rect(topright=(screen_width - 10, 10))
+    screen.blit(fps_text, text_rect)
+
+
+
+
+
+
 
 class Game:
     def __init__(self):
@@ -171,9 +185,7 @@ class Game:
 
     def update_screen_game(self, time_delta : float):
         #self.screen.blit(self.background, (0, 0))
-        
-        """ self.grass.update_grass()
-        self.grass.draw_grass(self.screen) """
+        display_fps(self.screen, self.clock, font)
 
         self.flame.create_particle()
         self.flame.update_particles()
@@ -196,6 +208,7 @@ class Game:
 
 
         pygame.display.update()
+        self.clock.tick(60)
 
 
 if __name__ == "__main__":

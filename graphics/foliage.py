@@ -114,11 +114,11 @@ class PlantSystem:
         self.root_stiffness_range = (0.01, 0.1)
         self.density = 0.0005
 
-        self.hitbox_lx = 60
-        self.hitbox_ly = 30
+        self.hitbox_lx = 110
+        self.hitbox_ly = 60
         self.step_effect_radius = self.hitbox_ly # sqrt(self.hitbox_lx**2 + self.hitbox_ly**2)
 
-        self.step_bend_force = 0.05
+        self.step_bend_force = 0.08
 
         self.gravity = 0.01
 

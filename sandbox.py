@@ -11,6 +11,8 @@ from graphics.particles import ParticleSystem
 
 from map_effects.weather import Wind
 
+from characters.players import BasicCharacter
+
 from ui.menu import MainMenu
 from ui import START_GAME_EVENT
 pygame.init()
@@ -45,22 +47,41 @@ class Game:
         self.wind.amplitudes = [0.005, 0.03, 0.02, 0.05]
         self.wind.frequencies = [0.1, 0.05, 0.02, 0.005]
 
+
         self.flame = ParticleSystem()
+        YELLOW = (255, 255, 0)
+        FLAME_ORANGE_1 = (255, 240, 0)
+        FLAME_ORANGE_2 = (255, 230, 0)
+        FLAME_ORANGE_3 = (255, 220, 0)
+        FLAME_ORANGE_4 = (255, 200, 0)
+        FLAME_ORANGE_5 = (255, 180, 0)
+        FLAME_ORANGE_6 = (255, 160, 0)
+        FLAME_ORANGE_7 = (255, 140, 0)
+        FLAME_ORANGE_8 = (255, 120, 0)
+        FLAME_ORANGE_9 = (255, 100, 0)
+        RED = (255, 0, 0)
+        self.flame.colours = (
+            YELLOW, 
+            FLAME_ORANGE_1, FLAME_ORANGE_2, FLAME_ORANGE_3,
+            FLAME_ORANGE_4, FLAME_ORANGE_5, FLAME_ORANGE_6,
+            FLAME_ORANGE_7, FLAME_ORANGE_8, FLAME_ORANGE_9
+        )
         self.flame.background_hitbox = self.background_hitbox
         self.flame.max_count = 100
         self.flame.r_range = (1, 15)
         self.flame.lifetime_range = (10, 80)
         self.flame.acceleration_range = (20, 100)
+        self.flame.ay_system = -150
 
-        self.shrubs = PlantSystem(plant_folder='graphics/textures/plants/branchy_bush')
+        self.shrubs = PlantSystem(plant_folder='assets/images/plants/branchy_bush')
         self.shrubs.mask_name = 'test_mask'
-        self.shrubs.num_leaves_range = (1,20)
+        self.shrubs.num_leaves_range = (1,10)
         self.shrubs.stiffness_range = (0.005, 0.05)
         self.shrubs.root_stiffness_range = (0.01, 0.1)
-        self.shrubs.density = 1
+        self.shrubs.density = 0.5
         self.shrubs.generate_plants()
 
-        self.grass = PlantSystem(plant_folder='graphics/textures/plants/grass')
+        self.grass = PlantSystem(plant_folder='assets/images/plants/grass')
         self.grass.mask_name = 'test_mask'
         self.grass.num_leaves_range = (1,3)
         self.grass.stiffness_range = (0.01, 0.1)
@@ -68,13 +89,23 @@ class Game:
         self.grass.density = 1
         self.grass.generate_plants()
 
-        self.flower = PlantSystem(plant_folder='graphics/textures/plants/flower')
+        self.flower = PlantSystem(plant_folder='assets/images/plants/flower')
         self.flower.mask_name = 'test_mask'
         self.flower.num_leaves_range = (1,1)
         self.flower.stiffness_range = (0.02, 0.04)
         self.flower.root_stiffness_range = (0.1, 0.2)
-        self.flower.density = 1
+        self.flower.density = 0.5
         self.flower.generate_plants()
+
+        self.fern = PlantSystem(plant_folder='assets/images/plants/fern')
+        self.fern.mask_name = 'test_mask'
+        self.fern.num_leaves_range = (3,7)
+        self.fern.stiffness_range = (0.01, 0.1)
+        self.fern.root_stiffness_range = (0.01, 0.1)
+        self.fern.density = 0.2
+        self.fern.generate_plants()
+
+        self.player = BasicCharacter(character_folder='assets/images/characters/hippie_van')
 
         self.main_menu = MainMenu(pygame.display.get_surface().size)
 
@@ -113,22 +144,30 @@ class Game:
         if keys[pygame.K_ESCAPE]:
             self.game_state = GameStates.PAUSED
             self.main_menu.show()
+
+        self.player.handle_movement(keys)
             
         # Generating flame at cursor location
         self.flame.x = self.mouse_x
         self.flame.y = self.mouse_y
 
         # Making grass bend at mouse location
-        self.grass.x_player = self.mouse_x
-        self.grass.y_player = self.mouse_y
+        self.grass.x_player = self.player.x
+        self.grass.y_player = self.player.y
         
         # Making shrubs bend at mouse location
-        self.shrubs.x_player = self.mouse_x
-        self.shrubs.y_player = self.mouse_y
+        self.shrubs.x_player = self.player.x
+        self.shrubs.y_player = self.player.y
 
         # Making flower bend at mouse location
-        self.flower.x_player = self.mouse_x
-        self.flower.y_player = self.mouse_y
+        self.flower.x_player = self.player.x
+        self.flower.y_player = self.player.y
+
+        # Making fern bend at mouse location
+        self.fern.x_player = self.player.x
+        self.fern.y_player = self.player.y
+
+        
 
     def update_screen_game(self, time_delta : float):
         #self.screen.blit(self.background, (0, 0))
@@ -140,6 +179,9 @@ class Game:
         self.flame.update_particles()
         self.flame.draw_particles(self.screen)
 
+        self.fern.update_plants()
+        self.fern.draw_plants(self.screen)
+
         self.shrubs.update_plants()
         self.shrubs.draw_plants(self.screen)
 
@@ -148,7 +190,10 @@ class Game:
 
         self.flower.update_plants()
         self.flower.draw_plants(self.screen)
+
+        self.player.draw(self.screen)
         
+
 
         pygame.display.update()
 

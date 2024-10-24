@@ -6,17 +6,6 @@ from math import sin, cos, pi
 
 WHITE = (255, 255, 255)
 
-YELLOW = (255, 255, 0)
-FLAME_ORANGE_1 = (255, 240, 0)
-FLAME_ORANGE_2 = (255, 230, 0)
-FLAME_ORANGE_3 = (255, 220, 0)
-FLAME_ORANGE_4 = (255, 200, 0)
-FLAME_ORANGE_5 = (255, 180, 0)
-FLAME_ORANGE_6 = (255, 160, 0)
-FLAME_ORANGE_7 = (255, 140, 0)
-FLAME_ORANGE_8 = (255, 120, 0)
-FLAME_ORANGE_9 = (255, 100, 0)
-RED = (255, 0, 0)
 
 class Particle:
     def __init__(self, x_start, y_start, colour, radius, lifetime):
@@ -28,7 +17,7 @@ class Particle:
         self.vx = 0
         self.vy = 0
         self.ax = 0
-        self.ay = -150
+        self.ay = 0
         self.mass = 1
         self.drag_x = 2
         self.drag_y = 0.8
@@ -80,16 +69,13 @@ class ParticleSystem:
         self.y = 0
         self.max_count = 0
         self.r_range = ()
+        self.opacity_range = None
         self.lifetime_range = ()
         self.acceleration_range = ()
         self.particles = []
-        self.colours = (
-            YELLOW, 
-            FLAME_ORANGE_1, FLAME_ORANGE_2, FLAME_ORANGE_3,
-            FLAME_ORANGE_4, FLAME_ORANGE_5, FLAME_ORANGE_6,
-            FLAME_ORANGE_7, FLAME_ORANGE_8, FLAME_ORANGE_9
-        )
         self.background_hitbox = None
+        self.ax_system = 0
+        self.ay_system = 0
 
     def create_particle(self):
         if len(self.particles) < self.max_count:
@@ -99,8 +85,8 @@ class ParticleSystem:
             particle = Particle(self.x, self.y, colour, radius, lifetime)
             angle = random.uniform(0, 2 * pi)
             acceleration = random.randint(self.acceleration_range[0], self.acceleration_range[1])
-            particle.ax += acceleration * cos(angle)
-            particle.ay += acceleration * sin(angle)
+            particle.ax = self.ax_system + acceleration * cos(angle)
+            particle.ay = self.ay_system + acceleration * sin(angle)
             self.particles.append(particle)
 
     def update_particles(self):

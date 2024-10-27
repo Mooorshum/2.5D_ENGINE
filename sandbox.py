@@ -61,7 +61,7 @@ class Game:
         self.wind.amplitudes = [0.005, 0.03, 0.02, 0.05]
         self.wind.frequencies = [0.1, 0.05, 0.02, 0.005]
 
-
+    
         self.flame = ParticleSystem()
         YELLOW = (255, 255, 0)
         FLAME_ORANGE_1 = (255, 240, 0)
@@ -119,7 +119,7 @@ class Game:
         self.fern.density = 0.2
         self.fern.generate_plants()
 
-        self.player = BasicCharacter(character_folder='assets/images/characters/hippie_van')
+        self.player = BasicCharacter(character_folder='assets/images/characters/cop_car')
 
         self.main_menu = MainMenu(pygame.display.get_surface().size)
 
@@ -197,18 +197,17 @@ class Game:
         self.shrubs.update_plants()
         self.shrubs.draw_plants(self.screen)
 
-        self.grass.update_plants()
+        """ self.grass.update_plants()
         self.grass.draw_plants(self.screen)
 
         self.flower.update_plants()
-        self.flower.draw_plants(self.screen)
+        self.flower.draw_plants(self.screen) """
 
-        self.player.draw(self.screen)
-        
-
+        """ self.player.draw(self.screen) """
+        self.player.render_stack(self.screen, spread=3, scale=0.5)
 
         pygame.display.update()
-        self.clock.tick(60)
+        self.clock.tick(110)
 
 
 if __name__ == "__main__":

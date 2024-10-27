@@ -1,8 +1,10 @@
-from math import sqrt, sin, cos, atan2, pi
+from math import sqrt, sin, cos, atan2, pi, degrees
+import random
 
 import os
 
 import pygame
+
 
 from graphics.particles import ParticleSystem
 
@@ -26,19 +28,37 @@ class BasicCharacter:
             'moving_down_right',
             # 'jumping',
         ]
+        
 
         self.current_state = 'idle'
+        self.idle_state = 'idle'
+        self.idle_animation_speed = 3
         self.current_frame_number = 0
 
         self.x = 300
         self.y = 300
 
-        self.movespeed = 15
-        self.speed_limit = 30
-        self.idle_animation_speed = 5
+        self.movespeed = 10
+        self.speed_limit = 40
+        
+        self.shake = 2
 
         self.jumping = False
         self.vertical_offset = 0
+        
+
+        self.slice_images_folder = 'assets/3d_models/hippie_bus/'
+        self.slice_images = [
+            pygame.image.load(
+                    self.slice_images_folder + img
+                ) for img in sorted(os.listdir(self.slice_images_folder), key=lambda x: int(os.path.splitext(x)[0]))
+            ]
+
+
+
+
+
+
 
         self.vx = 0
         self.vy = 0
@@ -46,7 +66,7 @@ class BasicCharacter:
         self.ax = 0
         self.ay = 0
 
-        self.drag = 0.05
+        self.drag = 0.02
         self.gravity = 0
 
         self.current_image = None
@@ -123,8 +143,9 @@ class BasicCharacter:
 
 
     def handle_state(self):
+
         if sqrt(self.vx**2 + self.vy**2) < self.idle_animation_speed:
-            self.current_state = 'idle'
+            self.current_state = self.idle_state
             return
 
         movement_angle = atan2(self.vx, -self.vy)
@@ -146,6 +167,7 @@ class BasicCharacter:
         elif 7*pi/8 <= movement_angle <= 9*pi/8:
             self.current_state = 'moving_down'
 
+        self.idle_state = self.current_state
 
     def jump(self):
         pass
@@ -172,7 +194,41 @@ class BasicCharacter:
         self.dust.update_particles()
         self.dust.draw_particles(screen)
         
-        screen.blit(image, (centered_image_position_x, centered_image_position_y))
+        screen.blit(
+            image,
+            (
+                centered_image_position_x + random.randint(0, round(self.shake * factor**8)),
+                centered_image_position_y + random.randint(0, round(self.shake * factor**8))
+            )
+        )
+
+
+
+
+
+
+    def render_stack(self, screen, spread=2, scale=1):
+
+        self.dust.x = self.x
+        self.dust.y = self.y
+        factor = sqrt(self.vx**2 + self.vy**2)/self.speed_limit
+        self.dust.r_range = (0, round(self.max_dustcloud_size*factor))
+        self.dust.max_count = self.dust_particles_max_count * factor
+        self.dust.create_particle()
+        self.dust.update_particles()
+        self.dust.draw_particles(screen)
+
+        rotation = degrees(-atan2(self.vy, self.vx))
+        for i, img in enumerate(self.slice_images):
+            if scale != 1:
+                img = pygame.transform.scale(img, (int(img.get_width() * scale), int(img.get_height() * scale)))
+            rotated_img = pygame.transform.rotate(img, rotation)
+            screen.blit(
+                rotated_img,
+                (self.x - rotated_img.get_width() // 2, self.y - rotated_img.get_height() // 2 - i * spread * scale)
+            )
+
+
 
 
 

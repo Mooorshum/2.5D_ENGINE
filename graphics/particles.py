@@ -90,6 +90,7 @@ class ParticleSystem:
             self.particles.append(particle)
 
     def update_particles(self):
+        self.create_particle()
         for particle in self.particles[:]:
             particle.move(self.background_hitbox)
             particle.lifetime -= 1

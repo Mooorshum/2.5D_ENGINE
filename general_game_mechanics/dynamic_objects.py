@@ -9,7 +9,6 @@ import pygame
 from graphics.particles import ParticleSystem
 from graphics.sprite_stacks import render_stack, split_stack_image
 
-from world.particle_presets import earthen_dust
 
 
 class SpritestackModel:
@@ -69,11 +68,22 @@ class Vehicle(SpritestackModel):
         self.ay = 0
 
         # Dustcloud settings
-        self.dust = earthen_dust
+        self.dust = ParticleSystem()
+        DUST_BROWN_1 = (184, 160, 133)
+        DUST_BROWN_2 = (181, 153, 140)
+        DUST_BROWN_3 = (181, 153, 140)
+        DUST_BROWN_4 = (199, 186, 151)
+        self.dust.colours = (
+            DUST_BROWN_1, DUST_BROWN_2, DUST_BROWN_3, DUST_BROWN_4,
+        )
+        self.dust.lifetime_range = (10, 100)
+        self.dust.acceleration_range = (10, 50)
+        self.dust.ay_system = -30
         self.max_dustcloud_size = 20
         self.dust_particles_max_count = 50
 
-    def move(self, keys):
+
+    def handle_movement(self, keys):
         move_left = keys[pygame.K_LEFT]
         move_right = keys[pygame.K_RIGHT]
         move_up = keys[pygame.K_UP]
@@ -94,6 +104,9 @@ class Vehicle(SpritestackModel):
         vx_new = self.vx + ax * self.dt - self.vx*self.drag
         vy_new = self.vy + ay * self.dt - self.vy*self.drag
         self.vx, self.vy = vx_new, vy_new
+
+
+    def move(self):
         new_x = self.x + self.vx * self.dt
         new_y = self.y + self.vy * self.dt
         self.x = new_x

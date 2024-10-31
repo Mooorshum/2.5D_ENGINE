@@ -157,7 +157,7 @@ class GrassSystem:
     def __init__(self):
         self.stiffness = 0.01
         self.cutoff_distance = 80
-        self.tile_size = 100
+        self.tile_size = 50
         self.density = 0.01
         self.relax_speed = 6
         self.tiles_num_states = 200
@@ -181,12 +181,13 @@ class GrassSystem:
     def sort_tiles(self):
         self.tiles.sort(key=lambda tile: tile.position[1])
 
-    def render_grass_tiles(self, screen, bend_force_position):
+    def render_grass_tiles(self, screen, bendpoints):
         for tile in self.tiles:
-            dist = sqrt((bend_force_position[0] - tile.position[0])**2 + (bend_force_position[1] - tile.position[1])**2)
-            if dist < self.cutoff_distance:
-                tile.relaxed = False
-            tile.handle_tile_rendering_and_state(screen, bend_force_position)
+            for bendpoint in bendpoints:
+                dist = sqrt((bendpoint[0] - tile.position[0])**2 + (bendpoint[1] - tile.position[1])**2)
+                if dist < self.cutoff_distance:
+                    tile.relaxed = False
+                tile.handle_tile_rendering_and_state(screen, bendpoint)
 
     def apply_wind(self, omega, t, wind_speed=20):
         for tile in self.tiles:

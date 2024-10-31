@@ -1,5 +1,7 @@
 import pygame
 
+from math import sin, cos
+
 from graphics import grass
 from graphics.particles import ParticleSystem
 from world.particle_presets import flame
@@ -46,18 +48,24 @@ class Game:
         self.flame.x = 300
         self.flame.y = 300
 
-        self.player = Vehicle(type='vehicle', name='hippie_van')
+        self.player = Vehicle(type='vehicle', name='pickup_truck')
         self.player.scale = 2
-        self.player.x = 400
-        self.player.y = 400
+        self.player.x = 200
+        self.player.y = 200
+
+
+        self.cop = Vehicle(type='vehicle', name='cop_car')
+        self.cop.scale = 2
+        self.cop.x = 400
+        self.cop.y = 300
+
 
         self.grass_system = grass.GrassSystem()
         for x in range (100, 860, self.grass_system.tile_size):
             for y in range (100, 441, self.grass_system.tile_size):
-                self.grass_system.create_new_tile((x, y), 'grass')
+                self.grass_system.create_new_tile((x, y), 'assets/grass')
         self.grass_system.sort_tiles()
-        self.t_wind = 0
-
+        self.time = 0
 
 
 
@@ -100,22 +108,35 @@ class Game:
             self.game_state = GameStates.PAUSED
             self.main_menu.show()
 
-        self.player.move(keys)
+        self.player.handle_movement(keys)
 
         
 
     def update_screen_game(self, time_delta : float):
         display_fps(self.screen, self.clock, font)
+        
 
 
+        grass_bendpoints = [((self.player.x, self.player.y)), ((self.cop.x, self.cop.y))]
 
         
 
-        self.grass_system.render_grass_tiles(self.screen, (self.player.x, self.player.y))
-        self.grass_system.apply_wind(1/50, self.t_wind, wind_speed=20)
-        self.t_wind += 1
+        self.grass_system.render_grass_tiles(self.screen, grass_bendpoints)
+        self.grass_system.apply_wind(1/50, self.time, wind_speed=20)
+        self.time += 1
 
+        self.cop.draw_dust(self.screen)
+        self.cop.draw(self.screen)
+        self.cop.move()
+        self.cop.vx = self.cop.speed_limit*sin(self.time//20)
+        self.cop.vy = self.cop.speed_limit*cos(self.time//20)
+
+
+        self.player.draw_dust(self.screen)
         self.player.draw(self.screen)
+        self.player.move()
+
+
 
         self.flame.update_particles()
         self.flame.draw_particles(self.screen)

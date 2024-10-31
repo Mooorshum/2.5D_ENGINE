@@ -48,7 +48,7 @@ class Game:
         self.flame.x = 300
         self.flame.y = 300
 
-        self.player = Vehicle(type='vehicle', name='pickup_truck')
+        self.player = Vehicle(type='vehicle', name='hippie_van')
         self.player.scale = 2
         self.player.x = 200
         self.player.y = 200
@@ -128,8 +128,8 @@ class Game:
         self.cop.draw_dust(self.screen)
         self.cop.draw(self.screen)
         self.cop.move()
-        self.cop.vx = self.cop.speed_limit*sin(self.time//20)
-        self.cop.vy = self.cop.speed_limit*cos(self.time//20)
+        self.cop.vx = self.cop.speed_limit//2*sin(self.time//20)
+        self.cop.vy = self.cop.speed_limit//2*cos(self.time//20)
 
 
         self.player.draw_dust(self.screen)

@@ -157,9 +157,9 @@ class GrassSystem:
     def __init__(self):
         self.stiffness = 0.01
         self.cutoff_distance = 80
-        self.tile_size = 50
-        self.density = 0.01
-        self.relax_speed = 6
+        self.tile_size = 100
+        self.density = 0.007
+        self.relax_speed = 5
         self.tiles_num_states = 200
         self.scale_factor = 1.5
 

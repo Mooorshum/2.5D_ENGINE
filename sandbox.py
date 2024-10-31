@@ -2,7 +2,7 @@ import pygame
 
 from math import sin, cos
 
-from graphics import grass
+from graphics import homemade_grass
 from graphics.particles import ParticleSystem
 from world.particle_presets import flame
 from general_game_mechanics.dynamic_objects import Vehicle, SinglePlant
@@ -48,7 +48,7 @@ class Game:
         self.flame.x = 300
         self.flame.y = 300
 
-        self.player = Vehicle(type='vehicle', name='hippie_van')
+        self.player = Vehicle(type='vehicle', name='pickup_truck')
         self.player.scale = 2
         self.player.x = 200
         self.player.y = 200
@@ -60,9 +60,9 @@ class Game:
         self.cop.y = 300
 
 
-        self.grass_system = grass.GrassSystem()
-        for x in range (100, 860, self.grass_system.tile_size):
-            for y in range (100, 441, self.grass_system.tile_size):
+        self.grass_system = homemade_grass.GrassSystem()
+        for x in range (400, 700, self.grass_system.tile_size):
+            for y in range (100, 400, self.grass_system.tile_size):
                 self.grass_system.create_new_tile((x, y), 'assets/grass')
         self.grass_system.sort_tiles()
         self.time = 0
@@ -122,7 +122,7 @@ class Game:
         
 
         self.grass_system.render_grass_tiles(self.screen, grass_bendpoints)
-        self.grass_system.apply_wind(1/50, self.time, wind_speed=20)
+        self.grass_system.apply_wind(1/50, self.time)
         self.time += 1
 
         self.cop.draw_dust(self.screen)

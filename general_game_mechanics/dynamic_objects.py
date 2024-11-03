@@ -5,6 +5,7 @@ from numpy import sign
 
 import pygame
 
+from general_game_mechanics.collisions import Hitbox
 
 from graphics.particles import ParticleSystem
 from graphics.sprite_stacks import render_stack, split_stack_image
@@ -15,10 +16,10 @@ class SpritestackModel:
     def __init__(self, type=None, name=None, scale=1):
         self.type = type
         self.name = name
-        self.x = 100
-        self.y = 100
-
+        self.position = [100, 100]
+        
         self.scale = scale
+        self.hitbox_size = (0, 0)
 
         # Load stack images
         self.stack_index = 0
@@ -34,7 +35,10 @@ class SpritestackModel:
             self.stack_image_multiple.append(split_stack_image(stack_image))
 
         # setting hitbox to the same size as the width of a spritestack image
-        self.hitbox_r = self.stack_image_multiple[0][0].get_width()//2 * self.scale
+        self.hitbox_size = (
+            self.stack_image_multiple[0][0].get_width() * self.scale,
+            self.stack_image_multiple[0][0].get_height() * self.scale
+        )
 
     def draw(self, screen):
         if self.stack_index >= self.num_stacks:
@@ -42,7 +46,7 @@ class SpritestackModel:
         stack_images = self.stack_image_multiple[self.stack_index]
         render_stack(
             stack_images,
-            self.x, self.y,
+            self.position,
             self.rotation,
             screen,
             spread=0.8,
@@ -52,10 +56,10 @@ class SpritestackModel:
 
 
 class Vehicle(SpritestackModel):
-    def __init__(self, type=None, name=None):
-        super().__init__(type, name)
+    def __init__(self, type=None, name=None, scale=1):
+        super().__init__(type, name, scale)
 
-        self.mass = 100
+        self.mass = 1000
         self.movespeed = 40
         self.speed_limit = 100
         self.drag = 0.05
@@ -66,6 +70,8 @@ class Vehicle(SpritestackModel):
         self.vy = 0
         self.ax = 0
         self.ay = 0
+
+        self.hitbox = Hitbox(self)
 
         # Dustcloud settings
         self.dust = ParticleSystem()
@@ -101,21 +107,21 @@ class Vehicle(SpritestackModel):
         if sqrt(self.vx**2 + self.vy**2) > self.speed_limit:
             ax = 0
             ay = 0
-        vx_new = self.vx + ax * self.dt - self.vx*self.drag
-        vy_new = self.vy + ay * self.dt - self.vy*self.drag
-        self.vx, self.vy = vx_new, vy_new
+        self.vx += ax * self.dt
+        self.vy += ay * self.dt
 
 
     def move(self):
-        new_x = self.x + self.vx * self.dt
-        new_y = self.y + self.vy * self.dt
-        self.x = new_x
-        self.y = new_y
+        new_x = self.position[0] + self.vx * self.dt
+        new_y = self.position[1] + self.vy * self.dt
+        self.vx -= self.vx*self.drag
+        self.vy -= self.vy*self.drag
+        self.position[0] = new_x
+        self.position[1] = new_y
         self.rotation = degrees(-atan2(self.vy, self.vx))
 
     def draw_dust(self, screen):
-        self.dust.x = self.x
-        self.dust.y = self.y
+        self.dust.position = self.position
         factor = sqrt(self.vx**2 + self.vy**2)/self.speed_limit
         self.dust.r_range = (0, round(self.max_dustcloud_size*factor))
         self.dust.max_count = self.dust_particles_max_count * factor
@@ -126,7 +132,7 @@ class Vehicle(SpritestackModel):
 
 
 class SinglePlant(SpritestackModel):
-    def __init__(self, type=None, name=None):
+    def __init__(self, type=None, name=None, scale=1):
         super().__init__(type, name)
 
         self.dt = 0.1

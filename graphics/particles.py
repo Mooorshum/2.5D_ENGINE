@@ -8,9 +8,8 @@ WHITE = (255, 255, 255)
 
 
 class Particle:
-    def __init__(self, x_start, y_start, colour, radius, lifetime):
-        self.x = x_start
-        self.y = y_start
+    def __init__(self, start_position, colour, radius, lifetime):
+        self.position = start_position
         self.colour = colour
         self.lifetime = lifetime
         self.r = radius
@@ -28,8 +27,8 @@ class Particle:
     def move(self, background_hitbox):
         self.vx += self.ax * self.dt - self.vx*self.drag_x
         self.vy += self.ay * self.dt - self.vy*self.drag_y
-        new_x = self.x + self.vx * self.dt
-        new_y = self.y + self.vy * self.dt
+        new_x = self.position[0] + self.vx * self.dt
+        new_y = self.position[1] + self.vy * self.dt
         if background_hitbox:
             try:
                 hit_boundary_top = background_hitbox.get_at((int(new_x + self.r), int(new_y))) != WHITE
@@ -54,19 +53,17 @@ class Particle:
                     new_x -= self.displacement_boundary_collisions
             except IndexError:
                 self.vx, self.vy = 0, 0
-        self.x = new_x
-        self.y = new_y
+        self.position = (new_x, new_y)
 
     def draw(self, screen):
-        pygame.draw.circle(screen, self.colour, (self.x, self.y), self.r, 0)
+        pygame.draw.circle(screen, self.colour, self.position, self.r, 0)
 
 
 class ParticleSystem:
     def __init__(
         self,
     ):
-        self.x = 0
-        self.y = 0
+        self.position = [0, 0]
         self.max_count = 0
         self.r_range = ()
         self.opacity_range = None
@@ -82,7 +79,7 @@ class ParticleSystem:
             colour = random.choice(self.colours)
             radius = random.randint(self.r_range[0], self.r_range[1])
             lifetime = random.randint(self.lifetime_range[0], self.lifetime_range[1])
-            particle = Particle(self.x, self.y, colour, radius, lifetime)
+            particle = Particle(self.position, colour, radius, lifetime)
             angle = random.uniform(0, 2 * pi)
             acceleration = random.randint(self.acceleration_range[0], self.acceleration_range[1])
             particle.ax = self.ax_system + acceleration * cos(angle)

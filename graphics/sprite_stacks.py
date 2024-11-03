@@ -12,7 +12,7 @@ def split_stack_image(stack_image):
     return images
 
 
-def render_stack(images, x, y, rotation, screen, spread=1, scale=1):
+def render_stack(images, position, rotation, screen, spread=1, scale=1):
     for i, img in enumerate(images):
         if scale != 1:
             img = pygame.transform.scale(img, (int(img.get_width() * scale), int(img.get_height() * scale)))
@@ -20,7 +20,7 @@ def render_stack(images, x, y, rotation, screen, spread=1, scale=1):
         screen.blit(
             rotated_img,
             (
-                x - rotated_img.get_width() // 2,
-                y - rotated_img.get_height() // 2 - i * spread * scale
+                position[0] - rotated_img.get_width() // 2,
+                position[1] - rotated_img.get_height() // 2 - i * spread * scale
             )
         )

@@ -1,3 +1,5 @@
+import os
+
 import pygame
 
 
@@ -23,4 +25,48 @@ def render_stack(images, position, rotation, screen, spread=1, scale=1):
                 position[0] - rotated_img.get_width() // 2,
                 position[1] - rotated_img.get_height() // 2 - i * spread * scale
             )
+        )
+
+
+
+
+class SpritestackModel:
+    def __init__(self, type=None, name=None, scale=1):
+        self.type = type
+        self.name = name
+        self.position = [100, 100]
+        
+        self.scale = scale
+        self.hitbox_size = (0, 0)
+
+        # Load stack images
+        self.stack_index = 0
+        self.stack_image_multiple = []
+        self.slice_images_folder = f'assets/{self.type}/{self.name}/sprite_stacks/'
+        self.num_stacks = len(os.listdir(f'assets/{self.type}/{self.name}/sprite_stacks/'))
+        for i in range(self.num_stacks):
+            stack_image = (
+                pygame.image.load(
+                    f'{self.slice_images_folder}stack_{i}.png'
+                ).convert_alpha()
+            )
+            self.stack_image_multiple.append(split_stack_image(stack_image))
+
+        # setting hitbox to the same size as the width of a spritestack image
+        self.hitbox_size = (
+            self.stack_image_multiple[0][0].get_width() * self.scale,
+            self.stack_image_multiple[0][0].get_height() * self.scale
+        )
+
+    def draw(self, screen, spread=0.8):
+        if self.stack_index >= self.num_stacks:
+            self.stack_index = 0
+        stack_images = self.stack_image_multiple[self.stack_index]
+        render_stack(
+            stack_images,
+            self.position,
+            self.rotation,
+            screen,
+            spread,
+            scale=self.scale
         )

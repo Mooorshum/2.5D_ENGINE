@@ -4,8 +4,9 @@ from math import sin, cos
 
 from graphics import grass, shrubs
 from graphics.particles import ParticleSystem
+from graphics.static_objects import Building
 from world.particle_presets import flame
-from general_game_mechanics.dynamic_objects import Vehicle, SinglePlant
+from general_game_mechanics.dynamic_objects import Vehicle
 
 from ui.menu import MainMenu
 from ui import START_GAME_EVENT
@@ -72,7 +73,9 @@ class Game:
         self.wheat_system.sort_tiles()
 
 
-
+        self.shack = Building(type='building', name='shack', scale=2.5)
+        self.shack.position = [600, 200]
+        self.shack.rotation = -30
 
 
 
@@ -167,7 +170,7 @@ class Game:
 
 
 
-
+        """ self.shack.draw(self.screen, spread=0.9) """
 
 
         self.cop.draw_dust(self.screen)

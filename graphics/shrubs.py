@@ -56,7 +56,7 @@ class Branch:
     def apply_forces(self, external_force):
         total_angle_change = 0
         max_relative_bend = pi/2
-        max_root_bend = 0.75*pi
+        max_root_bend = pi/3
         
         for i in range(self.num_segments):
             angle = self.segment_angles[i]

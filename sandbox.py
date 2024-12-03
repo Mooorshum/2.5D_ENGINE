@@ -2,7 +2,7 @@ import pygame
 
 from math import sin, cos
 
-from graphics import grass
+from graphics import grass, shrubs
 from graphics.particles import ParticleSystem
 from world.particle_presets import flame
 from general_game_mechanics.dynamic_objects import Vehicle, SinglePlant
@@ -58,10 +58,47 @@ class Game:
 
 
         self.grass_system = grass.GrassSystem()
+        self.grass_system.blades_per_tile = 20
         for x in range (self.grass_system.tile_size, self.screen_width, self.grass_system.tile_size):
             for y in range (self.grass_system.tile_size, self.screen_height, self.grass_system.tile_size):
                 self.grass_system.create_new_tile((x, y), 'assets/grass')
         self.grass_system.sort_tiles()
+
+        self.wheat_system = grass.GrassSystem()
+        self.wheat_system.blades_per_tile = 3
+        for x in range (self.wheat_system.tile_size, self.screen_width, self.wheat_system.tile_size):
+            for y in range (self.wheat_system.tile_size, self.screen_height, self.wheat_system.tile_size):
+                self.wheat_system.create_new_tile((x, y), 'assets/wheat')
+        self.wheat_system.sort_tiles()
+
+
+
+
+
+
+        self.shrubs = shrubs.PlantSystem(
+            folder='assets/branchy_bush',
+            num_branches_range = (1,7),
+            base_angle_range = (-1, 1),
+            stiffness_range = (0.01, 0.2),
+            gravity = 0.1,
+            density = 1 
+            )
+
+
+        self.fern = shrubs.PlantSystem(
+            folder='assets/fern',
+            num_branches_range = (3,7),
+            base_angle_range = (-2, 2),
+            stiffness_range = (0.01, 0.2),
+            gravity = 0.1,
+            density = 1
+            )
+
+
+
+
+
         self.time = 0
 
 
@@ -111,20 +148,32 @@ class Game:
 
     def update_screen_game(self, time_delta : float):
         display_fps(self.screen, self.clock, font)
-        
 
         grass_bend_objects= [self.player, self.cop]
 
         self.grass_system.render_grass_tiles(self.screen, grass_bend_objects)
         self.grass_system.apply_wind(1/20, self.time)
-        self.time += 1
+
+        self.wheat_system.render_grass_tiles(self.screen, grass_bend_objects)
+        self.wheat_system.apply_wind(1/20, self.time)
+        
+
+
+        self.shrubs.bendpoints = [self.player.position, self.cop.position]
+        self.shrubs.render(self.screen)
+
+        self.fern.bendpoints = [self.player.position, self.cop.position]
+        self.fern.render(self.screen)
+
+
+
+
+
 
         self.cop.draw_dust(self.screen)
         self.cop.draw(self.screen)
         self.cop.hitbox.draw(self.screen)
         self.cop.move()
-        """ self.cop.vx = self.cop.speed_limit//2*sin(self.time//30)
-        self.cop.vy = self.cop.speed_limit//2*cos(self.time//30) """
 
 
         self.player.draw_dust(self.screen)
@@ -139,6 +188,16 @@ class Game:
         self.flame.update_particles()
         self.flame.draw_particles(self.screen)
         self.flame.position = (self.mouse_x ,self.mouse_y)
+
+
+
+
+
+
+
+
+
+        self.time += 1
 
         pygame.display.update()
         self.clock.tick(110)

@@ -166,7 +166,7 @@ class GrassSystem:
         self.stiffness = 0.03
         self.tile_size = 100
         self.blades_per_tile = 40
-        self.relax_speed = 3
+        self.relax_speed = 1.5
         self.tiles_num_states = 11
         self.scale_factor = 1
         self.wind_magnitude = 8

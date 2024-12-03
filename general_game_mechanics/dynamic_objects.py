@@ -1,6 +1,6 @@
 import os
 
-from math import atan2, degrees, pi, sqrt
+from math import sin, cos, atan2, degrees, pi, sqrt, radians
 from numpy import sign
 
 import pygame
@@ -55,7 +55,7 @@ class SpritestackModel:
 
 
 
-class Vehicle(SpritestackModel):
+""" class Vehicle(SpritestackModel):
     def __init__(self, type=None, name=None, scale=1):
         super().__init__(type, name, scale)
 
@@ -126,7 +126,112 @@ class Vehicle(SpritestackModel):
         self.dust.r_range = (0, round(self.max_dustcloud_size*factor))
         self.dust.max_count = self.dust_particles_max_count * factor
         self.dust.update_particles()
+        self.dust.draw_particles(screen) """
+
+
+
+class Vehicle(SpritestackModel):
+    def __init__(self, type=None, name=None, scale=1):
+        super().__init__(type, name, scale)
+
+        self.mass = 1000
+
+        self.linear_acceleration_forward = 10
+        self.linear_speed_limit_forward = 80
+
+        self.linear_acceleration_backwards = 5
+        self.linear_speed_limit_backwards = 20
+
+        self.anglular_acceleration = 25
+        self.angular_speed_limit = 25
+
+        self.brake_acceleration = 10
+        self.linear_drag = 0.1
+        self.angular_drag = 0.5
+        self.dt = 0.1
+
+        self.rotation = 0
+        self.angular_speed = 0
+        self.linear_speed = 0
+
+        self.hitbox = Hitbox(self)
+
+        # Dustcloud settings
+        self.dust = ParticleSystem()
+        DUST_BROWN_1 = (184, 160, 133)
+        DUST_BROWN_2 = (181, 153, 140)
+        DUST_BROWN_3 = (181, 153, 140)
+        DUST_BROWN_4 = (199, 186, 151)
+        self.dust.colours = (
+            DUST_BROWN_1, DUST_BROWN_2, DUST_BROWN_3, DUST_BROWN_4,
+        )
+        self.dust.lifetime_range = (10, 100)
+        self.dust.acceleration_range = (10, 50)
+        self.dust.ay_system = -30
+        self.max_dustcloud_size = 20
+        self.dust_particles_max_count = 50
+
+
+    def handle_movement(self, keys):
+        move_left = keys[pygame.K_LEFT]
+        move_right = keys[pygame.K_RIGHT]
+        move_up = keys[pygame.K_UP]
+        move_down = keys[pygame.K_DOWN]
+        space = keys[pygame.K_SPACE]
+        if move_left:
+            self.angular_speed += self.anglular_acceleration * self.dt
+        if move_right:
+            self.angular_speed -= self.anglular_acceleration * self.dt
+        if move_up:
+            self.linear_speed += self.linear_acceleration_forward * self.dt
+        if move_down:
+            self.linear_speed -= self.linear_acceleration_backwards * self.dt
+        if space:
+            self.linear_speed -= sign(self.linear_speed) * self.brake_acceleration * self.dt
+
+
+    def move(self):
+        # applying speed limits
+        if self.linear_speed > self.linear_speed_limit_forward:
+            self.linear_speed = self.linear_speed_limit_forward
+        if self.linear_speed < -self.linear_speed_limit_backwards:
+            self.linear_speed = -self.linear_speed_limit_backwards
+        if abs(self.angular_speed) > self.angular_speed_limit:
+            self.angular_speed = sign(self.angular_speed) * self.angular_speed_limit
+
+        # Applying drag
+        self.linear_speed -= self.linear_speed * self.linear_drag * self.dt
+        self.angular_speed -= self.angular_speed * self.angular_drag * self.dt
+
+        # Updating rotation
+        self.rotation += self.angular_speed * self.dt * (abs(self.linear_speed)/self.linear_speed_limit_forward)**(1/4)
+
+        # Updating position
+        self.position[0] += self.linear_speed * cos(radians(self.rotation)) * self.dt
+        self.position[1] -= self.linear_speed * sin(radians(self.rotation)) * self.dt
+
+
+    def draw_dust(self, screen):
+        self.dust.position = self.position
+        factor = abs(self.linear_speed)/self.linear_speed_limit_forward
+        self.dust.r_range = (0, round(self.max_dustcloud_size*factor))
+        self.dust.max_count = self.dust_particles_max_count * factor
+        self.dust.update_particles()
         self.dust.draw_particles(screen)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

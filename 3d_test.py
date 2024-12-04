@@ -2,6 +2,7 @@ import pygame
 
 from graphics.static_objects import Building
 from general_game_mechanics.dynamic_objects import Vehicle
+from graphics.camera import Camera
 
 
 pygame.init()
@@ -26,14 +27,27 @@ def display_fps(screen, clock, font):
     screen.blit(fps_text, text_rect)
 
 
+
+
 class Game:
     def __init__(self):
         self.game_state = GameStates.PAUSED
-        self.screen_width = 800
-        self.screen_height = 500
 
-        self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
         self.background = pygame.image.load("background.png").convert()
+        self.map_width = self.background.get_width()
+        self.map_height = self.background.get_height()
+        self.screen = pygame.display.set_mode((self.map_width, self.map_height))
+        
+
+        self.camera_width = 400
+        self.camera_height = 250
+        self.camera = Camera(self.camera_width, self.camera_height, self.map_width, self.map_height)
+
+
+
+
+
+        
 
         pygame.display.set_caption("SANDBOX")
         self.clock = pygame.time.Clock()
@@ -65,6 +79,7 @@ class Game:
 
     def run(self):
         clock = pygame.time.Clock()
+        
         while self.game_state != GameStates.AT_EXIT:
             time_delta = clock.tick(60) / 1000.0
             self.handle_events()

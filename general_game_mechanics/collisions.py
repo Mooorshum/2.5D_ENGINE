@@ -11,7 +11,7 @@ class Hitbox:
         self.colour =  (255, 0, 0)
         self.type = 'circle'
 
-    def draw(self, screen):
+    def draw(self, screen, offset=[0, 0]):
         if self.type == 'box':
             hitbox_surface = pygame.Surface(self.object.hitbox_size, pygame.SRCALPHA)
             pygame.draw.rect(hitbox_surface, self.colour, 
@@ -29,9 +29,14 @@ class Hitbox:
                 self.object.hitbox_size[0] // 2, 
                 3
             )
-            hitbox_rect = hitbox_surface.get_rect(center=self.object.position)
+            hitbox_rect = hitbox_surface.get_rect(
+                center=(
+                    self.object.position[0] + offset[0],
+                    self.object.position[1] + offset[1],
+                )
+            )
             screen.blit(hitbox_surface, hitbox_rect.topleft)
-            
+
 
 
 

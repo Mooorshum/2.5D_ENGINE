@@ -170,10 +170,10 @@ class Vehicle(SpritestackModel):
         self.position[1] -= self.linear_speed * sin(radians(self.rotation)) * self.dt
 
 
-    def draw_dust(self, screen):
+    def draw_dust(self, screen, offset=[0, 0]):
         self.dust.position = self.position
         factor = abs(self.linear_speed)/self.linear_speed_limit_forward
         self.dust.r_range = (0, round(self.max_dustcloud_size*factor))
         self.dust.max_count = self.dust_particles_max_count * factor
         self.dust.update_particles()
-        self.dust.draw_particles(screen)
+        self.dust.draw_particles(screen, offset)

@@ -55,8 +55,16 @@ class Particle:
                 self.vx, self.vy = 0, 0
         self.position = (new_x, new_y)
 
-    def draw(self, screen):
-        pygame.draw.circle(screen, self.colour, self.position, self.r, 0)
+    def draw(self, screen, offset=[0, 0]):
+        pygame.draw.circle(
+            screen,
+            self.colour,
+            [
+                self.position[0] + offset[0],
+                self.position[1] + offset[1]
+            ],
+            self.r,
+            0)
 
 
 class ParticleSystem:
@@ -95,6 +103,6 @@ class ParticleSystem:
             if particle.lifetime <= 0:
                 self.particles.remove(particle)
 
-    def draw_particles(self, screen):
+    def draw_particles(self, screen, offset=[0, 0]):
         for particle in self.particles:
-            particle.draw(screen)
+            particle.draw(screen, offset)

@@ -33,21 +33,20 @@ class Game:
     def __init__(self):
         self.game_state = GameStates.PAUSED
 
-        self.background = pygame.image.load("background.png").convert()
-        self.map_width = self.background.get_width()
-        self.map_height = self.background.get_height()
-        self.screen = pygame.display.set_mode((self.map_width, self.map_height))
-        
+        self.map_width = 800
+        self.map_height = 500
+        self.camera_width = 500
+        self.camera_height = 300
 
-        self.camera_width = 400
-        self.camera_height = 250
         self.camera = Camera(self.camera_width, self.camera_height, self.map_width, self.map_height)
 
-
-
-
-
+        self.screen = pygame.display.set_mode((self.camera_width, self.camera_height))
         
+        self.background = pygame.image.load("background.png").convert()
+
+
+
+
 
         pygame.display.set_caption("SANDBOX")
         self.clock = pygame.time.Clock()
@@ -63,16 +62,12 @@ class Game:
         self.shack_1.rotation = -30
 
 
-
         self.shack_2 = Building(type='building', name='shack', scale=1.5)
         self.shack_2.position = [200, 400]
         self.shack_2.rotation = 0
 
 
-
         self.time = 0
-
-
 
 
 
@@ -84,13 +79,14 @@ class Game:
             time_delta = clock.tick(60) / 1000.0
             self.handle_events()
             if self.game_state == GameStates.PLAYING:
-                self.screen.blit(self.background, (0, 0))
+                """ self.screen.blit(self.background, (0, 0)) """
                 self.update_screen_game(time_delta)
             elif self.game_state == GameStates.PAUSED:
-                self.screen.blit(self.background, (0, 0))
+                """ self.screen.blit(self.background, (0, 0)) """
                 pygame.display.update()
 
         pygame.quit()
+
 
     def handle_events(self):
         for event in pygame.event.get():
@@ -108,31 +104,33 @@ class Game:
         self.player.handle_movement(keys)
 
 
-
     def update_screen_game(self, time_delta : float):
         display_fps(self.screen, self.clock, font)
 
 
+        self.camera.follow(self.player.position)
 
+        self.screen.blit(
+            self.background,
+            (0, 0),
+            self.camera.rect
+        )
+        
+        offset = [-self.camera.rect.x, -self.camera.rect.y]
+       
 
-        self.player.draw_dust(self.screen)
-        self.player.draw(self.screen)
-        self.player.hitbox.draw(self.screen)
+        self.player.draw_dust(self.screen, offset=offset)
+        self.player.draw(self.screen, offset=offset)
+        self.player.hitbox.draw(self.screen, offset=offset)
         self.player.move()
 
 
-
-
-
-        self.shack_1.draw(self.screen, offset=[0, 0], spread=0.9)
+        self.shack_1.draw(self.screen, offset=offset, spread=0.9)
         self.shack_1.rotate(self.player.position)
 
-        print(self.player.position)
 
-
-        self.shack_2.draw(self.screen, offset=[0, 0],  spread=0.9)
+        self.shack_2.draw(self.screen, offset=offset,  spread=0.9)
         self.shack_2.rotate(self.player.position)
-
 
 
         self.time += 1

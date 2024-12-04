@@ -11,27 +11,42 @@ class Camera:
 
         self.vx = 0
         self.vy = 0
-        self.absolute_acceleration = 1
+        self.absolute_acceleration = 50
         self.drag = 0.1
-        self.speed_limit = 10
+        self.speed_limit = 100
         self.dt = 0.1
 
     def follow(self, position):
-        dx = self.rect.x - position[0]
-        dy = self.rect.y - position[1]
+        distance_threshold = 10
+        velocity_threshold = 10
+
+        dx = position[0] - self.rect.centerx
+        dy = position[1] - self.rect.centery
         distance = sqrt(dx**2 + dy**2)
-        normal_direction_x = dx/distance
-        normal_direction_y = dy/distance
-    
-        vx_new = self.vx + self.absolute_acceleration * normal_direction_x - self.drag
-        vy_new = self.vy + self.absolute_acceleration * normal_direction_y - self.drag
-        
-        if sqrt(vx_new**2 + vy_new**2) > self.speed_limit:
-            vx_new = self.speed_limit * normal_direction_x
-            vy_new = self.speed_limit * normal_direction_y
 
-        x_new = self.rect.x + self.vx * self.dt
-        y_new = self.rect.y + self.vy * self.dt
+        if distance != 0:
+            normal_direction_x = dx / distance
+            normal_direction_y = dy / distance
+        else:
+            normal_direction_x, normal_direction_y = 0, 0
 
-        self.rect.x = max(0, min(x_new, self.map_width - self.rect.width))
-        self.rect.y = max(0, min(y_new, self.map_height - self.rect.height))
+        self.vx += self.absolute_acceleration * normal_direction_x * self.dt
+        self.vy += self.absolute_acceleration * normal_direction_y * self.dt\
+
+        if (distance < distance_threshold) and (sqrt(self.vx**2 + self.vy**2) < velocity_threshold):
+            self.vx = 0
+            self.vy = 0
+
+        self.vx *= (1 - self.drag)
+        self.vy *= (1 - self.drag)
+
+        speed = sqrt(self.vx**2 + self.vy**2)
+        if speed > self.speed_limit:
+            self.vx = (self.vx / speed) * self.speed_limit
+            self.vy = (self.vy / speed) * self.speed_limit
+
+        self.rect.x += self.vx * self.dt
+        self.rect.y += self.vy * self.dt
+
+        self.rect.x = max(0, min(self.rect.x, self.map_width - self.rect.width))
+        self.rect.y = max(0, min(self.rect.y, self.map_height - self.rect.height))

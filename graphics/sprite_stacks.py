@@ -58,13 +58,16 @@ class SpritestackModel:
             self.stack_image_multiple[0][0].get_height() * self.scale
         )
 
-    def draw(self, screen, spread=0.8):
+    def draw(self, screen, offset = [0, 0], spread=0.8):
         if self.stack_index >= self.num_stacks:
             self.stack_index = 0
         stack_images = self.stack_image_multiple[self.stack_index]
         render_stack(
             stack_images,
-            self.position,
+            [
+                self.position[0] + offset[0],
+                self.position[1] + offset[1]
+            ],
             self.rotation,
             screen,
             spread,

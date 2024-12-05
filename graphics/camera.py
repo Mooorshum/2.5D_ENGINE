@@ -11,14 +11,14 @@ class Camera:
 
         self.vx = 0
         self.vy = 0
-        self.absolute_acceleration = 50
+        self.absolute_acceleration = 70
         self.drag = 0.1
-        self.speed_limit = 100
+        self.speed_limit = 400
         self.dt = 0.1
 
     def follow(self, position):
-        distance_threshold = 10
-        velocity_threshold = 10
+        distance_threshold = 20
+        velocity_threshold = 20
 
         dx = position[0] - self.rect.centerx
         dy = position[1] - self.rect.centery

@@ -64,13 +64,13 @@ class Hitbox:
 
                 object_vx -= impulse * colliding_object.mass * normal_x
                 object_vy -= impulse * colliding_object.mass * normal_y
-                object_rotation_new = abs(atan2(object_vx, object_vy))
+                object_rotation_new = -abs(atan2(object_vx, object_vy))
                 self.object.linear_speed = sqrt(object_vx**2 + object_vy**2)
-                self.object.angular_speed = (object_rotation_new - self.object.rotation) * self.object.anglular_acceleration
+                self.object.angular_speed = -(object_rotation_new - self.object.rotation) * self.object.anglular_acceleration
 
                 colliding_object_vx += impulse * self.object.mass * normal_x
                 colliding_object_vy += impulse * self.object.mass * normal_y
-                colliding_object_rotation_new = -abs(atan2(colliding_object_vx, colliding_object_vy))
+                colliding_object_rotation_new = abs(atan2(colliding_object_vx, colliding_object_vy))
                 colliding_object.linear_speed = sqrt(colliding_object_vx**2 + colliding_object_vy**2)
                 colliding_object.angular_speed = (colliding_object_rotation_new - colliding_object.rotation) * colliding_object.anglular_acceleration
 

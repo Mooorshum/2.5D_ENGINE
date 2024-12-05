@@ -14,7 +14,7 @@ class GrassBlade:
         self.max_shade_amount = 150
         self.rotation = 0
 
-    def render_blade(self, surf, rotation, position):
+    def render_blade(self, surf, rotation, position, offset=[0, 0]):
         rotation_rads = radians(self.rotation)
         rotated_image = pygame.transform.rotate(self.image, rotation)
         shade = pygame.Surface(rotated_image.get_size())
@@ -22,8 +22,8 @@ class GrassBlade:
         shade.set_alpha(shade_amount)
         rotated_image.blit(shade, (0, 0))
         position = (
-            position[0] - rotated_image.get_width() // 2 - self.image_width*sin(rotation_rads),
-            position[1] - rotated_image.get_height()//2 - self.image_width*cos(rotation_rads)
+            position[0] - rotated_image.get_width() // 2 - self.image_width*sin(rotation_rads) + offset[0],
+            position[1] - rotated_image.get_height()//2 - self.image_width*cos(rotation_rads) + offset[1]
         )
         surf.blit(rotated_image, position)
 
@@ -103,18 +103,18 @@ class GrassTile:
             image_rotation[rotation] = tile_image
         return image_rotation
 
-    def render_tile_simple(self, screen):
+    def render_tile_simple(self, screen, offset=[0, 0]):
         closest_mapped_angle = self.get_closest_mapped_angle()
         tile_image = self.tile_image_rotation_value[closest_mapped_angle]
         # draw the whole tile as a single image
         screen.blit(
             tile_image,
-            (self.position[0] - tile_image.get_width()//2,
-             self.position[1] - tile_image.get_height()//2,
+            (self.position[0] - tile_image.get_width()//2 + offset[0],
+             self.position[1] - tile_image.get_height()//2 + offset[1],
             )
         )
 
-    def render_tile_detailed(self, screen, bend_force_position, hitbox_size):
+    def render_tile_detailed(self, screen, bend_force_position, hitbox_size, offset=[0, 0]):
         threshold = 0.5
         for blade in self.grass_blades:
             distance_to_blade = sqrt((blade.position[0] - bend_force_position[0])**2 + (blade.position[1] - bend_force_position[1])**2)
@@ -125,7 +125,7 @@ class GrassTile:
                 blade.rotation -= distance_factor * direction / self.stiffness
                 if abs(blade.rotation) > self.max_angle:
                     blade.rotation = sign(blade.rotation) * self.max_angle
-            blade.render_blade(screen, blade.rotation, blade.position)
+            blade.render_blade(screen, blade.rotation, blade.position, offset)
 
     def relax(self):
         relaxed = True
@@ -138,12 +138,12 @@ class GrassTile:
         if relaxed:
             self.relaxed = True
 
-    def handle_tile_rendering_and_state(self, screen, bend_force_position, hitbox):
+    def handle_tile_rendering_and_state(self, screen, bend_force_position, hitbox, offset=[0, 0]):
         # If the tile has been bent, and has not yet returned to a cached state
         if self.relaxed:
-            self.render_tile_simple(screen)
+            self.render_tile_simple(screen, offset)
         else:
-            self.render_tile_detailed(screen, bend_force_position, hitbox)
+            self.render_tile_detailed(screen, bend_force_position, hitbox, offset)
             self.relax()
 
     def generate_blade(self, position):
@@ -188,14 +188,14 @@ class GrassSystem:
     def sort_tiles(self):
         self.tiles.sort(key=lambda tile: tile.position[1])
 
-    def render_grass_tiles(self, screen, bend_objects):
+    def render_grass_tiles(self, screen, bend_objects, offset=[0, 0]):
         for tile in self.tiles:
             for bend_object in bend_objects:
                 bendpoint = (bend_object.position[0], bend_object.position[1])
                 dist = sqrt((bendpoint[0] - tile.position[0])**2 + (bendpoint[1] - tile.position[1])**2)
                 if dist < (bend_object.hitbox_size[1] + 10):
                     tile.relaxed = False
-                tile.handle_tile_rendering_and_state(screen, bendpoint, bend_object.hitbox_size)
+                tile.handle_tile_rendering_and_state(screen, bendpoint, bend_object.hitbox_size, offset=offset)
 
     def apply_wind(self, omega, t):
         wind_direction = radians(self.wind_direction)

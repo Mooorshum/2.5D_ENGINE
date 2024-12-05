@@ -9,7 +9,7 @@ from numpy import sign
 
 WHITE = (255, 255, 255)
 
-def draw_rotated_image(image, rotation_point_x, rotation_point_y, screen, angle=0):
+def draw_rotated_image(image, rotation_point_x, rotation_point_y, screen, angle=0, offset=[0, 0]):
     image_height = image.get_height()
     rotated_image = pygame.transform.rotate(image, -degrees(angle))
     rotated_image_rect = rotated_image.get_rect()
@@ -17,7 +17,13 @@ def draw_rotated_image(image, rotation_point_x, rotation_point_y, screen, angle=
     rotated_image_rect.centery = rotation_point_y
     rotated_image_rect.centerx = rotation_point_x + image_height / 2 * sin(angle)
     rotated_image_rect.centery = rotation_point_y - image_height / 2 * cos(angle)
-    screen.blit(rotated_image, rotated_image_rect.topleft)
+    screen.blit(
+        rotated_image,
+        (
+            rotated_image_rect.topleft[0] + offset[0],
+            rotated_image_rect.topleft[1] + offset[1]
+        )
+    )
 
 
 
@@ -84,8 +90,8 @@ class Branch:
         self.total_angle_change = total_angle_change
             
 
-    def render_on_surface(self, surface, offset_x=0, offset_y=0):
-        x_start, y_start = self.base_position[0] - offset_x, self.base_position[1] - offset_y
+    def render_on_surface(self, surface, offset=[0, 0]):
+        x_start, y_start = self.base_position[0] - offset[0], self.base_position[1] - offset[1]
 
         for i in range(self.num_segments):
             angle = self.segment_angles[i]
@@ -94,17 +100,17 @@ class Branch:
             # Calculate the position of the next segment start point
             x_next = x_start + length * sin(angle)
             y_next = y_start - length * cos(angle)
-            self.segment_startpoints[i] = [x_start + offset_x, y_start + offset_y]
+            self.segment_startpoints[i] = [x_start + offset[0], y_start + offset[1]]
             x_start, y_start = x_next, y_next
 
             # Render the segment on the surface with adjusted offsets
-            segment_startpoint_x = self.segment_startpoints[i][0] - offset_x
-            segment_startpoint_y = self.segment_startpoints[i][1] - offset_y
+            segment_startpoint_x = self.segment_startpoints[i][0] - offset[0]
+            segment_startpoint_y = self.segment_startpoints[i][1] - offset[1]
             segment_image = self.segment_images[i]
             draw_rotated_image(segment_image, segment_startpoint_x, segment_startpoint_y, surface, angle=angle)
 
 
-    def render(self, screen):
+    def render(self, screen, offset=[0, 0]):
         # branch root startpoint
         x_start, y_start = self.base_position[0], self.base_position[1]
 
@@ -123,7 +129,7 @@ class Branch:
             segment_startpoint_y = self.segment_startpoints[i][1]
             segment_image = self.segment_images[i]
             angle = self.segment_angles[i]
-            draw_rotated_image(segment_image, segment_startpoint_x, segment_startpoint_y, screen, angle=angle)
+            draw_rotated_image(segment_image, segment_startpoint_x, segment_startpoint_y, screen, angle=angle, offset=offset)
 
 
 
@@ -166,18 +172,20 @@ class Plant:
         surface_height = max_branch_size * 2
         plant_surface = pygame.Surface((surface_width, surface_height), pygame.SRCALPHA)
         for branch in self.branches:
-            branch.render_on_surface(plant_surface, offset_x=self.position[0] - surface_width // 2,
-                                     offset_y=self.position[1] - surface_height // 2)
+            branch.render_on_surface(
+                plant_surface,
+                offset=[self.position[0] - surface_width // 2, self.position[1] - surface_height // 2]
+            )
         self.image = plant_surface
 
 
-    def render_simple(self, screen):
+    def render_simple(self, screen, offset=[0, 0]):
         if self.image:
-            screen.blit(self.image, (self.position[0] - self.image.get_width() // 2, 
-                                     self.position[1] - self.image.get_height() // 2))
+            screen.blit(self.image, (self.position[0] - self.image.get_width() // 2 + offset[0], 
+                                     self.position[1] - self.image.get_height() // 2 + offset[1]))
 
 
-    def render_detailed(self, screen, bendpoints):
+    def render_detailed(self, screen, bendpoints, offset=[0, 0]):
         # calculating total force from all bendpoints
         max_bend_factor = 0.3
         bend_factor = 0
@@ -196,11 +204,11 @@ class Plant:
         for branch in self.branches:
             branch.apply_forces(total_bend_force)
             total_angle_change += branch.total_angle_change
-            branch.render(screen)
+            branch.render(screen, offset)
         self.total_angle_change = total_angle_change
 
 
-    def render_plant(self, screen, bendpoints):
+    def render_plant(self, screen, bendpoints, offset=[0, 0]):
         min_angle_change_for_detailed_render = 0.01
 
         # monitoring if the plant is currently being bent
@@ -211,9 +219,9 @@ class Plant:
         self.is_bent = is_bent
 
         if (self.total_angle_change > min_angle_change_for_detailed_render) or (self.is_bent):
-            self.render_detailed(screen, bendpoints)
+            self.render_detailed(screen, bendpoints, offset)
         else:
-            self.render_simple(screen)
+            self.render_simple(screen, offset)
 
 
 
@@ -250,6 +258,6 @@ class PlantSystem:
                         self.plants.append(plant)
 
 
-    def render(self, screen):
+    def render(self, screen, offset=[0, 0]):
         for plant in self.plants:
-            plant.render_plant(screen, self.bendpoints)
+            plant.render_plant(screen, self.bendpoints, offset)

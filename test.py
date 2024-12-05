@@ -1,8 +1,11 @@
 import pygame
 
+from graphics import grass, shrubs
 from graphics.static_objects import Building
 from general_game_mechanics.dynamic_objects import Vehicle
 from graphics.camera import Camera
+
+from world.particle_presets import flame
 
 
 pygame.init()
@@ -33,16 +36,16 @@ class Game:
     def __init__(self):
         self.game_state = GameStates.PAUSED
 
-        self.map_width = 800
-        self.map_height = 500
-        self.camera_width = 500
-        self.camera_height = 300
+        self.map_width = 1600
+        self.map_height = 1000
+        self.camera_width = 600
+        self.camera_height = 400
 
         self.camera = Camera(self.camera_width, self.camera_height, self.map_width, self.map_height)
 
         self.screen = pygame.display.set_mode((self.camera_width, self.camera_height))
         
-        self.background = pygame.image.load("background.png").convert()
+        self.background = pygame.image.load("background_x2.png").convert()
 
 
 
@@ -52,19 +55,63 @@ class Game:
         self.clock = pygame.time.Clock()
         self.mouse_x, self.mouse_y = None, None
 
-        self.player = Vehicle(type='vehicle', name='hippie_van', scale=1)
+        self.player = Vehicle(type='vehicle', name='hippie_van', scale=1.3)
         self.player_start_position = [200, 200]
         self.player.position = [200, 200]
 
 
-        self.shack_1 = Building(type='building', name='shack', scale=1.5)
+        self.cop = Vehicle(type='vehicle', name='cop_car', scale=1.5)
+        self.cop.scale = 1.5
+        self.cop.position = [400, 400]
+
+
+        self.shack_1 = Building(type='building', name='shack', scale=2)
         self.shack_1.position = [600, 200]
         self.shack_1.rotation = -30
 
 
-        self.shack_2 = Building(type='building', name='shack', scale=1.5)
+        self.shack_2 = Building(type='building', name='shack', scale=2)
         self.shack_2.position = [200, 400]
-        self.shack_2.rotation = 0
+        self.shack_2.rotation = 10
+
+
+        self.flame = flame
+        self.flame.position = [600, 500]
+
+        self.grass_system = grass.GrassSystem()
+        self.grass_system.blades_per_tile = 20
+        for x in range (self.grass_system.tile_size, self.map_width, self.grass_system.tile_size):
+            for y in range (self.grass_system.tile_size, self.map_height, self.grass_system.tile_size):
+                self.grass_system.create_new_tile((x, y), 'assets/grass')
+        self.grass_system.sort_tiles()
+
+
+        self.wheat_system = grass.GrassSystem()
+        self.wheat_system.blades_per_tile = 5
+        for x in range (self.wheat_system.tile_size, self.map_width, self.wheat_system.tile_size):
+            for y in range (self.wheat_system.tile_size, self.map_height, self.wheat_system.tile_size):
+                self.wheat_system.create_new_tile((x, y), 'assets/wheat')
+        self.wheat_system.sort_tiles()
+
+
+        self.shrubs = shrubs.PlantSystem(
+            folder='assets/branchy_bush',
+            num_branches_range = (1,7),
+            base_angle_range = (-1, 1),
+            stiffness_range = (0.01, 0.2),
+            gravity = 0.1,
+            density = 1 
+            )
+
+
+        self.fern = shrubs.PlantSystem(
+            folder='assets/fern',
+            num_branches_range = (3,7),
+            base_angle_range = (-2, 2),
+            stiffness_range = (0.01, 0.2),
+            gravity = 0.1,
+            density = 1
+            )
 
 
         self.time = 0
@@ -117,12 +164,35 @@ class Game:
         )
         
         offset = [-self.camera.rect.x, -self.camera.rect.y]
-       
+
+
+        grass_bend_objects= [self.player, self.cop]
+        self.grass_system.render_grass_tiles(self.screen, grass_bend_objects, offset=offset)
+        self.grass_system.apply_wind(1/20, self.time)
+        self.wheat_system.render_grass_tiles(self.screen, grass_bend_objects, offset=offset)
+        self.wheat_system.apply_wind(1/20, self.time)
+
+
+        self.shrubs.bendpoints = [self.player.position, self.cop.position]
+        self.shrubs.render(self.screen, offset=offset)
+        self.fern.bendpoints = [self.player.position, self.cop.position]
+        self.fern.render(self.screen, offset=offset)
+
 
         self.player.draw_dust(self.screen, offset=offset)
         self.player.draw(self.screen, offset=offset)
-        self.player.hitbox.draw(self.screen, offset=offset)
+        """ self.player.hitbox.draw(self.screen, offset=offset) """
         self.player.move()
+
+
+        self.cop.draw_dust(self.screen, offset=offset)
+        self.cop.draw(self.screen, offset=offset)
+        """ self.cop.hitbox.draw(self.screen, offset=offset) """
+        self.cop.move()
+
+
+        self.player.hitbox.handle_collision(self.cop)
+
 
 
         self.shack_1.draw(self.screen, offset=offset, spread=0.9)
@@ -131,6 +201,10 @@ class Game:
 
         self.shack_2.draw(self.screen, offset=offset,  spread=0.9)
         self.shack_2.rotate(self.player.position)
+
+
+        self.flame.update_particles()
+        self.flame.draw_particles(self.screen, offset=offset)
 
 
         self.time += 1

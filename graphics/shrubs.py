@@ -140,13 +140,15 @@ class Plant:
         self.position = position
         self.image = None
         self.num_branches = num_branches
-        
+
         self.hitbox_radius = 50
 
         self.branches = []
 
         self.total_angle_change = 0
         self.is_bent = False
+
+        self.image_size_y = 0
         
         self.initialize_plant(folder, base_angle_range, stiffness)
 
@@ -225,6 +227,9 @@ class Plant:
             self.render_detailed(screen, bendpoints, offset)
         else:
             self.render_simple(screen, offset)
+
+        """ DRAW A GREEN CIRCLE AT THE CENTRE OF THE TILE """
+        """ pygame.draw.circle(screen, (0, 255, 0), self.position, 10) """
 
 
 

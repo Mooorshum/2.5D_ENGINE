@@ -47,6 +47,8 @@ class GrassTile:
         self.relaxed = True
         self.tile_uniform_rotation = 0
 
+        self.image_size_y = size/4
+
         # Loading individual grass blade images
         self.blade_asset_images = self.get_blade_asset_images(folder)
         
@@ -57,6 +59,8 @@ class GrassTile:
 
         # Rendering and caching tile images for different rotation values
         self.tile_image_rotation_value = self.map_tile_images_to_rotation()
+        
+
 
     def populate_tile(self):
         k = 0
@@ -157,6 +161,9 @@ class GrassTile:
             self.render_tile_detailed(screen, bendpoints, offset)
             self.relax()
 
+        """ DRAW A RED CIRCLE AT THE CENTRE OF THE TILE """
+        """ pygame.draw.circle(screen, (255, 0, 0), self.position, self.size, 2) """
+
     def generate_blade(self, position):
         if all(position != blade.position for blade in self.grass_blades):
             new_blade_image = random.choice(self.blade_asset_images)
@@ -175,9 +182,9 @@ class GrassTile:
 class GrassSystem:
     def __init__(self):
         self.stiffness = 0.03
-        self.tile_size = 100
+        self.tile_size = 50
         self.blades_per_tile = 40
-        self.relax_speed = 1.5
+        self.relax_speed = 1 #1.5
         self.tiles_num_states = 11
         self.scale_factor = 1
         self.wind_magnitude = 8

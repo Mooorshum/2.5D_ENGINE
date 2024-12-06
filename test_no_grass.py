@@ -101,7 +101,7 @@ class Game:
             base_angle_range = (-1, 1),
             stiffness_range = (0.01, 0.2),
             gravity = 0.1,
-            density = 1 
+            density = 1
             )
 
 
@@ -121,8 +121,8 @@ class Game:
             self.shack_1, self.shack_2,
             self.flame
             ]
-        self.game_objects += self.grass_system.tiles
-        self.game_objects += self.wheat_system.tiles
+        """ self.game_objects += self.grass_system.tiles
+        self.game_objects += self.wheat_system.tiles """
         self.game_objects += self.shrubs.plants
         self.game_objects += self.fern.plants
 

@@ -94,7 +94,7 @@ class ParticleSystem:
             particle.ay = self.ay_system + acceleration * sin(angle)
             self.particles.append(particle)
 
-    def update_particles(self):
+    def update(self):
         self.create_particle()
         for particle in self.particles[:]:
             particle.move(self.background_hitbox)
@@ -103,6 +103,6 @@ class ParticleSystem:
             if particle.lifetime <= 0:
                 self.particles.remove(particle)
 
-    def draw_particles(self, screen, offset=[0, 0]):
+    def render(self, screen, offset=[0, 0]):
         for particle in self.particles:
             particle.draw(screen, offset)

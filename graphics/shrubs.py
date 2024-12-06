@@ -208,12 +208,15 @@ class Plant:
         self.total_angle_change = total_angle_change
 
 
-    def render_plant(self, screen, bendpoints, offset=[0, 0]):
+    def render(self, screen, bend_objects, offset=[0, 0]):
         min_angle_change_for_detailed_render = 0.01
 
         # monitoring if the plant is currently being bent
         is_bent = False
-        for bendpoint in bendpoints:
+        bendpoints = []
+        for bend_object in bend_objects:
+            bendpoint = (bend_object.position[0], bend_object.position[1])
+            bendpoints.append(bendpoint)
             if sqrt((self.position[0] - bendpoint[0])**2 + (self.position[1] - bendpoint[1])**2) <= self.hitbox_radius:
                 is_bent = True
         self.is_bent = is_bent
@@ -237,7 +240,7 @@ class PlantSystem:
 
         self.mask_name = 'test_mask'
         self.plants = []
-        self.bendpoints = []
+        self.bend_objects = []
         self.create_plants(folder)
 
 
@@ -260,4 +263,4 @@ class PlantSystem:
 
     def render(self, screen, offset=[0, 0]):
         for plant in self.plants:
-            plant.render_plant(screen, self.bendpoints, offset)
+            plant.render(screen, self.bend_objects, offset)

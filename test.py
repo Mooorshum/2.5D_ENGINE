@@ -1,6 +1,7 @@
 import pygame
 
 from graphics import grass, shrubs
+from graphics.rendering import global_render
 from graphics.static_objects import Building
 from general_game_mechanics.dynamic_objects import Vehicle
 from graphics.camera import Camera
@@ -79,7 +80,7 @@ class Game:
         self.flame.position = [600, 500]
 
         self.grass_system = grass.GrassSystem()
-        self.grass_system.blades_per_tile = 20
+        self.grass_system.blades_per_tile = 30
         for x in range (self.grass_system.tile_size, self.map_width, self.grass_system.tile_size):
             for y in range (self.grass_system.tile_size, self.map_height, self.grass_system.tile_size):
                 self.grass_system.create_new_tile((x, y), 'assets/grass')
@@ -87,7 +88,7 @@ class Game:
 
 
         self.wheat_system = grass.GrassSystem()
-        self.wheat_system.blades_per_tile = 5
+        self.wheat_system.blades_per_tile = 1
         for x in range (self.wheat_system.tile_size, self.map_width, self.wheat_system.tile_size):
             for y in range (self.wheat_system.tile_size, self.map_height, self.wheat_system.tile_size):
                 self.wheat_system.create_new_tile((x, y), 'assets/wheat')
@@ -126,10 +127,8 @@ class Game:
             time_delta = clock.tick(60) / 1000.0
             self.handle_events()
             if self.game_state == GameStates.PLAYING:
-                """ self.screen.blit(self.background, (0, 0)) """
                 self.update_screen_game(time_delta)
             elif self.game_state == GameStates.PAUSED:
-                """ self.screen.blit(self.background, (0, 0)) """
                 pygame.display.update()
 
         pygame.quit()
@@ -162,49 +161,46 @@ class Game:
             (0, 0),
             self.camera.rect
         )
-        
+
         offset = [-self.camera.rect.x, -self.camera.rect.y]
+        camera_positon = self.camera.rect.center
 
+        foliage_bend_objects= [self.player, self.cop]
 
-        grass_bend_objects= [self.player, self.cop]
-        self.grass_system.render_grass_tiles(self.screen, grass_bend_objects, offset=offset)
+        self.grass_system.bend_objects = foliage_bend_objects
         self.grass_system.apply_wind(1/20, self.time)
-        self.wheat_system.render_grass_tiles(self.screen, grass_bend_objects, offset=offset)
         self.wheat_system.apply_wind(1/20, self.time)
 
 
-        self.shrubs.bendpoints = [self.player.position, self.cop.position]
-        self.shrubs.render(self.screen, offset=offset)
-        self.fern.bendpoints = [self.player.position, self.cop.position]
-        self.fern.render(self.screen, offset=offset)
+        self.shrubs.bend_objects = foliage_bend_objects
+        self.fern.bend_objects = foliage_bend_objects
+        
 
-
-        self.player.draw_dust(self.screen, offset=offset)
-        self.player.draw(self.screen, offset=offset)
-        """ self.player.hitbox.draw(self.screen, offset=offset) """
         self.player.move()
-
-
-        self.cop.draw_dust(self.screen, offset=offset)
-        self.cop.draw(self.screen, offset=offset)
-        """ self.cop.hitbox.draw(self.screen, offset=offset) """
         self.cop.move()
-
-
         self.player.hitbox.handle_collision(self.cop)
 
+        self.shack_1.rotate(camera_positon)
+        self.shack_2.rotate(camera_positon)
+
+        self.flame.update()
+        
+
+        game_objects = [
+            self.player, self.cop,
+            self.shack_1, self.shack_2,
+            self.flame
+            ]
+        """ game_objects += self.grass_system.tiles
+        game_objects += self.wheat_system.tiles """
+        game_objects += self.shrubs.plants
+        game_objects += self.fern.plants
+        global_render(self.screen, game_objects, bend_objects=foliage_bend_objects, offset=offset)
+        self.player.hitbox.draw(self.screen, offset=offset)
+        self.cop.hitbox.draw(self.screen, offset=offset)
 
 
-        self.shack_1.draw(self.screen, offset=offset, spread=0.9)
-        self.shack_1.rotate(self.player.position)
-
-
-        self.shack_2.draw(self.screen, offset=offset,  spread=0.9)
-        self.shack_2.rotate(self.player.position)
-
-
-        self.flame.update_particles()
-        self.flame.draw_particles(self.screen, offset=offset)
+        display_fps(self.screen, self.clock, font)
 
 
         self.time += 1

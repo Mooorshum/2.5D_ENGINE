@@ -8,7 +8,7 @@ class Building(SpritestackModel):
 
         self.rotation = 0
         self.prev_camera_angle = 0
-        self.max_camera_added_rotation = 0
+        self.max_camera_added_rotation = 5
 
     def rotate(self, camera_position):
         dx = camera_position[0] - self.position[0]
@@ -20,8 +20,8 @@ class Building(SpritestackModel):
         y_factor = dy / 100
         if abs(y_factor) > 1:
             y_factor = 1 * copysign(1, y_factor)
-        """ angle_to_camera = self.max_camera_added_rotation * x_factor * y_factor """
-        angle_to_camera = self.max_camera_added_rotation * x_factor
+        angle_to_camera = self.max_camera_added_rotation * x_factor * y_factor
+        """ angle_to_camera = self.max_camera_added_rotation * x_factor """
 
         self.rotation += self.prev_camera_angle - angle_to_camera
         self.prev_camera_angle = angle_to_camera

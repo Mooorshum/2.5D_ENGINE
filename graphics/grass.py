@@ -114,17 +114,18 @@ class GrassTile:
             )
         )
 
-    def render_tile_detailed(self, screen, bend_force_position, hitbox_size, offset=[0, 0]):
+    def render_tile_detailed(self, screen, bendpoints, offset=[0, 0]):
         threshold = 0.5
         for blade in self.grass_blades:
-            distance_to_blade = sqrt((blade.position[0] - bend_force_position[0])**2 + (blade.position[1] - bend_force_position[1])**2)
-            """ distance_factor = max(0, (1 - distance_to_blade/self.bend_cutoff_distance)) """
-            distance_factor = exp(-distance_to_blade/hitbox_size[0])
-            if distance_factor > threshold:
-                direction = sign(blade.position[0] - bend_force_position[0])
-                blade.rotation -= distance_factor * direction / self.stiffness
-                if abs(blade.rotation) > self.max_angle:
-                    blade.rotation = sign(blade.rotation) * self.max_angle
+            for bendpoint in bendpoints:
+                distance_to_blade = sqrt((blade.position[0] - bendpoint[0])**2 + (blade.position[1] - bendpoint[1])**2)
+                distance_factor = exp(-distance_to_blade/self.size)
+                if distance_factor > threshold:
+                    direction = sign(blade.position[0] - bendpoint[0])
+                    blade.rotation -= distance_factor * direction / self.stiffness
+
+            if abs(blade.rotation) > self.max_angle:
+                blade.rotation = sign(blade.rotation) * self.max_angle
             blade.render_blade(screen, blade.rotation, blade.position, offset)
 
     def relax(self):
@@ -138,12 +139,22 @@ class GrassTile:
         if relaxed:
             self.relaxed = True
 
-    def handle_tile_rendering_and_state(self, screen, bend_force_position, hitbox, offset=[0, 0]):
+    def render(self, screen, bend_objects, offset=[0, 0]):
+        bendpoints = []
+        for bend_object in bend_objects:
+            bendpoint = (bend_object.position[0], bend_object.position[1])
+            bendpoints.append(bendpoint)
+        
+        for bendpoint in bendpoints:
+            dist = sqrt((bendpoint[0] - self.position[0])**2 + (bendpoint[1] - self.position[1])**2)
+            if dist < (bend_object.hitbox_size[1] + 10):
+                self.relaxed = False
+
         # If the tile has been bent, and has not yet returned to a cached state
         if self.relaxed:
             self.render_tile_simple(screen, offset)
         else:
-            self.render_tile_detailed(screen, bend_force_position, hitbox, offset)
+            self.render_tile_detailed(screen, bendpoints, offset)
             self.relax()
 
     def generate_blade(self, position):
@@ -188,14 +199,6 @@ class GrassSystem:
     def sort_tiles(self):
         self.tiles.sort(key=lambda tile: tile.position[1])
 
-    def render_grass_tiles(self, screen, bend_objects, offset=[0, 0]):
-        for tile in self.tiles:
-            for bend_object in bend_objects:
-                bendpoint = (bend_object.position[0], bend_object.position[1])
-                dist = sqrt((bendpoint[0] - tile.position[0])**2 + (bendpoint[1] - tile.position[1])**2)
-                if dist < (bend_object.hitbox_size[1] + 10):
-                    tile.relaxed = False
-                tile.handle_tile_rendering_and_state(screen, bendpoint, bend_object.hitbox_size, offset=offset)
 
     def apply_wind(self, omega, t):
         wind_direction = radians(self.wind_direction)

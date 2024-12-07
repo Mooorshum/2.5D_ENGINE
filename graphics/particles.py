@@ -82,7 +82,7 @@ class ParticleSystem:
         self.ax_system = 0
         self.ay_system = 0
 
-        self.image_size_y = 0
+        self.y0_offset = 60
 
         
     def create_particle(self):

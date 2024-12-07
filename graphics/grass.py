@@ -5,6 +5,8 @@ from math import sqrt, sin, cos, pi, radians, exp
 from numpy import sign
 
 
+WHITE = (255, 255, 255)
+
 class GrassBlade:
     def __init__(self, image, position):
         self.image = image
@@ -47,7 +49,7 @@ class GrassTile:
         self.relaxed = True
         self.tile_uniform_rotation = 0
 
-        self.image_size_y = size/4
+        self.y0_offset = size/4
 
         # Loading individual grass blade images
         self.blade_asset_images = self.get_blade_asset_images(folder)
@@ -89,7 +91,7 @@ class GrassTile:
         return blade_asset_images
 
     def map_tile_images_to_rotation(self):
-        padding = self.size * 2 * self.scale_factor + 20
+        padding = int(self.size * 2 * self.scale_factor + 30)
         image_rotation = {}
         tile_size = (self.size + padding, self.size + padding)
         for i in range(self.num_states):
@@ -119,7 +121,7 @@ class GrassTile:
         )
 
     def render_tile_detailed(self, screen, bendpoints, offset=[0, 0]):
-        threshold = 0.5
+        threshold = 0.2
         for blade in self.grass_blades:
             for bendpoint in bendpoints:
                 distance_to_blade = sqrt((blade.position[0] - bendpoint[0])**2 + (blade.position[1] - bendpoint[1])**2)
@@ -161,8 +163,7 @@ class GrassTile:
             self.render_tile_detailed(screen, bendpoints, offset)
             self.relax()
 
-        """ DRAW A RED CIRCLE AT THE CENTRE OF THE TILE """
-        """ pygame.draw.circle(screen, (255, 0, 0), self.position, self.size, 2) """
+        
 
     def generate_blade(self, position):
         if all(position != blade.position for blade in self.grass_blades):
@@ -180,23 +181,44 @@ class GrassTile:
 
 
 class GrassSystem:
-    def __init__(self):
-        self.stiffness = 0.03
-        self.tile_size = 50
-        self.blades_per_tile = 40
-        self.relax_speed = 1 #1.5
+    def __init__(self, folder, tile_size=100, blades_per_tile=20, scale=1, density=1, stiffness=0.01):
+        self.tile_size = tile_size
+        self.blades_per_tile = blades_per_tile
+        self.scale_factor = scale
+        self.stiffness = stiffness
+
+        self.relax_speed = 0.5
         self.tiles_num_states = 11
-        self.scale_factor = 1
         self.wind_magnitude = 8
         self.wind_direction = 0.05
 
         self.tiles = []
         self.bendpoints = []
 
-    def create_new_tile(self, position, folder):
+        self.mask = 'test_mask.png'
+
+        self.create_grass(folder, density)
+        self.sort_tiles()
+
+
+    def create_grass(self, folder, density):
+        mask = pygame.image.load(f'{folder}/masks/{self.mask}').convert()
+        mask_width = mask.get_width()
+        mask_height = mask.get_height()
+        for x in range(0, mask_width, self.tile_size):
+            for y in range(0, mask_height, self.tile_size):
+                colour = mask.get_at((x, y))
+                if colour != WHITE:
+                    rand_num = random.uniform(0, 1)
+                    if rand_num < density:
+                        position = (x, y)
+                        self.create_new_tile(position, f'{folder}/images')
+
+
+    def create_new_tile(self, position, images_folder):
         if all(position != tile.position for tile in self.tiles):
             tile = GrassTile(
-                self.tile_size, position, folder,
+                self.tile_size, position, images_folder,
                 self.blades_per_tile, self.stiffness, self.relax_speed,
                 self.wind_magnitude,
                 self.tiles_num_states, self.scale_factor

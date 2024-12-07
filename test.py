@@ -2,7 +2,7 @@ import pygame
 
 from graphics import grass, shrubs
 from graphics.rendering import global_render
-from graphics.static_objects import Building
+from graphics.static_objects import StaticObject
 from general_game_mechanics.dynamic_objects import Vehicle
 from graphics.camera import Camera
 
@@ -37,8 +37,9 @@ class Game:
     def __init__(self):
         self.game_state = GameStates.PAUSED
 
-        self.map_width = 1600
+        self.map_width = 2000
         self.map_height = 1000
+
         self.camera_width = 600
         self.camera_height = 400
 
@@ -46,7 +47,7 @@ class Game:
 
         self.screen = pygame.display.set_mode((self.camera_width, self.camera_height))
         
-        self.background = pygame.image.load("background_x2.png").convert()
+        self.background = pygame.image.load("background.png").convert()
 
 
 
@@ -64,35 +65,45 @@ class Game:
         self.cop = Vehicle(type='vehicle', name='cop_car', scale=1.5)
         self.cop.scale = 1.5
         self.cop.position = [400, 400]
+        self.cop.rotation = 25
 
 
-        self.shack_1 = Building(type='building', name='shack', scale=2)
-        self.shack_1.position = [600, 200]
+        self.hillbilly = Vehicle(type='vehicle', name='pickup_truck', scale=1.5)
+        self.hillbilly.scale = 1.5
+        self.hillbilly.position = [600, 600]
+        self.hillbilly.rotation = -15
+
+
+        self.shack_1 = StaticObject(type='building', name='shack', scale=2)
+        self.shack_1.position = [530, 180]
         self.shack_1.rotation = -30
 
 
-        self.shack_2 = Building(type='building', name='shack', scale=2)
-        self.shack_2.position = [200, 400]
+        self.shack_2 = StaticObject(type='building', name='shack', scale=2)
+        self.shack_2.position = [200, 450]
         self.shack_2.rotation = 10
 
 
+
+        self.barn = StaticObject(type='building', name='barn', scale=2.5)
+        self.barn.position = [750, 520]
+        self.barn.rotation = 50
+
+
+        self.campfire = StaticObject(type='filler_object', name='campfire', scale=1.4)
+        self.campfire.position = [600, 500]
+        self.campfire.rotation = 30
         self.flame = flame
-        self.flame.position = [600, 500]
+        self.flame.position = (self.campfire.position[0], self.campfire.position[1] - 10)
 
-        self.grass_system = grass.GrassSystem()
-        self.grass_system.blades_per_tile = 10
-        for x in range (self.grass_system.tile_size, self.camera_width*2, self.grass_system.tile_size):
-            for y in range (self.grass_system.tile_size, self.camera_height*2, self.grass_system.tile_size):
-                self.grass_system.create_new_tile((x, y), 'assets/grass')
-        self.grass_system.sort_tiles()
+        self.grass_system = grass.GrassSystem(
+            folder = 'assets/grass',
+            tile_size=30,
+            blades_per_tile=5,
+            stiffness=0.03
+        )
 
 
-        self.wheat_system = grass.GrassSystem()
-        self.wheat_system.blades_per_tile = 1
-        for x in range (self.wheat_system.tile_size, self.camera_width*2, self.wheat_system.tile_size):
-            for y in range (self.wheat_system.tile_size, self.camera_height*2, self.wheat_system.tile_size):
-                self.wheat_system.create_new_tile((x, y), 'assets/wheat')
-        self.wheat_system.sort_tiles()
 
 
         self.shrubs = shrubs.PlantSystem(
@@ -115,14 +126,12 @@ class Game:
             )
 
 
-
         self.game_objects = [
-            self.player, self.cop,
-            self.shack_1, self.shack_2,
-            self.flame
+            self.player, self.cop, self.hillbilly,
+            self.shack_1, self.shack_2, self.barn,
+            self.campfire, self.flame
             ]
         self.game_objects += self.grass_system.tiles
-        self.game_objects += self.wheat_system.tiles
         self.game_objects += self.shrubs.plants
         self.game_objects += self.fern.plants
 
@@ -176,13 +185,14 @@ class Game:
         )
 
         offset = [-self.camera.rect.x, -self.camera.rect.y]
-        camera_positon = self.camera.rect.center
+
+        camera_position = self.camera.rect.center
+        camera_size = (self.camera_width, self.camera_height)
 
         foliage_bend_objects= [self.player, self.cop]
 
         self.grass_system.bend_objects = foliage_bend_objects
         self.grass_system.apply_wind(1/20, self.time)
-        self.wheat_system.apply_wind(1/20, self.time)
 
 
         self.shrubs.bend_objects = foliage_bend_objects
@@ -191,18 +201,33 @@ class Game:
 
         self.player.move()
         self.cop.move()
+        self.hillbilly.move()
+
         self.player.hitbox.handle_collision(self.cop)
+        self.player.hitbox.handle_collision(self.hillbilly)
+        self.cop.hitbox.handle_collision(self.hillbilly)
 
-        self.shack_1.rotate(camera_positon)
-        self.shack_2.rotate(camera_positon)
 
+        self.shack_1.rotate(camera_position)
+        self.shack_2.rotate(camera_position)
+        self.barn.rotate(camera_position)
+
+    
         self.flame.update()
         
 
 
-        global_render(self.screen, self.game_objects, bend_objects=foliage_bend_objects, offset=offset)
+        global_render(
+            self.screen,
+            self.game_objects,
+            camera_size,
+            camera_position,
+            bend_objects=foliage_bend_objects,
+            offset=offset
+        )
         self.player.hitbox.draw(self.screen, offset=offset)
         self.cop.hitbox.draw(self.screen, offset=offset)
+        self.hillbilly.hitbox.draw(self.screen, offset=offset)
 
 
         display_fps(self.screen, self.clock, font)

@@ -11,7 +11,7 @@ class Camera:
 
         self.vx = 0
         self.vy = 0
-        self.absolute_acceleration = 70
+        self.absolute_acceleration = 100
         self.drag = 0.1
         self.speed_limit = 400
         self.dt = 0.1
@@ -30,8 +30,13 @@ class Camera:
         else:
             normal_direction_x, normal_direction_y = 0, 0
 
-        self.vx += self.absolute_acceleration * normal_direction_x * self.dt
-        self.vy += self.absolute_acceleration * normal_direction_y * self.dt\
+
+        a_smooth = self.absolute_acceleration * (distance / 200)**2
+        if a_smooth > self.absolute_acceleration:
+            a_smooth = self.absolute_acceleration
+
+        self.vx += a_smooth * normal_direction_x * self.dt
+        self.vy += a_smooth * normal_direction_y * self.dt
 
         if (distance < distance_threshold) and (sqrt(self.vx**2 + self.vy**2) < velocity_threshold):
             self.vx = 0

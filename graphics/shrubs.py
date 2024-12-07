@@ -148,7 +148,7 @@ class Plant:
         self.total_angle_change = 0
         self.is_bent = False
 
-        self.image_size_y = 0
+        self.y0_offset = 0
         
         self.initialize_plant(folder, base_angle_range, stiffness)
 
@@ -241,16 +241,15 @@ class PlantSystem:
         self.base_angle_range = base_angle_range
         self.stiffness_range = stiffness_range
         self.gravity = gravity
-        self.density = density
 
-        self.mask_name = 'test_mask'
+        self.mask = 'test_mask.png'
         self.plants = []
         self.bend_objects = []
-        self.create_plants(folder)
+        self.create_plants(folder, density)
 
 
-    def create_plants(self, plant_folder):
-        mask = pygame.image.load(f'{plant_folder}/masks/{self.mask_name}.png').convert()
+    def create_plants(self, plant_folder, density):
+        mask = pygame.image.load(f'{plant_folder}/masks/{self.mask}').convert()
         mask_width = mask.get_width()
         mask_height = mask.get_height()
         for x in range(mask_width):
@@ -258,7 +257,7 @@ class PlantSystem:
                 colour = mask.get_at((x, y))
                 if colour != WHITE:
                     rand_num = random.uniform(0, 1)
-                    if rand_num < self.density:
+                    if rand_num < density:
                         position = (x, y)
                         num_branches = random.randint(self.num_branches_range[0], self.num_branches_range[1])
                         stiffness = random.uniform(self.stiffness_range[0], self.stiffness_range[1])

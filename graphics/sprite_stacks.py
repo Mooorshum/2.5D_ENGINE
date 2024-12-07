@@ -2,7 +2,7 @@ import os
 
 import pygame
 
-from math import sin, cos
+from math import sin, cos, sqrt, atan2, radians
 
 
 def split_stack_image(stack_image):
@@ -41,7 +41,7 @@ class SpritestackModel:
         self.scale = scale
         self.hitbox_size = (0, 0)
 
-        self.image_size_y = 0
+        self.y0_offset = 0
 
         # Load stack images
         self.stack_index = 0
@@ -78,6 +78,9 @@ class SpritestackModel:
             scale=self.scale
         )
 
-        """ GETTING THE TOTAL HEIGHT OF THE STACK """
-        self.image_size_y = self.scale * ( (stack_images[0].get_height() * abs(cos(self.rotation)) + stack_images[0].get_width() * abs(sin(self.rotation)) ) / 2 + spread * len(stack_images))
-        """ self.image_size_y = stack_images[0].get_width() + spread * len(stack_images) """
+        """ GETTING THE TOTAL OFFSET OF THE STACK """
+        h = stack_images[0].get_height() / 2
+        w = stack_images[0].get_width() / 2
+        L = sqrt(h**2 + w**2)
+        beta = atan2(h, w)
+        self.y0_offset =  L * ( abs(sin(radians(self.rotation))) + abs(beta)) / 2 * self.scale 

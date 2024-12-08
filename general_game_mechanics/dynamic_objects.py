@@ -89,9 +89,11 @@ from graphics.sprite_stacks import render_stack, split_stack_image, SpritestackM
 
 
 
-class Vehicle(SpritestackModel):
+class DynamicObject(SpritestackModel):
     def __init__(self, type=None, name=None, scale=1):
         super().__init__(type, name, scale)
+
+        self.movelocked = False
 
         self.mass = 1000
 
@@ -137,37 +139,40 @@ class Vehicle(SpritestackModel):
         move_up = keys[pygame.K_UP]
         move_down = keys[pygame.K_DOWN]
         space = keys[pygame.K_SPACE]
-        if move_left:
-            self.angular_speed += self.anglular_acceleration * self.dt
-        if move_right:
-            self.angular_speed -= self.anglular_acceleration * self.dt
-        if move_up:
-            self.linear_speed += self.linear_acceleration_forward * self.dt
-        if move_down:
-            self.linear_speed -= self.linear_acceleration_backwards * self.dt
-        if space:
-            self.linear_speed -= sign(self.linear_speed) * self.brake_acceleration * self.dt
+
+        if self.type=='vehicle':
+            if move_left:
+                self.angular_speed += self.anglular_acceleration * self.dt
+            if move_right:
+                self.angular_speed -= self.anglular_acceleration * self.dt
+            if move_up:
+                self.linear_speed += self.linear_acceleration_forward * self.dt
+            if move_down:
+                self.linear_speed -= self.linear_acceleration_backwards * self.dt
+            if space:
+                self.linear_speed -= sign(self.linear_speed) * self.brake_acceleration * self.dt
 
 
     def move(self):
-        # applying speed limits
-        if self.linear_speed > self.linear_speed_limit_forward:
-            self.linear_speed = self.linear_speed_limit_forward
-        if self.linear_speed < -self.linear_speed_limit_backwards:
-            self.linear_speed = -self.linear_speed_limit_backwards
-        if abs(self.angular_speed) > self.angular_speed_limit:
-            self.angular_speed = sign(self.angular_speed) * self.angular_speed_limit
-
-        # Applying drag
-        self.linear_speed -= self.linear_speed * self.linear_drag * self.dt
-        self.angular_speed -= self.angular_speed * self.angular_drag * self.dt
-
-        # Updating rotation
-        self.rotation += self.angular_speed * self.dt * (abs(self.linear_speed)/self.linear_speed_limit_forward)**(1/4)
-
-        # Updating position
-        self.position[0] += self.linear_speed * cos(radians(self.rotation)) * self.dt
-        self.position[1] -= self.linear_speed * sin(radians(self.rotation)) * self.dt
+        if not self.movelocked:
+            # applying speed limits
+            if self.linear_speed > self.linear_speed_limit_forward:
+                self.linear_speed = self.linear_speed_limit_forward
+            if self.linear_speed < -self.linear_speed_limit_backwards:
+                self.linear_speed = -self.linear_speed_limit_backwards
+            if abs(self.angular_speed) > self.angular_speed_limit:
+                self.angular_speed = sign(self.angular_speed) * self.angular_speed_limit
+    
+            # Applying drag
+            self.linear_speed -= self.linear_speed * self.linear_drag * self.dt
+            self.angular_speed -= self.angular_speed * self.angular_drag * self.dt
+    
+            # Updating rotation
+            self.rotation += self.angular_speed * self.dt * (abs(self.linear_speed)/self.linear_speed_limit_forward)**(1/4)
+    
+            # Updating position
+            self.position[0] += self.linear_speed * cos(radians(self.rotation)) * self.dt
+            self.position[1] -= self.linear_speed * sin(radians(self.rotation)) * self.dt
 
 
     def render(self, screen, offset=[0, 0]):

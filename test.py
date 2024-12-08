@@ -2,8 +2,7 @@ import pygame
 
 from graphics import grass, shrubs
 from graphics.rendering import global_render
-from graphics.static_objects import StaticObject
-from general_game_mechanics.dynamic_objects import Vehicle
+from general_game_mechanics.dynamic_objects import DynamicObject
 from graphics.camera import Camera
 
 from world.particle_presets import flame
@@ -57,44 +56,73 @@ class Game:
         self.clock = pygame.time.Clock()
         self.mouse_x, self.mouse_y = None, None
 
-        self.player = Vehicle(type='vehicle', name='hippie_van', scale=1.3)
+        self.player = DynamicObject(type='vehicle', name='hippie_van', scale=1.3)
         self.player_start_position = [200, 200]
         self.player.position = [200, 200]
 
 
-        self.cop = Vehicle(type='vehicle', name='cop_car', scale=1.5)
+        self.cop = DynamicObject(type='vehicle', name='cop_car', scale=1.5)
         self.cop.scale = 1.5
         self.cop.position = [400, 400]
         self.cop.rotation = 25
 
 
-        self.hillbilly = Vehicle(type='vehicle', name='pickup_truck', scale=1.5)
+        self.hillbilly = DynamicObject(type='vehicle', name='pickup_truck', scale=1.5)
         self.hillbilly.scale = 1.5
-        self.hillbilly.position = [600, 600]
-        self.hillbilly.rotation = -15
+        self.hillbilly.position = [850, 580]
+        self.hillbilly.rotation = 30
 
 
-        self.shack_1 = StaticObject(type='building', name='shack', scale=2)
+        self.shack_1 = DynamicObject(type='building', name='shack', scale=2)
         self.shack_1.position = [530, 180]
         self.shack_1.rotation = -30
+        self.shack_1.movelocked = True
 
 
-        self.shack_2 = StaticObject(type='building', name='shack', scale=2)
+        self.shack_2 = DynamicObject(type='building', name='shack', scale=2)
         self.shack_2.position = [200, 450]
         self.shack_2.rotation = 10
+        self.shack_2.movelocked = True
 
 
 
-        self.barn = StaticObject(type='building', name='barn', scale=2.5)
+        self.barn = DynamicObject(type='building', name='barn', scale=2.5)
         self.barn.position = [750, 520]
         self.barn.rotation = 50
+        self.barn.movelocked = True
 
 
-        self.campfire = StaticObject(type='filler_object', name='campfire', scale=1.4)
+        self.hay_bale_1 = DynamicObject(type='filler_object', name='hay_bale_1', scale=1.5)
+        self.hay_bale_1.position = [780, 650]
+        self.hay_bale_1.rotation = 40
+
+        self.hay_bale_2 = DynamicObject(type='filler_object', name='hay_bale_1', scale=1.5)
+        self.hay_bale_2.position = [730, 690]
+        self.hay_bale_2.rotation = 30
+
+        self.hay_bale_3 = DynamicObject(type='filler_object', name='hay_bale_1', scale=1.5)
+        self.hay_bale_3.position = [800, 691]
+        self.hay_bale_3.rotation = 15
+
+        self.hay_bale_4 = DynamicObject(type='filler_object', name='hay_bale_2', scale=2)
+        self.hay_bale_4.position = [800, 800]
+        self.hay_bale_4.rotation = -60
+
+        self.hay_bale_5 = DynamicObject(type='filler_object', name='hay_bale_2', scale=2)
+        self.hay_bale_5.position = [700, 820]
+        self.hay_bale_5.rotation = -70
+
+
+        self.campfire = DynamicObject(type='filler_object', name='campfire', scale=1.4)
         self.campfire.position = [600, 500]
         self.campfire.rotation = 30
+        self.campfire.movelocked = True
+
+
         self.flame = flame
-        self.flame.position = (self.campfire.position[0], self.campfire.position[1] - 10)
+        self.flame.position = (self.campfire.position[0], self.campfire.position[1] - 18)
+        
+        
 
         self.grass_system = grass.GrassSystem(
             folder = 'assets/grass',
@@ -126,14 +154,7 @@ class Game:
             )
 
 
-        self.game_objects = [
-            self.player, self.cop, self.hillbilly,
-            self.shack_1, self.shack_2, self.barn,
-            self.campfire, self.flame
-            ]
-        self.game_objects += self.grass_system.tiles
-        self.game_objects += self.shrubs.plants
-        self.game_objects += self.fern.plants
+        self.game_objects = []
 
 
 
@@ -207,27 +228,52 @@ class Game:
         self.player.hitbox.handle_collision(self.hillbilly)
         self.cop.hitbox.handle_collision(self.hillbilly)
 
-
-        self.shack_1.rotate(camera_position)
-        self.shack_2.rotate(camera_position)
-        self.barn.rotate(camera_position)
-
-    
         self.flame.update()
+
+
+
+
+        """ APPLYING A SMALL ROTATION TO ALL SPRITESTACK OBJECTS BASED ON THEIR POSITION RELATIVE TO THE CAMERA """
+        objects_to_rotate_with_camera = [
+            self.player, self.cop, self.hillbilly,
+            self.shack_1, self.shack_2, self.barn,
+            self.hay_bale_1, self.hay_bale_2, self.hay_bale_3, self.hay_bale_4, self.hay_bale_5,
+            self.campfire, 
+        ]
+
+        for game_object in objects_to_rotate_with_camera:
+            game_object.rotate_with_camera(camera_position)
         
 
 
+
+        """ DYNAMIC SORTED RENDERING OF ALL GAME OBJECTS """
+        objects_to_render = [
+            self.player, self.cop, self.hillbilly,
+            self.shack_1, self.shack_2, self.barn,
+            self.campfire, self.flame,
+            self.hay_bale_1, self.hay_bale_2, self.hay_bale_3, self.hay_bale_4, self.hay_bale_5
+        ]
+        objects_to_render += self.grass_system.tiles
+        objects_to_render += self.shrubs.plants
+        objects_to_render += self.fern.plants
+
         global_render(
             self.screen,
-            self.game_objects,
+            objects_to_render,
             camera_size,
             camera_position,
             bend_objects=foliage_bend_objects,
             offset=offset
         )
-        self.player.hitbox.draw(self.screen, offset=offset)
+
+
+
+
+        """ DISPLAYING HITBOXES FOR MOVABLE OBJECTS """
+        """ self.player.hitbox.draw(self.screen, offset=offset)
         self.cop.hitbox.draw(self.screen, offset=offset)
-        self.hillbilly.hitbox.draw(self.screen, offset=offset)
+        self.hillbilly.hitbox.draw(self.screen, offset=offset) """
 
 
         display_fps(self.screen, self.clock, font)

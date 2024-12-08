@@ -5,9 +5,13 @@ from math import sqrt
 
 class Camera:
     def __init__(self, width, height, map_width, map_height):
-        self.rect = pygame.Rect(0, 0, width, height)
+
+        self.width = width
+        self.height = height
+        self.rect = pygame.Rect(0, 0, self.width, self.height)
         self.map_width = map_width
         self.map_height = map_height
+
 
         self.vx = 0
         self.vy = 0

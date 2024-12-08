@@ -28,7 +28,7 @@ def draw_rotated_image(image, rotation_point_x, rotation_point_y, screen, angle=
 
 
 class Branch:
-    def __init__(self, base_position, base_angle, stiffness, folder):
+    def __init__(self, base_position, base_angle, stiffness, folder, scale=1):
 
         self.base_position = base_position
         self.base_angle = base_angle
@@ -42,18 +42,25 @@ class Branch:
 
         self.total_angle_change = 0
 
-        self.initialize_branch(folder)
-
+        self.initialize_branch(folder, scale=scale)
         
         self.segment_startpoints = [
             [None, None] for _ in range(len(self.segment_images))
         ]
 
 
-    def initialize_branch(self, branch_folder):
+    def initialize_branch(self, branch_folder, scale):
         self.num_segments = len(os.listdir(branch_folder))
         for i in range(self.num_segments):
             segment_image = pygame.image.load(f'{branch_folder}/segment_{i}.png').convert_alpha()
+            if scale != 1:
+                segment_image = pygame.transform.scale(
+                    segment_image,
+                    (
+                        int(segment_image.get_width() * scale),
+                        int(segment_image.get_height() * scale)
+                    )
+                )
             self.segment_lengths.append(segment_image.get_height())
             self.segment_images.append(segment_image)
             self.segment_angles.append(self.base_angle)
@@ -135,7 +142,7 @@ class Branch:
 
 
 class Plant:
-    def __init__(self, folder, num_branches, position, base_angle_range, stiffness):
+    def __init__(self, folder, num_branches, position, base_angle_range, stiffness, scale=1):
 
         self.position = position
         self.image = None
@@ -150,16 +157,16 @@ class Plant:
 
         self.y0_offset = 0
         
-        self.initialize_plant(folder, base_angle_range, stiffness)
+        self.initialize_plant(folder, base_angle_range, stiffness, scale)
 
 
-    def initialize_plant(self, plant_folder, base_angle_range, stiffness):
+    def initialize_plant(self, plant_folder, base_angle_range, stiffness, scale):
         number_of_branch_variants = len(os.listdir(plant_folder))
         for k in range(0, self.num_branches):
             branch_base_angle = random.uniform(base_angle_range[0], base_angle_range[1])
             branch_variant_number = random.randint(0, number_of_branch_variants-1)
             branch_folder = f'{plant_folder}/branches/branch_{branch_variant_number}'
-            branch = Branch(self.position, branch_base_angle, stiffness, branch_folder)
+            branch = Branch(self.position, branch_base_angle, stiffness, branch_folder, scale=scale)
             self.branches.append(branch)
 
         # Creating single prerendered image for whole plant
@@ -189,7 +196,7 @@ class Plant:
 
     def render_detailed(self, screen, bendpoints, offset=[0, 0]):
         # calculating total force from all bendpoints
-        max_bend_factor = 0.3
+        max_bend_factor = 0.2
         bend_factor = 0
         bend_sign = 0
         total_bend_force = 0
@@ -235,7 +242,7 @@ class Plant:
 
 
 class PlantSystem:
-    def __init__(self, folder, num_branches_range, base_angle_range, stiffness_range, gravity, density):
+    def __init__(self, folder, num_branches_range, base_angle_range, stiffness_range, gravity, density, scale=1):
 
         self.num_branches_range = num_branches_range
         self.base_angle_range = base_angle_range
@@ -245,10 +252,10 @@ class PlantSystem:
         self.mask = 'test_mask.png'
         self.plants = []
         self.bend_objects = []
-        self.create_plants(folder, density)
+        self.create_plants(folder, density, scale)
 
 
-    def create_plants(self, plant_folder, density):
+    def create_plants(self, plant_folder, density, scale):
         mask = pygame.image.load(f'{plant_folder}/masks/{self.mask}').convert()
         mask_width = mask.get_width()
         mask_height = mask.get_height()
@@ -261,7 +268,7 @@ class PlantSystem:
                         position = (x, y)
                         num_branches = random.randint(self.num_branches_range[0], self.num_branches_range[1])
                         stiffness = random.uniform(self.stiffness_range[0], self.stiffness_range[1])
-                        plant = Plant(plant_folder, num_branches, position, self.base_angle_range, stiffness)
+                        plant = Plant(plant_folder, num_branches, position, self.base_angle_range, stiffness, scale=scale)
                         self.plants.append(plant)
 
 

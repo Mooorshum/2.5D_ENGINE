@@ -2,7 +2,7 @@ import pygame
 
 from graphics import grass, shrubs
 from graphics.rendering import global_render
-from general_game_mechanics.dynamic_objects import DynamicObject
+from general_game_mechanics.dynamic_objects import DynamicObject, Vehicle
 from graphics.camera import Camera
 
 from world.particle_presets import flame
@@ -36,15 +36,20 @@ class Game:
     def __init__(self):
         self.game_state = GameStates.PAUSED
 
-        self.map_width = 2000
-        self.map_height = 1000
+        self.map_width = 1500
+        self.map_height = 750
 
-        self.camera_width = 600
-        self.camera_height = 400
+        self.screen_width = 800
+        self.screen_height = 600
 
-        self.camera = Camera(self.camera_width, self.camera_height, self.map_width, self.map_height)
 
-        self.screen = pygame.display.set_mode((self.camera_width, self.camera_height))
+        self.render_width = 400
+        self.render_height = 300
+        self.render_surface = pygame.Surface((self.render_width, self.render_height))
+        self.camera = Camera(self.render_width, self.render_height, self.map_width, self.map_height)
+
+
+        self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
         
         self.background = pygame.image.load("background.png").convert()
 
@@ -56,79 +61,89 @@ class Game:
         self.clock = pygame.time.Clock()
         self.mouse_x, self.mouse_y = None, None
 
-        self.player = DynamicObject(type='vehicle', name='hippie_van', scale=1.3)
+        self.player = Vehicle(type='vehicle', name='hippie_van', scale=1)
         self.player_start_position = [200, 200]
         self.player.position = [200, 200]
 
 
-        self.cop = DynamicObject(type='vehicle', name='cop_car', scale=1.5)
-        self.cop.scale = 1.5
+        self.cop = Vehicle(type='vehicle', name='cop_car', scale=1)
         self.cop.position = [400, 400]
         self.cop.rotation = 25
 
 
-        self.hillbilly = DynamicObject(type='vehicle', name='pickup_truck', scale=1.5)
-        self.hillbilly.scale = 1.5
+        self.hillbilly = Vehicle(type='vehicle', name='pickup_truck', scale=1)
         self.hillbilly.position = [850, 580]
         self.hillbilly.rotation = 30
 
 
-        self.shack_1 = DynamicObject(type='building', name='shack', scale=2)
+        self.shack_1 = DynamicObject(type='building', name='shack', scale=1.5)
         self.shack_1.position = [530, 180]
         self.shack_1.rotation = -30
         self.shack_1.movelocked = True
 
 
-        self.shack_2 = DynamicObject(type='building', name='shack', scale=2)
+        self.shack_2 = DynamicObject(type='building', name='shack', scale=1.5)
         self.shack_2.position = [200, 450]
         self.shack_2.rotation = 10
         self.shack_2.movelocked = True
 
 
 
-        self.barn = DynamicObject(type='building', name='barn', scale=2.5)
+        self.barn = DynamicObject(type='building', name='barn', scale=2)
         self.barn.position = [750, 520]
         self.barn.rotation = 50
         self.barn.movelocked = True
 
 
-        self.hay_bale_1 = DynamicObject(type='filler_object', name='hay_bale_1', scale=1.5)
+        self.hay_bale_1 = DynamicObject(type='filler_object', name='hay_bale_1', scale=1)
         self.hay_bale_1.position = [780, 650]
         self.hay_bale_1.rotation = 40
+        self.hay_bale_1.mass = 100
 
-        self.hay_bale_2 = DynamicObject(type='filler_object', name='hay_bale_1', scale=1.5)
-        self.hay_bale_2.position = [730, 690]
+        self.hay_bale_2 = DynamicObject(type='filler_object', name='hay_bale_1', scale=1)
+        self.hay_bale_2.position = [730, 610]
         self.hay_bale_2.rotation = 30
+        self.hay_bale_2.mass = 100
 
-        self.hay_bale_3 = DynamicObject(type='filler_object', name='hay_bale_1', scale=1.5)
-        self.hay_bale_3.position = [800, 691]
+        self.hay_bale_3 = DynamicObject(type='filler_object', name='hay_bale_1', scale=1)
+        self.hay_bale_3.position = [760, 600]
         self.hay_bale_3.rotation = 15
+        self.hay_bale_3.mass = 100
 
-        self.hay_bale_4 = DynamicObject(type='filler_object', name='hay_bale_2', scale=2)
-        self.hay_bale_4.position = [800, 800]
-        self.hay_bale_4.rotation = -60
+        self.hay_bale_4 = DynamicObject(type='filler_object', name='hay_bale_2', scale=1.5)
+        self.hay_bale_4.position = [560, 610]
+        self.hay_bale_4.rotation = -20
+        self.hay_bale_4.mass = 500
 
-        self.hay_bale_5 = DynamicObject(type='filler_object', name='hay_bale_2', scale=2)
-        self.hay_bale_5.position = [700, 820]
+        self.hay_bale_5 = DynamicObject(type='filler_object', name='hay_bale_2', scale=1.5)
+        self.hay_bale_5.position = [580, 570]
         self.hay_bale_5.rotation = -70
+        self.hay_bale_5.mass = 500
 
 
-        self.campfire = DynamicObject(type='filler_object', name='campfire', scale=1.4)
+        self.wheelbarrow = DynamicObject(type='filler_object', name='wheelbarrow', scale=1.2)
+        self.wheelbarrow.position = [630, 570]
+        self.wheelbarrow.rotation = 50
+        self.wheelbarrow.mass = 100
+
+
+        self.campfire = DynamicObject(type='filler_object', name='campfire', scale=1)
         self.campfire.position = [600, 500]
         self.campfire.rotation = 30
         self.campfire.movelocked = True
 
 
         self.flame = flame
-        self.flame.position = (self.campfire.position[0], self.campfire.position[1] - 18)
+        self.flame.position = (self.campfire.position[0], self.campfire.position[1] - 5)
         
-        
+
 
         self.grass_system = grass.GrassSystem(
             folder = 'assets/grass',
-            tile_size=30,
+            tile_size=20,
             blades_per_tile=5,
-            stiffness=0.03
+            stiffness=0.03,
+            scale=0.5
         )
 
 
@@ -137,24 +152,42 @@ class Game:
         self.shrubs = shrubs.PlantSystem(
             folder='assets/branchy_bush',
             num_branches_range = (1,7),
-            base_angle_range = (-1, 1),
+            base_angle_range = (-1.2, 1.2),
             stiffness_range = (0.01, 0.2),
             gravity = 0.1,
-            density = 1 
+            density = 1,
+            scale=0.5
             )
 
 
         self.fern = shrubs.PlantSystem(
             folder='assets/fern',
-            num_branches_range = (3,7),
-            base_angle_range = (-2, 2),
+            num_branches_range = (5,8),
+            base_angle_range = (-1.2, 1.2),
             stiffness_range = (0.01, 0.2),
             gravity = 0.1,
-            density = 1
+            density = 1,
+            scale=0.75
             )
 
 
-        self.game_objects = []
+
+
+
+
+
+
+
+        self.rendered_objects = [
+            self.player, self.cop, self.hillbilly,
+            self.shack_1, self.shack_2, self.barn,
+            self.campfire, self.flame,
+            self.wheelbarrow,
+            self.hay_bale_1, self.hay_bale_2, self.hay_bale_3, self.hay_bale_4, self.hay_bale_5
+        ]
+        self.rendered_objects += self.grass_system.tiles
+        self.rendered_objects += self.shrubs.plants
+        self.rendered_objects += self.fern.plants
 
 
 
@@ -197,38 +230,57 @@ class Game:
         display_fps(self.screen, self.clock, font)
 
 
-        self.camera.follow(self.player.position)
 
-        self.screen.blit(
-            self.background,
-            (0, 0),
-            self.camera.rect
-        )
 
         offset = [-self.camera.rect.x, -self.camera.rect.y]
 
-        camera_position = self.camera.rect.center
-        camera_size = (self.camera_width, self.camera_height)
 
-        foliage_bend_objects= [self.player, self.cop]
 
-        self.grass_system.bend_objects = foliage_bend_objects
+
+
+        self.render_surface.fill((105, 66, 56))
+
+
+        
+        self.camera.follow(self.player.position)
+
+        
         self.grass_system.apply_wind(1/20, self.time)
 
-
-        self.shrubs.bend_objects = foliage_bend_objects
-        self.fern.bend_objects = foliage_bend_objects
-        
 
         self.player.move()
         self.cop.move()
         self.hillbilly.move()
 
-        self.player.hitbox.handle_collision(self.cop)
-        self.player.hitbox.handle_collision(self.hillbilly)
-        self.cop.hitbox.handle_collision(self.hillbilly)
+
+        """ HANDLING COLLISIONS """
+        colliding_objects = [
+            self.player, self.cop, self.hillbilly,
+            self.hay_bale_1, self.hay_bale_2, self.hay_bale_3, self.hay_bale_4, self.hay_bale_5,
+            self.wheelbarrow,
+        ]
+        for object_1 in colliding_objects:
+            for object_2 in colliding_objects:
+                if object_1 != object_2:
+                    object_1.hitbox.handle_collision(object_2)
+
 
         self.flame.update()
+
+
+
+
+
+        """ OBJECTS THAT BEND PLANTS AND GRASS """
+        self.foliage_bend_objects= [
+            self.player, self.cop, self.hillbilly,
+            self.hay_bale_1, self.hay_bale_2, self.hay_bale_3, self.hay_bale_4, self.hay_bale_5,
+            self.wheelbarrow,
+        ]
+        self.grass_system.bend_objects = self.foliage_bend_objects
+        self.shrubs.bend_objects = self.foliage_bend_objects
+        self.fern.bend_objects = self.foliage_bend_objects
+
 
 
 
@@ -238,36 +290,28 @@ class Game:
             self.player, self.cop, self.hillbilly,
             self.shack_1, self.shack_2, self.barn,
             self.hay_bale_1, self.hay_bale_2, self.hay_bale_3, self.hay_bale_4, self.hay_bale_5,
+            self.wheelbarrow,
             self.campfire, 
         ]
-
         for game_object in objects_to_rotate_with_camera:
-            game_object.rotate_with_camera(camera_position)
+            game_object.rotate_with_camera(self.camera)
         
 
 
 
         """ DYNAMIC SORTED RENDERING OF ALL GAME OBJECTS """
-        objects_to_render = [
-            self.player, self.cop, self.hillbilly,
-            self.shack_1, self.shack_2, self.barn,
-            self.campfire, self.flame,
-            self.hay_bale_1, self.hay_bale_2, self.hay_bale_3, self.hay_bale_4, self.hay_bale_5
-        ]
-        objects_to_render += self.grass_system.tiles
-        objects_to_render += self.shrubs.plants
-        objects_to_render += self.fern.plants
-
         global_render(
-            self.screen,
-            objects_to_render,
-            camera_size,
-            camera_position,
-            bend_objects=foliage_bend_objects,
+            self.render_surface,
+            self.camera,
+            self.rendered_objects,
+            bend_objects=self.foliage_bend_objects,
             offset=offset
         )
 
 
+
+        upscaled_surface = pygame.transform.scale(self.render_surface, (self.screen_width, self.screen_height))
+        self.screen.blit(upscaled_surface, (0, 0))
 
 
         """ DISPLAYING HITBOXES FOR MOVABLE OBJECTS """
@@ -278,6 +322,7 @@ class Game:
 
         display_fps(self.screen, self.clock, font)
 
+        
 
         self.time += 1
 

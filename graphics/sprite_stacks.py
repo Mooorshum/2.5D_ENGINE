@@ -66,7 +66,9 @@ class SpritestackModel:
         )
 
 
-    def rotate_with_camera(self, camera_position):
+    def rotate_with_camera(self, camera):
+        camera_position = camera.rect.center
+        
         dx = camera_position[0] - self.position[0]
         dy = camera_position[1] - self.position[1]
 

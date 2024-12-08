@@ -37,7 +37,7 @@ flame.colours = (
     FLAME_ORANGE_7, FLAME_ORANGE_8, FLAME_ORANGE_9
 )
 flame.max_count = 100
-flame.r_range = (1, 15)
+flame.r_range = (1, 10)
 flame.lifetime_range = (10, 80)
 flame.acceleration_range = (20, 100)
-flame.ay_system = -150
+flame.ay_system = -100

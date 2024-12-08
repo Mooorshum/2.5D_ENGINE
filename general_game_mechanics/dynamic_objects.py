@@ -6,86 +6,9 @@ import pygame
 from general_game_mechanics.collisions import Hitbox
 
 from graphics.particles import ParticleSystem
-from graphics.sprite_stacks import render_stack, split_stack_image, SpritestackModel
+from graphics.sprite_stacks import SpritestackModel
 
 
-
-
-
-
-
-""" class Vehicle(SpritestackModel):
-    def __init__(self, type=None, name=None, scale=1):
-        super().__init__(type, name, scale)
-
-        self.mass = 1000
-        self.movespeed = 40
-        self.speed_limit = 100
-        self.drag = 0.05
-        self.dt = 0.1
-
-        self.rotation = 0
-        self.vx = 0
-        self.vy = 0
-        self.ax = 0
-        self.ay = 0
-
-        self.hitbox = Hitbox(self)
-
-        # Dustcloud settings
-        self.dust = ParticleSystem()
-        DUST_BROWN_1 = (184, 160, 133)
-        DUST_BROWN_2 = (181, 153, 140)
-        DUST_BROWN_3 = (181, 153, 140)
-        DUST_BROWN_4 = (199, 186, 151)
-        self.dust.colours = (
-            DUST_BROWN_1, DUST_BROWN_2, DUST_BROWN_3, DUST_BROWN_4,
-        )
-        self.dust.lifetime_range = (10, 100)
-        self.dust.acceleration_range = (10, 50)
-        self.dust.ay_system = -30
-        self.max_dustcloud_size = 20
-        self.dust_particles_max_count = 50
-
-
-    def handle_movement(self, keys):
-        move_left = keys[pygame.K_LEFT]
-        move_right = keys[pygame.K_RIGHT]
-        move_up = keys[pygame.K_UP]
-        move_down = keys[pygame.K_DOWN]
-        ax, ay = 0, 0
-        if move_left:
-            ax = -self.movespeed
-        if move_right:
-            ax = self.movespeed
-        if move_up:
-            ay = -self.movespeed
-        if move_down:
-            ay = self.movespeed
-        # limiting the object's speed
-        if sqrt(self.vx**2 + self.vy**2) > self.speed_limit:
-            ax = 0
-            ay = 0
-        self.vx += ax * self.dt
-        self.vy += ay * self.dt
-
-
-    def move(self):
-        new_x = self.position[0] + self.vx * self.dt
-        new_y = self.position[1] + self.vy * self.dt
-        self.vx -= self.vx*self.drag
-        self.vy -= self.vy*self.drag
-        self.position[0] = new_x
-        self.position[1] = new_y
-        self.rotation = degrees(-atan2(self.vy, self.vx))
-
-    def draw_dust(self, screen):
-        self.dust.position = self.position
-        factor = sqrt(self.vx**2 + self.vy**2)/self.speed_limit
-        self.dust.r_range = (0, round(self.max_dustcloud_size*factor))
-        self.dust.max_count = self.dust_particles_max_count * factor
-        self.dust.update_particles()
-        self.dust.draw_particles(screen) """
 
 
 
@@ -93,29 +16,59 @@ class DynamicObject(SpritestackModel):
     def __init__(self, type=None, name=None, scale=1):
         super().__init__(type, name, scale)
 
-        self.movelocked = False
-
         self.mass = 1000
 
-        self.linear_acceleration_forward = 10
-        self.linear_speed_limit_forward = 80
+        self.v_drag = 0.01
+        self.omega_drag = 0.005
+        self.dt = 0.01
 
-        self.linear_acceleration_backwards = 5
-        self.linear_speed_limit_backwards = 20
-
-        self.anglular_acceleration = 25
-        self.angular_speed_limit = 25
-
-        self.brake_acceleration = 10
-        self.linear_drag = 0.1
-        self.angular_drag = 0.5
-        self.dt = 0.1
-
+        self.position = [0, 0]
         self.rotation = 0
-        self.angular_speed = 0
-        self.linear_speed = 0
+
+        self.vx = 0
+        self.vy = 0
+        self.omega = 0
+
+        self.ax = 0
+        self.ay = 0
+        self.a_omega = 0
+
+        self.movelocked = False
 
         self.hitbox = Hitbox(self)
+
+
+    def move(self):
+        if not self.movelocked:
+
+            new_vx = (self.vx + self.ax * self.dt) * ( 1 - self.v_drag)
+            new_vy = (self.vy + self.ay * self.dt) * ( 1 - self.v_drag) #################### !!!!!!!!!!!!!!     + self.ay   OR   - self.ay ?
+            new_omega = (self.omega +  self.a_omega * self.dt) * ( 1 - self.omega_drag)
+
+            new_x = self.position[0] + new_vx * self.dt
+            new_y = self.position[1] - new_vy * self.dt
+            new_rotation = self.rotation + new_omega * self.dt
+
+            self.position[0] = new_x
+            self.position[1] = new_y
+            self.rotation = new_rotation
+
+            self.vx = new_vx
+            self.vy = new_vy
+            self.omega = new_omega
+
+
+            
+
+
+
+
+
+            
+
+class Vehicle(DynamicObject):
+    def __init__(self, type=None, name=None, scale=1):
+        super().__init__(type, name, scale)
 
         # Dustcloud settings
         self.dust = ParticleSystem()
@@ -132,52 +85,98 @@ class DynamicObject(SpritestackModel):
         self.max_dustcloud_size = 20
         self.dust_particles_max_count = 50
 
+        # SPEED_LIMIT
+        self.max_speed = 400
+
+        # ACCELERATION
+        self.driving_acceleration = 500
+        self.steering_acceleration = 1000
+
+        # DRAG
+        self.braking_drag = 0.05
+        self.omega_drag = 0.03
+
+        self.turn_left = False
+        self.turn_right = False
+        self.accelerate = False
+        self.reverse = False
+        self.brake = False
+
+        self.hitbox = Hitbox(self)
+
 
     def handle_movement(self, keys):
-        move_left = keys[pygame.K_LEFT]
-        move_right = keys[pygame.K_RIGHT]
-        move_up = keys[pygame.K_UP]
-        move_down = keys[pygame.K_DOWN]
-        space = keys[pygame.K_SPACE]
-
-        if self.type=='vehicle':
-            if move_left:
-                self.angular_speed += self.anglular_acceleration * self.dt
-            if move_right:
-                self.angular_speed -= self.anglular_acceleration * self.dt
-            if move_up:
-                self.linear_speed += self.linear_acceleration_forward * self.dt
-            if move_down:
-                self.linear_speed -= self.linear_acceleration_backwards * self.dt
-            if space:
-                self.linear_speed -= sign(self.linear_speed) * self.brake_acceleration * self.dt
+        self.turn_left = keys[pygame.K_LEFT]
+        self.turn_right = keys[pygame.K_RIGHT]
+        self.accelerate = keys[pygame.K_UP]
+        self.reverse = keys[pygame.K_DOWN]
+        self.brake = keys[pygame.K_SPACE]
 
 
     def move(self):
-        if not self.movelocked:
-            # applying speed limits
-            if self.linear_speed > self.linear_speed_limit_forward:
-                self.linear_speed = self.linear_speed_limit_forward
-            if self.linear_speed < -self.linear_speed_limit_backwards:
-                self.linear_speed = -self.linear_speed_limit_backwards
-            if abs(self.angular_speed) > self.angular_speed_limit:
-                self.angular_speed = sign(self.angular_speed) * self.angular_speed_limit
-    
-            # Applying drag
-            self.linear_speed -= self.linear_speed * self.linear_drag * self.dt
-            self.angular_speed -= self.angular_speed * self.angular_drag * self.dt
-    
-            # Updating rotation
-            self.rotation += self.angular_speed * self.dt * (abs(self.linear_speed)/self.linear_speed_limit_forward)**(1/4)
-    
-            # Updating position
-            self.position[0] += self.linear_speed * cos(radians(self.rotation)) * self.dt
-            self.position[1] -= self.linear_speed * sin(radians(self.rotation)) * self.dt
+
+        current_driving_acceleration = 0
+        current_steering_acceleration = 0
+        current_speed = sqrt(self.vx**2 + self.vy**2)
+
+        steering_speed_factor = current_speed / self.max_speed
+        if steering_speed_factor < 0.75:
+            steering_speed_factor = 0.75
+        if current_speed < 200:
+            steering_speed_factor = 0.4
+        if current_speed < 100:
+            steering_speed_factor = 0.3
+        if current_speed < 30:
+            steering_speed_factor = 0
+
+        if self.turn_left:
+            current_steering_acceleration = self.steering_acceleration * steering_speed_factor
+        if self.turn_right:
+            current_steering_acceleration = -self.steering_acceleration * steering_speed_factor
+
+        if self.accelerate:
+            current_driving_acceleration = self.driving_acceleration
+
+        if self.reverse:
+            current_driving_acceleration = -self.driving_acceleration
+
+        if self.brake:
+            self.vx *= 1 - self.braking_drag
+            self.vy *= 1 - self.braking_drag
+            self.omega *= (1 - self.braking_drag/10)
+
+        # Applying speed limits
+        if current_speed > self.max_speed:
+            current_driving_acceleration = 0
+
+        self.ax = current_driving_acceleration * cos(radians(self.rotation))
+        self.ay = current_driving_acceleration * sin(radians(self.rotation))
+        self.a_omega = current_steering_acceleration
+
+        super().move()
+
+        """ # Gradually align velocity direction with the rotation angle
+        if not (abs(self.vx) < 1e-3 and abs(self.vy) < 1e-3):
+            current_angle = atan2(self.vy, self.vx)
+            forward_angle = radians(self.rotation)
+            reverse_angle = radians(self.rotation) - pi
+            forward_diff = (forward_angle - current_angle + pi) % (2 * pi) - pi
+            reverse_diff = (reverse_angle - current_angle + pi) % (2 * pi) - pi
+            if abs(forward_diff) < abs(reverse_diff):
+                angle_diff = forward_diff
+            else:
+                angle_diff = reverse_diff
+            align_factor = 1.1 - sqrt(self.vx**2 + self.vy**2) / self.max_speed # LOWER VALUE PROVIDES MORE DRIFT
+            align_factor = max(0, min(align_factor, 1))
+            adjusted_angle = current_angle + angle_diff * align_factor
+            speed = sqrt(self.vx**2 + self.vy**2)
+            self.vx = speed * cos(adjusted_angle)
+            self.vy = speed * sin(adjusted_angle) """
 
 
     def render(self, screen, offset=[0, 0]):
         self.dust.position = self.position
-        factor = abs(self.linear_speed)/self.linear_speed_limit_forward
+        factor = sqrt(self.vx**2 + self.vy**2)/self.max_speed
         self.dust.r_range = (0, round(self.max_dustcloud_size*factor))
         self.dust.max_count = self.dust_particles_max_count * factor
         self.dust.update()

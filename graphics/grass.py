@@ -153,7 +153,7 @@ class GrassTile:
         
         for bendpoint in bendpoints:
             dist = sqrt((bendpoint[0] - self.position[0])**2 + (bendpoint[1] - self.position[1])**2)
-            if dist < (bend_object.hitbox_size[1] + 10):
+            if dist < (bend_object.hitbox_size[1]):
                 self.relaxed = False
 
         # If the tile has been bent, and has not yet returned to a cached state

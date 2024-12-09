@@ -41,8 +41,8 @@ class Hitbox:
 
 
     def handle_collision(self,  colliding_object):
-        pass
-        displacement = 1
+        displacement = 2
+        damping = 0.6
         if self.type == 'circle' and colliding_object.hitbox.type == 'circle':
             dx = (self.object.position[0]) - (colliding_object.position[0])
             dy = (self.object.position[1]) - (colliding_object.position[1])
@@ -65,8 +65,8 @@ class Hitbox:
 
                 impulse = (2 * velocity_normal) / (self.object.mass + colliding_object.mass)
 
-                object_vx -= impulse * colliding_object.mass * normal_x
-                object_vy -= impulse * colliding_object.mass * normal_y
+                object_vx -= impulse * colliding_object.mass * normal_x * damping
+                object_vy -= impulse * colliding_object.mass * normal_y * damping
 
                 colliding_object_vx += impulse * self.object.mass * normal_x
                 colliding_object_vy += impulse * self.object.mass * normal_y
@@ -81,4 +81,43 @@ class Hitbox:
                 self.object.position[1] += displacement * normal_y
                 colliding_object.position[0] -= displacement * normal_x
                 colliding_object.position[1] -= displacement * normal_y
+
+
+
+                """ APPLY A COLLISION-DIRECTION DEPENDENT SPIN """
+                SPIN_SENSITIVITY = 1
+
+                dx = colliding_object.position[0] - self.object.position[0]
+                dy = colliding_object.position[1] - self.object.position[1]
+
+                distance = sqrt(dx**2 + dy**2)
+
+                global_coordinates_relative_v_angle = atan2(dy, dx) # ALPHA
+                object_coordinates_relative_v_angle = global_coordinates_relative_v_angle + radians(colliding_object.rotation) # BETA
+
+                global_coordinates_relative_vx = colliding_object.vx - self.object.vx
+                global_coordinates_relative_vy = colliding_object.vy - self.object.vy
+
+                cos_object_rotation = cos(radians(colliding_object.rotation))
+                sin_object_rotation = sin(radians(colliding_object.rotation))
+
+                object_coordinates_relative_vy = -global_coordinates_relative_vx * sin_object_rotation + global_coordinates_relative_vy * cos_object_rotation
+                
+                spin_v_factor = object_coordinates_relative_vy
+                spin_collision_offset_factor =  cos(global_coordinates_relative_v_angle + object_coordinates_relative_v_angle)
+                
+                if object_coordinates_relative_v_angle % 2*pi > -pi/2 and object_coordinates_relative_v_angle % 2*pi < pi/2:
+                    spin_direction_factor = 1
+                else:
+                    spin_direction_factor = -1
+
+                colliding_object.omega += spin_v_factor * spin_direction_factor * spin_collision_offset_factor * SPIN_SENSITIVITY * self.object.mass / (self.object.mass + colliding_object.mass)
+                self.object.omega -= spin_v_factor * spin_direction_factor * spin_collision_offset_factor * SPIN_SENSITIVITY * colliding_object.mass / (colliding_object.mass + colliding_object.mass)
+
+
+
+
+
+
+
 

@@ -18,8 +18,8 @@ class DynamicObject(SpritestackModel):
 
         self.mass = 1000
 
-        self.v_drag = 0.01
-        self.omega_drag = 0.005
+        self.v_drag = 0.03
+        self.omega_drag = 0.05
         self.dt = 0.01
 
         self.position = [0, 0]
@@ -89,12 +89,12 @@ class Vehicle(DynamicObject):
         self.max_speed = 400
 
         # ACCELERATION
-        self.driving_acceleration = 500
-        self.steering_acceleration = 1000
+        self.driving_acceleration = 2000
+        self.steering_acceleration = 1500
 
         # DRAG
         self.braking_drag = 0.05
-        self.omega_drag = 0.03
+        self.omega_drag = 0.02
 
         self.turn_left = False
         self.turn_right = False
@@ -155,8 +155,8 @@ class Vehicle(DynamicObject):
 
         super().move()
 
-        """ # Gradually align velocity direction with the rotation angle
-        if not (abs(self.vx) < 1e-3 and abs(self.vy) < 1e-3):
+        # Gradually align velocity direction with the rotation angle when accelerating or braking
+        if self.accelerate or self.brake:
             current_angle = atan2(self.vy, self.vx)
             forward_angle = radians(self.rotation)
             reverse_angle = radians(self.rotation) - pi
@@ -171,7 +171,7 @@ class Vehicle(DynamicObject):
             adjusted_angle = current_angle + angle_diff * align_factor
             speed = sqrt(self.vx**2 + self.vy**2)
             self.vx = speed * cos(adjusted_angle)
-            self.vy = speed * sin(adjusted_angle) """
+            self.vy = speed * sin(adjusted_angle)
 
 
     def render(self, screen, offset=[0, 0]):

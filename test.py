@@ -66,9 +66,13 @@ class Game:
         self.player.position = [200, 200]
 
 
-        self.cop = Vehicle(type='vehicle', name='cop_car', scale=1)
-        self.cop.position = [400, 400]
-        self.cop.rotation = 25
+        self.cop_1 = Vehicle(type='vehicle', name='cop_car', scale=1)
+        self.cop_1.position = [400, 400]
+        self.cop_1.rotation = 25
+
+        self.cop_2 = Vehicle(type='vehicle', name='cop_car', scale=1)
+        self.cop_2.position = [400, 200]
+        self.cop_2.rotation = 70
 
 
         self.hillbilly = Vehicle(type='vehicle', name='pickup_truck', scale=1)
@@ -173,13 +177,9 @@ class Game:
 
 
 
-
-
-
-
-
+        """ OBJECTS THAT SHOULD BE RENDERED """
         self.rendered_objects = [
-            self.player, self.cop, self.hillbilly,
+            self.player, self.cop_1, self.cop_2, self.hillbilly,
             self.shack_1, self.shack_2, self.barn,
             self.campfire, self.flame,
             self.wheelbarrow,
@@ -188,6 +188,17 @@ class Game:
         self.rendered_objects += self.grass_system.tiles
         self.rendered_objects += self.shrubs.plants
         self.rendered_objects += self.fern.plants
+
+
+
+
+        """ OBJECTS THAT CAN COLLIDE, BEND GRASS ETC """
+        self.dynamic_objects = [
+            self.player, self.cop_1, self.cop_2, self.hillbilly,
+            self.wheelbarrow,
+            self.hay_bale_1, self.hay_bale_2, self.hay_bale_3, self.hay_bale_4, self.hay_bale_5
+        ]
+
 
 
 
@@ -235,30 +246,18 @@ class Game:
         offset = [-self.camera.rect.x, -self.camera.rect.y]
 
 
-
-
-
         self.render_surface.fill((105, 66, 56))
 
-
-        
         self.camera.follow(self.player.position)
 
-        
         self.grass_system.apply_wind(1/20, self.time)
 
-
-        self.player.move()
-        self.cop.move()
-        self.hillbilly.move()
+        for dynamic_object in self.dynamic_objects:
+            dynamic_object.move()
 
 
         """ HANDLING COLLISIONS """
-        colliding_objects = [
-            self.player, self.cop, self.hillbilly,
-            self.hay_bale_1, self.hay_bale_2, self.hay_bale_3, self.hay_bale_4, self.hay_bale_5,
-            self.wheelbarrow,
-        ]
+        colliding_objects = self.dynamic_objects
         for object_1 in colliding_objects:
             for object_2 in colliding_objects:
                 if object_1 != object_2:
@@ -272,11 +271,7 @@ class Game:
 
 
         """ OBJECTS THAT BEND PLANTS AND GRASS """
-        self.foliage_bend_objects= [
-            self.player, self.cop, self.hillbilly,
-            self.hay_bale_1, self.hay_bale_2, self.hay_bale_3, self.hay_bale_4, self.hay_bale_5,
-            self.wheelbarrow,
-        ]
+        self.foliage_bend_objects= self.dynamic_objects
         self.grass_system.bend_objects = self.foliage_bend_objects
         self.shrubs.bend_objects = self.foliage_bend_objects
         self.fern.bend_objects = self.foliage_bend_objects
@@ -287,7 +282,7 @@ class Game:
 
         """ APPLYING A SMALL ROTATION TO ALL SPRITESTACK OBJECTS BASED ON THEIR POSITION RELATIVE TO THE CAMERA """
         objects_to_rotate_with_camera = [
-            self.player, self.cop, self.hillbilly,
+            self.player, self.cop_1, self.cop_2, self.hillbilly,
             self.shack_1, self.shack_2, self.barn,
             self.hay_bale_1, self.hay_bale_2, self.hay_bale_3, self.hay_bale_4, self.hay_bale_5,
             self.wheelbarrow,

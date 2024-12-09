@@ -148,8 +148,6 @@ class Plant:
         self.image = None
         self.num_branches = num_branches
 
-        self.hitbox_radius = 50
-
         self.branches = []
 
         self.total_angle_change = 0
@@ -194,19 +192,19 @@ class Plant:
                                      self.position[1] - self.image.get_height() // 2 + offset[1]))
 
 
-    def render_detailed(self, screen, bendpoints, offset=[0, 0]):
+    def render_detailed(self, screen, bend_objects, offset=[0, 0]):
         # calculating total force from all bendpoints
         max_bend_factor = 0.2
         bend_factor = 0
         bend_sign = 0
         total_bend_force = 0
         total_angle_change = 0
-        for bendpoint in bendpoints:
-            if abs(self.position[0] - bendpoint[0]) <= self.hitbox_radius:
-                if abs(self.position[1] - bendpoint[1]) <= self.hitbox_radius:
-                    abs_distance_to_plant = sqrt((self.position[0] - bendpoint[0])**2 + (self.position[1] - bendpoint[1])**2)
-                    bend_sign = copysign(1, self.position[0] - bendpoint[0])
-                    bend_factor = min(max_bend_factor, (abs_distance_to_plant / self.hitbox_radius))
+        for bend_object in bend_objects:
+            hitbox_radius = sqrt(bend_object.hitbox_size[0]**2 + bend_object.hitbox_size[0]**2) / 2
+            if sqrt((self.position[0] - bend_object.position[0])**2 + (self.position[1] - bend_object.position[1])**2) <= hitbox_radius:
+                    abs_distance_to_plant = sqrt((self.position[0] - bend_object.position[0])**2 + (self.position[1] - bend_object.position[1])**2)
+                    bend_sign = copysign(1, self.position[0] - bend_object.position[0])
+                    bend_factor = min(max_bend_factor, (abs_distance_to_plant / hitbox_radius))
                     total_bend_force += bend_sign * bend_factor
 
         # updating and rendering all branches
@@ -222,16 +220,13 @@ class Plant:
 
         # monitoring if the plant is currently being bent
         is_bent = False
-        bendpoints = []
         for bend_object in bend_objects:
-            bendpoint = (bend_object.position[0], bend_object.position[1])
-            bendpoints.append(bendpoint)
-            if sqrt((self.position[0] - bendpoint[0])**2 + (self.position[1] - bendpoint[1])**2) <= self.hitbox_radius:
+            if sqrt((self.position[0] - bend_object.position[0])**2 + (self.position[1] - bend_object.position[1])**2) <= sqrt(bend_object.hitbox_size[0]**2 + bend_object.hitbox_size[1]**2) / 2:
                 is_bent = True
         self.is_bent = is_bent
 
         if (self.total_angle_change > min_angle_change_for_detailed_render) or (self.is_bent):
-            self.render_detailed(screen, bendpoints, offset)
+            self.render_detailed(screen, bend_objects, offset)
         else:
             self.render_simple(screen, offset)
 

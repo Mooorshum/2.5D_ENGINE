@@ -144,8 +144,8 @@ class Game:
 
         self.grass_system = grass.GrassSystem(
             folder = 'assets/grass',
-            tile_size=20,
-            blades_per_tile=5,
+            tile_size=25,
+            blades_per_tile=10,
             stiffness=0.03,
             scale=0.5
         )

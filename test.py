@@ -42,14 +42,14 @@ class Game:
         self.screen_width = 800
         self.screen_height = 600
 
-
         self.render_width = 400
         self.render_height = 300
+
         self.render_surface = pygame.Surface((self.render_width, self.render_height))
-        self.camera = Camera(self.render_width, self.render_height, self.map_width, self.map_height)
-
-
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
+
+        self.camera = Camera(self.render_width, self.render_height, self.map_width, self.map_height)
+        
         
         self.background = pygame.image.load("background.png").convert()
 
@@ -63,7 +63,8 @@ class Game:
 
         self.player = Vehicle(type='vehicle', name='hippie_van', scale=1)
         self.player_start_position = [200, 200]
-        self.player.position = [200, 200]
+        self.player.position = [500, 500]
+        self.camera.position = [300, 300]
 
 
         self.cop_1 = Vehicle(type='vehicle', name='cop_car', scale=1)
@@ -80,23 +81,56 @@ class Game:
         self.hillbilly.rotation = 30
 
 
-        self.shack_1 = DynamicObject(type='building', name='shack', scale=1.5)
+        self.well = DynamicObject(type='filler_object', name='well', scale=1)
+        self.well.position = [510, 320]
+        self.well.rotation = 20
+        self.well.movelocked = True
+
+        self.shack_1 = DynamicObject(type='building', name='shack', scale=1)
         self.shack_1.position = [530, 180]
         self.shack_1.rotation = -30
         self.shack_1.movelocked = True
 
 
-        self.shack_2 = DynamicObject(type='building', name='shack', scale=1.5)
+        self.shack_2 = DynamicObject(type='building', name='shack', scale=1)
         self.shack_2.position = [200, 450]
         self.shack_2.rotation = 10
         self.shack_2.movelocked = True
 
 
 
-        self.barn = DynamicObject(type='building', name='barn', scale=2)
+        self.barn = DynamicObject(type='building', name='barn', scale=1)
         self.barn.position = [750, 520]
         self.barn.rotation = 50
         self.barn.movelocked = True
+
+
+        self.crate_1 = DynamicObject(type='filler_object', name='crate_1', scale=1)
+        self.crate_1.position = [500, 550]
+        self.crate_1.rotation = 50
+        self.crate_1.mass = 100
+
+
+        self.crate_2 = DynamicObject(type='filler_object', name='crate_1', scale=1)
+        self.crate_2.position = [560, 570]
+        self.crate_2.rotation = 20
+        self.crate_2.mass = 100
+
+        self.bottle_1 = DynamicObject(type='filler_object', name='bottle', scale=1)
+        self.bottle_1.position = [570, 570]
+        self.bottle_1.rotation = -35
+        self.bottle_1.mass = 10
+        
+
+        self.bottle_2 = DynamicObject(type='filler_object', name='bottle', scale=1)
+        self.bottle_2.position = [500, 600]
+        self.bottle_2.rotation = -45
+        self.bottle_2.mass = 10
+
+        self.bottle_3 = DynamicObject(type='filler_object', name='bottle', scale=1)
+        self.bottle_3.position = [510, 590]
+        self.bottle_3.rotation = 60
+        self.bottle_3.mass = 10
 
 
         self.hay_bale_1 = DynamicObject(type='filler_object', name='hay_bale_1', scale=1)
@@ -138,7 +172,7 @@ class Game:
 
 
         self.flame = flame
-        self.flame.position = (self.campfire.position[0], self.campfire.position[1] - 5)
+        self.flame.position = [self.campfire.position[0], self.campfire.position[1] - 5, -5]
         
 
 
@@ -180,10 +214,13 @@ class Game:
         """ OBJECTS THAT SHOULD BE RENDERED """
         self.rendered_objects = [
             self.player, self.cop_1, self.cop_2, self.hillbilly,
+            self.well,
             self.shack_1, self.shack_2, self.barn,
             self.campfire, self.flame,
             self.wheelbarrow,
-            self.hay_bale_1, self.hay_bale_2, self.hay_bale_3, self.hay_bale_4, self.hay_bale_5
+            self.hay_bale_1, self.hay_bale_2, self.hay_bale_3, self.hay_bale_4, self.hay_bale_5,
+            self.crate_1, self.crate_2,
+            self.bottle_1, self.bottle_2, self.bottle_3,
         ]
         self.rendered_objects += self.grass_system.tiles
         self.rendered_objects += self.shrubs.plants
@@ -196,7 +233,9 @@ class Game:
         self.dynamic_objects = [
             self.player, self.cop_1, self.cop_2, self.hillbilly,
             self.wheelbarrow,
-            self.hay_bale_1, self.hay_bale_2, self.hay_bale_3, self.hay_bale_4, self.hay_bale_5
+            self.hay_bale_1, self.hay_bale_2, self.hay_bale_3, self.hay_bale_4, self.hay_bale_5,
+            self.crate_1, self.crate_2,
+            self.bottle_1, self.bottle_2, self.bottle_3,
         ]
 
 
@@ -235,6 +274,7 @@ class Game:
             self.game_state = GameStates.PAUSED
 
         self.player.handle_movement(keys)
+        self.camera.handle_movement(keys)
 
 
     def update_screen_game(self, time_delta : float):
@@ -243,12 +283,13 @@ class Game:
 
 
 
-        offset = [-self.camera.rect.x, -self.camera.rect.y]
+        
 
 
         self.render_surface.fill((105, 66, 56))
 
         self.camera.follow(self.player.position)
+        self.camera.move()
 
         self.grass_system.apply_wind(1/20, self.time)
 
@@ -280,16 +321,7 @@ class Game:
 
 
 
-        """ APPLYING A SMALL ROTATION TO ALL SPRITESTACK OBJECTS BASED ON THEIR POSITION RELATIVE TO THE CAMERA """
-        objects_to_rotate_with_camera = [
-            self.player, self.cop_1, self.cop_2, self.hillbilly,
-            self.shack_1, self.shack_2, self.barn,
-            self.hay_bale_1, self.hay_bale_2, self.hay_bale_3, self.hay_bale_4, self.hay_bale_5,
-            self.wheelbarrow,
-            self.campfire, 
-        ]
-        for game_object in objects_to_rotate_with_camera:
-            game_object.rotate_with_camera(self.camera)
+
         
 
 
@@ -300,7 +332,7 @@ class Game:
             self.camera,
             self.rendered_objects,
             bend_objects=self.foliage_bend_objects,
-            offset=offset
+
         )
 
 

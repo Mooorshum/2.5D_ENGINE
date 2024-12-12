@@ -8,6 +8,8 @@ from general_game_mechanics.collisions import Hitbox
 from graphics.particles import ParticleSystem
 from graphics.sprite_stacks import SpritestackModel
 
+from world.particle_presets import earthen_dust
+
 
 
 
@@ -71,17 +73,7 @@ class Vehicle(DynamicObject):
         super().__init__(type, name, scale)
 
         # Dustcloud settings
-        self.dust = ParticleSystem()
-        DUST_BROWN_1 = (184, 160, 133)
-        DUST_BROWN_2 = (181, 153, 140)
-        DUST_BROWN_3 = (181, 153, 140)
-        DUST_BROWN_4 = (199, 186, 151)
-        self.dust.colours = (
-            DUST_BROWN_1, DUST_BROWN_2, DUST_BROWN_3, DUST_BROWN_4,
-        )
-        self.dust.lifetime_range = (10, 100)
-        self.dust.acceleration_range = (10, 50)
-        self.dust.ay_system = -30
+        self.dust = earthen_dust
         self.max_dustcloud_size = 20
         self.dust_particles_max_count = 50
 
@@ -106,10 +98,10 @@ class Vehicle(DynamicObject):
 
 
     def handle_movement(self, keys):
-        self.turn_left = keys[pygame.K_LEFT]
-        self.turn_right = keys[pygame.K_RIGHT]
-        self.accelerate = keys[pygame.K_UP]
-        self.reverse = keys[pygame.K_DOWN]
+        self.turn_left = keys[pygame.K_a]
+        self.turn_right = keys[pygame.K_d]
+        self.accelerate = keys[pygame.K_w]
+        self.reverse = keys[pygame.K_s]
         self.brake = keys[pygame.K_SPACE]
 
 
@@ -153,8 +145,6 @@ class Vehicle(DynamicObject):
         self.ay = current_driving_acceleration * sin(radians(self.rotation))
         self.a_omega = current_steering_acceleration
 
-        super().move()
-
         # Gradually align velocity direction with the rotation angle when accelerating or braking
         if self.accelerate or self.brake:
             current_angle = atan2(self.vy, self.vx)
@@ -172,13 +162,15 @@ class Vehicle(DynamicObject):
             speed = sqrt(self.vx**2 + self.vy**2)
             self.vx = speed * cos(adjusted_angle)
             self.vy = speed * sin(adjusted_angle)
+            
+        super().move()
 
-
-    def render(self, screen, offset=[0, 0]):
-        self.dust.position = self.position
+    def render(self, screen, camera, offset=[0, 0]):
+        """ self.dust.position = [self.position[0] - self.hitbox_size[0]/2*cos(self.rotation), self.position[1], 0]
+        print(f'PROBLEM - the position of the player seems to be changing:     {self.position}')
         factor = sqrt(self.vx**2 + self.vy**2)/self.max_speed
         self.dust.r_range = (0, round(self.max_dustcloud_size*factor))
         self.dust.max_count = self.dust_particles_max_count * factor
-        self.dust.update()
-        self.dust.render(screen, offset)
-        super().render(screen, offset)
+        self.dust.render(screen, camera)
+        self.dust.update() """
+        super().render(screen, camera, offset)

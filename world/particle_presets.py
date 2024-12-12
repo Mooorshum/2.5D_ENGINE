@@ -12,8 +12,10 @@ earthen_dust.colours = (
     DUST_BROWN_1, DUST_BROWN_2, DUST_BROWN_3, DUST_BROWN_4,
 )
 earthen_dust.lifetime_range = (10, 100)
-earthen_dust.acceleration_range = (10, 50)
-earthen_dust.ay_system = -30
+earthen_dust.acceleration_range_x = (0, 0)
+earthen_dust.acceleration_range_y = (0, 0)
+earthen_dust.acceleration_range_z = (0, 0)
+earthen_dust.y0_offset = -1337
 
 
 
@@ -39,5 +41,7 @@ flame.colours = (
 flame.max_count = 100
 flame.r_range = (1, 10)
 flame.lifetime_range = (10, 80)
-flame.acceleration_range = (20, 100)
-flame.ay_system = -100
+flame.acceleration_range_x = (20, 100)
+flame.acceleration_range_y = (20, 100)
+flame.acceleration_range_z = (5, 10)
+flame.y0_offset = 1337

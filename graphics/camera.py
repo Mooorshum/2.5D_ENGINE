@@ -8,24 +8,35 @@ class Camera:
 
         self.width = width
         self.height = height
-        self.rect = pygame.Rect(0, 0, self.width, self.height)
-        self.map_width = map_width
-        self.map_height = map_height
 
+        self.position = [0, 0]
+        self.rotation = 0
 
         self.vx = 0
         self.vy = 0
+        self.omega = 0
         self.absolute_acceleration = 100
         self.drag = 0.1
         self.speed_limit = 400
         self.dt = 0.1
 
+        self.map_width = map_width
+        self.map_height = map_height
+
+        self.rotate_left = False
+        self.rotate_right = False
+        self.move_left = False
+        self.move_right = False
+        self.move_up = False
+        self.Move_down = False
+
+
     def follow(self, position):
         distance_threshold = 20
         velocity_threshold = 20
 
-        dx = position[0] - self.rect.centerx
-        dy = position[1] - self.rect.centery
+        dx = position[0] - self.position[0]
+        dy = position[1] - self.position[1]
         distance = sqrt(dx**2 + dy**2)
 
         if distance != 0:
@@ -54,8 +65,34 @@ class Camera:
             self.vx = (self.vx / speed) * self.speed_limit
             self.vy = (self.vy / speed) * self.speed_limit
 
-        self.rect.x += self.vx * self.dt
-        self.rect.y += self.vy * self.dt
+        self.position[0] += self.vx * self.dt
+        self.position[1] += self.vy * self.dt
 
-        self.rect.x = max(0, min(self.rect.x, self.map_width - self.rect.width))
-        self.rect.y = max(0, min(self.rect.y, self.map_height - self.rect.height))
+        # Preventing camera from going out of bounds
+        if self.position[0] < self.width/2:
+            self.position[0] = self.width/2
+        if self.position[0] > self.map_width - self.width/2:
+            self.position[0] = self.map_width - self.width/2
+
+        if self.position[1] < self.height/2:
+            self.position[1] = self.height/2
+        if self.position[1] > self.map_height - self.height/2:
+            self.position[1] = self.map_height - self.height/2
+
+
+    def handle_movement(self, keys):
+        self.rotate_left = keys[pygame.K_q]
+        self.rotate_right = keys[pygame.K_e]
+        self.move_left = keys[pygame.K_LEFT]
+        self.move_right = keys[pygame.K_RIGHT]
+        self.move_up = keys[pygame.K_UP]
+        self.Move_down = keys[pygame.K_DOWN]
+
+    def move(self):
+
+        self.rotation = self.rotation % 360
+
+        if self.rotate_left:
+            self.rotation += 1
+        if self.rotate_right:
+            self.rotation -= 1

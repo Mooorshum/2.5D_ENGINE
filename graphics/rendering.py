@@ -1,22 +1,43 @@
 import pygame
 
+from math import sin, cos, radians
+
 from graphics import grass, shrubs
+from graphics.particles import ParticleSystem
+from graphics.sprite_stacks import SpritestackModel
+
+from general_game_mechanics.dynamic_objects import Vehicle
 
 
-def global_render(screen, camera, objects, bend_objects=[], offset=[0, 0]):
-    render_padding = 10
 
-    sorted_objects = sorted(objects, key=lambda obj: obj.position[1] + obj.y0_offset)
+
+def global_render(screen, camera, objects, bend_objects=[]):
+    render_padding = 200
+
+    """ SORTING THE LIST OF RENDERED OBJECTS TO EMULATE DEPTH """
+    def calculate_sort_key(object):
+        camera_rotation = radians(camera.rotation)
+        rotated_y = (object.position[0] - camera.position[0]) * sin(camera_rotation) + (object.position[1] - camera.position[1]) * cos(camera_rotation)
+        return rotated_y + object.y0_offset
+    sorted_objects = sorted(objects, key=calculate_sort_key)
 
     for game_object in sorted_objects:
 
-        is_in_frame_x = (game_object.position[0] > camera.rect.center[0] - camera.width / 2 - render_padding) and \
-                        (game_object.position[0] < camera.rect.center[0] + camera.width / 2 + render_padding)
+        is_in_frame_x = (game_object.position[0] > camera.position[0] - render_padding) and \
+                        (game_object.position[0] < camera.position[0] + render_padding)
 
-        is_in_frame_y = (game_object.position[1] > camera.rect.center[1] - camera.height / 2 - render_padding) and \
-                        (game_object.position[1] < camera.rect.center[1] + camera.height / 2 + render_padding)
+        is_in_frame_y = (game_object.position[1] > camera.position[1] - render_padding) and \
+                        (game_object.position[1] < camera.position[1] + render_padding)
         
         if is_in_frame_x and is_in_frame_y:
+            
+            """ CALCULATING EACH OBJECT'S OFFSET AND ROTATION,
+            WHICH DEPENDS ON IT'S POSITION RELATIVE TO THE CAMERA,
+            AS WELL AS THE CAMERA ROTATION ANGLE """
+            camera_rotation = radians(camera.rotation)
+            offset_x = camera.position[0] - game_object.position[0] + (game_object.position[0] - camera.position[0])*cos(camera_rotation) - (game_object.position[1] - camera.position[1])*sin(camera_rotation)
+            offset_y = camera.position[1] - game_object.position[1] + (game_object.position[0] - camera.position[0])*sin(camera_rotation) + (game_object.position[1] - camera.position[1])*cos(camera_rotation)
+            offset = [offset_x - camera.position[0] + camera.width/2, offset_y - camera.position[1] + camera.height/2]
 
             if isinstance(game_object, shrubs.Plant):
                 game_object.render(screen, bend_objects, offset)
@@ -24,12 +45,17 @@ def global_render(screen, camera, objects, bend_objects=[], offset=[0, 0]):
 
             elif isinstance(game_object, grass.GrassTile):
                 game_object.render(screen, bend_objects, offset)
-                """ game_object.render_tile_simple(screen, offset) """
                 colour = (0, 255, 255)
 
-            else:
-                game_object.render(screen, offset)
-                colour = (255, 0, 0)
+            elif isinstance(game_object, SpritestackModel):
+                game_object.render(screen, camera, offset)
+
+            elif isinstance(game_object, ParticleSystem):
+                game_object.render(screen, camera)
+
+
+
+
 
             # circle indicator
             """ pygame.draw.circle(

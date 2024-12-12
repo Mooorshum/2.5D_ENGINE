@@ -2,7 +2,7 @@ import os
 
 import pygame
 
-from math import sin, cos, sqrt, atan2, radians, copysign
+from math import sin, cos, sqrt, atan2, radians, copysign, degrees
 
 
 def split_stack_image(stack_image):
@@ -41,9 +41,6 @@ class SpritestackModel:
         self.scale = scale
         self.hitbox_size = (0, 0)
 
-        self.prev_camera_angle = 0
-        self.max_camera_added_rotation = 7
-
         self.y0_offset = 0
 
         # Load stack images
@@ -66,26 +63,7 @@ class SpritestackModel:
         )
 
 
-    def rotate_with_camera(self, camera):
-        camera_position = camera.rect.center
-        
-        dx = camera_position[0] - self.position[0]
-        dy = camera_position[1] - self.position[1]
-
-        x_factor = dx / 100
-        if abs(x_factor) > 1:
-            x_factor = 1 * copysign(1, x_factor)
-        y_factor = dy / 100
-        if abs(y_factor) > 1:
-            y_factor = 1 * copysign(1, y_factor)
-        """ angle_to_camera = self.max_camera_added_rotation * x_factor * y_factor """
-        angle_to_camera = self.max_camera_added_rotation * x_factor
-
-        self.rotation += self.prev_camera_angle - angle_to_camera
-        self.prev_camera_angle = angle_to_camera
-
-
-    def render(self, screen, offset=[0, 0], spread=0.8):
+    def render(self, screen, camera, offset=[0, 0], spread=0.8):
         if self.stack_index >= self.num_stacks:
             self.stack_index = 0
         stack_images = self.stack_image_multiple[self.stack_index]
@@ -95,7 +73,7 @@ class SpritestackModel:
                 self.position[0] + offset[0],
                 self.position[1] + offset[1]
             ],
-            self.rotation,
+            self.rotation - camera.rotation,
             screen,
             spread,
             scale=self.scale

@@ -3,7 +3,7 @@ import os
 import pygame
 
 import random
-from math import sin, cos, pi, radians, sqrt
+from math import sin, cos, pi, radians, sqrt, atan2
 
 
 WHITE = (255, 255, 255)
@@ -128,18 +128,16 @@ class ImageParticle(Particle):
         offset_y = camera.position[1] - self.position[1] + (self.position[0] - camera.position[0]) * sin(camera_rotation) + (self.position[1] - camera.position[1]) * cos(camera_rotation)
         offset = [offset_x - camera.position[0] + camera.width / 2, offset_y - camera.position[1] + camera.height / 2]
 
-        scaled_width = int(self.image.get_width() * self.scale_factor)
-        scaled_height = int(self.image.get_height() * self.scale_factor)
-        scaled_image = pygame.transform.scale(self.image, (scaled_width, scaled_height))
-        scaled_image.set_alpha(int(self.opacity))
-
-        screen.blit(
-            scaled_image,
-            (
-                self.position[0] + offset[0] - scaled_width / 2,
-                self.position[1] + offset[1] + self.position[2] - scaled_height / 2,
-            ),
-        )
+        if self.image:
+            image = self.image
+            image.set_alpha(int(self.opacity))
+            screen.blit(
+                image,
+                (
+                    self.position[0] + offset[0],
+                    self.position[1] + offset[1] + self.position[2],
+                )
+            )
 
 
 class FogCloud(ParticleSystem):
@@ -160,21 +158,15 @@ class FogCloud(ParticleSystem):
             particle_z = self.position[2] + random.randint(-self.cloud_size[2] // 2, self.cloud_size[2] // 2)
             image = random.choice(self.images)
             particle = ImageParticle([particle_x, particle_y, particle_z], image, lifetime)
-            angle = random.uniform(0, 2 * pi)
-            acceleration_x = random.randint(self.acceleration_range_x[0], self.acceleration_range_x[1])
-            acceleration_y = random.randint(self.acceleration_range_y[0], self.acceleration_range_y[1])
-            acceleration_z = random.randint(self.acceleration_range_z[0], self.acceleration_range_z[1])
-            particle.ax = self.ax_system + acceleration_x * cos(angle)
-            particle.ay = self.ay_system + acceleration_y * sin(angle)
-            particle.az = self.az_system - acceleration_z
             self.particles.append(particle)
 
-    def update(self, camera):
+    def update(self, camera, ):
         self.create_particle()
         for particle in self.particles[:]:
             if particle.lifetime <= 0:
                 self.particles.remove(particle)
                 continue
+
 
             particle.move()
             particle.lifetime -= 1
@@ -182,15 +174,24 @@ class FogCloud(ParticleSystem):
             total_lifetime = particle.total_lifetime
             elapsed_time = total_lifetime - particle.lifetime
 
-            # Scaling opacity and scale factor with particle lifetime
-            scaling_opacity_factor = 1 - ((2 * elapsed_time - total_lifetime) / total_lifetime) ** 2
-            particle.scale_factor = 2*scaling_opacity_factor
+            # Scaling opacity with particle lifetime
+            opacity_factor = 1 - ((2 * elapsed_time - total_lifetime) / total_lifetime) ** 2
 
             # Adjusting opacity based on camera distance
-            max_camera_distance = 200
+            max_camera_distance = 300
             distance = sqrt((camera.position[0] - particle.position[0]) ** 2 + (camera.position[1] - particle.position[1]) ** 2)
-            distance_factor = min(1, distance / max_camera_distance)
-            particle.opacity = distance_factor * self.max_cloud_opacity * scaling_opacity_factor * 255
+            distance_factor = min(1, (distance / max_camera_distance))
+            particle.opacity = distance_factor * self.max_cloud_opacity * opacity_factor * 255
+
+            dx = particle.position[0] - camera.position[0]
+            dy = particle.position[1] - camera.position[1]
+            angle = atan2(dy, dx)
+            distance_speed_factor = (100 / sqrt(dx**2 + dy**2))
+            
+            particle.ax = self.ax_system * cos(angle) * distance_speed_factor
+            particle.ay = self.ay_system * sin(angle) * distance_speed_factor
+            particle.vx *= 0.01
+            particle.vy *= 0.01
 
     def render(self, screen, camera):
         for particle in self.particles:
@@ -235,13 +236,10 @@ class FogSystem:
                 cloud.position = [x, y, 0]
                 cloud.max_count = self.max_particle_count
                 cloud.r_range = (5, 10)
-                cloud.lifetime_range = (100, 250)
-                cloud.acceleration_range_x = (0, 0)
-                cloud.acceleration_range_y = (0, 0)
-                cloud.acceleration_range_z = (0, 0)
-                cloud.ax_system = 0
-                cloud.ay_system = 0
-                cloud.az_system = -0.05
+                cloud.lifetime_range = (100, 500)
+                cloud.ax_system = 10
+                cloud.ay_system = 10
+                cloud.az_system = -0.01
                 self.clouds.append(cloud)
 
     def update(self, camera):

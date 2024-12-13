@@ -243,6 +243,9 @@ class Game:
             self.hay_bale_1, self.hay_bale_2, self.hay_bale_3, self.hay_bale_4, self.hay_bale_5,
             self.crate_1, self.crate_2,
             self.bottle_1, self.bottle_2, self.bottle_3,
+            self.shack_1, self.shack_2, self.barn,
+            self.campfire,
+            self.well
         ]
 
 

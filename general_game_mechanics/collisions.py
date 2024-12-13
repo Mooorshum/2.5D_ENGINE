@@ -77,10 +77,12 @@ class Hitbox:
                 colliding_object.vx = colliding_object_vx
                 colliding_object.vy = colliding_object_vy
 
-                self.object.position[0] += displacement * normal_x
-                self.object.position[1] += displacement * normal_y
-                colliding_object.position[0] -= displacement * normal_x
-                colliding_object.position[1] -= displacement * normal_y
+                if not self.object.movelocked:
+                    self.object.position[0] += displacement * normal_x
+                    self.object.position[1] += displacement * normal_y
+                if not colliding_object.movelocked:
+                    colliding_object.position[0] -= displacement * normal_x
+                    colliding_object.position[1] -= displacement * normal_y
 
 
                 """ APPLY A COLLISION-DIRECTION DEPENDENT SPIN """

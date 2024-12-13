@@ -212,10 +212,10 @@ class Game:
             )
 
         self.fog = FogSystem(
-            cloud_size=(50, 25, 15),
+            cloud_size=(40, 40, 0),
             map_size=(self.map_width, self.map_height),
-            max_particle_count=3,
-            max_cloud_opacity=0.5
+            max_particle_count=1,
+            max_cloud_opacity=1
         )
 
 

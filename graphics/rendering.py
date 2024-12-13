@@ -12,8 +12,8 @@ from general_game_mechanics.dynamic_objects import Vehicle
 
 
 def global_render(screen, camera, objects, bend_objects=[]):
-    render_padding_x = 200 #screen.get_width() / 2 + 100
-    render_padding_y = 200 #screen.get_height() / 2 + 100
+    render_padding_x = screen.get_width() / 2 + 100
+    render_padding_y = screen.get_height() / 2 + 100
 
     """ SORTING THE LIST OF RENDERED OBJECTS TO EMULATE DEPTH """
     def calculate_sort_key(object):

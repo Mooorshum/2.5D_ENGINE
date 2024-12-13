@@ -84,7 +84,7 @@ class Camera:
 
     def align(self, rotation):
         if not (self.rotate_left or self.rotate_right):
-            align_factor = 0.5
+            align_factor = 0.3
             angle_diff = (rotation - self.rotation)
             self.omega += angle_diff*align_factor
 

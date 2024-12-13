@@ -83,7 +83,6 @@ class Hitbox:
                 colliding_object.position[1] -= displacement * normal_y
 
 
-
                 """ APPLY A COLLISION-DIRECTION DEPENDENT SPIN """
                 SPIN_SENSITIVITY = 1
 
@@ -113,11 +112,3 @@ class Hitbox:
 
                 colliding_object.omega += spin_v_factor * spin_direction_factor * spin_collision_offset_factor * SPIN_SENSITIVITY * self.object.mass / (self.object.mass + colliding_object.mass)
                 self.object.omega -= spin_v_factor * spin_direction_factor * spin_collision_offset_factor * SPIN_SENSITIVITY * colliding_object.mass / (colliding_object.mass + colliding_object.mass)
-
-
-
-
-
-
-
-

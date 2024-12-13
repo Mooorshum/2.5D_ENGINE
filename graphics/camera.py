@@ -15,9 +15,10 @@ class Camera:
         self.vx = 0
         self.vy = 0
         self.omega = 0
-        self.absolute_acceleration = 100
-        self.drag = 0.1
-        self.speed_limit = 400
+        self.absolute_acceleration = 200
+        self.linear_drag = 0.1
+        self.omega_drag = 0.05
+        self.linear_speed_limit = 500
         self.dt = 0.1
 
         self.map_width = map_width
@@ -53,15 +54,17 @@ class Camera:
         self.vx += a_smooth * normal_direction_x * self.dt
         self.vy += a_smooth * normal_direction_y * self.dt
 
+        self.rotation = self.omega * self.dt * (1 - self.omega_drag)
+
         if (distance < distance_threshold) and (sqrt(self.vx**2 + self.vy**2) < velocity_threshold):
             self.vx = 0
             self.vy = 0
 
-        self.vx *= (1 - self.drag)
-        self.vy *= (1 - self.drag)
+        self.vx *= (1 - self.linear_drag)
+        self.vy *= (1 - self.linear_drag)
 
         speed = sqrt(self.vx**2 + self.vy**2)
-        if speed > self.speed_limit:
+        if speed > self.linear_speed_limit:
             self.vx = (self.vx / speed) * self.speed_limit
             self.vy = (self.vy / speed) * self.speed_limit
 
@@ -79,6 +82,14 @@ class Camera:
         if self.position[1] > self.map_height - self.height/2:
             self.position[1] = self.map_height - self.height/2
 
+    def align(self, rotation):
+        if not (self.rotate_left or self.rotate_right):
+            align_factor = 0.5
+            angle_diff = (rotation - self.rotation)
+            self.omega += angle_diff*align_factor
+
+
+
 
     def handle_movement(self, keys):
         self.rotate_left = keys[pygame.K_q]
@@ -89,10 +100,12 @@ class Camera:
         self.Move_down = keys[pygame.K_DOWN]
 
     def move(self):
+        turn_speed = 50
+        turn_speed_limit = 200
 
         self.rotation = self.rotation % 360
 
         if self.rotate_left:
-            self.rotation += 1
+            self.omega += turn_speed
         if self.rotate_right:
-            self.rotation -= 1
+            self.omega -= turn_speed

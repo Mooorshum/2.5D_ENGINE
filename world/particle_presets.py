@@ -41,7 +41,9 @@ flame.colours = (
 flame.max_count = 100
 flame.r_range = (1, 10)
 flame.lifetime_range = (10, 80)
-flame.acceleration_range_x = (20, 100)
-flame.acceleration_range_y = (20, 100)
+flame.acceleration_range_x = (20, 50)
+flame.acceleration_range_y = (20, 50)
 flame.acceleration_range_z = (5, 10)
 flame.y0_offset = 1337
+
+

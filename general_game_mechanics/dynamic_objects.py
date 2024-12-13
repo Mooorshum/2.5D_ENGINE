@@ -44,20 +44,21 @@ class DynamicObject(SpritestackModel):
         if not self.movelocked:
 
             new_vx = (self.vx + self.ax * self.dt) * ( 1 - self.v_drag)
-            new_vy = (self.vy + self.ay * self.dt) * ( 1 - self.v_drag) #################### !!!!!!!!!!!!!!     + self.ay   OR   - self.ay ?
+            new_vy = (self.vy + self.ay * self.dt) * ( 1 - self.v_drag)
             new_omega = (self.omega +  self.a_omega * self.dt) * ( 1 - self.omega_drag)
 
             new_x = self.position[0] + new_vx * self.dt
             new_y = self.position[1] - new_vy * self.dt
             new_rotation = self.rotation + new_omega * self.dt
 
-            self.position[0] = new_x
-            self.position[1] = new_y
             self.rotation = new_rotation
 
             self.vx = new_vx
             self.vy = new_vy
             self.omega = new_omega
+
+            self.position[0] = new_x
+            self.position[1] = new_y
 
 
             
@@ -162,12 +163,15 @@ class Vehicle(DynamicObject):
             speed = sqrt(self.vx**2 + self.vy**2)
             self.vx = speed * cos(adjusted_angle)
             self.vy = speed * sin(adjusted_angle)
-            
+  
         super().move()
 
     def render(self, screen, camera, offset=[0, 0]):
-        """ self.dust.position = [self.position[0] - self.hitbox_size[0]/2*cos(self.rotation), self.position[1], 0]
-        print(f'PROBLEM - the position of the player seems to be changing:     {self.position}')
+        """ self.dust.position = [
+            self.position[0] - self.hitbox_size[0]/2*cos(self.rotation),
+            self.position[1] - self.hitbox_size[1]/2*sin(self.rotation),
+            0
+        ]
         factor = sqrt(self.vx**2 + self.vy**2)/self.max_speed
         self.dust.r_range = (0, round(self.max_dustcloud_size*factor))
         self.dust.max_count = self.dust_particles_max_count * factor

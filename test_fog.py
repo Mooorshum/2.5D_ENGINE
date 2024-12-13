@@ -214,8 +214,8 @@ class Game:
         self.fog = FogSystem(
             cloud_size=(50, 25, 15),
             map_size=(self.map_width, self.map_height),
-            max_particle_count=0,
-            max_cloud_opacity=0.2
+            max_particle_count=3,
+            max_cloud_opacity=0.5
         )
 
 
@@ -230,9 +230,6 @@ class Game:
             self.crate_1, self.crate_2,
             self.bottle_1, self.bottle_2, self.bottle_3,
         ]
-        self.rendered_objects += self.grass_system.tiles
-        self.rendered_objects += self.shrubs.plants
-        self.rendered_objects += self.fern.plants
         self.rendered_objects += self.fog.clouds
 
 

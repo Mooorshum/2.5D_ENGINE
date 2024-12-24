@@ -81,19 +81,25 @@ class Game:
         self.hillbilly.rotation = 30
 
 
+        self.house = DynamicObject(type='building', name='house', scale=1)
+        self.house.position = [680, 230]
+        self.house.rotation = -10
+        self.house.movelocked = True
+
+
         self.well = DynamicObject(type='filler_object', name='well', scale=1)
         self.well.position = [510, 320]
         self.well.rotation = 20
         self.well.movelocked = True
 
 
-        self.shack_1 = DynamicObject(type='building', name='shack', scale=1)
+        self.shack_1 = DynamicObject(type='building', name='shack', scale=2)
         self.shack_1.position = [530, 180]
         self.shack_1.rotation = -30
         self.shack_1.movelocked = True
 
 
-        self.shack_2 = DynamicObject(type='building', name='shack', scale=1)
+        self.shack_2 = DynamicObject(type='building', name='shack', scale=2)
         self.shack_2.position = [200, 450]
         self.shack_2.rotation = 10
         self.shack_2.movelocked = True
@@ -183,7 +189,7 @@ class Game:
 
         self.grass_system = grass.GrassSystem(
             folder = 'assets/grass',
-            tile_size=25,
+            tile_size=30,
             blades_per_tile=10,
             stiffness=0.03,
             scale=0.5
@@ -212,10 +218,10 @@ class Game:
             )
 
         self.fog = FogSystem(
-            cloud_size=(50, 25, 15),
+            cloud_size=(40, 40, 0),
             map_size=(self.map_width, self.map_height),
             max_particle_count=0,
-            max_cloud_opacity=0.2
+            max_cloud_opacity=1
         )
 
 
@@ -223,7 +229,7 @@ class Game:
         self.rendered_objects = [
             self.player, self.cop_1, self.cop_2, self.hillbilly,
             self.well,
-            self.shack_1, self.shack_2, self.barn,
+            self.shack_1, self.shack_2, self.barn, self.house,
             self.campfire, self.flame,
             self.wheelbarrow,
             self.hay_bale_1, self.hay_bale_2, self.hay_bale_3, self.hay_bale_4, self.hay_bale_5,
@@ -243,7 +249,7 @@ class Game:
             self.hay_bale_1, self.hay_bale_2, self.hay_bale_3, self.hay_bale_4, self.hay_bale_5,
             self.crate_1, self.crate_2,
             self.bottle_1, self.bottle_2, self.bottle_3,
-            self.shack_1, self.shack_2, self.barn,
+            self.shack_1, self.shack_2, self.barn, self.house,
             self.campfire,
             self.well
         ]

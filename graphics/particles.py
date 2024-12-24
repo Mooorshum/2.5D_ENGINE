@@ -129,7 +129,11 @@ class ImageParticle(Particle):
         offset = [offset_x - camera.position[0] + camera.width / 2, offset_y - camera.position[1] + camera.height / 2]
 
         if self.image:
+            """ CHANGE THIS TO BE A FOGSYSTEM PARAMETER !!!!!!!!!!!!!!!!! """
+            scale = 0.25 
+
             image = self.image
+            pygame.transform.scale(image, (image.get_width()* scale, image.get_height() * scale))
             image.set_alpha(int(self.opacity))
             screen.blit(
                 image,
@@ -175,12 +179,12 @@ class FogCloud(ParticleSystem):
             elapsed_time = total_lifetime - particle.lifetime
 
             # Scaling opacity with particle lifetime
-            opacity_factor = 1 - ((2 * elapsed_time - total_lifetime) / total_lifetime) ** 2
+            opacity_factor = 1 - ((2 * elapsed_time - total_lifetime) / total_lifetime) ** 4
 
             # Adjusting opacity based on camera distance
             max_camera_distance = 300
             distance = sqrt((camera.position[0] - particle.position[0]) ** 2 + (camera.position[1] - particle.position[1]) ** 2)
-            distance_factor = min(1, (distance / max_camera_distance))
+            distance_factor = min(1, (distance / max_camera_distance)**2)
             particle.opacity = distance_factor * self.max_cloud_opacity * opacity_factor * 255
 
             dx = particle.position[0] - camera.position[0]

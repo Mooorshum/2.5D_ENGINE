@@ -81,28 +81,69 @@ class Game:
         self.hillbilly.rotation = 30
 
 
+        self.house = DynamicObject(type='building', name='house', scale=1)
+        self.house.position = [680, 230]
+        self.house.rotation = -10
+        self.house.movelocked = True
+
+
         self.well = DynamicObject(type='filler_object', name='well', scale=1)
         self.well.position = [510, 320]
         self.well.rotation = 20
         self.well.movelocked = True
 
 
-        self.shack_1 = DynamicObject(type='building', name='shack', scale=1)
-        self.shack_1.position = [530, 180]
-        self.shack_1.rotation = -30
-        self.shack_1.movelocked = True
+        self.shed = DynamicObject(type='building', name='shed', scale=1)
+        self.shed.position = [860, 300]
+        self.shed.rotation = 75
+        self.shed.movelocked = True
 
 
-        self.shack_2 = DynamicObject(type='building', name='shack', scale=1)
-        self.shack_2.position = [200, 450]
-        self.shack_2.rotation = 10
-        self.shack_2.movelocked = True
 
 
-        self.barn = DynamicObject(type='building', name='barn', scale=1)
-        self.barn.position = [750, 520]
-        self.barn.rotation = 50
-        self.barn.movelocked = True
+        self.tree_1 = DynamicObject(type='filler_object', name='tree_1', scale=1)
+        self.tree_1.position = [520, 240]
+        self.tree_1.rotation = -30
+        self.tree_1.movelocked = True
+
+        self.tree_2 = DynamicObject(type='filler_object', name='tree_2', scale=1)
+        self.tree_2.position = [450, 80]
+        self.tree_2.rotation = 50
+        self.tree_2.movelocked = True
+
+        self.tree_3 = DynamicObject(type='filler_object', name='tree_3', scale=1)
+        self.tree_3.position = [420, 150]
+        self.tree_3.rotation = 0
+        self.tree_3.movelocked = True
+
+        self.tree_4 = DynamicObject(type='filler_object', name='tree_4', scale=1)
+        self.tree_4.position = [400, 300]
+        self.tree_4.rotation = 0
+        self.tree_4.movelocked = True
+
+
+
+
+
+        self.tree_trunk_1 = DynamicObject(type='filler_object', name='tree_trunk_1', scale=1)
+        self.tree_trunk_1.position = [580, 180]
+        self.tree_trunk_1.rotation = -30
+        self.tree_trunk_1.movelocked = True
+
+
+        self.tree_trunk_2 = DynamicObject(type='filler_object', name='tree_trunk_2', scale=1)
+        self.tree_trunk_2.position = [480, 200]
+        self.tree_trunk_2.rotation = 30
+        self.tree_trunk_2.movelocked = True
+
+
+        self.tree_trunk_3 = DynamicObject(type='filler_object', name='tree_trunk_3', scale=1)
+        self.tree_trunk_3.position = [510, 150]
+        self.tree_trunk_3.rotation = 50
+        self.tree_trunk_3.movelocked = True
+
+
+
 
 
         self.crate_1 = DynamicObject(type='filler_object', name='crate_1', scale=1)
@@ -115,24 +156,6 @@ class Game:
         self.crate_2.position = [560, 570]
         self.crate_2.rotation = 20
         self.crate_2.mass = 100
-
-
-        self.bottle_1 = DynamicObject(type='filler_object', name='bottle', scale=1)
-        self.bottle_1.position = [570, 570]
-        self.bottle_1.rotation = -35
-        self.bottle_1.mass = 10
-        
-
-        self.bottle_2 = DynamicObject(type='filler_object', name='bottle', scale=1)
-        self.bottle_2.position = [500, 600]
-        self.bottle_2.rotation = -45
-        self.bottle_2.mass = 10
-
-
-        self.bottle_3 = DynamicObject(type='filler_object', name='bottle', scale=1)
-        self.bottle_3.position = [510, 590]
-        self.bottle_3.rotation = 60
-        self.bottle_3.mass = 10
 
 
         self.hay_bale_1 = DynamicObject(type='filler_object', name='hay_bale_1', scale=1)
@@ -183,7 +206,7 @@ class Game:
 
         self.grass_system = grass.GrassSystem(
             folder = 'assets/grass',
-            tile_size=25,
+            tile_size=30,
             blades_per_tile=10,
             stiffness=0.03,
             scale=0.5
@@ -214,7 +237,7 @@ class Game:
         self.fog = FogSystem(
             cloud_size=(40, 40, 0),
             map_size=(self.map_width, self.map_height),
-            max_particle_count=5,
+            max_particle_count=0,
             max_cloud_opacity=1
         )
 
@@ -223,13 +246,17 @@ class Game:
         self.rendered_objects = [
             self.player, self.cop_1, self.cop_2, self.hillbilly,
             self.well,
-            self.shack_1, self.shack_2, self.barn,
+            self.shed, self.house,
+            self.tree_1, self.tree_2, self.tree_3, self.tree_4,
+            self.tree_trunk_1, self.tree_trunk_2, self.tree_trunk_3, 
             self.campfire, self.flame,
             self.wheelbarrow,
             self.hay_bale_1, self.hay_bale_2, self.hay_bale_3, self.hay_bale_4, self.hay_bale_5,
             self.crate_1, self.crate_2,
-            self.bottle_1, self.bottle_2, self.bottle_3,
         ]
+        self.rendered_objects += self.grass_system.tiles
+        self.rendered_objects += self.shrubs.plants
+        self.rendered_objects += self.fern.plants
         self.rendered_objects += self.fog.clouds
 
 
@@ -239,7 +266,11 @@ class Game:
             self.wheelbarrow,
             self.hay_bale_1, self.hay_bale_2, self.hay_bale_3, self.hay_bale_4, self.hay_bale_5,
             self.crate_1, self.crate_2,
-            self.bottle_1, self.bottle_2, self.bottle_3,
+            self.shed, self.house,
+            self.tree_1, self.tree_2, self.tree_3, self.tree_4,
+            self.tree_trunk_1, self.tree_trunk_2, self.tree_trunk_3, 
+            self.campfire,
+            self.well
         ]
 
 

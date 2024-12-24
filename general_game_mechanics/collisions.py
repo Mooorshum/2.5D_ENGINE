@@ -6,7 +6,7 @@ from numpy import sign
 
 class Hitbox:
     def __init__(self, object):
-        self.object = object 
+        self.object = object
 
         self.colour =  (255, 0, 0)
         self.type = 'circle'
@@ -14,7 +14,7 @@ class Hitbox:
     def draw(self, screen, offset=[0, 0]):
         if self.type == 'box':
             hitbox_surface = pygame.Surface(self.object.hitbox_size, pygame.SRCALPHA)
-            pygame.draw.rect(hitbox_surface, self.colour, 
+            pygame.draw.rect(hitbox_surface, self.colour,
                              pygame.Rect(0, 0, *self.object.hitbox_size), 3)
             rotated_surface = pygame.transform.rotate(hitbox_surface, self.object.rotation)
             rotated_rect = rotated_surface.get_rect(center=self.object.position)

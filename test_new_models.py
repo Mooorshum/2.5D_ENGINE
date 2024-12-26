@@ -67,12 +67,12 @@ class Game:
 
 
         self.cop_1 = Vehicle(type='vehicle', name='cop_car', scale=1)
-        self.cop_1.position = [400, 400]
+        self.cop_1.position = [300, 500]
         self.cop_1.rotation = 25
 
 
         self.cop_2 = Vehicle(type='vehicle', name='cop_car', scale=1)
-        self.cop_2.position = [400, 200]
+        self.cop_2.position = [350, 300]
         self.cop_2.rotation = 70
 
 
@@ -81,22 +81,33 @@ class Game:
         self.hillbilly.rotation = 30
 
 
-        self.house = DynamicObject(type='building', name='house', scale=1)
+        self.house = DynamicObject(type='building', name='house_1', scale=1)
         self.house.position = [680, 230]
         self.house.rotation = -10
         self.house.movelocked = True
 
+        self.barn = DynamicObject(type='building', name='red_barn', scale=1)
+        self.barn.position = [880, 380]
+        self.barn.rotation = 20
+        self.barn.movelocked = True
+
 
         self.well = DynamicObject(type='filler_object', name='well', scale=1)
-        self.well.position = [510, 320]
+        self.well.position = [590, 300]
         self.well.rotation = 20
         self.well.movelocked = True
 
 
         self.shed = DynamicObject(type='building', name='shed', scale=1)
-        self.shed.position = [860, 300]
-        self.shed.rotation = 75
+        self.shed.position = [800, 260]
+        self.shed.rotation = 60
         self.shed.movelocked = True
+
+
+        self.toilet = DynamicObject(type='building', name='toilet', scale=1)
+        self.toilet.position = [420, 200]
+        self.toilet.rotation = 120
+        self.toilet.movelocked = True
 
 
 
@@ -111,12 +122,12 @@ class Game:
         self.tree_2.rotation = 50
         self.tree_2.movelocked = True
 
-        self.tree_3 = DynamicObject(type='filler_object', name='tree_3', scale=1)
+        self.tree_3 = DynamicObject(type='filler_object', name='tree_1', scale=1)
         self.tree_3.position = [420, 150]
         self.tree_3.rotation = 0
         self.tree_3.movelocked = True
 
-        self.tree_4 = DynamicObject(type='filler_object', name='tree_4', scale=1)
+        self.tree_4 = DynamicObject(type='filler_object', name='tree_2', scale=1)
         self.tree_4.position = [400, 300]
         self.tree_4.rotation = 0
         self.tree_4.movelocked = True
@@ -246,7 +257,7 @@ class Game:
         self.rendered_objects = [
             self.player, self.cop_1, self.cop_2, self.hillbilly,
             self.well,
-            self.shed, self.house,
+            self.shed, self.house, self.barn, self.toilet,
             self.tree_1, self.tree_2, self.tree_3, self.tree_4,
             self.tree_trunk_1, self.tree_trunk_2, self.tree_trunk_3, 
             self.campfire, self.flame,
@@ -266,7 +277,7 @@ class Game:
             self.wheelbarrow,
             self.hay_bale_1, self.hay_bale_2, self.hay_bale_3, self.hay_bale_4, self.hay_bale_5,
             self.crate_1, self.crate_2,
-            self.shed, self.house,
+            self.shed, self.house, self.barn, self.toilet,
             self.tree_1, self.tree_2, self.tree_3, self.tree_4,
             self.tree_trunk_1, self.tree_trunk_2, self.tree_trunk_3, 
             self.campfire,

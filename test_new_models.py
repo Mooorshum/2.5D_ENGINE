@@ -153,6 +153,11 @@ class Game:
         self.tree_trunk_3.rotation = 50
         self.tree_trunk_3.movelocked = True
 
+        self.tree_trunk_4 = DynamicObject(type='filler_object', name='tree_trunk_3', scale=1)
+        self.tree_trunk_4.position = [640, 560]
+        self.tree_trunk_4.rotation = 50
+        self.tree_trunk_4.movelocked = True
+
 
 
 
@@ -170,39 +175,68 @@ class Game:
 
 
         self.hay_bale_1 = DynamicObject(type='filler_object', name='hay_bale_1', scale=1)
-        self.hay_bale_1.position = [780, 650]
+        self.hay_bale_1.position = [780, 400]
         self.hay_bale_1.rotation = 40
         self.hay_bale_1.mass = 100
 
 
         self.hay_bale_2 = DynamicObject(type='filler_object', name='hay_bale_1', scale=1)
-        self.hay_bale_2.position = [730, 610]
+        self.hay_bale_2.position = [730, 420]
         self.hay_bale_2.rotation = 30
         self.hay_bale_2.mass = 100
 
 
         self.hay_bale_3 = DynamicObject(type='filler_object', name='hay_bale_1', scale=1)
-        self.hay_bale_3.position = [760, 600]
+        self.hay_bale_3.position = [760, 390]
         self.hay_bale_3.rotation = 15
         self.hay_bale_3.mass = 100
 
 
         self.hay_bale_4 = DynamicObject(type='filler_object', name='hay_bale_2', scale=1.5)
-        self.hay_bale_4.position = [560, 610]
+        self.hay_bale_4.position = [830, 510]
         self.hay_bale_4.rotation = -20
         self.hay_bale_4.mass = 500
 
 
         self.hay_bale_5 = DynamicObject(type='filler_object', name='hay_bale_2', scale=1.5)
-        self.hay_bale_5.position = [580, 570]
+        self.hay_bale_5.position = [880, 570]
         self.hay_bale_5.rotation = -70
         self.hay_bale_5.mass = 500
 
 
         self.wheelbarrow = DynamicObject(type='filler_object', name='wheelbarrow', scale=1.2)
-        self.wheelbarrow.position = [630, 570]
+        self.wheelbarrow.position = [550, 550]
         self.wheelbarrow.rotation = 50
         self.wheelbarrow.mass = 100
+
+
+
+
+        self.rock_1 = DynamicObject(type='filler_object', name='rock_1', scale=1)
+        self.rock_1.position = [560, 460]
+        self.rock_1.rotation = 30
+        self.rock_1.movelocked = True
+
+
+        self.rock_2 = DynamicObject(type='filler_object', name='rock_2', scale=1)
+        self.rock_2.position = [590, 430]
+        self.rock_2.rotation = 40
+        self.rock_2.movelocked = True
+
+        self.rock_3 = DynamicObject(type='filler_object', name='rock_3', scale=1)
+        self.rock_3.position = [630, 460]
+        self.rock_3.rotation = 60
+        self.rock_3.movelocked = True
+
+        self.rock_4 = DynamicObject(type='filler_object', name='rock_4', scale=1)
+        self.rock_4.position = [600, 560]
+        self.rock_4.rotation = 10
+        self.rock_4.movelocked = True
+
+        self.rock_5 = DynamicObject(type='filler_object', name='rock_5', scale=1)
+        self.rock_5.position = [640, 520]
+        self.rock_5.rotation = 0
+        self.rock_5.movelocked = True
 
 
         self.campfire = DynamicObject(type='filler_object', name='campfire', scale=1)
@@ -212,7 +246,7 @@ class Game:
 
 
         self.flame = flame
-        self.flame.position = [self.campfire.position[0], self.campfire.position[1] - 5, -5]
+        self.flame.position = [self.campfire.position[0], self.campfire.position[1], -5]
         
 
         self.grass_system = grass.GrassSystem(
@@ -259,8 +293,9 @@ class Game:
             self.well,
             self.shed, self.house, self.barn, self.toilet,
             self.tree_1, self.tree_2, self.tree_3, self.tree_4,
-            self.tree_trunk_1, self.tree_trunk_2, self.tree_trunk_3, 
+            self.tree_trunk_1, self.tree_trunk_2, self.tree_trunk_3, self.tree_trunk_4,
             self.campfire, self.flame,
+            self.rock_1, self.rock_2, self.rock_3, self.rock_4, self.rock_5,
             self.wheelbarrow,
             self.hay_bale_1, self.hay_bale_2, self.hay_bale_3, self.hay_bale_4, self.hay_bale_5,
             self.crate_1, self.crate_2,
@@ -279,7 +314,8 @@ class Game:
             self.crate_1, self.crate_2,
             self.shed, self.house, self.barn, self.toilet,
             self.tree_1, self.tree_2, self.tree_3, self.tree_4,
-            self.tree_trunk_1, self.tree_trunk_2, self.tree_trunk_3, 
+            self.tree_trunk_1, self.tree_trunk_2, self.tree_trunk_3, self.tree_trunk_4,
+            self.rock_1, self.rock_2, self.rock_3, self.rock_4, self.rock_5,
             self.campfire,
             self.well
         ]

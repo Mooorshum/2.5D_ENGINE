@@ -1,13 +1,12 @@
 import pygame
 
+import copy
 import random
 import os
 
 from math import sqrt, sin, cos, atan2, degrees, hypot, ceil, asin, pi, copysign, exp
 from numpy import sign
 
-
-WHITE = (255, 255, 255)
 
 def draw_rotated_image(image, rotation_point_x, rotation_point_y, screen, angle=0, offset=[0, 0]):
     image_height = image.get_height()
@@ -237,34 +236,35 @@ class Plant:
 
 
 class PlantSystem:
-    def __init__(self, folder, num_branches_range, base_angle_range, stiffness_range, gravity, density, scale=1):
+    def __init__(self, folder, num_branches_range, base_angle_range, stiffness_range, gravity, scale=1, num_assets=10):
 
         self.num_branches_range = num_branches_range
         self.base_angle_range = base_angle_range
         self.stiffness_range = stiffness_range
         self.gravity = gravity
 
-        self.mask = 'test_mask.png'
+        self.num_assets = num_assets
+        self.assets = self.generate_assets(folder, scale, num_assets)
         self.plants = []
         self.bend_objects = []
-        self.create_plants(folder, density, scale)
 
 
-    def create_plants(self, plant_folder, density, scale):
-        mask = pygame.image.load(f'{plant_folder}/masks/{self.mask}').convert()
-        mask_width = mask.get_width()
-        mask_height = mask.get_height()
-        for x in range(mask_width):
-            for y in range(mask_height):
-                colour = mask.get_at((x, y))
-                if colour != WHITE:
-                    rand_num = random.uniform(0, 1)
-                    if rand_num < density:
-                        position = (x, y)
-                        num_branches = random.randint(self.num_branches_range[0], self.num_branches_range[1])
-                        stiffness = random.uniform(self.stiffness_range[0], self.stiffness_range[1])
-                        plant = Plant(plant_folder, num_branches, position, self.base_angle_range, stiffness, scale=scale)
-                        self.plants.append(plant)
+    def generate_assets(self, plant_folder, scale, num_assets):
+        assets = []
+        for i in range(num_assets):
+            num_branches = random.randint(self.num_branches_range[0], self.num_branches_range[1])
+            stiffness = random.uniform(self.stiffness_range[0], self.stiffness_range[1])
+            position = [0, 0]
+            asset = Plant(plant_folder, num_branches, position, self.base_angle_range, stiffness, scale=scale)
+            assets.append(asset)
+        assets = sorted(assets, key=lambda asset: asset.num_branches)
+        return assets
+
+
+    def create_plant(self, asset_index, position):
+        plant = copy.deepcopy(self.assets[asset_index])
+        plant.position = position
+        self.plants.append(plant)
 
 
     def render(self, screen, offset=[0, 0]):

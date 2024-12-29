@@ -1,6 +1,6 @@
 import pygame
 
-from graphics import grass, shrubs
+from graphics import grass, plants
 from graphics.rendering import global_render
 from general_game_mechanics.dynamic_objects import DynamicObject, Vehicle
 from graphics.camera import Camera
@@ -258,7 +258,7 @@ class Game:
         )
 
 
-        self.shrubs = shrubs.PlantSystem(
+        self.shrubs = plants.PlantSystem(
             folder='assets/branchy_bush',
             num_branches_range = (1,7),
             base_angle_range = (-1.2, 1.2),
@@ -269,7 +269,7 @@ class Game:
             )
 
 
-        self.fern = shrubs.PlantSystem(
+        self.fern = plants.PlantSystem(
             folder='assets/fern',
             num_branches_range = (5,8),
             base_angle_range = (-1.2, 1.2),
@@ -282,7 +282,7 @@ class Game:
         self.fog = FogSystem(
             cloud_size=(40, 40, 0),
             map_size=(self.map_width, self.map_height),
-            max_particle_count=0,
+            max_particle_count=5,
             max_cloud_opacity=1
         )
 
@@ -300,7 +300,7 @@ class Game:
             self.hay_bale_1, self.hay_bale_2, self.hay_bale_3, self.hay_bale_4, self.hay_bale_5,
             self.crate_1, self.crate_2,
         ]
-        self.rendered_objects += self.grass_system.tiles
+        """ self.rendered_objects += self.grass_system.tiles """
         self.rendered_objects += self.shrubs.plants
         self.rendered_objects += self.fern.plants
         self.rendered_objects += self.fog.clouds
@@ -358,7 +358,6 @@ class Game:
 
 
     def update_screen_game(self, time_delta : float):
-        display_fps(self.screen, self.clock, font)
 
         """ DRAWING BACKGROUND """
         self.render_surface.fill((105, 66, 56))

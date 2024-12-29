@@ -54,33 +54,12 @@ class Camera:
         self.vx += a_smooth * normal_direction_x * self.dt
         self.vy += a_smooth * normal_direction_y * self.dt
 
-        self.rotation = self.omega * self.dt * (1 - self.omega_drag)
 
         if (distance < distance_threshold) and (sqrt(self.vx**2 + self.vy**2) < velocity_threshold):
             self.vx = 0
             self.vy = 0
 
-        self.vx *= (1 - self.linear_drag)
-        self.vy *= (1 - self.linear_drag)
 
-        speed = sqrt(self.vx**2 + self.vy**2)
-        if speed > self.linear_speed_limit:
-            self.vx = (self.vx / speed) * self.speed_limit
-            self.vy = (self.vy / speed) * self.speed_limit
-
-        self.position[0] += self.vx * self.dt
-        self.position[1] += self.vy * self.dt
-
-        # Preventing camera from going out of bounds
-        if self.position[0] < self.width/2:
-            self.position[0] = self.width/2
-        if self.position[0] > self.map_width - self.width/2:
-            self.position[0] = self.map_width - self.width/2
-
-        if self.position[1] < self.height/2:
-            self.position[1] = self.height/2
-        if self.position[1] > self.map_height - self.height/2:
-            self.position[1] = self.map_height - self.height/2
 
     def align(self, rotation):
         if not (self.rotate_left or self.rotate_right):
@@ -100,12 +79,38 @@ class Camera:
         self.Move_down = keys[pygame.K_DOWN]
 
     def move(self):
+
+        """ CAMERA ROTATION """
         turn_speed = 50
         turn_speed_limit = 200
-
         self.rotation = self.rotation % 360
-
         if self.rotate_left:
             self.omega += turn_speed
         if self.rotate_right:
             self.omega -= turn_speed
+        self.rotation = self.omega * self.dt * (1 - self.omega_drag)
+
+        self.vx *= (1 - self.linear_drag)
+        self.vy *= (1 - self.linear_drag)
+
+
+        """ CAMERA MOVEMENT """
+        speed = sqrt(self.vx**2 + self.vy**2)
+        if speed > self.linear_speed_limit:
+            self.vx = (self.vx / speed) * self.speed_limit
+            self.vy = (self.vy / speed) * self.speed_limit
+
+        self.position[0] += self.vx * self.dt
+        self.position[1] += self.vy * self.dt
+
+        # Preventing camera from going out of map bounds
+        if self.position[0] < self.width/2:
+            self.position[0] = self.width/2
+        if self.position[0] > self.map_width - self.width/2:
+            self.position[0] = self.map_width - self.width/2
+
+        if self.position[1] < self.height/2:
+            self.position[1] = self.height/2
+        if self.position[1] > self.map_height - self.height/2:
+            self.position[1] = self.map_height - self.height/2
+

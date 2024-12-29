@@ -15,10 +15,10 @@ from world.particle_presets import earthen_dust
 
 
 class DynamicObject(SpritestackModel):
-    def __init__(self, type=None, name=None, scale=1):
+    def __init__(self, type=None, name=None, scale=1, mass=1000, movelocked=False):
         super().__init__(type, name, scale)
 
-        self.mass = 1000
+        self.mass = mass
 
         self.v_drag = 0.03
         self.omega_drag = 0.05
@@ -35,7 +35,7 @@ class DynamicObject(SpritestackModel):
         self.ay = 0
         self.a_omega = 0
 
-        self.movelocked = False
+        self.movelocked = movelocked
 
         self.hitbox = Hitbox(self)
 

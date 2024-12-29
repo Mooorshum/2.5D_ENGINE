@@ -2,7 +2,7 @@ import pygame
 
 from math import sin, cos
 
-from graphics import grass, shrubs
+from graphics import grass, plants
 from graphics.particles import ParticleSystem
 from graphics.static_objects import Building
 from world.particle_presets import flame
@@ -79,7 +79,7 @@ class Game:
 
 
 
-        self.shrubs = shrubs.PlantSystem(
+        self.shrubs = plants.PlantSystem(
             folder='assets/branchy_bush',
             num_branches_range = (1,7),
             base_angle_range = (-1, 1),
@@ -89,7 +89,7 @@ class Game:
             )
 
 
-        self.fern = shrubs.PlantSystem(
+        self.fern = plants.PlantSystem(
             folder='assets/fern',
             num_branches_range = (3,7),
             base_angle_range = (-2, 2),

@@ -1,4 +1,6 @@
 import pygame
+
+import copy
 import os
 import random
 from math import sqrt, sin, cos, pi, radians, exp
@@ -31,11 +33,11 @@ class GrassBlade:
 
 
 class GrassTile:
-    def __init__(self, size, position, folder, blades_per_tile, stiffness, relax_speed, wind_magnitude, num_states, scale_factor):
+    def __init__(self, size, position, folder, num_blades, stiffness, relax_speed, wind_magnitude, num_states, scale_factor):
         self.size = size
         self.position = position
         self.stiffness = stiffness
-        self.blades_per_tile = blades_per_tile
+        self.num_blades = num_blades
         self.scale_factor = scale_factor
         self.wind_magnitude = wind_magnitude
         
@@ -69,14 +71,14 @@ class GrassTile:
         # Randomly generate grass blades to fill the tile
         x_start, y_start = self.position[0] - self.size // 2, self.position[1] - self.size // 2
         x_end, y_end = self.position[0] + self.size // 2, self.position[1] + self.size // 2
-        while k < self.blades_per_tile:
+        while k < self.num_blades:
             i = random.randint(x_start, x_end)
             j = random.randint(y_start, y_end)
             if k == 0:
-                self.generate_blade((i, j))
+                self.generate_blade([i, j])
                 k += 1
             elif all((i, j) != blade.position for blade in self.grass_blades):
-                self.generate_blade((i, j))
+                self.generate_blade([i, j])
                 k += 1
 
     def get_blade_asset_images(self, folder):
@@ -161,8 +163,6 @@ class GrassTile:
             self.render_tile_detailed(screen, bend_objects, offset)
             self.relax()
 
-        
-
     def generate_blade(self, position):
         if all(position != blade.position for blade in self.grass_blades):
             new_blade_image = random.choice(self.blade_asset_images)
@@ -179,9 +179,11 @@ class GrassTile:
 
 
 class GrassSystem:
-    def __init__(self, folder, tile_size=100, blades_per_tile=20, scale=1, density=1, stiffness=0.01):
-        self.tile_size = tile_size
-        self.blades_per_tile = blades_per_tile
+    def __init__(self, folder, min_tile_size=10, max_tile_size=100, min_num_blades=5, scale=1, max_num_blades=10, stiffness=0.01, num_assets=10):
+        self.min_tile_size = min_tile_size
+        self.max_tile_size = max_tile_size
+        self.min_num_blades = min_num_blades
+        self.max_num_blades = max_num_blades
         self.scale_factor = scale
         self.stiffness = stiffness
 
@@ -190,38 +192,35 @@ class GrassSystem:
         self.wind_magnitude = 8
         self.wind_direction = 0.05
 
+
+        self.assets = self.generate_assets(folder, num_assets)
         self.tiles = []
         self.bendpoints = []
 
-        self.mask = 'test_mask.png'
-
-        self.create_grass(folder, density)
         self.sort_tiles()
 
 
-    def create_grass(self, folder, density):
-        mask = pygame.image.load(f'{folder}/masks/{self.mask}').convert()
-        mask_width = mask.get_width()
-        mask_height = mask.get_height()
-        for x in range(0, mask_width, self.tile_size):
-            for y in range(0, mask_height, self.tile_size):
-                colour = mask.get_at((x, y))
-                if colour != WHITE:
-                    rand_num = random.uniform(0, 1)
-                    if rand_num < density:
-                        position = (x, y)
-                        self.create_new_tile(position, f'{folder}/images')
-
-
-    def create_new_tile(self, position, images_folder):
-        if all(position != tile.position for tile in self.tiles):
-            tile = GrassTile(
-                self.tile_size, position, images_folder,
-                self.blades_per_tile, self.stiffness, self.relax_speed,
+    def generate_assets(self, plant_folder, num_assets):
+        assets = []
+        for i in range(num_assets):
+            tile_size = random.randint(self.min_tile_size, self.max_tile_size)
+            num_blades = random.randint(self.min_num_blades, self.max_num_blades)
+            position = [0, 0]
+            asset = GrassTile(
+                tile_size, position, f'{plant_folder}/images',
+                num_blades, self.stiffness, self.relax_speed,
                 self.wind_magnitude,
                 self.tiles_num_states, self.scale_factor
             )
-            self.tiles.append(tile)
+            assets.append(asset)
+        assets = sorted(assets, key=lambda asset: asset.num_blades)
+        return assets
+
+
+    def create_tile(self, asset_index, position):
+        grass_tile = copy.deepcopy(self.assets[asset_index])
+        grass_tile.position = position
+        self.tiles.append(grass_tile)
 
     def sort_tiles(self):
         self.tiles.sort(key=lambda tile: tile.position[1])

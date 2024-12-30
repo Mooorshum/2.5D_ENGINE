@@ -167,8 +167,6 @@ class Level:
 
 
 
-
-
     def edit_level(self):
 
         """ SPRITE STACK ASSETS """
@@ -188,7 +186,7 @@ class Level:
             if self.undo:
                 if len(self.objects) > 0:
                     last_object = self.objects.pop()
-                    if isinstance(last_object, DynamicObject):
+                    if isinstance(last_object, DynamicObject) and not self.current_asset.movelocked:
                         self.dynamic_objects.remove(last_object)
 
             if self.next_item:

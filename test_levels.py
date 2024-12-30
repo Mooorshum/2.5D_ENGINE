@@ -16,8 +16,8 @@ class Game:
     def __init__(self):
 
         """ MAP SETTINGS """
-        self.map_width = 1500
-        self.map_height = 1500
+        self.map_width = 2000
+        self.map_height = 2000
         
         """ DISPLAY SETTINGS """
         self.screen_width = 800
@@ -53,6 +53,12 @@ class Game:
             DynamicObject(type='building', name='toilet', movelocked=True),
             DynamicObject(type='filler_object', name='tree_1', movelocked=True),
             DynamicObject(type='filler_object', name='tree_2', movelocked=True),
+            DynamicObject(type='filler_object', name='tree_3', movelocked=True),
+            DynamicObject(type='filler_object', name='tree_4', movelocked=True),
+            DynamicObject(type='filler_object', name='tree_5', movelocked=True),
+            DynamicObject(type='filler_object', name='tree_6', movelocked=True),
+            DynamicObject(type='filler_object', name='tree_7', movelocked=True),
+            DynamicObject(type='filler_object', name='tree_8', movelocked=True),
             DynamicObject(type='filler_object', name='tree_trunk_2', movelocked=True),
             DynamicObject(type='filler_object', name='tree_trunk_3', movelocked=True),
             DynamicObject(type='filler_object', name='rock_1', movelocked=True),

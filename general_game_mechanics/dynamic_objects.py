@@ -15,8 +15,8 @@ from world.particle_presets import earthen_dust
 
 
 class DynamicObject(SpritestackModel):
-    def __init__(self, type=None, name=None, scale=1, mass=1000, movelocked=False):
-        super().__init__(type, name, scale)
+    def __init__(self, type=None, name=None, hitbox_size=(64,64), spread=1, scale=1, mass=1000, movelocked=False):
+        super().__init__(type, name, hitbox_size=hitbox_size, spread=spread, scale=scale)
 
         self.mass = mass
 
@@ -70,8 +70,8 @@ class DynamicObject(SpritestackModel):
             
 
 class Vehicle(DynamicObject):
-    def __init__(self, type=None, name=None, scale=1):
-        super().__init__(type, name, scale)
+    def __init__(self, type=None, name=None, hitbox_size=(64,64), scale=1):
+        super().__init__(type, name, hitbox_size=hitbox_size, scale=scale)
 
         # Dustcloud settings
         self.dust = earthen_dust
@@ -166,6 +166,7 @@ class Vehicle(DynamicObject):
   
         super().move()
 
+
     def render(self, screen, camera, offset=[0, 0]):
         """ self.dust.position = [
             self.position[0] - self.hitbox_size[0]/2*cos(self.rotation),
@@ -177,4 +178,97 @@ class Vehicle(DynamicObject):
         self.dust.max_count = self.dust_particles_max_count * factor
         self.dust.render(screen, camera)
         self.dust.update() """
+        super().render(screen, camera, offset)
+
+
+
+
+
+
+
+class Character(DynamicObject):
+    def __init__(self, type=None, name=None, hitbox_size=(16,16), scale=1):
+        super().__init__(type, name, hitbox_size=hitbox_size, scale=scale)
+        
+        self.internal_time = 0
+
+        self.movespeed = 1000
+        self.movement_speed_limit = 50
+
+        self.move_up = False
+        self.move_down = False
+        self.move_left = False
+        self.move_right = False
+
+        self.hitbox = Hitbox(self)
+
+
+    def handle_movement(self, keys):
+        self.move_up = keys[pygame.K_s]
+        self.move_down = keys[pygame.K_w]
+        self.move_left = keys[pygame.K_a]
+        self.move_right = keys[pygame.K_d]
+
+
+    def move(self, camera):
+        ax, ay = 0, 0
+
+        if self.move_up:
+            ay -= self.movespeed
+        if self.move_down:
+            ay += self.movespeed
+        if self.move_left:
+            ax -= self.movespeed
+        if self.move_right:
+            ax += self.movespeed
+
+        transformed_ax = ax * cos(radians(camera.rotation)) - ay * sin(radians(camera.rotation))
+        transformed_ay = ax * sin(radians(camera.rotation)) + ay * cos(radians(camera.rotation))
+
+        if transformed_ax != 0 or transformed_ay != 0:
+            norm_factor = sqrt(transformed_ax**2 + transformed_ay**2)
+            transformed_ax /= norm_factor
+            transformed_ay /= norm_factor
+
+        if sqrt(self.vx**2 + self.vy**2) <= self.movement_speed_limit:
+            self.ax = transformed_ax * self.movespeed
+            self.ay = transformed_ay * self.movespeed
+        else:
+            self.ax = 0
+            self.ay = 0
+
+        if self.ax != 0 or self.ay != 0:
+            self.rotation = degrees(atan2(self.ay, self.ax))
+
+        super().move()
+
+
+    def render(self, screen, camera, offset=[0, 0]):
+
+        """ ANIMATING OBJECT BY SWITCHING STACK INDEX """
+        if sqrt(self.vx**2 + self.vy**2) > 5:
+            if self.internal_time // 10 == 0:
+                self.stack_index = 0
+            elif self.internal_time // 10 == 1:
+                self.stack_index = 1
+            elif self.internal_time // 10 == 2:
+                self.stack_index = 2
+            elif self.internal_time // 10 == 3:
+                self.stack_index = 3
+            elif self.internal_time // 10 == 4:
+                self.stack_index = 4
+            elif self.internal_time // 10 == 5:
+                self.stack_index = 5
+            elif self.internal_time // 10 == 6:
+                self.stack_index = 6
+            elif self.internal_time // 10 == 7:
+                self.stack_index = 7
+            else:
+                self.internal_time = 0
+        else:
+            self.internal_time = 0
+            self.stack_index = 0
+
+        self.internal_time += 1
+
         super().render(screen, camera, offset)

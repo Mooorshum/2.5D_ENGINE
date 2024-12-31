@@ -81,7 +81,7 @@ class Camera:
     def move(self):
 
         """ CAMERA ROTATION """
-        turn_speed = 50
+        turn_speed = 15
         turn_speed_limit = 200
         self.rotation = self.rotation % 360
         if self.rotate_left:

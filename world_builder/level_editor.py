@@ -1,10 +1,11 @@
 import pygame
 import copy
+import json
 
 from math import radians, sin, cos, sqrt, atan2
 
 from graphics.rendering import global_render
-from general_game_mechanics.dynamic_objects import DynamicObject
+from general_game_mechanics.dynamic_objects import DynamicObject, Character
 
 
 pygame.init()
@@ -18,21 +19,19 @@ def display_fps(screen, clock, font):
     screen.blit(fps_text, text_rect)
 
 
-def cycle_list(direction, current_index, list):
+def cycle_list(direction, current_index, lst):
     if direction == 'forwards':
-        new_index = current_index + 1
-    if direction == 'backwards':
-        new_index = current_index - 1
-    if new_index > len(list) - 1:
-        new_index = 1
-    if new_index < 0:
-        new_index = len(list) + 1
-    return new_index
+        return (current_index + 1) % len(lst)
+    elif direction == 'backwards':
+        return (current_index - 1) % len(lst)
+    return current_index
 
 
 
 class Level:
     def __init__(self, game):
+
+        self.name = 'test_level'
 
         """ LEVEL EDITING """
         self.place_position = [0, 0]
@@ -54,6 +53,7 @@ class Level:
         self.prev_item = False
         self.undo = False
         self.save = False
+        self.load = False
         self.objects = []
         self.dynamic_objects = []
         self.cache = []
@@ -65,6 +65,9 @@ class Level:
         self.plant_systems = self.game.plant_systems
         self.grass_systems = self.game.grass_systems
         self.particle_systems = self.game.particle_systems
+
+        self.player = Character(type='character', name='dude', hitbox_size=(32, 32))
+        self.player.position = [200, 200]
         
 
         self.fill_colour = (105, 66, 56)
@@ -72,22 +75,26 @@ class Level:
         self.rotation_speed = 3
         self.scroll_speed = 0.1
 
-        background = "background_test_grid.png"
+        background = "background_small.png"
         self.background = pygame.image.load(background).convert_alpha()
 
 
 
 
     def handle_controls_editing(self, keys, events):
+
+        self.player.handle_movement(keys)
+
+        
         ctrl_pressed = pygame.key.get_mods() & pygame.KMOD_CTRL
         shift_pressed = pygame.key.get_mods() & pygame.KMOD_SHIFT
-
 
         self.place = False
         self.next_item = False
         self.prev_item = False
         self.undo = False
         self.save = False
+        self.load = False
 
         self.rotate_clockwise = False
         self.rotate_counterclockwise = False
@@ -97,11 +104,9 @@ class Level:
             """ KEY PRESSES """
             if event.type == pygame.KEYDOWN:
 
-                # UNDO, REDO
+                # UNDO
                 if ctrl_pressed and event.key == pygame.K_z:
                     self.undo = True
-                elif ctrl_pressed and event.key == pygame.K_s:
-                    self.save = True
 
                 # SWITCH BETWEEN DIFFERENT ASSET TYPES
                 elif event.key == pygame.K_1:
@@ -117,12 +122,19 @@ class Level:
                     self.place_plant = False
                     self.place_grass_tile = True
 
+                # SAVING AND LOADING LEVEL FROM FILE
+                elif ctrl_pressed and event.key == pygame.K_s:
+                    self.save = True
+                elif ctrl_pressed and event.key == pygame.K_l:
+                    self.load = True
+
 
             """ MOUSE CLICKS """
             # PLACE ASSET
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     self.place = True
+
 
             """ MOUSE SCROLLING + KEY PRESSES """
             # ZOOM IN, ZOOM OUT
@@ -166,7 +178,6 @@ class Level:
                             self.rotate_counterclockwise = True
 
 
-
     def edit_level(self):
 
         """ SPRITE STACK ASSETS """
@@ -174,7 +185,8 @@ class Level:
             try:
                 self.current_asset = copy.deepcopy(self.sprite_stack_assets[self.current_asset_index])
             except IndexError:
-                self.current_asset = copy.deepcopy(self.sprite_stack_assets[0])
+                self.current_asset_index = 0
+                self.current_asset = copy.deepcopy(self.sprite_stack_assets[self.current_asset_index])
             self.current_asset.rotation = self.current_asset_rotation
             self.current_asset.position = self.place_position
 
@@ -215,14 +227,13 @@ class Level:
                     self.current_asset_rotation -= self.rotation_speed
         
 
-        
-
         """ PLANT ASSETS """
         if self.place_plant:
             try:
                 self.current_asset = copy.deepcopy(self.plant_systems[self.plant_system_index].assets[self.current_asset_index])
             except IndexError:
-                self.current_asset = copy.deepcopy(self.plant_systems[self.plant_system_index].assets[0])
+                self.current_asset_index = 0
+                self.current_asset = copy.deepcopy(self.plant_systems[self.plant_system_index].assets[self.current_asset_index])
             self.current_asset.position = self.place_position
             for branch in self.current_asset.branches:
                 branch.base_position = self.current_asset.position
@@ -247,14 +258,13 @@ class Level:
                     last_object = self.plant_systems[self.plant_system_index].plants.pop()
 
 
-
-
         """ GRASS ASSETS """
         if self.place_grass_tile:
             try:
                 self.current_asset = copy.deepcopy(self.grass_systems[self.grass_system_index].assets[self.current_asset_index])
             except IndexError:
-                self.current_asset = copy.deepcopy(self.grass_systems[self.grass_system_index].assets[0])
+                self.current_asset_index = 0
+                self.current_asset = copy.deepcopy(self.grass_systems[self.grass_system_index].assets[self.current_asset_index])
             self.current_asset.position = self.place_position
 
             if self.place:
@@ -277,6 +287,27 @@ class Level:
                 if  len(self.grass_systems[self.grass_system_index].tiles) > 0:
                     last_object = self.grass_systems[self.grass_system_index].tiles.pop()
 
+
+        """ SAVING AND LOADING LEVEL """
+        if self.save:
+            self.save_level()
+        if self.load:
+                self.load_level()
+
+
+    def save_level(self):
+        json_string = json.dumps([level_object.__dict__ for level_object in self.objects])
+        with open(f'{self.name}.txt', 'w') as file:
+            file.write(json_string)
+
+
+
+
+    def load_level(self):
+        try:
+            pass
+        except FileNotFoundError:
+            print(f'No file found for {self.name}')
 
 
 
@@ -304,9 +335,11 @@ class Level:
 
         self.place_position = [place_position_x, place_position_y]   
 
+        """ CAMERA MOVEMENT"""
+        self.player.move(self.game.camera)
 
         """ CAMERA MOVEMENT"""
-        self.camera.follow(self.place_position)
+        self.camera.follow(self.player.position)
         self.camera.move()
 
 
@@ -319,8 +352,8 @@ class Level:
         global_render(
             screen=render_surface,
             camera=self.camera,
-            objects=self.objects + [self.current_asset] + self.plant_systems[self.plant_system_index].plants + self.grass_systems[self.grass_system_index].tiles,
-            bend_objects=self.dynamic_objects,
+            objects=self.objects + [self.current_asset] + self.plant_systems[self.plant_system_index].plants + self.grass_systems[self.grass_system_index].tiles + [self.player],
+            bend_objects=self.dynamic_objects + [self.player],
             background=self.background,
         )
 
@@ -329,5 +362,6 @@ class Level:
 
         upscaled_surface = pygame.transform.scale(render_surface, (self.game.screen_width, self.game.screen_height))
         self.game.screen.blit(upscaled_surface, (0, 0))
+
 
         display_fps(self.game.screen, self.game.clock, font)

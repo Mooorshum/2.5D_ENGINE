@@ -66,7 +66,7 @@ class Level:
         self.grass_systems = self.game.grass_systems
         self.particle_systems = self.game.particle_systems
 
-        self.player = Character(type='character', name='dude', hitbox_size=(32, 32))
+        self.player = Character(type='character', name='dude', hitbox_size=(16, 16))
         self.player.position = [200, 200]
         
 

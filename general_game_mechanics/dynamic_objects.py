@@ -193,12 +193,14 @@ class Character(DynamicObject):
         self.internal_time = 0
 
         self.movespeed = 1000
-        self.movement_speed_limit = 50
+        self.walk_speed_limit = 50
+        self.run_speed_limit = 100
 
         self.move_up = False
         self.move_down = False
         self.move_left = False
         self.move_right = False
+        self.running = False
 
         self.hitbox = Hitbox(self)
 
@@ -208,9 +210,14 @@ class Character(DynamicObject):
         self.move_down = keys[pygame.K_w]
         self.move_left = keys[pygame.K_a]
         self.move_right = keys[pygame.K_d]
+        self.running = pygame.key.get_mods() & pygame.KMOD_SHIFT
 
 
     def move(self, camera):
+        if self.running:
+            speed_limit = self.run_speed_limit
+        else:
+            speed_limit = self.walk_speed_limit
         ax, ay = 0, 0
 
         if self.move_up:
@@ -230,7 +237,7 @@ class Character(DynamicObject):
             transformed_ax /= norm_factor
             transformed_ay /= norm_factor
 
-        if sqrt(self.vx**2 + self.vy**2) <= self.movement_speed_limit:
+        if sqrt(self.vx**2 + self.vy**2) <= speed_limit:
             self.ax = transformed_ax * self.movespeed
             self.ay = transformed_ay * self.movespeed
         else:
@@ -247,6 +254,7 @@ class Character(DynamicObject):
 
         """ ANIMATING OBJECT BY SWITCHING STACK INDEX """
         if sqrt(self.vx**2 + self.vy**2) > 5:
+
             if self.internal_time // 10 == 0:
                 self.stack_index = 0
             elif self.internal_time // 10 == 1:
@@ -265,6 +273,23 @@ class Character(DynamicObject):
                 self.stack_index = 7
             else:
                 self.internal_time = 0
+
+            if self.running:
+                if self.internal_time // 10 == 0:
+                    self.stack_index = 8
+                elif self.internal_time // 10 == 1:
+                    self.stack_index = 9
+                elif self.internal_time // 10 == 2:
+                    self.stack_index = 10
+                elif self.internal_time // 10 == 3:
+                    self.stack_index = 11
+                elif self.internal_time // 10 == 4:
+                    self.stack_index = 12
+                elif self.internal_time // 10 == 5:
+                    self.stack_index = 13
+                else:
+                    self.internal_time = 8
+
         else:
             self.internal_time = 0
             self.stack_index = 0

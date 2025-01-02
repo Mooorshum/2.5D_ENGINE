@@ -57,6 +57,8 @@ class Game:
             DynamicObject(type='building', name='red_barn', hitbox_size=(128,128), movelocked=True),
             DynamicObject(type='building', name='shed', hitbox_size=(64,45), movelocked=True),
             DynamicObject(type='building', name='toilet', hitbox_size=(45,45), movelocked=True),
+            DynamicObject(type='filler_object', name='fence_1', hitbox_size=(32,10), movelocked=True),
+            DynamicObject(type='filler_object', name='wind_turbine', hitbox_size=(32,32), movelocked=True),
             DynamicObject(type='filler_object', name='tree_1', hitbox_size=(20,20), movelocked=True),
             DynamicObject(type='filler_object', name='tree_2', hitbox_size=(20,20), movelocked=True),
             DynamicObject(type='filler_object', name='tree_3', hitbox_size=(20,20), movelocked=True),

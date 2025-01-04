@@ -237,7 +237,6 @@ class Level:
                     if isinstance(last_object, DynamicObject) and not self.current_asset.movelocked:
                         self.dynamic_objects.remove(last_object)
 
-
         """ PLANT ASSETS """
         if self.place_plant:
             try:
@@ -272,7 +271,6 @@ class Level:
                 if  len(self.plant_systems[self.plant_system_index].plants) > 0:
                     last_object = self.plant_systems[self.plant_system_index].plants.pop()
 
-
         """ GRASS ASSETS """
         if self.place_grass_tile:
             try:
@@ -302,7 +300,6 @@ class Level:
             if self.undo:
                 if  len(self.grass_systems[self.grass_system_index].tiles) > 0:
                     last_object = self.grass_systems[self.grass_system_index].tiles.pop()
-
 
         """ SAVING AND LOADING LEVEL """
         if self.save:

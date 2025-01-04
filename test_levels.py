@@ -67,6 +67,14 @@ class Game:
 
             # FENCES
             SpritestackAsset(type='fence', name='fence_1', hitbox_size=(32,10)),
+            SpritestackAsset(type='fence', name='fence_2', hitbox_size=(32,10)),
+            SpritestackAsset(type='fence', name='fence_3', hitbox_size=(32,10)),
+            SpritestackAsset(type='fence', name='fence_4', hitbox_size=(32,10)),
+            SpritestackAsset(type='fence', name='fence_5', hitbox_size=(32,10)),
+            SpritestackAsset(type='fence', name='fence_6', hitbox_size=(32,10)),
+            SpritestackAsset(type='fence', name='fence_7', hitbox_size=(10,10)),
+            SpritestackAsset(type='fence', name='fence_8', hitbox_size=(10,10)),
+            SpritestackAsset(type='fence', name='fence_9', hitbox_size=(10,10)),
 
             # WALLS
             SpritestackAsset(type='wall', name='wall_1', hitbox_size=(32,20)),

@@ -5,18 +5,14 @@ import pygame
 from math import sin, cos, sqrt, atan2, radians, copysign, degrees
 
 
-class SpritestackModel:
-    def __init__(self, type=None, name=None, hitbox_size=(64, 64), spread=1, scale=1, y0_base_offset=0):
+class SpritestackAsset:
+    def __init__(self, type=None, name=None, hitbox_size=(64, 64), spread=1, scale=1, y0_base_offset=0, movelocked=True):
         self.type = type
         self.name = name
 
-        self.stack_index = 0
-        self.internal_time = 0
-
-        self.rotation = 0
-        self.position = [0, 0]
-        
         self.scale = scale
+
+        self.movelocked = movelocked
 
         self.slice_size = (0, 0)
 
@@ -24,11 +20,13 @@ class SpritestackModel:
         self.y0_offset = 0
 
         # caching prerendered images of stacks for discrete angles
-        num_unique_angles = 90
-        self.stack_angle_image = self.generate_images_cache(num_unique_angles, spread)
+        self.spread = spread
+        self.num_unique_angles = 180
+        self.stack_angle_image = self.generate_images_cache(self.num_unique_angles, self.spread)
 
         # providing scaled hitbox size
-        self.hitbox_size = (hitbox_size[0]*scale, hitbox_size[1]*scale)
+        self.hitbox_size_unscaled = hitbox_size
+        self.hitbox_size = (self.hitbox_size_unscaled[0] * self.scale, self.hitbox_size_unscaled[1] * self.scale)
 
 
     def split_sheet_image(self, sheet_image):
@@ -50,7 +48,7 @@ class SpritestackModel:
                 slice_diagonal,
                 slice_diagonal + len(images)*spread,
             ),
-            pygame.SRCALPHA
+            #pygame.SRCALPHA
         )
 
         for i, img in enumerate(images):
@@ -94,22 +92,42 @@ class SpritestackModel:
 
 
 
+class SpritestackModel:
+    def __init__(self, asset, asset_index, position, rotation):
+
+        self.asset = asset
+        self.asset_index = asset_index
+
+        self.rotation = rotation
+        self.position = position
+
+        self.movelocked = self.asset.movelocked
+
+        self.stack_index = 0
+        self.internal_time = 0
+
+        self.hitbox_size = self.asset.hitbox_size
+
+        self.y0_offset = self.asset.y0_offset
+        self.y0_base_offset = self.asset.y0_base_offset
+
+
     def render(self, screen, camera, offset=[0, 0]):
 
         true_rotation = ((self.rotation + 360)  - camera.rotation) % 360
-        rounded_rotation = min(self.stack_angle_image[self.stack_index].keys(), key=lambda k: abs(k - true_rotation))
-        image = self.stack_angle_image[self.stack_index][rounded_rotation]
-
+        rounded_rotation = min(self.asset.stack_angle_image[self.stack_index].keys(), key=lambda k: abs(k - true_rotation))
+        image = self.asset.stack_angle_image[self.stack_index][rounded_rotation]
+        image.set_colorkey((0, 0, 0))
         screen.blit(
             image,
             (
                 self.position[0] - image.get_width() // 2 + offset[0],
-                self.position[1] - image.get_height() + sqrt(self.slice_size[0]**2 + self.slice_size[1]**2)/2 + offset[1]
+                self.position[1] - image.get_height() + sqrt(self.asset.slice_size[0]**2 + self.asset.slice_size[1]**2)/2 + offset[1]
             )
         )
 
         """ # DRAWING OBJECT HITBOX
-        rect_surface = pygame.Surface((self.hitbox_size[0], self.hitbox_size[1]), pygame.SRCALPHA)
+        rect_surface = pygame.Surface((self.asset.hitbox_size[0], self.asset.hitbox_size[1]), pygame.SRCALPHA)
         pygame.draw.rect(rect_surface, (255, 0, 0), rect_surface.get_rect(), 1)
         rotated_surface = pygame.transform.rotate(rect_surface, self.rotation - camera.rotation)
         rotated_rect = rotated_surface.get_rect(center=(self.position[0] + offset[0], self.position[1] + offset[1]))
@@ -117,10 +135,16 @@ class SpritestackModel:
 
 
         """ UPDATING THE TOTAL Y0_OFFSET OF THE OBJECT """
-        h = self.hitbox_size[1]/ 2
-        w = self.hitbox_size[0] / 2
+        h = self.asset.hitbox_size[1]/ 2
+        w = self.asset.hitbox_size[0] / 2
         L = sqrt(h**2 + w**2)
         beta = atan2(h, w)
-        self.y0_offset =  self.y0_base_offset + L * ( abs(sin(radians(self.rotation))) + abs(beta)) / 2 * self.scale
+        self.y0_offset = self.y0_base_offset + L * ( abs(sin(radians(self.rotation))) + abs(beta)) / 2 * self.asset.scale
 
 
+    def get_data(self):
+        data = {}
+        data['position'] = self.position
+        data['rotation'] = self.rotation
+        data['asset_index'] = self.asset_index
+        return data

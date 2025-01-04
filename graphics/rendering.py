@@ -6,8 +6,6 @@ from graphics import grass, plants
 from graphics.particles import ParticleSystem, FogCloud
 from graphics.sprite_stacks import SpritestackModel
 
-from general_game_mechanics.dynamic_objects import Vehicle
-
 
 
 

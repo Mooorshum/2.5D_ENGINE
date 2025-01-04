@@ -15,17 +15,14 @@ from world.particle_presets import earthen_dust
 
 
 class DynamicObject(SpritestackModel):
-    def __init__(self, type=None, name=None, hitbox_size=(64,64), spread=1, scale=1, mass=1000, movelocked=False):
-        super().__init__(type, name, hitbox_size=hitbox_size, spread=spread, scale=scale)
+    def __init__(self, asset, asset_index, position, rotation):
+        super().__init__(asset, asset_index, position, rotation)
 
-        self.mass = mass
+        self.mass = 100
 
         self.v_drag = 0.03
         self.omega_drag = 0.05
         self.dt = 0.01
-
-        self.position = [0, 0]
-        self.rotation = 0
 
         self.vx = 0
         self.vy = 0
@@ -35,7 +32,7 @@ class DynamicObject(SpritestackModel):
         self.ay = 0
         self.a_omega = 0
 
-        self.movelocked = movelocked
+        self.movelocked = True
 
         self.hitbox = Hitbox(self)
 
@@ -51,14 +48,13 @@ class DynamicObject(SpritestackModel):
             new_y = self.position[1] - new_vy * self.dt
             new_rotation = self.rotation + new_omega * self.dt
 
-            self.rotation = new_rotation
-
             self.vx = new_vx
             self.vy = new_vy
             self.omega = new_omega
 
             self.position[0] = new_x
             self.position[1] = new_y
+            self.rotation = new_rotation
 
 
             
@@ -69,7 +65,7 @@ class DynamicObject(SpritestackModel):
 
             
 
-class Vehicle(DynamicObject):
+""" class Vehicle(DynamicObject):
     def __init__(self, type=None, name=None, hitbox_size=(64,64), scale=1):
         super().__init__(type, name, hitbox_size=hitbox_size, scale=scale)
 
@@ -168,7 +164,7 @@ class Vehicle(DynamicObject):
 
 
     def render(self, screen, camera, offset=[0, 0]):
-        """ self.dust.position = [
+        self.dust.position = [
             self.position[0] - self.hitbox_size[0]/2*cos(self.rotation),
             self.position[1] - self.hitbox_size[1]/2*sin(self.rotation),
             0
@@ -177,8 +173,8 @@ class Vehicle(DynamicObject):
         self.dust.r_range = (0, round(self.max_dustcloud_size*factor))
         self.dust.max_count = self.dust_particles_max_count * factor
         self.dust.render(screen, camera)
-        self.dust.update() """
-        super().render(screen, camera, offset)
+        self.dust.update()
+        super().render(screen, camera, offset) """
 
 
 
@@ -187,10 +183,8 @@ class Vehicle(DynamicObject):
 
 
 class Character(DynamicObject):
-    def __init__(self, type=None, name=None, hitbox_size=(16,16), scale=1):
-        super().__init__(type, name, hitbox_size=hitbox_size, scale=scale)
-        
-        self.internal_time = 0
+    def __init__(self, asset, asset_index, position, rotation):
+        super().__init__(asset=asset, asset_index=asset_index, position=position, rotation=rotation)
 
         self.movespeed = 1000
         self.walk_speed_limit = 50
@@ -275,17 +269,17 @@ class Character(DynamicObject):
                 self.internal_time = 0
 
             if self.running:
-                if self.internal_time // 10 == 0:
+                if self.internal_time // 8 == 0:
                     self.stack_index = 8
-                elif self.internal_time // 10 == 1:
+                elif self.internal_time // 8 == 1:
                     self.stack_index = 9
-                elif self.internal_time // 10 == 2:
+                elif self.internal_time // 8 == 2:
                     self.stack_index = 10
-                elif self.internal_time // 10 == 3:
+                elif self.internal_time // 8 == 3:
                     self.stack_index = 11
-                elif self.internal_time // 10 == 4:
+                elif self.internal_time // 8 == 4:
                     self.stack_index = 12
-                elif self.internal_time // 10 == 5:
+                elif self.internal_time // 8 == 5:
                     self.stack_index = 13
                 else:
                     self.internal_time = 8

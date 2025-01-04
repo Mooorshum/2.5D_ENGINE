@@ -4,7 +4,7 @@ import copy
 import random
 import os
 
-from math import sqrt, sin, cos, atan2, degrees, hypot, ceil, asin, pi, copysign, exp
+from math import sqrt, sin, cos, atan2, degrees, hypot, ceil, asin, pi, copysign, exp, radians
 from numpy import sign
 
 
@@ -29,19 +29,24 @@ def draw_rotated_image(image, rotation_point_x, rotation_point_y, screen, angle=
 class Branch:
     def __init__(self, base_position, base_angle, stiffness, folder, scale=1):
 
+        self.branch_folder = folder
+
         self.base_position = base_position
         self.base_angle = base_angle
         self.stiffness = stiffness
-        self.elastic_force_mulitplier = 10
+
+        self.scale = scale
 
         self.num_segments = 0
         self.segment_images = []
+        self.segment_image_paths = []
+
         self.segment_lengths = []
         self.segment_angles = []
 
         self.total_angle_change = 0
 
-        self.initialize_branch(folder, scale=scale)
+        self.initialize_branch(self.branch_folder, self.scale)
         
         self.segment_startpoints = [
             [None, None] for _ in range(len(self.segment_images))
@@ -51,7 +56,8 @@ class Branch:
     def initialize_branch(self, branch_folder, scale):
         self.num_segments = len(os.listdir(branch_folder))
         for i in range(self.num_segments):
-            segment_image = pygame.image.load(f'{branch_folder}/segment_{i}.png').convert_alpha()
+            segment_image_path = f'{branch_folder}/segment_{i}.png'
+            segment_image = pygame.image.load(segment_image_path).convert()
             if scale != 1:
                 segment_image = pygame.transform.scale(
                     segment_image,
@@ -60,8 +66,10 @@ class Branch:
                         int(segment_image.get_height() * scale)
                     )
                 )
+            segment_image.set_colorkey((0, 0, 0))
             self.segment_lengths.append(segment_image.get_height())
             self.segment_images.append(segment_image)
+            self.segment_image_paths.append(segment_image_path)
             self.segment_angles.append(self.base_angle)
 
 
@@ -137,36 +145,60 @@ class Branch:
             angle = self.segment_angles[i]
             draw_rotated_image(segment_image, segment_startpoint_x, segment_startpoint_y, screen, angle=angle, offset=offset)
 
+    def get_data(self):
+        data = {}
+        data['scale'] = self.scale
+        data['branch_folder'] = self.branch_folder
+        data['base_position'] = self.base_position
+        data['base_angle'] = self.base_angle
+        return data
 
 
 
-class Plant:
-    def __init__(self, folder, num_branches, position, base_angle_range, stiffness, scale=1):
 
-        self.position = position
+class PlantAsset:
+    def __init__(self, index, plant_folder, num_branches, base_angle_range, stiffness, relax_speed=0.5, scale=1):
+
+        self.index = index
+
         self.image = None
         self.num_branches = num_branches
 
         self.branches = []
 
+        # Used for reconstructing asset from data
+        self.branch_paths = []
+        self.branch_base_angles = []
+
+        self.stiffness = stiffness
         self.total_angle_change = 0
-        self.is_bent = False
+        self.relax_speed = relax_speed
+        self.scale = scale
 
         self.y0_offset = 0
-        
-        self.initialize_plant(folder, base_angle_range, stiffness, scale)
 
+        self.initialize_asset(plant_folder, base_angle_range)
+        self.prerender_plant()
 
-    def initialize_plant(self, plant_folder, base_angle_range, stiffness, scale):
-        number_of_branch_variants = len(os.listdir(plant_folder))
+    def initialize_asset(self, plant_folder, base_angle_range):
+        number_of_branch_variants = len(os.listdir(f'{plant_folder}/branches/'))
+        base_angle_span = radians(random.randint(base_angle_range[0], base_angle_range[1]))
+        base_angle_step = 2*base_angle_span / self.num_branches
         for k in range(0, self.num_branches):
-            branch_base_angle = random.uniform(base_angle_range[0], base_angle_range[1])
+            branch_base_angle = -base_angle_span + k*base_angle_step
+            self.branch_base_angles.append(branch_base_angle)
+            if self.num_branches == 1:
+                branch_base_angle = radians(random.randint(-30, 30))
+                self.branch_base_angles.append(branch_base_angle)
             branch_variant_number = random.randint(0, number_of_branch_variants-1)
             branch_folder = f'{plant_folder}/branches/branch_{branch_variant_number}'
-            branch = Branch(self.position, branch_base_angle, stiffness, branch_folder, scale=scale)
+            self.branch_paths.append(branch_folder)
+            branch = Branch(base_position=[0, 0], base_angle=branch_base_angle, stiffness=self.stiffness, folder=branch_folder, scale=self.scale)
             self.branches.append(branch)
 
-        # Creating single prerendered image for whole plant
+
+    def prerender_plant(self):
+        # Creating single prerendered image for the whole plant
         max_branch_size = 0
         for branch in self.branches:
             branch_size = 0
@@ -180,15 +212,64 @@ class Plant:
         for branch in self.branches:
             branch.render_on_surface(
                 plant_surface,
-                offset=[self.position[0] - surface_width // 2, self.position[1] - surface_height // 2]
+                offset=[ -surface_width // 2, -surface_height // 2]
             )
         self.image = plant_surface
 
 
+    def get_data(self):
+        data = {}
+        data['index'] = self.index
+        data['stiffness'] = self.stiffness
+        data['scale'] = self.scale
+        data['num_branches'] = self.num_branches
+        data['branch_paths'] = self.branch_paths
+        data['branch_base_angles'] = self.branch_base_angles
+        return data
+
+
+    def load(self, data):
+        self.index = data['index']
+        self.stiffness = data['stiffness']
+        self.branches = []
+        self.scale = data['scale']
+        self.branch_paths = data['branch_paths']
+        self.branch_base_angles = data['branch_base_angles']
+        for i in range(len(self.branch_paths)):
+            branch = Branch(
+                base_position=[0, 0],
+                base_angle=self.branch_base_angles[i],
+                stiffness=self.stiffness,
+                folder=self.branch_paths[i],
+                scale=self.scale
+            )
+            self.branches.append(branch)
+        self.prerender_plant()
+
+
+
+
+
+class Plant:
+    def __init__(self, asset, position):
+
+        self.asset = asset
+
+        self.position = position
+
+        self.branches = copy.deepcopy(self.asset.branches)
+
+        self.total_angle_change = 0
+        self.is_bent = False
+        self.relax_speed = self.asset.relax_speed
+
+        self.y0_offset = self.asset.y0_offset
+
+
     def render_simple(self, screen, offset=[0, 0]):
-        if self.image:
-            screen.blit(self.image, (self.position[0] - self.image.get_width() // 2 + offset[0], 
-                                     self.position[1] - self.image.get_height() // 2 + offset[1]))
+        if self.asset.image:
+            screen.blit(self.asset.image, (self.position[0] - self.asset.image.get_width() // 2 + offset[0], 
+                                     self.position[1] - self.asset.image.get_height() // 2 + offset[1]))
 
 
     def render_detailed(self, screen, bend_objects, offset=[0, 0]):
@@ -208,14 +289,14 @@ class Plant:
 
         # updating and rendering all branches
         for branch in self.branches:
-            branch.apply_forces(total_bend_force)
+            branch.apply_forces(total_bend_force * self.relax_speed)
             total_angle_change += branch.total_angle_change
             branch.render(screen, offset)
         self.total_angle_change = total_angle_change
 
 
     def render(self, screen, bend_objects, offset=[0, 0]):
-        min_angle_change_for_detailed_render = 0.01
+        min_angle_change_for_detailed_render = 0.005
 
         # monitoring if the plant is currently being bent
         is_bent = False
@@ -229,44 +310,101 @@ class Plant:
         else:
             self.render_simple(screen, offset)
 
-        """ DRAW A GREEN CIRCLE AT THE CENTRE OF THE TILE """
-        """ pygame.draw.circle(screen, (0, 255, 0), self.position, 10) """
+    def get_data(self):
+        data = {}
+        data['position'] = self.position
+        data['asset_index'] = self.asset.index
+        return data
+
+    def load(self, data, asset):
+        self.position = data['position']
+        self.asset = asset
 
 
 
 
 class PlantSystem:
-    def __init__(self, folder, num_branches_range, base_angle_range, stiffness_range, gravity, scale=1, num_assets=10):
+    def __init__(self, folder, num_branches_range, base_angle_range, stiffness_range, relax_speed=1, scale=1, num_assets=10):
+
+        self.plant_folder = folder
 
         self.num_branches_range = num_branches_range
         self.base_angle_range = base_angle_range
         self.stiffness_range = stiffness_range
-        self.gravity = gravity
+        self.relax_speed = relax_speed
+
+        self.scale = scale
 
         self.num_assets = num_assets
-        self.assets = self.generate_assets(folder, scale, num_assets)
+        self.assets = self.generate_assets(self.plant_folder, self.scale , self.num_assets)
         self.plants = []
         self.bend_objects = []
 
 
     def generate_assets(self, plant_folder, scale, num_assets):
         assets = []
-        for i in range(num_assets):
+        for asset_index in range(num_assets):
             num_branches = random.randint(self.num_branches_range[0], self.num_branches_range[1])
             stiffness = random.uniform(self.stiffness_range[0], self.stiffness_range[1])
-            position = [0, 0]
-            asset = Plant(plant_folder, num_branches, position, self.base_angle_range, stiffness, scale=scale)
+            asset = PlantAsset(asset_index, plant_folder, num_branches, self.base_angle_range, stiffness, self.relax_speed, scale=scale)
             assets.append(asset)
-        assets = sorted(assets, key=lambda asset: asset.num_branches)
         return assets
 
 
     def create_plant(self, asset_index, position):
-        plant = copy.deepcopy(self.assets[asset_index])
-        plant.position = position
+        asset = self.assets[asset_index]
+        plant = Plant(asset, position)
+        for branch in plant.branches:
+            branch.base_position[0] += position[0]
+            branch.base_position[1] += position[1]
         self.plants.append(plant)
 
 
     def render(self, screen, offset=[0, 0]):
         for plant in self.plants:
             plant.render(screen, self.bend_objects, offset)
+
+
+    def get_data(self):
+        system_data = {}
+
+        # GETTING ASSET DATA
+        system_asset_data = []
+        for asset in self.assets:
+            system_asset_data.append(asset.get_data())
+        system_data['assets'] = system_asset_data
+
+        # GETTING PLANT DATA
+        system_plant_data = []
+        for plant in self.plants:
+            system_plant_data.append(plant.get_data())
+        system_data['plants'] = system_plant_data
+
+        # GENERAL SYSTEM INFO
+        system_data['scale'] = self.scale
+        system_data['plant_folder'] = self.plant_folder
+
+        return system_data
+
+
+    def load(self, system_data):
+        
+        # LOADING ASSETS
+        self.assets = []
+        for asset_data in system_data['assets']:
+            asset = PlantAsset(
+                asset_data['index'],
+                system_data['plant_folder'],
+                asset_data['num_branches'],
+                self.base_angle_range,
+                asset_data['stiffness'],
+                self.relax_speed,
+                system_data['scale']
+            )
+            asset.load(asset_data)
+            self.assets.append(asset)
+
+        # LOADING PLANTS
+        self.plants = []
+        for plant_data in system_data['plants']:
+            self.create_plant(plant_data['asset_index'], plant_data['position'])

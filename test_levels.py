@@ -2,9 +2,9 @@ import pygame
 
 from graphics.plants import PlantSystem
 from graphics.grass import GrassSystem
-from graphics.sprite_stacks import SpritestackModel
+from graphics.sprite_stacks import SpritestackAsset
 
-from general_game_mechanics.dynamic_objects import DynamicObject, Vehicle, Character
+from general_game_mechanics.dynamic_objects import DynamicObject, Character # , Vehicle
 from graphics.camera import Camera
 
 from world_builder.level_editor import Level
@@ -43,80 +43,149 @@ class Game:
         self.time = 0
 
 
-        """ GAME ASSETS """
+        """ PLAYER ASSETS """
+        self.player_asset = SpritestackAsset(type='character', name='dude', hitbox_size=(32, 32))
 
+
+        """ NPC ASSETS """
+        self.npc_assets = []
+
+
+        """ SPRITE STACK ASSETS """
         self.sprite_stack_assets = [
 
-            Vehicle(type='vehicle', name='cop_car', hitbox_size=(64,36)),
-            Vehicle(type='vehicle', name='pickup_truck', hitbox_size=(64,36)),
-            Vehicle(type='vehicle', name='hippie_van', hitbox_size=(64,36)),
+            # VEHICLES
+            SpritestackAsset(type='vehicle', name='cop_car', hitbox_size=(64,36), movelocked=False),
+            SpritestackAsset(type='vehicle', name='pickup_truck', hitbox_size=(64,36), movelocked=False),
+            SpritestackAsset(type='vehicle', name='hippie_van', hitbox_size=(64,36), movelocked=False),
 
-            SpritestackModel(type='filler_object', name='campfire', hitbox_size=(32,32), y0_base_offset=-100),
+            # BUILDINGS
+            SpritestackAsset(type='building', name='house_1', hitbox_size=(128,128)),
+            SpritestackAsset(type='building', name='red_barn', hitbox_size=(128,128)),
+            SpritestackAsset(type='building', name='shed', hitbox_size=(64,45)),
+            SpritestackAsset(type='building', name='toilet', hitbox_size=(45,45)),
 
-            DynamicObject(type='building', name='house_1', hitbox_size=(128,128), movelocked=True),
-            DynamicObject(type='building', name='red_barn', hitbox_size=(128,128), movelocked=True),
-            DynamicObject(type='building', name='shed', hitbox_size=(64,45), movelocked=True),
-            DynamicObject(type='building', name='toilet', hitbox_size=(45,45), movelocked=True),
-            DynamicObject(type='filler_object', name='fence_1', hitbox_size=(32,10), movelocked=True),
-            DynamicObject(type='filler_object', name='wind_turbine', hitbox_size=(32,32), movelocked=True),
-            DynamicObject(type='filler_object', name='tree_1', hitbox_size=(20,20), movelocked=True),
-            DynamicObject(type='filler_object', name='tree_2', hitbox_size=(20,20), movelocked=True),
-            DynamicObject(type='filler_object', name='tree_3', hitbox_size=(20,20), movelocked=True),
-            DynamicObject(type='filler_object', name='tree_4', hitbox_size=(20,20), movelocked=True),
-            DynamicObject(type='filler_object', name='tree_5', hitbox_size=(20,20), movelocked=True),
-            DynamicObject(type='filler_object', name='tree_6', hitbox_size=(20,20), movelocked=True),
-            DynamicObject(type='filler_object', name='tree_7', hitbox_size=(32,32), movelocked=True),
-            DynamicObject(type='filler_object', name='tree_8', hitbox_size=(20,20), movelocked=True),
-            DynamicObject(type='filler_object', name='tree_9', hitbox_size=(32,32), movelocked=True),
-            DynamicObject(type='filler_object', name='tree_trunk_2', hitbox_size=(25,25), movelocked=True),
-            DynamicObject(type='filler_object', name='tree_trunk_3', hitbox_size=(25,25), movelocked=True),
-            DynamicObject(type='filler_object', name='rock_1', hitbox_size=(32,32), movelocked=True),
-            DynamicObject(type='filler_object', name='rock_2', hitbox_size=(32,32), movelocked=True),
-            DynamicObject(type='filler_object', name='rock_3', hitbox_size=(32,32), movelocked=True),
-            DynamicObject(type='filler_object', name='rock_4', hitbox_size=(32,32), movelocked=True),
-            DynamicObject(type='filler_object', name='rock_5', hitbox_size=(32,32), movelocked=True),
-            DynamicObject(type='filler_object', name='well', hitbox_size=(50,50), movelocked=True),
-            DynamicObject(type='filler_object', name='crate_1', hitbox_size=(32,20), mass=200),
-            DynamicObject(type='filler_object', name='hay_bale_1', hitbox_size=(32,32), mass=100),
-            DynamicObject(type='filler_object', name='hay_bale_2', hitbox_size=(32,32), mass=500),
-            DynamicObject(type='filler_object', name='wheelbarrow', hitbox_size=(25,25), scale=1.2, mass=100),
+            # FENCES
+            SpritestackAsset(type='fence', name='fence_1', hitbox_size=(32,10)),
+
+            # WALLS
+            SpritestackAsset(type='wall', name='wall_1', hitbox_size=(32,20)),
+            SpritestackAsset(type='wall', name='wall_2', hitbox_size=(32,20)),
+            SpritestackAsset(type='wall', name='wall_3', hitbox_size=(32,20)),
+            SpritestackAsset(type='wall', name='wall_4', hitbox_size=(32,20)),
+            SpritestackAsset(type='wall', name='wall_5', hitbox_size=(32,20)),
+
+            # WINDMILLS
+            SpritestackAsset(type='windmill', name='windmill_1', hitbox_size=(32,32)),
+
+            # WELLS
+            SpritestackAsset(type='well', name='well_1', hitbox_size=(50,50)),
+
+            # TREES
+            SpritestackAsset(type='tree', name='tree_1', hitbox_size=(20,20)),
+            SpritestackAsset(type='tree', name='tree_2', hitbox_size=(20,20)),
+            SpritestackAsset(type='tree', name='tree_3', hitbox_size=(20,20)),
+            SpritestackAsset(type='tree', name='tree_4', hitbox_size=(20,20)),
+            SpritestackAsset(type='tree', name='tree_5', hitbox_size=(20,20)),
+            SpritestackAsset(type='tree', name='tree_6', hitbox_size=(20,20)),
+            SpritestackAsset(type='tree', name='tree_7', hitbox_size=(32,32)),
+            SpritestackAsset(type='tree', name='tree_8', hitbox_size=(20,20)),
+            SpritestackAsset(type='tree', name='tree_9', hitbox_size=(32,32)),
+            SpritestackAsset(type='tree', name='tree_trunk_1', hitbox_size=(25,25)),
+            SpritestackAsset(type='tree', name='tree_trunk_2', hitbox_size=(25,25)),
+            SpritestackAsset(type='tree', name='tree_trunk_3', hitbox_size=(25,25)),
+
+            # ROCKS
+            SpritestackAsset(type='rock', name='rock_1', hitbox_size=(32,32)),
+            SpritestackAsset(type='rock', name='rock_2', hitbox_size=(32,32)),
+            SpritestackAsset(type='rock', name='rock_3', hitbox_size=(32,32)),
+            SpritestackAsset(type='rock', name='rock_4', hitbox_size=(32,32)),
+            SpritestackAsset(type='rock', name='rock_5', hitbox_size=(32,32)),
+
+            # CRATES
+            SpritestackAsset(type='crate', name='crate_1', hitbox_size=(32,20)),
+            SpritestackAsset(type='crate', name='crate_2', hitbox_size=(32,32)),
+
+            # HAY BALES
+            SpritestackAsset(type='hay_bale', name='hay_bale_1', hitbox_size=(32,32)),
+            SpritestackAsset(type='hay_bale', name='hay_bale_2', hitbox_size=(32,32)),
+
+            # BARRELS
+            SpritestackAsset(type='barrel', name='barrel_1', hitbox_size=(16,16)),
+            SpritestackAsset(type='barrel', name='barrel_2', hitbox_size=(16,16)),
+
+            # WHEELBARROWS
+            SpritestackAsset(type='wheelbarrow', name='wheelbarrow_1', hitbox_size=(25,25)),
+
+            # CAMPFIRES
+            SpritestackAsset(type='campfire', name='campfire_1', hitbox_size=(32,32)),
         ]
 
+
+        """ PLANT SYSTEM ASSETS """
         self.plant_systems = [
             PlantSystem(
-                folder='assets/branchy_bush',
-                num_branches_range = (1,7),
-                base_angle_range = (-1.2, 1.2),
-                stiffness_range = (0.1, 0.1),
-                gravity = 0.1,
-                scale=0.3
+                folder='assets/_plant_assets/bush_1',
+                num_branches_range = (4,7),
+                base_angle_range = (30, 70),
+                stiffness_range = (0.005, 0.02),
+                relax_speed=0.2,
+                scale=1
             ),
             PlantSystem(
-                folder='assets/fern',
-                num_branches_range = (5,8),
-                base_angle_range = (-1.2, 1.2),
-                stiffness_range = (0.1, 0.1),
-                gravity = 0.1,
-                scale=0.3
+                folder='assets/_plant_assets/bush_2',
+                num_branches_range = (1,10),
+                base_angle_range = (70, 80),
+                stiffness_range = (0.005, 0.02),
+                relax_speed=0.2,
+                scale=1
+            ),
+            PlantSystem(
+                folder='assets/_plant_assets/bush_3',
+                num_branches_range = (1,8),
+                base_angle_range = (70, 80),
+                stiffness_range = (0.005, 0.02),
+                relax_speed=0.2,
+                scale=1
+            ),
+            PlantSystem(
+                folder='assets/_plant_assets/bush_4',
+                num_branches_range = (1,4),
+                base_angle_range = (5, 15),
+                stiffness_range = (0.1, 0.03),
+                relax_speed=0.2,
+                scale=1
             ),
         ]
 
+
+        """ GRASS SYSTEM ASSETS """
         self.grass_systems = [
             GrassSystem(
-                folder = 'assets/grass',
-                min_tile_size=5,
-                max_tile_size=20,
+                folder = 'assets/_grass_assets/grass_1',
+                min_tile_size=20,
+                max_tile_size=40,
                 min_num_blades=2,
                 max_num_blades=10,
                 stiffness=0.1,
-                scale=0.5,
-                num_assets=10
+                num_assets=10,
+                scale=0.5
+            ),
+            GrassSystem(
+                folder = 'assets/_grass_assets/grass_2',
+                min_tile_size=20,
+                max_tile_size=40,
+                min_num_blades=2,
+                max_num_blades=10,
+                stiffness=0.1,
+                num_assets=10,
+                scale=0.5
             ),
         ]
 
-        self.particle_systems = [
 
-        ]
+        """ PARTICLE SYSTEM PRESETS """
+        self.particle_systems = []
 
 
         """ TEST LEVEL """

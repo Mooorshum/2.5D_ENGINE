@@ -9,6 +9,8 @@ from graphics.camera import Camera
 
 from world_builder.level_editor import Level
 
+from presets import particle_presets
+
 
 pygame.init()
 
@@ -44,7 +46,7 @@ class Game:
 
 
         """ PLAYER ASSETS """
-        self.player_asset = SpritestackAsset(type='character', name='dude', hitbox_size=(32, 32))
+        self.player_asset = SpritestackAsset(type='character', name='dude', hitbox_size=(16, 16))
 
 
         """ NPC ASSETS """
@@ -127,6 +129,9 @@ class Game:
 
             # CAMPFIRES
             SpritestackAsset(type='campfire', name='campfire_1', hitbox_size=(32,32)),
+
+            # WATER TOWERS
+            SpritestackAsset(type='water_tower', name='water_tower_1', hitbox_size=(64,64)),
         ]
 
 
@@ -193,7 +198,10 @@ class Game:
 
 
         """ PARTICLE SYSTEM PRESETS """
-        self.particle_systems = []
+        self.particle_system_presets = [
+            particle_presets.flame,
+            particle_presets.fog_cloud,
+        ]
 
 
         """ TEST LEVEL """

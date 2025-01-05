@@ -10,6 +10,7 @@ from general_game_mechanics.dynamic_objects import DynamicObject, Character
 from graphics.grass import GrassTile
 from graphics.plants import Plant
 from graphics.sprite_stacks import SpritestackModel
+from graphics.particles import ParticleSystem
 
 
 pygame.init()
@@ -45,10 +46,12 @@ class Level:
 
         self.plant_system_index = 0
         self.grass_system_index = 0
+        self.particle_system_index = 0
 
         self.place_sprite_stack = True
         self.place_plant = False
         self.place_grass_tile = False
+        self.place_particle_system = False
 
         self.rotate_clockwise = False
         self.rotate_counterclockwise = False
@@ -58,8 +61,6 @@ class Level:
         self.undo = False
         self.save = False
         self.load = False
-        self.objects = []
-        self.dynamic_objects = []
         self.cache = []
 
 
@@ -72,13 +73,17 @@ class Level:
         self.plant_systems = self.game.plant_systems
         self.grass_systems = self.game.grass_systems
 
-        self.particle_systems = self.game.particle_systems
+        self.particle_system_presets = self.game.particle_system_presets
 
         self.npc_assets = self.game.npc_assets
 
+        self.objects = []
+        self.dynamic_objects = []
+        self.particle_systems = []
+
         """ CONFIGURING PLAYER OBJECT """
         self.player_asset = self.game.player_asset
-        player_start_position = [200, 200]
+        player_start_position = [250, 350]
         player_start_rotation = 0
         self.player = Character(asset=self.player_asset, asset_index=0, position=player_start_position, rotation=player_start_rotation)
         self.player.movelocked = False
@@ -130,14 +135,22 @@ class Level:
                     self.place_sprite_stack = True
                     self.place_plant = False
                     self.place_grass_tile = False
+                    self.place_particle_system = False
                 elif event.key == pygame.K_2:
                     self.place_sprite_stack = False
                     self.place_plant = True
                     self.place_grass_tile = False
+                    self.place_particle_system = False
                 elif event.key == pygame.K_3:
                     self.place_sprite_stack = False
                     self.place_plant = False
                     self.place_grass_tile = True
+                    self.place_particle_system = False
+                elif event.key == pygame.K_4:
+                    self.place_sprite_stack = False
+                    self.place_plant = False
+                    self.place_grass_tile = False
+                    self.place_particle_system = True
 
                 # SAVING AND LOADING LEVEL FROM FILE
                 elif ctrl_pressed and event.key == pygame.K_s:
@@ -147,7 +160,7 @@ class Level:
 
 
             """ MOUSE CLICKS """
-            # PLACE ASSET
+            # PLACE OBJECT
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     self.place = True
@@ -301,6 +314,29 @@ class Level:
                 if  len(self.grass_systems[self.grass_system_index].tiles) > 0:
                     last_object = self.grass_systems[self.grass_system_index].tiles.pop()
 
+        """ PARTICLE SYSTEMS """
+        if self.place_particle_system:
+            try:
+                particle_system = copy.deepcopy(self.particle_system_presets[self.particle_system_index])
+            except IndexError:
+                self.current_asset_index = 0
+                particle_system = copy.deepcopy(self.particle_system_presets[self.particle_system_index])
+            particle_system.position = [self.place_position[0], self.place_position[1], 0]
+            self.current_asset = particle_system
+
+            if self.place:
+                self.particle_systems.append(self.current_asset)
+
+            if self.next_item:
+                self.particle_system_index = cycle_list('forward', self.current_asset_index, self.particle_system_presets)
+
+            if self.prev_item:
+                self.particle_system_index = cycle_list('backwards', self.current_asset_index, self.particle_system_presets)
+
+            if self.undo:
+                if  len(self.particle_systems) > 0:
+                    last_object = self.particle_systems.pop()
+
         """ SAVING AND LOADING LEVEL """
         if self.save:
             self.save_level()
@@ -400,6 +436,10 @@ class Level:
         self.camera.follow(self.player.position)
         self.camera.move()
 
+        """ UPDATING PARTICLE SYSTEMS """
+        for particle_system in self.particle_systems:
+            particle_system.update()
+
 
 
 
@@ -424,7 +464,7 @@ class Level:
         global_render(
             screen=render_surface,
             camera=self.camera,
-            objects=self.objects + [self.current_asset] + plants + grass_tiles + [self.player],
+            objects=[self.player] + [self.current_asset] + self.objects + plants + grass_tiles + self.particle_systems,
             bend_objects=self.dynamic_objects + [self.player],
             background=self.background,
         )

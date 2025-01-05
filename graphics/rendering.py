@@ -3,7 +3,7 @@ import pygame
 from math import sin, cos, radians
 
 from graphics import grass, plants
-from graphics.particles import ParticleSystem, FogCloud
+from graphics.particles import ParticleSystem
 from graphics.sprite_stacks import SpritestackModel
 
 
@@ -81,15 +81,13 @@ def global_render(screen, camera, objects, bend_objects=[], background=None):
     
                 elif isinstance(game_object, ParticleSystem):
                     game_object.render(screen, camera)
-                
-                elif isinstance(game_object, FogCloud):
-                    game_object.render(screen, camera)
+
     
     
     
     
     
-                # circle indicator
+                # circle indicator of object y0_offset for depth sorting
                 """ pygame.draw.circle(
                     screen,
                     colour,

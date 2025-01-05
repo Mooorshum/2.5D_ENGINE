@@ -9,6 +9,7 @@ from math import sin, cos, pi, radians, sqrt, atan2
 WHITE = (255, 255, 255)
 
 
+
 class Particle:
     def __init__(self, start_position, colour, radius, lifetime):
         self.position = start_position
@@ -144,13 +145,24 @@ class ImageParticle(Particle):
             )
 
 
-class FogCloud(ParticleSystem):
-    def __init__(self, cloud_size=(100, 50, 30), max_particle_radius=50, max_cloud_opacity=1, images=None):
+class ImageCloudParticleSystem(ParticleSystem):
+    def __init__(self, cloud_size=(100, 50, 30), max_particle_radius=50, max_cloud_opacity=1, images_folder=None):
         super().__init__()
         self.cloud_size = cloud_size
         self.max_particle_radius = max_particle_radius
         self.max_cloud_opacity = max_cloud_opacity
-        self.images = images if images else []
+
+        self.images = []
+        self.images_folder = images_folder
+        self.num_images = len(os.listdir(self.images_folder))
+        for i in range(self.num_images):
+            image = (
+                pygame.image.load(
+                    f'{self.images_folder}/image_{i}.png'
+                )
+            )
+            image.set_colorkey((0, 0, 0))
+            self.images.append(image)
 
         self.y0_offset = cloud_size[1]/2
 
@@ -164,13 +176,12 @@ class FogCloud(ParticleSystem):
             particle = ImageParticle([particle_x, particle_y, particle_z], image, lifetime)
             self.particles.append(particle)
 
-    def update(self, camera, ):
+    def update(self):
         self.create_particle()
         for particle in self.particles[:]:
             if particle.lifetime <= 0:
                 self.particles.remove(particle)
                 continue
-
 
             particle.move()
             particle.lifetime -= 1
@@ -179,75 +190,10 @@ class FogCloud(ParticleSystem):
             elapsed_time = total_lifetime - particle.lifetime
 
             # Scaling opacity with particle lifetime
-            opacity_factor = 1 - ((2 * elapsed_time - total_lifetime) / total_lifetime) ** 4
-
-            # Adjusting opacity based on camera distance
-            max_camera_distance = 300
-            distance = sqrt((camera.position[0] - particle.position[0]) ** 2 + (camera.position[1] - particle.position[1]) ** 2)
-            distance_factor = min(1, (distance / max_camera_distance)**2)
-            particle.opacity = distance_factor * self.max_cloud_opacity * opacity_factor * 255
-
-            dx = particle.position[0] - camera.position[0]
-            dy = particle.position[1] - camera.position[1]
-            angle = atan2(dy, dx)
-            distance_speed_factor = (100 / sqrt(dx**2 + dy**2))
-            
-            particle.ax = self.ax_system * cos(angle) * distance_speed_factor
-            particle.ay = self.ay_system * sin(angle) * distance_speed_factor
-            particle.vx *= 0.01
-            particle.vy *= 0.01
+            opacity_factor = self.max_cloud_opacity * (1 - ((2 * elapsed_time - total_lifetime) / total_lifetime) ** 2)
+            particle.opacity = opacity_factor * 255
 
     def render(self, screen, camera):
         for particle in self.particles:
             particle.draw(screen, camera)
-
-
-class FogSystem:
-    def __init__(self, cloud_size, map_size, max_particle_count, max_cloud_opacity):
-        self.cloud_size = cloud_size
-        self.max_particle_count = max_particle_count
-        self.max_cloud_opacity = max_cloud_opacity
-        
-        """ LOADING CLOUD IMAGES FROM FOLDER """
-        self.images = []
-        self.max_cloud_size = (0, 0)
-        self.images_folder = f'assets/fog/images/'
-        self.num_images = len(os.listdir(self.images_folder))
-        for i in range(self.num_images):
-            image = (
-                pygame.image.load(
-                    f'{self.images_folder}image_{i}.png'
-                ).convert_alpha()
-            )
-            self.images.append(image)
-
-        """ GENERATING CLOUDS ON MAP """
-        self.clouds = []
-        points_x = map_size[0] // self.cloud_size[0]
-        points_y = map_size[1] // self.cloud_size[1]
-        step_x = map_size[0] / points_x
-        step_y = map_size[1] / points_y
-        for i in range(points_x):
-            for j in range(points_y):
-                x = i * step_x
-                y = j * step_y
-                cloud = FogCloud(
-                    cloud_size=(100, 50, 30),
-                    max_particle_radius=20,
-                    max_cloud_opacity=self.max_cloud_opacity,
-                    images=self.images
-                )
-                cloud.position = [x, y, 0]
-                cloud.max_count = self.max_particle_count
-                cloud.r_range = (5, 10)
-                cloud.lifetime_range = (100, 500)
-                cloud.ax_system = 10
-                cloud.ay_system = 10
-                cloud.az_system = -0.01
-                self.clouds.append(cloud)
-
-    def update(self, camera):
-        for cloud in self.clouds:
-            cloud.update(camera)
-
 

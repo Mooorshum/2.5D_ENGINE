@@ -126,12 +126,12 @@ class SpritestackModel:
             )
         )
 
-        """ # DRAWING OBJECT HITBOX
+        # DRAWING OBJECT HITBOX
         rect_surface = pygame.Surface((self.asset.hitbox_size[0], self.asset.hitbox_size[1]), pygame.SRCALPHA)
         pygame.draw.rect(rect_surface, (255, 0, 0), rect_surface.get_rect(), 1)
         rotated_surface = pygame.transform.rotate(rect_surface, self.rotation - camera.rotation)
         rotated_rect = rotated_surface.get_rect(center=(self.position[0] + offset[0], self.position[1] + offset[1]))
-        screen.blit(rotated_surface, rotated_rect.topleft) """
+        screen.blit(rotated_surface, rotated_rect.topleft)
 
 
         """ UPDATING THE TOTAL Y0_OFFSET OF THE OBJECT """

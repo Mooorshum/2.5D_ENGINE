@@ -8,7 +8,7 @@ from general_game_mechanics.collisions import Hitbox
 from graphics.particles import ParticleSystem
 from graphics.sprite_stacks import SpritestackModel
 
-from world.particle_presets import earthen_dust
+from presets.particle_presets import earthen_dust
 
 
 

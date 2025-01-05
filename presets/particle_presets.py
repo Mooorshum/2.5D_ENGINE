@@ -1,4 +1,4 @@
-from graphics.particles import ParticleSystem
+from graphics.particles import ParticleSystem, ImageCloudParticleSystem
 
 
 
@@ -38,12 +38,24 @@ flame.colours = (
     FLAME_ORANGE_4, FLAME_ORANGE_5, FLAME_ORANGE_6,
     FLAME_ORANGE_7, FLAME_ORANGE_8, FLAME_ORANGE_9
 )
-flame.max_count = 100
-flame.r_range = (1, 10)
-flame.lifetime_range = (10, 80)
-flame.acceleration_range_x = (20, 50)
-flame.acceleration_range_y = (20, 50)
-flame.acceleration_range_z = (5, 10)
+flame.max_count = 30
+flame.r_range = (1, 7)
+flame.lifetime_range = (10, 100)
+flame.acceleration_range_x = (10, 30)
+flame.acceleration_range_y = (10, 30)
+flame.acceleration_range_z = (1, 3)
 flame.y0_offset = 20
 
 
+
+fog_cloud = ImageCloudParticleSystem(
+    cloud_size=(40, 40, 30),
+    max_cloud_opacity=0.1,
+    images_folder='assets/fog/cloud_images'
+)
+fog_cloud.max_count = 10
+fog_cloud.lifetime_range = (300, 500)
+fog_cloud.acceleration_range_x = (-60, 60)
+fog_cloud.acceleration_range_y = (-60, 60)
+fog_cloud.acceleration_range_z = (10, 30)
+fog_cloud.y0_offset = 20

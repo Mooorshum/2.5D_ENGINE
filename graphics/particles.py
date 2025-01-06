@@ -63,6 +63,7 @@ class Particle:
 
 class ParticleSystem:
     def __init__(self):
+        self.asset_index = 0
         self.position = [0, 0, 0]
         self.max_count = 0
         self.r_range = ()
@@ -105,6 +106,12 @@ class ParticleSystem:
     def render(self, screen, camera):
         for particle in self.particles:
             particle.draw(screen, camera)
+
+    def get_data(self):
+        data = {}
+        data['position'] = self.position
+        data['asset_index'] = self.asset_index
+        return data
 
 
 

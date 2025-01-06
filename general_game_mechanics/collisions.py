@@ -5,38 +5,34 @@ from numpy import sign
 
 
 class Hitbox:
-    def __init__(self, object):
+    def __init__(self, object, size, type, colour=(255, 0, 0)):
         self.object = object
+        self.size = size
+        self.type = type
 
-        self.colour =  (255, 0, 0)
-        self.type = 'circle'
+        self.colour = colour
 
-    def draw(self, screen, offset=[0, 0]):
+
+    def render(self, screen, camera, offset=[0, 0]):
         if self.type == 'box':
-            hitbox_surface = pygame.Surface(self.object.hitbox_size, pygame.SRCALPHA)
-            pygame.draw.rect(hitbox_surface, self.colour,
-                             pygame.Rect(0, 0, *self.object.hitbox_size), 3)
-            rotated_surface = pygame.transform.rotate(hitbox_surface, self.object.rotation)
-            rotated_rect = rotated_surface.get_rect(center=self.object.position)
+            rect_surface = pygame.Surface((self.size[0], self.size[1]), pygame.SRCALPHA)
+            pygame.draw.rect(rect_surface, (255, 0, 0), rect_surface.get_rect(), 1)
+            rotated_surface = pygame.transform.rotate(rect_surface, self.object.rotation - camera.rotation)
+            rotated_rect = rotated_surface.get_rect(center=(self.object.position[0] + offset[0], self.object.position[1] + offset[1]))
             screen.blit(rotated_surface, rotated_rect.topleft)
 
-        if self.type == 'circle':
-            hitbox_surface = pygame.Surface(self.object.hitbox_size, pygame.SRCALPHA)
-            pygame.draw.circle(
-                hitbox_surface, 
-                self.colour, 
-                (self.object.hitbox_size[0] // 2, self.object.hitbox_size[1] // 2), 
-                self.object.hitbox_size[0] // 2, 
-                3
-            )
-            hitbox_rect = hitbox_surface.get_rect(
-                center=(
-                    self.object.position[0] + offset[0],
-                    self.object.position[1] + offset[1],
-                )
-            )
-            screen.blit(hitbox_surface, hitbox_rect.topleft)
 
+        if self.type == 'circle':
+            pygame.draw.circle(
+                screen,
+                self.colour,
+                (
+                    self.object.position[0] + offset[0],
+                    self.object.position[1] + offset[1]
+                ),
+                sqrt(self.size[0]**2 + self.size[1]**2)/2,
+                1
+            )
 
 
 
@@ -47,7 +43,9 @@ class Hitbox:
             dx = (self.object.position[0]) - (colliding_object.position[0])
             dy = (self.object.position[1]) - (colliding_object.position[1])
             distance = sqrt(dx**2 + dy**2)
-            if distance < self.object.hitbox_size[1]//2 + colliding_object.hitbox_size[1]//2 and distance > 0:
+            object_hitbox_radius = sqrt(self.size[0]**2 + self.size[1]**2)//2
+            colliding_object_hitbox_radius = sqrt(colliding_object.hitbox.size[0]**2 + colliding_object.hitbox.size[1]**2)//2
+            if distance < object_hitbox_radius + colliding_object_hitbox_radius and distance > 0:
 
                 object_vx = self.object.vx
                 object_vy = self.object.vy

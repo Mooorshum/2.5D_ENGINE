@@ -280,7 +280,7 @@ class Plant:
         total_bend_force = 0
         total_angle_change = 0
         for bend_object in bend_objects:
-            hitbox_radius = sqrt(bend_object.hitbox_size[0]**2 + bend_object.hitbox_size[0]**2) / 2
+            hitbox_radius = sqrt(bend_object.hitbox.size[0]**2 + bend_object.hitbox.size[0]**2) / 2
             if sqrt((self.position[0] - bend_object.position[0])**2 + (self.position[1] - bend_object.position[1])**2) <= hitbox_radius:
                     abs_distance_to_plant = sqrt((self.position[0] - bend_object.position[0])**2 + (self.position[1] - bend_object.position[1])**2)
                     bend_sign = copysign(1, self.position[0] - bend_object.position[0])
@@ -301,7 +301,7 @@ class Plant:
         # monitoring if the plant is currently being bent
         is_bent = False
         for bend_object in bend_objects:
-            if sqrt((self.position[0] - bend_object.position[0])**2 + (self.position[1] - bend_object.position[1])**2) <= sqrt(bend_object.hitbox_size[0]**2 + bend_object.hitbox_size[1]**2) / 2:
+            if sqrt((self.position[0] - bend_object.position[0])**2 + (self.position[1] - bend_object.position[1])**2) <= sqrt(bend_object.hitbox.size[0]**2 + bend_object.hitbox.size[1]**2) / 2:
                 is_bent = True
         self.is_bent = is_bent
 

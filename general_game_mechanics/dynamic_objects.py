@@ -10,6 +10,8 @@ from graphics.sprite_stacks import SpritestackModel
 
 from presets.particle_presets import earthen_dust
 
+import random
+
 
 
 
@@ -32,9 +34,14 @@ class DynamicObject(SpritestackModel):
         self.ay = 0
         self.a_omega = 0
 
-        self.movelocked = True
+        self.movelocked = self.asset.movelocked
 
-        self.hitbox = Hitbox(self)
+        self.show_hitbox = True
+        self.hitbox = Hitbox(
+            object=self,
+            size=self.asset.hitbox_size,
+            type=self.asset.hitbox_type
+        )
 
 
     def move(self):
@@ -56,6 +63,12 @@ class DynamicObject(SpritestackModel):
             self.position[1] = new_y
             self.rotation = new_rotation
 
+    def render(self, screen, camera, offset=[0, 0]):
+        super().render(screen, camera, offset)
+        if self.show_hitbox:
+            self.hitbox.render(screen, camera, offset)
+            
+
 
             
 
@@ -65,9 +78,11 @@ class DynamicObject(SpritestackModel):
 
             
 
-""" class Vehicle(DynamicObject):
-    def __init__(self, type=None, name=None, hitbox_size=(64,64), scale=1):
-        super().__init__(type, name, hitbox_size=hitbox_size, scale=scale)
+class Vehicle(DynamicObject):
+    def __init__(self, asset, asset_index, position, rotation):
+        super().__init__(asset, asset_index, position, rotation)
+
+        self.driver = None
 
         # Dustcloud settings
         self.dust = earthen_dust
@@ -75,11 +90,11 @@ class DynamicObject(SpritestackModel):
         self.dust_particles_max_count = 50
 
         # SPEED_LIMIT
-        self.max_speed = 400
+        self.max_speed = 700
 
         # ACCELERATION
-        self.driving_acceleration = 2000
-        self.steering_acceleration = 1500
+        self.driving_acceleration = 1500
+        self.steering_acceleration = 1000
 
         # DRAG
         self.braking_drag = 0.05
@@ -91,7 +106,26 @@ class DynamicObject(SpritestackModel):
         self.reverse = False
         self.brake = False
 
-        self.hitbox = Hitbox(self)
+
+    def handle_driver(self, character):
+        enter_exit_padding = 20
+        if character.action:
+            if not self.driver and not character.vehicle:
+                distance_to_character = sqrt((self.position[0] - character.position[0])**2 + (self.position[1] - character.position[1])**2)
+                if distance_to_character < sqrt(self.hitbox.size[0]**2 + self.hitbox.size[1]**2) / 2 + enter_exit_padding:
+                    if character.action:
+                        self.driver = character
+                        self.driver.vehicle = self
+            elif (self.driver != None):
+                random_exit_angle = radians(random.randint(-180, 180))
+                self.driver.position = [
+                    self.position[0] + (self.hitbox.size[0]/2 + enter_exit_padding) * sin(random_exit_angle),
+                    self.position[1] + (self.hitbox.size[1]/2 + enter_exit_padding) * cos(random_exit_angle)
+                    ]
+                self.driver.vehicle = None
+                self.driver = None
+
+
 
 
     def handle_movement(self, keys):
@@ -99,48 +133,50 @@ class DynamicObject(SpritestackModel):
         self.turn_right = keys[pygame.K_d]
         self.accelerate = keys[pygame.K_w]
         self.reverse = keys[pygame.K_s]
-        self.brake = keys[pygame.K_SPACE]
+        self.brake = keys[pygame.K_b]
 
 
     def move(self):
 
-        current_driving_acceleration = 0
-        current_steering_acceleration = 0
-        current_speed = sqrt(self.vx**2 + self.vy**2)
-
-        steering_speed_factor = current_speed / self.max_speed
-        if steering_speed_factor < 0.75:
-            steering_speed_factor = 0.75
-        if current_speed < 200:
-            steering_speed_factor = 0.4
-        if current_speed < 100:
-            steering_speed_factor = 0.3
-        if current_speed < 30:
-            steering_speed_factor = 0
-
-        if self.turn_left:
-            current_steering_acceleration = self.steering_acceleration * steering_speed_factor
-        if self.turn_right:
-            current_steering_acceleration = -self.steering_acceleration * steering_speed_factor
-
-        if self.accelerate:
-            current_driving_acceleration = self.driving_acceleration
-
-        if self.reverse:
-            current_driving_acceleration = -self.driving_acceleration
-
-        if self.brake:
-            self.vx *= 1 - self.braking_drag
-            self.vy *= 1 - self.braking_drag
-            self.omega *= (1 - self.braking_drag/10)
-
-        # Applying speed limits
-        if current_speed > self.max_speed:
+        if self.driver:
+            
             current_driving_acceleration = 0
+            current_steering_acceleration = 0
+            current_speed = sqrt(self.vx**2 + self.vy**2)
 
-        self.ax = current_driving_acceleration * cos(radians(self.rotation))
-        self.ay = current_driving_acceleration * sin(radians(self.rotation))
-        self.a_omega = current_steering_acceleration
+            steering_speed_factor = current_speed / self.max_speed
+            if steering_speed_factor < 0.75:
+                steering_speed_factor = 0.75
+            if current_speed < 200:
+                steering_speed_factor = 0.4
+            if current_speed < 100:
+                steering_speed_factor = 0.3
+            if current_speed < 30:
+                steering_speed_factor = 0
+
+            if self.turn_left:
+                current_steering_acceleration = self.steering_acceleration * steering_speed_factor
+            if self.turn_right:
+                current_steering_acceleration = -self.steering_acceleration * steering_speed_factor
+
+            if self.accelerate:
+                current_driving_acceleration = self.driving_acceleration
+
+            if self.reverse:
+                current_driving_acceleration = -self.driving_acceleration
+
+            if self.brake:
+                self.vx *= 1 - self.braking_drag
+                self.vy *= 1 - self.braking_drag
+                self.omega *= (1 - self.braking_drag/10)
+
+            # Applying speed limits
+            if current_speed > self.max_speed:
+                current_driving_acceleration = 0
+
+            self.ax = current_driving_acceleration * cos(radians(self.rotation))
+            self.ay = current_driving_acceleration * sin(radians(self.rotation))
+            self.a_omega = current_steering_acceleration
 
         # Gradually align velocity direction with the rotation angle when accelerating or braking
         if self.accelerate or self.brake:
@@ -165,8 +201,8 @@ class DynamicObject(SpritestackModel):
 
     def render(self, screen, camera, offset=[0, 0]):
         self.dust.position = [
-            self.position[0] - self.hitbox_size[0]/2*cos(self.rotation),
-            self.position[1] - self.hitbox_size[1]/2*sin(self.rotation),
+            self.position[0],
+            self.position[1],
             0
         ]
         factor = sqrt(self.vx**2 + self.vy**2)/self.max_speed
@@ -174,7 +210,8 @@ class DynamicObject(SpritestackModel):
         self.dust.max_count = self.dust_particles_max_count * factor
         self.dust.render(screen, camera)
         self.dust.update()
-        super().render(screen, camera, offset) """
+        super().render(screen, camera, offset)
+
 
 
 
@@ -196,52 +233,66 @@ class Character(DynamicObject):
         self.move_right = False
         self.running = False
 
-        self.hitbox = Hitbox(self)
+        self.vehicle = None
+
+        self.action = None
 
 
-    def handle_movement(self, keys):
+    def handle_movement(self, keys, events):
         self.move_up = keys[pygame.K_s]
         self.move_down = keys[pygame.K_w]
         self.move_left = keys[pygame.K_a]
         self.move_right = keys[pygame.K_d]
         self.running = pygame.key.get_mods() & pygame.KMOD_SHIFT
 
+        self.action = False
+        for event in events:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    self.action = True
+
+        if self.vehicle != None:
+            self.vehicle.handle_movement(keys)
+
 
     def move(self, camera):
-        if self.running:
-            speed_limit = self.run_speed_limit
+        if self.vehicle != None:
+            self.position = self.vehicle.position
         else:
-            speed_limit = self.walk_speed_limit
-        ax, ay = 0, 0
+            if self.running:
+                speed_limit = self.run_speed_limit
+            else:
+                speed_limit = self.walk_speed_limit
+            ax, ay = 0, 0
 
-        if self.move_up:
-            ay -= self.movespeed
-        if self.move_down:
-            ay += self.movespeed
-        if self.move_left:
-            ax -= self.movespeed
-        if self.move_right:
-            ax += self.movespeed
+            if self.move_up:
+                ay -= self.movespeed
+            if self.move_down:
+                ay += self.movespeed
+            if self.move_left:
+                ax -= self.movespeed
+            if self.move_right:
+                ax += self.movespeed
 
-        transformed_ax = ax * cos(radians(camera.rotation)) - ay * sin(radians(camera.rotation))
-        transformed_ay = ax * sin(radians(camera.rotation)) + ay * cos(radians(camera.rotation))
+            transformed_ax = ax * cos(radians(camera.rotation)) - ay * sin(radians(camera.rotation))
+            transformed_ay = ax * sin(radians(camera.rotation)) + ay * cos(radians(camera.rotation))
 
-        if transformed_ax != 0 or transformed_ay != 0:
-            norm_factor = sqrt(transformed_ax**2 + transformed_ay**2)
-            transformed_ax /= norm_factor
-            transformed_ay /= norm_factor
+            if transformed_ax != 0 or transformed_ay != 0:
+                norm_factor = sqrt(transformed_ax**2 + transformed_ay**2)
+                transformed_ax /= norm_factor
+                transformed_ay /= norm_factor
 
-        if sqrt(self.vx**2 + self.vy**2) <= speed_limit:
-            self.ax = transformed_ax * self.movespeed
-            self.ay = transformed_ay * self.movespeed
-        else:
-            self.ax = 0
-            self.ay = 0
+            if sqrt(self.vx**2 + self.vy**2) <= speed_limit:
+                self.ax = transformed_ax * self.movespeed
+                self.ay = transformed_ay * self.movespeed
+            else:
+                self.ax = 0
+                self.ay = 0
 
-        if self.ax != 0 or self.ay != 0:
-            self.rotation = degrees(atan2(self.ay, self.ax))
+            if self.ax != 0 or self.ay != 0:
+                self.rotation = degrees(atan2(self.ay, self.ax))
 
-        super().move()
+            super().move()
 
 
     def render(self, screen, camera, offset=[0, 0]):
@@ -290,4 +341,5 @@ class Character(DynamicObject):
 
         self.internal_time += 1
 
-        super().render(screen, camera, offset)
+        if not self.vehicle:
+            super().render(screen, camera, offset)

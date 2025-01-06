@@ -6,7 +6,7 @@ from math import sin, cos, sqrt, atan2, radians, copysign, degrees
 
 
 class SpritestackAsset:
-    def __init__(self, type=None, name=None, hitbox_size=(64, 64), spread=1, scale=1, y0_base_offset=0, movelocked=True):
+    def __init__(self, type=None, name=None, hitbox_size=(64, 64), hitbox_type='circle', spread=1, scale=1, y0_base_offset=0, movelocked=True):
         self.type = type
         self.name = name
 
@@ -27,6 +27,7 @@ class SpritestackAsset:
         # providing scaled hitbox size
         self.hitbox_size_unscaled = hitbox_size
         self.hitbox_size = (self.hitbox_size_unscaled[0] * self.scale, self.hitbox_size_unscaled[1] * self.scale)
+        self.hitbox_type = hitbox_type
 
 
     def split_sheet_image(self, sheet_image):
@@ -106,8 +107,6 @@ class SpritestackModel:
         self.stack_index = 0
         self.internal_time = 0
 
-        self.hitbox_size = self.asset.hitbox_size
-
         self.y0_offset = self.asset.y0_offset
         self.y0_base_offset = self.asset.y0_base_offset
 
@@ -125,13 +124,6 @@ class SpritestackModel:
                 self.position[1] - image.get_height() + sqrt(self.asset.slice_size[0]**2 + self.asset.slice_size[1]**2)/2 + offset[1]
             )
         )
-
-        # DRAWING OBJECT HITBOX
-        rect_surface = pygame.Surface((self.asset.hitbox_size[0], self.asset.hitbox_size[1]), pygame.SRCALPHA)
-        pygame.draw.rect(rect_surface, (255, 0, 0), rect_surface.get_rect(), 1)
-        rotated_surface = pygame.transform.rotate(rect_surface, self.rotation - camera.rotation)
-        rotated_rect = rotated_surface.get_rect(center=(self.position[0] + offset[0], self.position[1] + offset[1]))
-        screen.blit(rotated_surface, rotated_rect.topleft)
 
 
         """ UPDATING THE TOTAL Y0_OFFSET OF THE OBJECT """

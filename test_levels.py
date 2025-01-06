@@ -46,92 +46,101 @@ class Game:
 
 
         """ PLAYER ASSETS """
-        self.player_asset = SpritestackAsset(type='character', name='dude', hitbox_size=(16, 16))
+        self.player_asset = SpritestackAsset(type='character', name='dude', hitbox_size=(16, 16), movelocked=False)
 
 
         """ NPC ASSETS """
         self.npc_assets = []
 
 
-        """ SPRITE STACK ASSETS """
-        self.sprite_stack_assets = [
+        """ VEHICLE ASSETS """
+        self.vehicle_assets = [
+            SpritestackAsset(type='vehicle', name='cop_car', hitbox_size=(64,36), hitbox_type='circle', movelocked=False),
+            SpritestackAsset(type='vehicle', name='pickup_truck', hitbox_size=(64,36), hitbox_type='circle', movelocked=False),
+            SpritestackAsset(type='vehicle', name='hippie_van', hitbox_size=(64,36), hitbox_type='circle', movelocked=False),
+        ]
 
-            # VEHICLES
-            SpritestackAsset(type='vehicle', name='cop_car', hitbox_size=(64,36), movelocked=False),
-            SpritestackAsset(type='vehicle', name='pickup_truck', hitbox_size=(64,36), movelocked=False),
-            SpritestackAsset(type='vehicle', name='hippie_van', hitbox_size=(64,36), movelocked=False),
+
+        """ NON-INTERACTABLE SPRITE STACK ASSETS """
+        self.non_interactable_sprite_stack_assets = [
+            SpritestackAsset(type='texture', name='branches_1', hitbox_size=(32,32), hitbox_type='circle', y0_base_offset=-1000),
+        ]
+
+
+        """ DYNAMIC SPRITE STACK ASSETS """
+        self.dynamic_sprite_stack_assets = [
 
             # BUILDINGS
-            SpritestackAsset(type='building', name='house_1', hitbox_size=(128,128)),
-            SpritestackAsset(type='building', name='red_barn', hitbox_size=(128,128)),
-            SpritestackAsset(type='building', name='shed', hitbox_size=(64,45)),
-            SpritestackAsset(type='building', name='toilet', hitbox_size=(45,45)),
+            SpritestackAsset(type='building', name='house_1', hitbox_size=(128,128), hitbox_type='circle'),
+            SpritestackAsset(type='building', name='red_barn', hitbox_size=(128,128), hitbox_type='circle'),
+            SpritestackAsset(type='building', name='shed', hitbox_size=(64,45), hitbox_type='circle'),
+            SpritestackAsset(type='building', name='toilet', hitbox_size=(45,45), hitbox_type='circle'),
 
             # FENCES
-            SpritestackAsset(type='fence', name='fence_1', hitbox_size=(32,10)),
-            SpritestackAsset(type='fence', name='fence_2', hitbox_size=(32,10)),
-            SpritestackAsset(type='fence', name='fence_3', hitbox_size=(32,10)),
-            SpritestackAsset(type='fence', name='fence_4', hitbox_size=(32,10)),
-            SpritestackAsset(type='fence', name='fence_5', hitbox_size=(32,10)),
-            SpritestackAsset(type='fence', name='fence_6', hitbox_size=(32,10)),
-            SpritestackAsset(type='fence', name='fence_7', hitbox_size=(10,10)),
-            SpritestackAsset(type='fence', name='fence_8', hitbox_size=(10,10)),
-            SpritestackAsset(type='fence', name='fence_9', hitbox_size=(10,10)),
+            SpritestackAsset(type='fence', name='fence_1', hitbox_size=(32,10), hitbox_type='circle'),
+            SpritestackAsset(type='fence', name='fence_2', hitbox_size=(32,10), hitbox_type='circle'),
+            SpritestackAsset(type='fence', name='fence_3', hitbox_size=(32,10), hitbox_type='circle'),
+            SpritestackAsset(type='fence', name='fence_4', hitbox_size=(32,10), hitbox_type='circle'),
+            SpritestackAsset(type='fence', name='fence_5', hitbox_size=(32,10), hitbox_type='circle'),
+            SpritestackAsset(type='fence', name='fence_6', hitbox_size=(32,10), hitbox_type='circle'),
+            SpritestackAsset(type='fence', name='fence_7', hitbox_size=(10,10), hitbox_type='circle'),
+            SpritestackAsset(type='fence', name='fence_8', hitbox_size=(10,10), hitbox_type='circle'),
+            SpritestackAsset(type='fence', name='fence_9', hitbox_size=(10,10), hitbox_type='circle'),
 
             # WALLS
-            SpritestackAsset(type='wall', name='wall_1', hitbox_size=(32,20)),
-            SpritestackAsset(type='wall', name='wall_2', hitbox_size=(32,20)),
-            SpritestackAsset(type='wall', name='wall_3', hitbox_size=(32,20)),
-            SpritestackAsset(type='wall', name='wall_4', hitbox_size=(32,20)),
-            SpritestackAsset(type='wall', name='wall_5', hitbox_size=(32,20)),
+            SpritestackAsset(type='wall', name='wall_1', hitbox_size=(32,20), hitbox_type='circle'),
+            SpritestackAsset(type='wall', name='wall_2', hitbox_size=(32,20), hitbox_type='circle'),
+            SpritestackAsset(type='wall', name='wall_3', hitbox_size=(32,20), hitbox_type='circle'),
+            SpritestackAsset(type='wall', name='wall_4', hitbox_size=(32,20), hitbox_type='circle'),
+            SpritestackAsset(type='wall', name='wall_5', hitbox_size=(32,20), hitbox_type='circle'),
 
             # WINDMILLS
-            SpritestackAsset(type='windmill', name='windmill_1', hitbox_size=(32,32)),
+            SpritestackAsset(type='windmill', name='windmill_1', hitbox_size=(32,32), hitbox_type='circle'),
 
             # WELLS
-            SpritestackAsset(type='well', name='well_1', hitbox_size=(50,50)),
+            SpritestackAsset(type='well', name='well_1', hitbox_size=(50,50), hitbox_type='circle'),
 
             # TREES
-            SpritestackAsset(type='tree', name='tree_1', hitbox_size=(20,20)),
-            SpritestackAsset(type='tree', name='tree_2', hitbox_size=(20,20)),
-            SpritestackAsset(type='tree', name='tree_3', hitbox_size=(20,20)),
-            SpritestackAsset(type='tree', name='tree_4', hitbox_size=(20,20)),
-            SpritestackAsset(type='tree', name='tree_5', hitbox_size=(20,20)),
-            SpritestackAsset(type='tree', name='tree_6', hitbox_size=(20,20)),
-            SpritestackAsset(type='tree', name='tree_7', hitbox_size=(32,32)),
-            SpritestackAsset(type='tree', name='tree_8', hitbox_size=(20,20)),
-            SpritestackAsset(type='tree', name='tree_9', hitbox_size=(32,32)),
-            SpritestackAsset(type='tree', name='tree_trunk_1', hitbox_size=(25,25)),
-            SpritestackAsset(type='tree', name='tree_trunk_2', hitbox_size=(25,25)),
-            SpritestackAsset(type='tree', name='tree_trunk_3', hitbox_size=(25,25)),
+            SpritestackAsset(type='tree', name='tree_1', hitbox_size=(20,20), hitbox_type='circle'),
+            SpritestackAsset(type='tree', name='tree_2', hitbox_size=(20,20), hitbox_type='circle'),
+            SpritestackAsset(type='tree', name='tree_3', hitbox_size=(20,20), hitbox_type='circle'),
+            SpritestackAsset(type='tree', name='tree_4', hitbox_size=(20,20), hitbox_type='circle'),
+            SpritestackAsset(type='tree', name='tree_5', hitbox_size=(20,20), hitbox_type='circle'),
+            SpritestackAsset(type='tree', name='tree_6', hitbox_size=(20,20), hitbox_type='circle'),
+            SpritestackAsset(type='tree', name='tree_7', hitbox_size=(32,32), hitbox_type='circle'),
+            SpritestackAsset(type='tree', name='tree_8', hitbox_size=(20,20), hitbox_type='circle'),
+            SpritestackAsset(type='tree', name='tree_9', hitbox_size=(32,32), hitbox_type='circle'),
+            SpritestackAsset(type='tree', name='tree_trunk_1', hitbox_size=(25,25), hitbox_type='circle'),
+            SpritestackAsset(type='tree', name='tree_trunk_2', hitbox_size=(25,25), hitbox_type='circle'),
+            SpritestackAsset(type='tree', name='tree_trunk_3', hitbox_size=(25,25), hitbox_type='circle'),
 
             # ROCKS
-            SpritestackAsset(type='rock', name='rock_1', hitbox_size=(32,32)),
-            SpritestackAsset(type='rock', name='rock_2', hitbox_size=(32,32)),
-            SpritestackAsset(type='rock', name='rock_3', hitbox_size=(32,32)),
-            SpritestackAsset(type='rock', name='rock_4', hitbox_size=(32,32)),
-            SpritestackAsset(type='rock', name='rock_5', hitbox_size=(32,32)),
+            SpritestackAsset(type='rock', name='rock_1', hitbox_size=(32,32), hitbox_type='circle'),
+            SpritestackAsset(type='rock', name='rock_2', hitbox_size=(32,32), hitbox_type='circle'),
+            SpritestackAsset(type='rock', name='rock_3', hitbox_size=(32,32), hitbox_type='circle'),
+            SpritestackAsset(type='rock', name='rock_4', hitbox_size=(32,32), hitbox_type='circle'),
+            SpritestackAsset(type='rock', name='rock_5', hitbox_size=(32,32), hitbox_type='circle'),
 
             # CRATES
-            SpritestackAsset(type='crate', name='crate_1', hitbox_size=(32,20)),
-            SpritestackAsset(type='crate', name='crate_2', hitbox_size=(32,32)),
+            SpritestackAsset(type='crate', name='crate_1', hitbox_size=(32,20), hitbox_type='circle', movelocked=False),
+            SpritestackAsset(type='crate', name='crate_2', hitbox_size=(32,32), hitbox_type='circle', movelocked=False),
 
             # HAY BALES
-            SpritestackAsset(type='hay_bale', name='hay_bale_1', hitbox_size=(32,32)),
-            SpritestackAsset(type='hay_bale', name='hay_bale_2', hitbox_size=(32,32)),
+            SpritestackAsset(type='hay_bale', name='hay_bale_1', hitbox_size=(32,32), hitbox_type='circle', movelocked=False),
+            SpritestackAsset(type='hay_bale', name='hay_bale_2', hitbox_size=(32,32), hitbox_type='circle', movelocked=False),
 
             # BARRELS
-            SpritestackAsset(type='barrel', name='barrel_1', hitbox_size=(16,16)),
-            SpritestackAsset(type='barrel', name='barrel_2', hitbox_size=(16,16)),
+            SpritestackAsset(type='barrel', name='barrel_1', hitbox_size=(16,16), hitbox_type='circle', movelocked=False),
+            SpritestackAsset(type='barrel', name='barrel_2', hitbox_size=(16,16), hitbox_type='circle', movelocked=False),
 
             # WHEELBARROWS
-            SpritestackAsset(type='wheelbarrow', name='wheelbarrow_1', hitbox_size=(25,25)),
-
-            # CAMPFIRES
-            SpritestackAsset(type='campfire', name='campfire_1', hitbox_size=(32,32)),
+            SpritestackAsset(type='wheelbarrow', name='wheelbarrow_1', hitbox_size=(25,25), hitbox_type='circle', movelocked=False),
 
             # WATER TOWERS
-            SpritestackAsset(type='water_tower', name='water_tower_1', hitbox_size=(64,64)),
+            SpritestackAsset(type='water_tower', name='water_tower_1', hitbox_size=(64,64), hitbox_type='circle'),
+
+            # CAMPFIRES
+            SpritestackAsset(type='campfire', name='campfire_1', hitbox_size=(32,32), hitbox_type='circle'),
         ]
 
 
@@ -200,7 +209,6 @@ class Game:
         """ PARTICLE SYSTEM PRESETS """
         self.particle_system_presets = [
             particle_presets.flame,
-            particle_presets.fog_cloud,
         ]
 
 
@@ -215,9 +223,9 @@ class Game:
 
 
     def handle_events(self):
-        events = pygame.event.get()
+        self.events = pygame.event.get()
         keys = pygame.key.get_pressed()
-        self.test_level.handle_controls_editing(keys, events)
+        self.test_level.handle_controls_editing(keys)
         self.test_level.edit_level()
         self.camera.handle_movement(keys)
 
@@ -228,7 +236,7 @@ class Game:
         self.test_level.update()
         pygame.display.update()
 
-        self.clock.tick(110)
+        self.clock.tick(60)
         self.time += 1
 
 

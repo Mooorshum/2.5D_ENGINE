@@ -5,7 +5,7 @@ import json
 from math import radians, sin, cos, sqrt, atan2
 
 from graphics.rendering import global_render
-from general_game_mechanics.dynamic_objects import DynamicObject, Character
+from general_game_mechanics.dynamic_objects import DynamicObject, Vehicle, Character
 
 from graphics.grass import GrassTile
 from graphics.plants import Plant
@@ -38,7 +38,7 @@ class Level:
 
         self.name = 'test_level'
 
-        """ LEVEL EDITING """
+        """ LEVEL EDITING PARAMETERS """
         self.place_position = [0, 0]
         self.current_asset = None
         self.current_asset_index = 0
@@ -48,9 +48,11 @@ class Level:
         self.grass_system_index = 0
         self.particle_system_index = 0
 
-        self.place_sprite_stack = True
+        self.place_noninteractable_sprite_stack = True
+        self.place_dynamic_sprite_stack = False
         self.place_plant = False
         self.place_grass_tile = False
+        self.place_vehicle = False
         self.place_particle_system = False
 
         self.rotate_clockwise = False
@@ -64,11 +66,14 @@ class Level:
         self.cache = []
 
 
-        """ GAME ASSETS """
+        """ GAME ASSETS AND OBJECTS"""
         self.game = game
         self.camera = self.game.camera
 
-        self.sprite_stack_assets = self.game.sprite_stack_assets
+        self.vehicle_assets = self.game.vehicle_assets
+
+        self.non_interactable_sprite_stack_assets = self.game.non_interactable_sprite_stack_assets
+        self.dynamic_sprite_stack_assets = self.game.dynamic_sprite_stack_assets
 
         self.plant_systems = self.game.plant_systems
         self.grass_systems = self.game.grass_systems
@@ -76,9 +81,10 @@ class Level:
         self.particle_system_presets = self.game.particle_system_presets
 
         self.npc_assets = self.game.npc_assets
-
-        self.objects = []
-        self.dynamic_objects = []
+        
+        self.vehicles = []
+        self.non_interactable_sprite_stack_objects = []
+        self.dynamic_sprite_stack_objects = []
         self.particle_systems = []
 
         """ CONFIGURING PLAYER OBJECT """
@@ -100,11 +106,10 @@ class Level:
 
 
 
-    def handle_controls_editing(self, keys, events):
+    def handle_controls_editing(self, keys):
 
-        self.player.handle_movement(keys)
+        self.player.handle_movement(keys, self.game.events)
 
-        
         ctrl_pressed = pygame.key.get_mods() & pygame.KMOD_CTRL
         shift_pressed = pygame.key.get_mods() & pygame.KMOD_SHIFT
 
@@ -121,7 +126,7 @@ class Level:
         self.next_system = False
         self.prev_system = False
 
-        for event in events:
+        for event in self.game.events:
 
             """ KEY PRESSES """
             if event.type == pygame.KEYDOWN:
@@ -132,22 +137,49 @@ class Level:
 
                 # SWITCH BETWEEN DIFFERENT ASSET TYPES
                 elif event.key == pygame.K_1:
-                    self.place_sprite_stack = True
+                    self.place_noninteractable_sprite_stack = True
+                    self.place_dynamic_sprite_stack = False
+                    self.place_vehicle = False
                     self.place_plant = False
                     self.place_grass_tile = False
                     self.place_particle_system = False
+
                 elif event.key == pygame.K_2:
-                    self.place_sprite_stack = False
+                    self.place_noninteractable_sprite_stack = False
+                    self.place_dynamic_sprite_stack = True
+                    self.place_vehicle = False
+                    self.place_plant = False
+                    self.place_grass_tile = False
+                    self.place_particle_system = False
+
+                elif event.key == pygame.K_3:
+                    self.place_noninteractable_sprite_stack = False
+                    self.place_dynamic_sprite_stack = False
+                    self.place_vehicle = True
+                    self.place_plant = False
+                    self.place_grass_tile = False
+                    self.place_particle_system = False
+
+                elif event.key == pygame.K_4:
+                    self.place_noninteractable_sprite_stack = False
+                    self.place_dynamic_sprite_stack = False
+                    self.place_vehicle = False
                     self.place_plant = True
                     self.place_grass_tile = False
                     self.place_particle_system = False
-                elif event.key == pygame.K_3:
-                    self.place_sprite_stack = False
+
+                elif event.key == pygame.K_5:
+                    self.place_noninteractable_sprite_stack = False
+                    self.place_dynamic_sprite_stack = False
+                    self.place_vehicle = False
                     self.place_plant = False
                     self.place_grass_tile = True
                     self.place_particle_system = False
-                elif event.key == pygame.K_4:
-                    self.place_sprite_stack = False
+
+                elif event.key == pygame.K_6:
+                    self.place_noninteractable_sprite_stack = False
+                    self.place_dynamic_sprite_stack = False
+                    self.place_vehicle = False
                     self.place_plant = False
                     self.place_grass_tile = False
                     self.place_particle_system = True
@@ -158,13 +190,11 @@ class Level:
                 elif ctrl_pressed and event.key == pygame.K_l:
                     self.load = True
 
-
             """ MOUSE CLICKS """
             # PLACE OBJECT
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     self.place = True
-
 
             """ MOUSE SCROLLING + KEY PRESSES """
             # ZOOM IN, ZOOM OUT
@@ -182,15 +212,13 @@ class Level:
                             self.camera.height /= 1 + self.scroll_speed
 
             # ROTATE ASSET
-            if self.place_sprite_stack:
+            if self.place_noninteractable_sprite_stack or self.place_dynamic_sprite_stack or self.place_vehicle:
                 if keys[pygame.K_LSHIFT]:
                     if event.type == pygame.MOUSEWHEEL:
                         if event.y == -1:
                             self.rotate_clockwise = True
                         elif event.y == 1:
                             self.rotate_counterclockwise = True
-
-        
 
             # CYCLE CURRENT SYSTEM ASSETS 
             if event.type == pygame.MOUSEWHEEL:
@@ -212,29 +240,28 @@ class Level:
 
     def edit_level(self):
 
-        """ SPRITE STACK ASSETS """
-        if self.place_sprite_stack:
+        """ NON-INTERACTABLE SPRITE STACK ASSETS """
+        if self.place_noninteractable_sprite_stack:
             try:
-                asset = self.sprite_stack_assets[self.current_asset_index]
+                asset = self.non_interactable_sprite_stack_assets[self.current_asset_index]
                 self.current_asset = SpritestackModel(asset, self.current_asset_index, self.place_position, self.current_asset_rotation)
+
             except IndexError:
                 self.current_asset_index = 0
-                asset = self.sprite_stack_assets[self.current_asset_index]
+                asset = self.non_interactable_sprite_stack_assets[self.current_asset_index]
                 self.current_asset = SpritestackModel(asset, self.current_asset_index, self.place_position, self.current_asset_rotation)
 
             self.current_asset.rotation = self.current_asset_rotation
             self.current_asset.position = self.place_position
 
             if self.place:
-                self.objects.append(self.current_asset)
-                if isinstance(self.current_asset, DynamicObject) and not self.current_asset.movelocked:
-                    self.dynamic_objects.append(self.current_asset)
+                self.non_interactable_sprite_stack_objects.append(self.current_asset)
 
             if self.next_item:
-                self.current_asset_index = cycle_list('forward', self.current_asset_index, self.sprite_stack_assets)
+                self.current_asset_index = cycle_list('forward', self.current_asset_index, self.non_interactable_sprite_stack_assets)
 
             if self.prev_item:
-                self.current_asset_index = cycle_list('backwards', self.current_asset_index, self.sprite_stack_assets)
+                self.current_asset_index = cycle_list('backwards', self.current_asset_index, self.non_interactable_sprite_stack_assets)
 
             if self.rotate_clockwise:
                 if 'rotation' in vars(self.current_asset).keys():
@@ -245,10 +272,91 @@ class Level:
                     self.current_asset_rotation -= 360 / self.current_asset.asset.num_unique_angles * self.rotation_speed
 
             if self.undo:
-                if len(self.objects) > 0:
-                    last_object = self.objects.pop()
-                    if isinstance(last_object, DynamicObject) and not self.current_asset.movelocked:
-                        self.dynamic_objects.remove(last_object)
+                if  len(self.non_interactable_sprite_stack_objects) > 0:
+                    last_object = self.non_interactable_sprite_stack_objects.pop()
+
+
+        """ DYNAMIC SPRITE STACK ASSETS """
+        if self.place_dynamic_sprite_stack:
+            try:
+                asset = self.dynamic_sprite_stack_assets[self.current_asset_index]
+                self.current_asset = DynamicObject(asset, self.current_asset_index, self.place_position, self.current_asset_rotation)
+
+            except IndexError:
+                self.current_asset_index = 0
+                asset = self.dynamic_sprite_stack_assets[self.current_asset_index]
+                self.current_asset = DynamicObject(asset, self.current_asset_index, self.place_position, self.current_asset_rotation)
+
+            self.current_asset.rotation = self.current_asset_rotation
+            self.current_asset.position = self.place_position
+
+            if self.place:
+                self.dynamic_sprite_stack_objects.append(self.current_asset)
+
+            if self.next_item:
+                self.current_asset_index = cycle_list('forward', self.current_asset_index, self.dynamic_sprite_stack_assets)
+
+            if self.prev_item:
+                self.current_asset_index = cycle_list('backwards', self.current_asset_index, self.dynamic_sprite_stack_assets)
+
+            if self.rotate_clockwise:
+                if 'rotation' in vars(self.current_asset).keys():
+                    self.current_asset_rotation += 360 / self.current_asset.asset.num_unique_angles * self.rotation_speed
+
+            if self.rotate_counterclockwise:
+                if 'rotation' in vars(self.current_asset).keys():
+                    self.current_asset_rotation -= 360 / self.current_asset.asset.num_unique_angles * self.rotation_speed
+
+            if self.undo:
+                if  len(self.dynamic_sprite_stack_objects) > 0:
+                    last_object = self.dynamic_sprite_stack_objects.pop()
+
+
+
+
+
+
+
+
+        """ VEHICLE ASSETS """
+        if self.place_vehicle:
+            try:
+                asset = self.vehicle_assets[self.current_asset_index]
+                self.current_asset = Vehicle(asset, self.current_asset_index, self.place_position, self.current_asset_rotation)
+
+            except IndexError:
+                self.current_asset_index = 0
+                asset = self.vehicle_assets[self.current_asset_index]
+                self.current_asset = Vehicle(asset, self.current_asset_index, self.place_position, self.current_asset_rotation)
+
+            self.current_asset.rotation = self.current_asset_rotation
+            self.current_asset.position = self.place_position
+
+            if self.place:
+                self.vehicles.append(self.current_asset)
+
+            if self.next_item:
+                self.current_asset_index = cycle_list('forward', self.current_asset_index, self.vehicle_assets)
+
+            if self.prev_item:
+                self.current_asset_index = cycle_list('backwards', self.current_asset_index, self.vehicle_assets)
+
+            if self.rotate_clockwise:
+                if 'rotation' in vars(self.current_asset).keys():
+                    self.current_asset_rotation += 360 / self.current_asset.asset.num_unique_angles * self.rotation_speed
+
+            if self.rotate_counterclockwise:
+                if 'rotation' in vars(self.current_asset).keys():
+                    self.current_asset_rotation -= 360 / self.current_asset.asset.num_unique_angles * self.rotation_speed
+
+            if self.undo:
+                if  len(self.vehicle_assets) > 0:
+                    last_object = self.vehicle_assets.pop()
+
+
+
+
+
 
         """ PLANT ASSETS """
         if self.place_plant:
@@ -284,6 +392,7 @@ class Level:
                 if  len(self.plant_systems[self.plant_system_index].plants) > 0:
                     last_object = self.plant_systems[self.plant_system_index].plants.pop()
 
+
         """ GRASS ASSETS """
         if self.place_grass_tile:
             try:
@@ -314,6 +423,7 @@ class Level:
                 if  len(self.grass_systems[self.grass_system_index].tiles) > 0:
                     last_object = self.grass_systems[self.grass_system_index].tiles.pop()
 
+
         """ PARTICLE SYSTEMS """
         if self.place_particle_system:
             try:
@@ -322,6 +432,7 @@ class Level:
                 self.current_asset_index = 0
                 particle_system = copy.deepcopy(self.particle_system_presets[self.particle_system_index])
             particle_system.position = [self.place_position[0], self.place_position[1], 0]
+            particle_system.asset_index = self.particle_system_index
             self.current_asset = particle_system
 
             if self.place:
@@ -337,6 +448,7 @@ class Level:
                 if  len(self.particle_systems) > 0:
                     last_object = self.particle_systems.pop()
 
+
         """ SAVING AND LOADING LEVEL """
         if self.save:
             self.save_level()
@@ -347,12 +459,19 @@ class Level:
     def save_level(self):
         level_data = {}
 
-        # SAVING SPRITESTACK OBJECT DATA
+        # SAVING NON-INTERACTABLE SPRITESTACK OBJECTS DATA
         objects_data = []
-        for obj in self.objects:
+        for obj in self.non_interactable_sprite_stack_objects:
             object_data = obj.get_data()
             objects_data.append(object_data)
-        level_data['spritestack_objects_data'] = objects_data
+        level_data['non_interactable_spritestack_objects_data'] = objects_data
+
+        # SAVING DYNAMIC SPRITESTACK OBJECTS DATA
+        objects_data = []
+        for obj in self.dynamic_sprite_stack_objects:
+            object_data = obj.get_data()
+            objects_data.append(object_data)
+        level_data['dynamic_spritestack_objects_data'] = objects_data
 
         # SAVING GRASS SYSTEMS DATA
         grass_systems_data = []
@@ -368,6 +487,15 @@ class Level:
             plant_systems_data.append(plant_system_data)
         level_data['plant_systems'] = plant_systems_data
 
+
+        # SAVING PARTICLE SYSTEMS DATA
+        particle_systems_data = []
+        for particle_system in self.particle_systems:
+            particle_system_data = particle_system.get_data()
+            particle_systems_data.append(particle_system_data)
+        level_data['particle_systems'] = particle_systems_data
+
+
         with open(f'{self.name}_data.json', "w") as file:
             json.dump(level_data, file, indent=4)
 
@@ -378,14 +506,28 @@ class Level:
             with open(f'{self.name}_data.json', "r") as file:
                 data = json.load(file)
 
-                # LOADING SPRITESTACK OBJECTS DATA
-                self.objects = []
-                for object_data in data['spritestack_objects_data']:
+                # LOADING NON-INTERACTABLE SPRITESTACK OBJECTS DATA
+                self.non_interactable_sprite_stack_objects = []
+                for object_data in data['non_interactable_spritestack_objects_data']:
                     object_position = object_data['position']
                     object_rotation = object_data['rotation']
                     asset_index = object_data['asset_index']
-                    object_asset = self.sprite_stack_assets[asset_index]
-                    self.objects.append(SpritestackModel(
+                    object_asset = self.non_interactable_sprite_stack_assets[asset_index]
+                    self.non_interactable_sprite_stack_objects.append(SpritestackModel(
+                        object_asset,
+                        asset_index,
+                        object_position,
+                        object_rotation
+                    ))
+
+                # LOADING DYNAMIC SPRITESTACK OBJECTS DATA
+                self.dynamic_sprite_stack_objects = []
+                for object_data in data['dynamic_spritestack_objects_data']:
+                    object_position = object_data['position']
+                    object_rotation = object_data['rotation']
+                    asset_index = object_data['asset_index']
+                    object_asset = self.dynamic_sprite_stack_assets[asset_index]
+                    self.dynamic_sprite_stack_objects.append(DynamicObject(
                         object_asset,
                         asset_index,
                         object_position,
@@ -400,9 +542,18 @@ class Level:
                 for plant_system_index in range(len(self.plant_systems)):
                     self.plant_systems[plant_system_index].load(data['plant_systems'][plant_system_index])
 
+                # LOADING PARTICLE SYSTEM DATA
+                self.particle_systems = []
+                for particle_system_data in data['particle_systems']:
+                    particle_system_position = particle_system_data['position']
+                    particle_system_asset = self.particle_system_presets[particle_system_data['asset_index']]
+                    particle_system_object = copy.deepcopy(particle_system_asset)
+                    particle_system_object.position = particle_system_position
+                    particle_system_object.asset_index = particle_system_data['asset_index']
+                    self.particle_systems.append(particle_system_object)
+
         except FileNotFoundError:
             print(f'No file found for {self.name}')
-
 
 
     def update(self):
@@ -429,12 +580,27 @@ class Level:
 
         self.place_position = [place_position_x, place_position_y]   
 
-        """ PLAYER MOVEMENT"""
-        self.player.move(self.game.camera)
-
         """ CAMERA MOVEMENT"""
         self.camera.follow(self.player.position)
         self.camera.move()
+
+        """ HANDLING PLAYER MOVEMENT """
+        self.player.move(self.camera)
+
+        """ HANDLING OBJECT MOVEMENT """
+        for obj in self.dynamic_sprite_stack_objects + self.vehicles:
+            obj.move()
+
+        """ HANDLING VEHICLE DRIVING """
+        for vehicle in self.vehicles:
+            vehicle.handle_driver(self.player)
+
+        """ HANDLING DYNAMIC OBJECT COLLISION """
+        dynamic_objects = self.dynamic_sprite_stack_objects + [self.player] + self.vehicles
+        for object_1 in dynamic_objects:
+            for object_2 in dynamic_objects:
+                if object_1 != object_2:
+                    object_1.hitbox.handle_collision(object_2)
 
         """ UPDATING PARTICLE SYSTEMS """
         for particle_system in self.particle_systems:
@@ -464,8 +630,8 @@ class Level:
         global_render(
             screen=render_surface,
             camera=self.camera,
-            objects=[self.player] + [self.current_asset] + self.objects + plants + grass_tiles + self.particle_systems,
-            bend_objects=self.dynamic_objects + [self.player],
+            objects=[self.player] + self.vehicles + [self.current_asset] + self.non_interactable_sprite_stack_objects + self.dynamic_sprite_stack_objects + plants + grass_tiles + self.particle_systems,
+            bend_objects=self.dynamic_sprite_stack_objects + [self.player] + self.vehicles,
             background=self.background,
         )
 

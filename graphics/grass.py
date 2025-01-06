@@ -219,17 +219,18 @@ class GrassTile:
         )
 
 
-    def render_tile_detailed(self, screen, bend_objects, offset=[0, 0]):
-        threshold_0 = 0.2
+    def render_tile_detailed(self, screen, bend_objects, bend_effect_radius, offset=[0, 0]):   
         for blade in self.grass_blades:
             blade_position_on_tile = (blade.position[0] + self.position[0], blade.position[1] + self.position[1])
             for bend_object in bend_objects:
-                threshold = threshold_0 * 100 / sqrt(bend_objects[0].hitbox_size[0]**2 + bend_objects[0].hitbox_size[1]**2)
-                distance_to_blade = sqrt((blade_position_on_tile[0] - bend_object.position[0])**2 + (blade_position_on_tile[1] - bend_object.position[1])**2)
-                distance_factor = exp(-distance_to_blade / self.asset.size)
-                if distance_factor > threshold:
-                    direction = sign(blade_position_on_tile[0] - bend_object.position[0])
-                    blade.rotation -= distance_factor * direction / self.asset.stiffness
+                if not bend_object.movelocked:
+                    object_distance_to_blade = sqrt((blade_position_on_tile[0] - bend_object.position[0])**2 + (blade_position_on_tile[1] - bend_object.position[1])**2)
+                    
+                    if object_distance_to_blade < bend_effect_radius:
+                        object_distance_factor = abs(object_distance_to_blade / bend_effect_radius)
+                        direction = sign(blade_position_on_tile[0] - bend_object.position[0])
+                        blade.rotation -= object_distance_factor * direction / self.asset.stiffness
+
 
             if abs(blade.rotation) > self.asset.max_angle:
                 blade.rotation = sign(blade.rotation) * self.asset.max_angle
@@ -253,17 +254,19 @@ class GrassTile:
 
 
     def render(self, screen, bend_objects, offset=[0, 0]):
+        bend_effect_padding = 0
         for bend_object in bend_objects:
-            dist = sqrt((bend_object.position[0] - self.position[0])**2 + (bend_object.position[1] - self.position[1])**2)
-            bend_effect_radius = sqrt(bend_object.hitbox_size[0]**2 + bend_object.hitbox_size[1]**2) / 4
-            if dist < bend_effect_radius:
-                self.relaxed = False
+            if not bend_object.movelocked:
+                dist = sqrt((bend_object.position[0] - self.position[0])**2 + (bend_object.position[1] - self.position[1])**2)
+                bend_effect_radius = sqrt(bend_object.hitbox.size[0]**2 + bend_object.hitbox.size[1]**2) / 2 + bend_effect_padding
+                if dist < bend_effect_radius:
+                    self.relaxed = False
 
         # If the tile has been bent, and has not yet returned to a cached state
         if self.relaxed:
             self.render_tile_simple(screen, offset)
         else:
-            self.render_tile_detailed(screen, bend_objects, offset)
+            self.render_tile_detailed(screen, bend_objects, bend_effect_radius, offset)
             self.relax()
 
 

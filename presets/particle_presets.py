@@ -44,18 +44,18 @@ flame.lifetime_range = (10, 100)
 flame.acceleration_range_x = (10, 30)
 flame.acceleration_range_y = (10, 30)
 flame.acceleration_range_z = (1, 3)
-flame.y0_offset = 20
+flame.y0_offset = -1000
 
 
 
 fog_cloud = ImageCloudParticleSystem(
-    cloud_size=(40, 40, 30),
-    max_cloud_opacity=0.1,
+    cloud_size=(50, 50, 30),
+    max_cloud_opacity=0.5,
     images_folder='assets/fog/cloud_images'
 )
-fog_cloud.max_count = 10
-fog_cloud.lifetime_range = (300, 500)
+fog_cloud.max_count = 5
+fog_cloud.lifetime_range = (100, 200)
 fog_cloud.acceleration_range_x = (-60, 60)
 fog_cloud.acceleration_range_y = (-60, 60)
-fog_cloud.acceleration_range_z = (10, 30)
+fog_cloud.acceleration_range_z = (500, 600)
 fog_cloud.y0_offset = 20

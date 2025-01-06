@@ -1,0 +1,3590 @@
+{
+    "non_interactable_spritestack_objects_data": [
+        {
+            "position": [
+                838.9337835562521,
+                556.059211790746
+            ],
+            "rotation": -160.0,
+            "asset_index": 0
+        },
+        {
+            "position": [
+                843.4541395852475,
+                516.6810649680056
+            ],
+            "rotation": -52.0,
+            "asset_index": 0
+        },
+        {
+            "position": [
+                874.3687818040279,
+                584.855298568971
+            ],
+            "rotation": -132.0,
+            "asset_index": 0
+        },
+        {
+            "position": [
+                909.0689507380321,
+                570.402970843684
+            ],
+            "rotation": -200.0,
+            "asset_index": 0
+        },
+        {
+            "position": [
+                919.244655262039,
+                533.0363778816144
+            ],
+            "rotation": -244.0,
+            "asset_index": 0
+        },
+        {
+            "position": [
+                906.3451906762579,
+                500.5797610485804
+            ],
+            "rotation": -304.0,
+            "asset_index": 0
+        },
+        {
+            "position": [
+                873.0837824358073,
+                504.8684703525833
+            ],
+            "rotation": -432.0,
+            "asset_index": 0
+        }
+    ],
+    "dynamic_spritestack_objects_data": [
+        {
+            "position": [
+                529.3829799469613,
+                351.0718590007868
+            ],
+            "rotation": 20.0,
+            "asset_index": 0
+        },
+        {
+            "position": [
+                408.09635272216923,
+                437.2432914807492
+            ],
+            "rotation": 120.0,
+            "asset_index": 18
+        },
+        {
+            "position": [
+                389.0396601251468,
+                474.73784854170594
+            ],
+            "rotation": 120.0,
+            "asset_index": 26
+        },
+        {
+            "position": [
+                416.87658760493923,
+                465.47426206157456
+            ],
+            "rotation": 120.0,
+            "asset_index": 27
+        },
+        {
+            "position": [
+                358.99568316707314,
+                381.504331794998
+            ],
+            "rotation": 120.0,
+            "asset_index": 30
+        },
+        {
+            "position": [
+                325.64082798886744,
+                462.97201958039017
+            ],
+            "rotation": 176.0,
+            "asset_index": 25
+        },
+        {
+            "position": [
+                292.25383371065817,
+                362.71365835508516
+            ],
+            "rotation": 176.0,
+            "asset_index": 26
+        },
+        {
+            "position": [
+                482.28379393161987,
+                431.83526957869145
+            ],
+            "rotation": 232.0,
+            "asset_index": 8
+        },
+        {
+            "position": [
+                466.8185747336044,
+                456.8359065520167
+            ],
+            "rotation": 248.0,
+            "asset_index": 7
+        },
+        {
+            "position": [
+                451.1127273027888,
+                483.0588804684766
+            ],
+            "rotation": 228.0,
+            "asset_index": 8
+        },
+        {
+            "position": [
+                426.06826160725154,
+                500.3719920633495
+            ],
+            "rotation": 196.0,
+            "asset_index": 5
+        },
+        {
+            "position": [
+                396.9242126091194,
+                511.24465558283157
+            ],
+            "rotation": 208.0,
+            "asset_index": 4
+        },
+        {
+            "position": [
+                367.24572117279325,
+                520.6253696619915
+            ],
+            "rotation": 188.0,
+            "asset_index": 8
+        },
+        {
+            "position": [
+                337.0553939792284,
+                517.8584384275566
+            ],
+            "rotation": 156.0,
+            "asset_index": 7
+        },
+        {
+            "position": [
+                309.8540188508231,
+                502.8537697102627
+            ],
+            "rotation": 140.0,
+            "asset_index": 8
+        },
+        {
+            "position": [
+                294.98561651161754,
+                491.2798136211384
+            ],
+            "rotation": 140.0,
+            "asset_index": 10
+        },
+        {
+            "position": [
+                458.70409222234866,
+                505.5564983414715
+            ],
+            "rotation": 140.0,
+            "asset_index": 33
+        },
+        {
+            "position": [
+                681.3207667801897,
+                377.6223676793542
+            ],
+            "rotation": 180.0,
+            "asset_index": 19
+        },
+        {
+            "position": [
+                725.6046056456777,
+                394.43937007495384
+            ],
+            "rotation": 180.0,
+            "asset_index": 42
+        },
+        {
+            "position": [
+                698.466057940001,
+                420.311427646062
+            ],
+            "rotation": 180.0,
+            "asset_index": 41
+        },
+        {
+            "position": [
+                727.9020761094614,
+                425.8311848068066
+            ],
+            "rotation": 180.0,
+            "asset_index": 42
+        },
+        {
+            "position": [
+                619.177748356381,
+                363.51072282909814
+            ],
+            "rotation": 204.0,
+            "asset_index": 17
+        },
+        {
+            "position": [
+                648.7764069928817,
+                350.5581713848813
+            ],
+            "rotation": 212.0,
+            "asset_index": 16
+        },
+        {
+            "position": [
+                675.9085191324397,
+                334.1351525351911
+            ],
+            "rotation": 212.0,
+            "asset_index": 15
+        },
+        {
+            "position": [
+                701.9216638231867,
+                315.1724041634658
+            ],
+            "rotation": 224.0,
+            "asset_index": 13
+        },
+        {
+            "position": [
+                719.3779597649245,
+                289.6745248339093
+            ],
+            "rotation": 420.0,
+            "asset_index": 14
+        },
+        {
+            "position": [
+                727.5562909723295,
+                258.63649175248315
+            ],
+            "rotation": 440.0,
+            "asset_index": 13
+        },
+        {
+            "position": [
+                729.1688469350141,
+                226.72902587392542
+            ],
+            "rotation": 456.0,
+            "asset_index": 15
+        },
+        {
+            "position": [
+                721.5668769093029,
+                195.48769770783014
+            ],
+            "rotation": 472.0,
+            "asset_index": 14
+        },
+        {
+            "position": [
+                707.6753814404078,
+                168.27582874688423
+            ],
+            "rotation": 488.0,
+            "asset_index": 16
+        },
+        {
+            "position": [
+                685.2201681544673,
+                146.37091247287975
+            ],
+            "rotation": 692.0,
+            "asset_index": 17
+        },
+        {
+            "position": [
+                651.202678607091,
+                125.3999376654783
+            ],
+            "rotation": 916.0,
+            "asset_index": 35
+        },
+        {
+            "position": [
+                616.195525539664,
+                329.8163010436307
+            ],
+            "rotation": 924.0,
+            "asset_index": 28
+        },
+        {
+            "position": [
+                344.93068185505234,
+                248.873013640122
+            ],
+            "rotation": 864.0,
+            "asset_index": 3
+        },
+        {
+            "position": [
+                307.8825781607221,
+                284.05733440829
+            ],
+            "rotation": 848.0,
+            "asset_index": 22
+        },
+        {
+            "position": [
+                364.6594746489414,
+                209.14016624926933
+            ],
+            "rotation": 872.0,
+            "asset_index": 28
+        },
+        {
+            "position": [
+                382.15978345925123,
+                231.56656759908128
+            ],
+            "rotation": 872.0,
+            "asset_index": 27
+        },
+        {
+            "position": [
+                306.7283399369706,
+                259.15345015196596
+            ],
+            "rotation": 872.0,
+            "asset_index": 27
+        },
+        {
+            "position": [
+                636.8652321698833,
+                301.55680869304183
+            ],
+            "rotation": 884.0,
+            "asset_index": 27
+        },
+        {
+            "position": [
+                756.3377891314117,
+                275.34771851397335
+            ],
+            "rotation": 884.0,
+            "asset_index": 28
+        },
+        {
+            "position": [
+                929.8128619395227,
+                312.6755131628559
+            ],
+            "rotation": 800.0,
+            "asset_index": 1
+        },
+        {
+            "position": [
+                750.8281811907401,
+                242.30045181060578
+            ],
+            "rotation": 720.0,
+            "asset_index": 16
+        },
+        {
+            "position": [
+                781.234111507952,
+                242.53161580431404
+            ],
+            "rotation": 708.0,
+            "asset_index": 14
+        },
+        {
+            "position": [
+                809.4747562403958,
+                255.83833345631697
+            ],
+            "rotation": 688.0,
+            "asset_index": 13
+        },
+        {
+            "position": [
+                837.095107300337,
+                270.8103543684331
+            ],
+            "rotation": 872.0,
+            "asset_index": 14
+        },
+        {
+            "position": [
+                844.7900500997582,
+                294.5478601753308
+            ],
+            "rotation": 800.0,
+            "asset_index": 15
+        },
+        {
+            "position": [
+                837.2791050990234,
+                325.1041783083528
+            ],
+            "rotation": 792.0,
+            "asset_index": 17
+        },
+        {
+            "position": [
+                819.0554449705063,
+                353.60518730697015
+            ],
+            "rotation": 972.0,
+            "asset_index": 36
+        },
+        {
+            "position": [
+                847.1906378632568,
+                365.0646930643072
+            ],
+            "rotation": 972.0,
+            "asset_index": 26
+        },
+        {
+            "position": [
+                817.8912480820937,
+                377.674091830861
+            ],
+            "rotation": 972.0,
+            "asset_index": 27
+        },
+        {
+            "position": [
+                806.5655781960403,
+                220.2768629225556
+            ],
+            "rotation": 972.0,
+            "asset_index": 30
+        },
+        {
+            "position": [
+                1001.0055367783089,
+                408.6015087838156
+            ],
+            "rotation": 988.0,
+            "asset_index": 39
+        },
+        {
+            "position": [
+                1034.6783971152101,
+                377.55719577227785
+            ],
+            "rotation": 1012.0,
+            "asset_index": 39
+        },
+        {
+            "position": [
+                991.9184607237738,
+                371.15475579487656
+            ],
+            "rotation": 1012.0,
+            "asset_index": 27
+        },
+        {
+            "position": [
+                834.8306172059298,
+                427.27818214052456
+            ],
+            "rotation": 1012.0,
+            "asset_index": 40
+        },
+        {
+            "position": [
+                775.6775808430116,
+                326.2639597471055
+            ],
+            "rotation": 980.0,
+            "asset_index": 40
+        },
+        {
+            "position": [
+                853.328860728659,
+                467.23045920887483
+            ],
+            "rotation": 948.0,
+            "asset_index": 40
+        },
+        {
+            "position": [
+                570.9979528716162,
+                161.97437679112912
+            ],
+            "rotation": 800.0,
+            "asset_index": 2
+        },
+        {
+            "position": [
+                615.2336652494045,
+                193.93388857135915
+            ],
+            "rotation": 780.0,
+            "asset_index": 24
+        },
+        {
+            "position": [
+                517.3067733319934,
+                160.57040121756472
+            ],
+            "rotation": 780.0,
+            "asset_index": 28
+        },
+        {
+            "position": [
+                535.8346725571676,
+                207.5267039407112
+            ],
+            "rotation": 740.0,
+            "asset_index": 37
+        },
+        {
+            "position": [
+                963.8565031018402,
+                423.7904514181401
+            ],
+            "rotation": 752.0,
+            "asset_index": 43
+        },
+        {
+            "position": [
+                757.0697685541056,
+                207.49592461073553
+            ],
+            "rotation": 752.0,
+            "asset_index": 20
+        },
+        {
+            "position": [
+                702.8063725862006,
+                245.53189497799428
+            ],
+            "rotation": 752.0,
+            "asset_index": 23
+        },
+        {
+            "position": [
+                1064.4207696952171,
+                252.84754030758018
+            ],
+            "rotation": 772.0,
+            "asset_index": 44
+        },
+        {
+            "position": [
+                1107.824505431505,
+                270.5635529893544
+            ],
+            "rotation": 772.0,
+            "asset_index": 27
+        },
+        {
+            "position": [
+                1091.9539080828408,
+                201.61167788702977
+            ],
+            "rotation": 772.0,
+            "asset_index": 28
+        },
+        {
+            "position": [
+                1087.93339937927,
+                303.83198538883096
+            ],
+            "rotation": 772.0,
+            "asset_index": 41
+        },
+        {
+            "position": [
+                1030.6029505765136,
+                298.71499910569827
+            ],
+            "rotation": 772.0,
+            "asset_index": 42
+        },
+        {
+            "position": [
+                878.4495433472669,
+                543.02435537283
+            ],
+            "rotation": 772.0,
+            "asset_index": 45
+        },
+        {
+            "position": [
+                910.3281718655703,
+                202.74696342824348
+            ],
+            "rotation": -16.0,
+            "asset_index": 23
+        },
+        {
+            "position": [
+                968.3292555284479,
+                192.4162533859592
+            ],
+            "rotation": 48.0,
+            "asset_index": 24
+        }
+    ],
+    "grass_systems": [
+        {
+            "assets": [
+                {
+                    "index": 0,
+                    "size": 25,
+                    "stiffness": 0.1,
+                    "relax_speed": 1,
+                    "num_blades": 7,
+                    "wind_magnitude": 8,
+                    "num_states": 11,
+                    "scale": 0.5,
+                    "blade_positions": [
+                        [
+                            5,
+                            -7
+                        ],
+                        [
+                            6,
+                            -7
+                        ],
+                        [
+                            6,
+                            -2
+                        ],
+                        [
+                            -6,
+                            0
+                        ],
+                        [
+                            -3,
+                            1
+                        ],
+                        [
+                            -4,
+                            2
+                        ],
+                        [
+                            0,
+                            4
+                        ]
+                    ],
+                    "blade_image_paths": [
+                        "assets/_grass_assets/grass_1/blade_images/grass_6.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_6.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_4.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_8.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_9.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_1.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_8.png"
+                    ],
+                    "blade_image_indices": [
+                        6,
+                        6,
+                        4,
+                        8,
+                        9,
+                        1,
+                        8
+                    ]
+                },
+                {
+                    "index": 1,
+                    "size": 21,
+                    "stiffness": 0.1,
+                    "relax_speed": 1,
+                    "num_blades": 3,
+                    "wind_magnitude": 8,
+                    "num_states": 11,
+                    "scale": 0.5,
+                    "blade_positions": [
+                        [
+                            -2,
+                            -5
+                        ],
+                        [
+                            -5,
+                            1
+                        ],
+                        [
+                            -2,
+                            3
+                        ]
+                    ],
+                    "blade_image_paths": [
+                        "assets/_grass_assets/grass_1/blade_images/grass_3.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_7.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_0.png"
+                    ],
+                    "blade_image_indices": [
+                        3,
+                        7,
+                        0
+                    ]
+                },
+                {
+                    "index": 2,
+                    "size": 30,
+                    "stiffness": 0.1,
+                    "relax_speed": 1,
+                    "num_blades": 3,
+                    "wind_magnitude": 8,
+                    "num_states": 11,
+                    "scale": 0.5,
+                    "blade_positions": [
+                        [
+                            1,
+                            -6
+                        ],
+                        [
+                            -5,
+                            -6
+                        ],
+                        [
+                            6,
+                            -3
+                        ]
+                    ],
+                    "blade_image_paths": [
+                        "assets/_grass_assets/grass_1/blade_images/grass_6.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_4.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_6.png"
+                    ],
+                    "blade_image_indices": [
+                        6,
+                        4,
+                        6
+                    ]
+                },
+                {
+                    "index": 3,
+                    "size": 21,
+                    "stiffness": 0.1,
+                    "relax_speed": 1,
+                    "num_blades": 8,
+                    "wind_magnitude": 8,
+                    "num_states": 11,
+                    "scale": 0.5,
+                    "blade_positions": [
+                        [
+                            0,
+                            -6
+                        ],
+                        [
+                            4,
+                            -5
+                        ],
+                        [
+                            4,
+                            -4
+                        ],
+                        [
+                            0,
+                            -4
+                        ],
+                        [
+                            -6,
+                            -3
+                        ],
+                        [
+                            -5,
+                            0
+                        ],
+                        [
+                            2,
+                            1
+                        ],
+                        [
+                            1,
+                            5
+                        ]
+                    ],
+                    "blade_image_paths": [
+                        "assets/_grass_assets/grass_1/blade_images/grass_4.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_5.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_3.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_5.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_1.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_6.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_8.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_7.png"
+                    ],
+                    "blade_image_indices": [
+                        4,
+                        5,
+                        3,
+                        5,
+                        1,
+                        6,
+                        8,
+                        7
+                    ]
+                },
+                {
+                    "index": 4,
+                    "size": 34,
+                    "stiffness": 0.1,
+                    "relax_speed": 1,
+                    "num_blades": 8,
+                    "wind_magnitude": 8,
+                    "num_states": 11,
+                    "scale": 0.5,
+                    "blade_positions": [
+                        [
+                            -4,
+                            -7
+                        ],
+                        [
+                            -9,
+                            -4
+                        ],
+                        [
+                            8,
+                            -4
+                        ],
+                        [
+                            -1,
+                            -3
+                        ],
+                        [
+                            -1,
+                            2
+                        ],
+                        [
+                            0,
+                            3
+                        ],
+                        [
+                            -3,
+                            6
+                        ],
+                        [
+                            6,
+                            7
+                        ]
+                    ],
+                    "blade_image_paths": [
+                        "assets/_grass_assets/grass_1/blade_images/grass_1.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_8.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_4.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_8.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_7.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_3.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_3.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_5.png"
+                    ],
+                    "blade_image_indices": [
+                        1,
+                        8,
+                        4,
+                        8,
+                        7,
+                        3,
+                        3,
+                        5
+                    ]
+                },
+                {
+                    "index": 5,
+                    "size": 31,
+                    "stiffness": 0.1,
+                    "relax_speed": 1,
+                    "num_blades": 9,
+                    "wind_magnitude": 8,
+                    "num_states": 11,
+                    "scale": 0.5,
+                    "blade_positions": [
+                        [
+                            -3,
+                            -8
+                        ],
+                        [
+                            -7,
+                            -5
+                        ],
+                        [
+                            -4,
+                            -4
+                        ],
+                        [
+                            2,
+                            -3
+                        ],
+                        [
+                            2,
+                            -1
+                        ],
+                        [
+                            0,
+                            0
+                        ],
+                        [
+                            -2,
+                            0
+                        ],
+                        [
+                            4,
+                            2
+                        ],
+                        [
+                            4,
+                            6
+                        ]
+                    ],
+                    "blade_image_paths": [
+                        "assets/_grass_assets/grass_1/blade_images/grass_8.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_3.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_7.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_9.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_5.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_1.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_5.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_8.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_4.png"
+                    ],
+                    "blade_image_indices": [
+                        8,
+                        3,
+                        7,
+                        9,
+                        5,
+                        1,
+                        5,
+                        8,
+                        4
+                    ]
+                },
+                {
+                    "index": 6,
+                    "size": 24,
+                    "stiffness": 0.1,
+                    "relax_speed": 1,
+                    "num_blades": 6,
+                    "wind_magnitude": 8,
+                    "num_states": 11,
+                    "scale": 0.5,
+                    "blade_positions": [
+                        [
+                            -6,
+                            -5
+                        ],
+                        [
+                            -4,
+                            -5
+                        ],
+                        [
+                            5,
+                            -1
+                        ],
+                        [
+                            -4,
+                            1
+                        ],
+                        [
+                            2,
+                            3
+                        ],
+                        [
+                            6,
+                            5
+                        ]
+                    ],
+                    "blade_image_paths": [
+                        "assets/_grass_assets/grass_1/blade_images/grass_7.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_8.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_7.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_0.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_2.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_2.png"
+                    ],
+                    "blade_image_indices": [
+                        7,
+                        8,
+                        7,
+                        0,
+                        2,
+                        2
+                    ]
+                },
+                {
+                    "index": 7,
+                    "size": 33,
+                    "stiffness": 0.1,
+                    "relax_speed": 1,
+                    "num_blades": 8,
+                    "wind_magnitude": 8,
+                    "num_states": 11,
+                    "scale": 0.5,
+                    "blade_positions": [
+                        [
+                            4,
+                            -5
+                        ],
+                        [
+                            2,
+                            -2
+                        ],
+                        [
+                            -3,
+                            0
+                        ],
+                        [
+                            3,
+                            1
+                        ],
+                        [
+                            1,
+                            1
+                        ],
+                        [
+                            -4,
+                            2
+                        ],
+                        [
+                            2,
+                            3
+                        ]
+                    ],
+                    "blade_image_paths": [
+                        "assets/_grass_assets/grass_1/blade_images/grass_9.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_1.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_3.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_2.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_8.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_2.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_8.png"
+                    ],
+                    "blade_image_indices": [
+                        9,
+                        1,
+                        3,
+                        2,
+                        8,
+                        2,
+                        8
+                    ]
+                },
+                {
+                    "index": 8,
+                    "size": 25,
+                    "stiffness": 0.1,
+                    "relax_speed": 1,
+                    "num_blades": 4,
+                    "wind_magnitude": 8,
+                    "num_states": 11,
+                    "scale": 0.5,
+                    "blade_positions": [
+                        [
+                            -7,
+                            -7
+                        ],
+                        [
+                            -7,
+                            1
+                        ],
+                        [
+                            6,
+                            2
+                        ],
+                        [
+                            -5,
+                            3
+                        ]
+                    ],
+                    "blade_image_paths": [
+                        "assets/_grass_assets/grass_1/blade_images/grass_6.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_2.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_0.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_5.png"
+                    ],
+                    "blade_image_indices": [
+                        6,
+                        2,
+                        0,
+                        5
+                    ]
+                },
+                {
+                    "index": 9,
+                    "size": 27,
+                    "stiffness": 0.1,
+                    "relax_speed": 1,
+                    "num_blades": 5,
+                    "wind_magnitude": 8,
+                    "num_states": 11,
+                    "scale": 0.5,
+                    "blade_positions": [
+                        [
+                            -6,
+                            -4
+                        ],
+                        [
+                            5,
+                            2
+                        ],
+                        [
+                            4,
+                            3
+                        ],
+                        [
+                            1,
+                            4
+                        ],
+                        [
+                            0,
+                            6
+                        ]
+                    ],
+                    "blade_image_paths": [
+                        "assets/_grass_assets/grass_1/blade_images/grass_3.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_2.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_6.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_9.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_8.png"
+                    ],
+                    "blade_image_indices": [
+                        3,
+                        2,
+                        6,
+                        9,
+                        8
+                    ]
+                }
+            ],
+            "tiles": [
+                {
+                    "position": [
+                        435.60704837283623,
+                        459.8506957465916
+                    ],
+                    "asset_index": 3
+                },
+                {
+                    "position": [
+                        444.6633378759796,
+                        413.96552426239487
+                    ],
+                    "asset_index": 4
+                },
+                {
+                    "position": [
+                        441.73680877609,
+                        429.4372686708006
+                    ],
+                    "asset_index": 5
+                },
+                {
+                    "position": [
+                        443.1018738448591,
+                        441.9826501858454
+                    ],
+                    "asset_index": 7
+                },
+                {
+                    "position": [
+                        464.1667354439337,
+                        404.8171876458496
+                    ],
+                    "asset_index": 8
+                },
+                {
+                    "position": [
+                        459.4277982093331,
+                        420.09987908737196
+                    ],
+                    "asset_index": 9
+                },
+                {
+                    "position": [
+                        489.28010149522095,
+                        497.7648652832476
+                    ],
+                    "asset_index": 0
+                },
+                {
+                    "position": [
+                        499.82866395100245,
+                        480.80687731967237
+                    ],
+                    "asset_index": 1
+                },
+                {
+                    "position": [
+                        507.73078898762276,
+                        434.0741854608909
+                    ],
+                    "asset_index": 1
+                },
+                {
+                    "position": [
+                        435.51471125063404,
+                        519.2743292056863
+                    ],
+                    "asset_index": 1
+                },
+                {
+                    "position": [
+                        430.8082711181085,
+                        539.8454695612396
+                    ],
+                    "asset_index": 3
+                },
+                {
+                    "position": [
+                        364.59057448167334,
+                        542.9260738274021
+                    ],
+                    "asset_index": 4
+                },
+                {
+                    "position": [
+                        331.7569322073473,
+                        539.4689167581344
+                    ],
+                    "asset_index": 5
+                },
+                {
+                    "position": [
+                        295.85213873547036,
+                        516.7291760880681
+                    ],
+                    "asset_index": 6
+                },
+                {
+                    "position": [
+                        388.26540797131855,
+                        567.3911767700141
+                    ],
+                    "asset_index": 8
+                },
+                {
+                    "position": [
+                        337.9329410711342,
+                        561.3182840077014
+                    ],
+                    "asset_index": 8
+                },
+                {
+                    "position": [
+                        398.38039608097984,
+                        408.4244268758839
+                    ],
+                    "asset_index": 4
+                },
+                {
+                    "position": [
+                        290.02906710964186,
+                        410.741991163443
+                    ],
+                    "asset_index": 7
+                },
+                {
+                    "position": [
+                        334.615119480376,
+                        491.8936184396961
+                    ],
+                    "asset_index": 8
+                },
+                {
+                    "position": [
+                        361.5927022589815,
+                        497.8123763789651
+                    ],
+                    "asset_index": 0
+                },
+                {
+                    "position": [
+                        318.30733858385224,
+                        484.14104331079665
+                    ],
+                    "asset_index": 1
+                },
+                {
+                    "position": [
+                        335.2751975817891,
+                        487.197472767881
+                    ],
+                    "asset_index": 2
+                },
+                {
+                    "position": [
+                        657.4193193836892,
+                        317.26626179569405
+                    ],
+                    "asset_index": 6
+                },
+                {
+                    "position": [
+                        671.7373388074997,
+                        299.30601376442905
+                    ],
+                    "asset_index": 7
+                },
+                {
+                    "position": [
+                        655.2019190815014,
+                        283.21479095290374
+                    ],
+                    "asset_index": 8
+                },
+                {
+                    "position": [
+                        680.9289499749005,
+                        281.1243648216823
+                    ],
+                    "asset_index": 9
+                },
+                {
+                    "position": [
+                        617.8052941068489,
+                        303.5099896824332
+                    ],
+                    "asset_index": 0
+                },
+                {
+                    "position": [
+                        657.7006331115111,
+                        295.9208601745115
+                    ],
+                    "asset_index": 1
+                },
+                {
+                    "position": [
+                        604.4095827944974,
+                        290.20892038816805
+                    ],
+                    "asset_index": 1
+                },
+                {
+                    "position": [
+                        614.7628152991376,
+                        279.20691676374963
+                    ],
+                    "asset_index": 2
+                },
+                {
+                    "position": [
+                        634.2706525721696,
+                        273.2324473371888
+                    ],
+                    "asset_index": 3
+                },
+                {
+                    "position": [
+                        612.2752529083477,
+                        269.70365241133226
+                    ],
+                    "asset_index": 4
+                },
+                {
+                    "position": [
+                        652.9144581475879,
+                        265.1443167209545
+                    ],
+                    "asset_index": 5
+                },
+                {
+                    "position": [
+                        677.7078126501525,
+                        261.4988301265262
+                    ],
+                    "asset_index": 6
+                },
+                {
+                    "position": [
+                        695.2285377748889,
+                        218.2666177021842
+                    ],
+                    "asset_index": 6
+                },
+                {
+                    "position": [
+                        677.8410408415133,
+                        225.09852449252054
+                    ],
+                    "asset_index": 7
+                },
+                {
+                    "position": [
+                        668.7845309842043,
+                        248.8151774858176
+                    ],
+                    "asset_index": 8
+                },
+                {
+                    "position": [
+                        652.2946478411642,
+                        254.3454355203833
+                    ],
+                    "asset_index": 9
+                },
+                {
+                    "position": [
+                        698.3275893070075,
+                        272.26102370504043
+                    ],
+                    "asset_index": 0
+                },
+                {
+                    "position": [
+                        683.8716388494132,
+                        296.28758185154936
+                    ],
+                    "asset_index": 1
+                },
+                {
+                    "position": [
+                        635.4320455963211,
+                        253.77183473426587
+                    ],
+                    "asset_index": 2
+                },
+                {
+                    "position": [
+                        590.1914641007697,
+                        271.94571120419835
+                    ],
+                    "asset_index": 3
+                },
+                {
+                    "position": [
+                        594.194443744187,
+                        255.99460455799476
+                    ],
+                    "asset_index": 3
+                },
+                {
+                    "position": [
+                        617.6335010340998,
+                        247.60198891498743
+                    ],
+                    "asset_index": 4
+                },
+                {
+                    "position": [
+                        649.2601361798274,
+                        239.38713301249365
+                    ],
+                    "asset_index": 5
+                },
+                {
+                    "position": [
+                        1019.1687380076016,
+                        334.0236195843985
+                    ],
+                    "asset_index": 3
+                },
+                {
+                    "position": [
+                        1112.9113593389968,
+                        224.87190956470977
+                    ],
+                    "asset_index": 3
+                },
+                {
+                    "position": [
+                        1130.4790314064653,
+                        201.193020927588
+                    ],
+                    "asset_index": 4
+                },
+                {
+                    "position": [
+                        1046.5298484809905,
+                        152.08155476931458
+                    ],
+                    "asset_index": 6
+                },
+                {
+                    "position": [
+                        1155.624898475786,
+                        230.0458871795848
+                    ],
+                    "asset_index": 7
+                },
+                {
+                    "position": [
+                        1148.2133418738074,
+                        206.6291427224249
+                    ],
+                    "asset_index": 8
+                },
+                {
+                    "position": [
+                        1062.2274554991886,
+                        244.16413941486414
+                    ],
+                    "asset_index": 5
+                },
+                {
+                    "position": [
+                        1036.2284167880996,
+                        229.3030792797538
+                    ],
+                    "asset_index": 6
+                },
+                {
+                    "position": [
+                        1079.2893655668574,
+                        270.5183893499957
+                    ],
+                    "asset_index": 7
+                },
+                {
+                    "position": [
+                        1085.6255444665937,
+                        243.2197314316182
+                    ],
+                    "asset_index": 8
+                }
+            ],
+            "grass_folder": "assets/_grass_assets/grass_1"
+        },
+        {
+            "assets": [
+                {
+                    "index": 0,
+                    "size": 31,
+                    "stiffness": 0.1,
+                    "relax_speed": 1,
+                    "num_blades": 6,
+                    "wind_magnitude": 8,
+                    "num_states": 11,
+                    "scale": 0.5,
+                    "blade_positions": [
+                        [
+                            -7,
+                            -7
+                        ],
+                        [
+                            0,
+                            0
+                        ],
+                        [
+                            3,
+                            1
+                        ],
+                        [
+                            -5,
+                            2
+                        ],
+                        [
+                            0,
+                            2
+                        ],
+                        [
+                            7,
+                            4
+                        ]
+                    ],
+                    "blade_image_paths": [
+                        "assets/_grass_assets/grass_2/blade_images/grass_5.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_6.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_4.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_3.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_1.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_3.png"
+                    ],
+                    "blade_image_indices": [
+                        5,
+                        6,
+                        4,
+                        3,
+                        1,
+                        3
+                    ]
+                },
+                {
+                    "index": 1,
+                    "size": 33,
+                    "stiffness": 0.1,
+                    "relax_speed": 1,
+                    "num_blades": 4,
+                    "wind_magnitude": 8,
+                    "num_states": 11,
+                    "scale": 0.5,
+                    "blade_positions": [
+                        [
+                            2,
+                            -8
+                        ],
+                        [
+                            6,
+                            -8
+                        ],
+                        [
+                            4,
+                            2
+                        ],
+                        [
+                            -3,
+                            3
+                        ]
+                    ],
+                    "blade_image_paths": [
+                        "assets/_grass_assets/grass_2/blade_images/grass_6.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_6.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_5.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_0.png"
+                    ],
+                    "blade_image_indices": [
+                        6,
+                        6,
+                        5,
+                        0
+                    ]
+                },
+                {
+                    "index": 2,
+                    "size": 21,
+                    "stiffness": 0.1,
+                    "relax_speed": 1,
+                    "num_blades": 3,
+                    "wind_magnitude": 8,
+                    "num_states": 11,
+                    "scale": 0.5,
+                    "blade_positions": [
+                        [
+                            -3,
+                            0
+                        ],
+                        [
+                            -6,
+                            0
+                        ],
+                        [
+                            -3,
+                            3
+                        ]
+                    ],
+                    "blade_image_paths": [
+                        "assets/_grass_assets/grass_2/blade_images/grass_3.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_0.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_0.png"
+                    ],
+                    "blade_image_indices": [
+                        3,
+                        0,
+                        0
+                    ]
+                },
+                {
+                    "index": 3,
+                    "size": 30,
+                    "stiffness": 0.1,
+                    "relax_speed": 1,
+                    "num_blades": 7,
+                    "wind_magnitude": 8,
+                    "num_states": 11,
+                    "scale": 0.5,
+                    "blade_positions": [
+                        [
+                            -6,
+                            -8
+                        ],
+                        [
+                            -3,
+                            -6
+                        ],
+                        [
+                            6,
+                            -4
+                        ],
+                        [
+                            -5,
+                            -4
+                        ],
+                        [
+                            -2,
+                            0
+                        ],
+                        [
+                            -5,
+                            5
+                        ],
+                        [
+                            2,
+                            7
+                        ]
+                    ],
+                    "blade_image_paths": [
+                        "assets/_grass_assets/grass_2/blade_images/grass_4.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_6.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_5.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_6.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_2.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_3.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_6.png"
+                    ],
+                    "blade_image_indices": [
+                        4,
+                        6,
+                        5,
+                        6,
+                        2,
+                        3,
+                        6
+                    ]
+                },
+                {
+                    "index": 4,
+                    "size": 34,
+                    "stiffness": 0.1,
+                    "relax_speed": 1,
+                    "num_blades": 3,
+                    "wind_magnitude": 8,
+                    "num_states": 11,
+                    "scale": 0.5,
+                    "blade_positions": [
+                        [
+                            3,
+                            -3
+                        ],
+                        [
+                            -5,
+                            0
+                        ],
+                        [
+                            -1,
+                            4
+                        ]
+                    ],
+                    "blade_image_paths": [
+                        "assets/_grass_assets/grass_2/blade_images/grass_0.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_4.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_0.png"
+                    ],
+                    "blade_image_indices": [
+                        0,
+                        4,
+                        0
+                    ]
+                },
+                {
+                    "index": 5,
+                    "size": 30,
+                    "stiffness": 0.1,
+                    "relax_speed": 1,
+                    "num_blades": 2,
+                    "wind_magnitude": 8,
+                    "num_states": 11,
+                    "scale": 0.5,
+                    "blade_positions": [
+                        [
+                            -6,
+                            0
+                        ],
+                        [
+                            -4,
+                            5
+                        ]
+                    ],
+                    "blade_image_paths": [
+                        "assets/_grass_assets/grass_2/blade_images/grass_5.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_1.png"
+                    ],
+                    "blade_image_indices": [
+                        5,
+                        1
+                    ]
+                },
+                {
+                    "index": 6,
+                    "size": 32,
+                    "stiffness": 0.1,
+                    "relax_speed": 1,
+                    "num_blades": 5,
+                    "wind_magnitude": 8,
+                    "num_states": 11,
+                    "scale": 0.5,
+                    "blade_positions": [
+                        [
+                            3,
+                            -8
+                        ],
+                        [
+                            2,
+                            -8
+                        ],
+                        [
+                            2,
+                            -6
+                        ],
+                        [
+                            -4,
+                            -3
+                        ],
+                        [
+                            -2,
+                            2
+                        ]
+                    ],
+                    "blade_image_paths": [
+                        "assets/_grass_assets/grass_2/blade_images/grass_5.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_6.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_3.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_5.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_6.png"
+                    ],
+                    "blade_image_indices": [
+                        5,
+                        6,
+                        3,
+                        5,
+                        6
+                    ]
+                },
+                {
+                    "index": 7,
+                    "size": 29,
+                    "stiffness": 0.1,
+                    "relax_speed": 1,
+                    "num_blades": 6,
+                    "wind_magnitude": 8,
+                    "num_states": 11,
+                    "scale": 0.5,
+                    "blade_positions": [
+                        [
+                            3,
+                            -3
+                        ],
+                        [
+                            6,
+                            -1
+                        ],
+                        [
+                            -2,
+                            0
+                        ],
+                        [
+                            -2,
+                            1
+                        ],
+                        [
+                            -6,
+                            5
+                        ],
+                        [
+                            1,
+                            6
+                        ]
+                    ],
+                    "blade_image_paths": [
+                        "assets/_grass_assets/grass_2/blade_images/grass_2.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_3.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_5.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_0.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_4.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_4.png"
+                    ],
+                    "blade_image_indices": [
+                        2,
+                        3,
+                        5,
+                        0,
+                        4,
+                        4
+                    ]
+                },
+                {
+                    "index": 8,
+                    "size": 38,
+                    "stiffness": 0.1,
+                    "relax_speed": 1,
+                    "num_blades": 7,
+                    "wind_magnitude": 8,
+                    "num_states": 11,
+                    "scale": 0.5,
+                    "blade_positions": [
+                        [
+                            8,
+                            -9
+                        ],
+                        [
+                            1,
+                            -9
+                        ],
+                        [
+                            7,
+                            -7
+                        ],
+                        [
+                            0,
+                            4
+                        ],
+                        [
+                            2,
+                            5
+                        ],
+                        [
+                            4,
+                            6
+                        ],
+                        [
+                            -1,
+                            6
+                        ]
+                    ],
+                    "blade_image_paths": [
+                        "assets/_grass_assets/grass_2/blade_images/grass_3.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_2.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_4.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_1.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_3.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_6.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_1.png"
+                    ],
+                    "blade_image_indices": [
+                        3,
+                        2,
+                        4,
+                        1,
+                        3,
+                        6,
+                        1
+                    ]
+                },
+                {
+                    "index": 9,
+                    "size": 23,
+                    "stiffness": 0.1,
+                    "relax_speed": 1,
+                    "num_blades": 8,
+                    "wind_magnitude": 8,
+                    "num_states": 11,
+                    "scale": 0.5,
+                    "blade_positions": [
+                        [
+                            0,
+                            -6
+                        ],
+                        [
+                            -3,
+                            -5
+                        ],
+                        [
+                            5,
+                            -4
+                        ],
+                        [
+                            -5,
+                            -3
+                        ],
+                        [
+                            4,
+                            0
+                        ],
+                        [
+                            0,
+                            1
+                        ],
+                        [
+                            -3,
+                            1
+                        ],
+                        [
+                            -4,
+                            5
+                        ]
+                    ],
+                    "blade_image_paths": [
+                        "assets/_grass_assets/grass_2/blade_images/grass_0.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_5.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_6.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_1.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_2.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_4.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_2.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_6.png"
+                    ],
+                    "blade_image_indices": [
+                        0,
+                        5,
+                        6,
+                        1,
+                        2,
+                        4,
+                        2,
+                        6
+                    ]
+                }
+            ],
+            "tiles": [
+                {
+                    "position": [
+                        358.98154881077267,
+                        560.8642881675979
+                    ],
+                    "asset_index": 1
+                },
+                {
+                    "position": [
+                        323.4216793843373,
+                        541.0717217252471
+                    ],
+                    "asset_index": 2
+                },
+                {
+                    "position": [
+                        420.5404793239809,
+                        536.3024024244705
+                    ],
+                    "asset_index": 4
+                },
+                {
+                    "position": [
+                        485.8357339808976,
+                        518.3620716417491
+                    ],
+                    "asset_index": 6
+                },
+                {
+                    "position": [
+                        503.26808013725395,
+                        494.84371057034434
+                    ],
+                    "asset_index": 7
+                },
+                {
+                    "position": [
+                        485.34702578995615,
+                        471.69558297692555
+                    ],
+                    "asset_index": 7
+                },
+                {
+                    "position": [
+                        502.12694508662105,
+                        469.8132485589548
+                    ],
+                    "asset_index": 8
+                },
+                {
+                    "position": [
+                        408.532614639788,
+                        435.6466252751717
+                    ],
+                    "asset_index": 9
+                },
+                {
+                    "position": [
+                        425.9809948132047,
+                        403.3614997009098
+                    ],
+                    "asset_index": 0
+                },
+                {
+                    "position": [
+                        376.8266963030758,
+                        447.3708738537502
+                    ],
+                    "asset_index": 2
+                },
+                {
+                    "position": [
+                        403.9498235707931,
+                        395.0290731466839
+                    ],
+                    "asset_index": 3
+                },
+                {
+                    "position": [
+                        365.4006122654583,
+                        434.2751548120901
+                    ],
+                    "asset_index": 4
+                },
+                {
+                    "position": [
+                        347.6190904142657,
+                        441.07181088617017
+                    ],
+                    "asset_index": 6
+                },
+                {
+                    "position": [
+                        355.5923694314314,
+                        422.45379438179464
+                    ],
+                    "asset_index": 7
+                },
+                {
+                    "position": [
+                        341.18259235165664,
+                        433.43024919639737
+                    ],
+                    "asset_index": 8
+                },
+                {
+                    "position": [
+                        421.8069963119332,
+                        422.95865037803014
+                    ],
+                    "asset_index": 2
+                },
+                {
+                    "position": [
+                        387.6518286318135,
+                        441.3848778295702
+                    ],
+                    "asset_index": 2
+                },
+                {
+                    "position": [
+                        632.9611059314343,
+                        233.44299864671225
+                    ],
+                    "asset_index": 7
+                },
+                {
+                    "position": [
+                        600.1091701684397,
+                        239.2093073987707
+                    ],
+                    "asset_index": 8
+                },
+                {
+                    "position": [
+                        654.8124598715956,
+                        220.93227001158445
+                    ],
+                    "asset_index": 9
+                },
+                {
+                    "position": [
+                        571.2094411717671,
+                        257.11832067522823
+                    ],
+                    "asset_index": 0
+                },
+                {
+                    "position": [
+                        619.8852825281671,
+                        223.2851425823164
+                    ],
+                    "asset_index": 1
+                },
+                {
+                    "position": [
+                        628.7950883298589,
+                        210.3675050051068
+                    ],
+                    "asset_index": 2
+                },
+                {
+                    "position": [
+                        649.5595218585265,
+                        202.8782927478971
+                    ],
+                    "asset_index": 3
+                },
+                {
+                    "position": [
+                        667.3896067545637,
+                        207.41570088472074
+                    ],
+                    "asset_index": 4
+                },
+                {
+                    "position": [
+                        625.4614883055866,
+                        283.2035822251853
+                    ],
+                    "asset_index": 4
+                },
+                {
+                    "position": [
+                        630.5912089317846,
+                        392.8078915193057
+                    ],
+                    "asset_index": 5
+                },
+                {
+                    "position": [
+                        720.4635327733113,
+                        345.11133140942013
+                    ],
+                    "asset_index": 6
+                },
+                {
+                    "position": [
+                        776.9448886974735,
+                        318.8503391001415
+                    ],
+                    "asset_index": 7
+                },
+                {
+                    "position": [
+                        751.1765400498109,
+                        328.4676260342259
+                    ],
+                    "asset_index": 2
+                },
+                {
+                    "position": [
+                        659.1896891873354,
+                        395.36806899542523
+                    ],
+                    "asset_index": 2
+                },
+                {
+                    "position": [
+                        775.7881093276504,
+                        267.23367255979986
+                    ],
+                    "asset_index": 4
+                },
+                {
+                    "position": [
+                        1003.6800210065533,
+                        325.57686752973274
+                    ],
+                    "asset_index": 7
+                },
+                {
+                    "position": [
+                        996.9547228944155,
+                        351.43539936598773
+                    ],
+                    "asset_index": 8
+                },
+                {
+                    "position": [
+                        1041.6635113699826,
+                        342.8559220102548
+                    ],
+                    "asset_index": 9
+                },
+                {
+                    "position": [
+                        1072.5449019643631,
+                        325.8075870661288
+                    ],
+                    "asset_index": 0
+                },
+                {
+                    "position": [
+                        1057.3293579855363,
+                        342.08231089774404
+                    ],
+                    "asset_index": 1
+                },
+                {
+                    "position": [
+                        1082.3245453613924,
+                        343.51861719980354
+                    ],
+                    "asset_index": 2
+                },
+                {
+                    "position": [
+                        1164.2071477414302,
+                        243.30401476720917
+                    ],
+                    "asset_index": 2
+                },
+                {
+                    "position": [
+                        1065.7785827528078,
+                        152.05274202062864
+                    ],
+                    "asset_index": 2
+                },
+                {
+                    "position": [
+                        1024.7651113300365,
+                        163.32032486662865
+                    ],
+                    "asset_index": 3
+                },
+                {
+                    "position": [
+                        1015.7387543665972,
+                        180.08241155499906
+                    ],
+                    "asset_index": 4
+                },
+                {
+                    "position": [
+                        1084.0504229998253,
+                        167.37729741729646
+                    ],
+                    "asset_index": 5
+                },
+                {
+                    "position": [
+                        1053.456726142498,
+                        232.2386614829777
+                    ],
+                    "asset_index": 8
+                },
+                {
+                    "position": [
+                        1064.0042325843178,
+                        266.8858814760342
+                    ],
+                    "asset_index": 9
+                },
+                {
+                    "position": [
+                        1081.8053031074837,
+                        247.35535684026925
+                    ],
+                    "asset_index": 0
+                },
+                {
+                    "position": [
+                        1046.3202725386204,
+                        254.5339113853288
+                    ],
+                    "asset_index": 1
+                },
+                {
+                    "position": [
+                        1009.9548834413533,
+                        256.8755766594189
+                    ],
+                    "asset_index": 2
+                },
+                {
+                    "position": [
+                        1054.084916504541,
+                        308.0711933207492
+                    ],
+                    "asset_index": 4
+                },
+                {
+                    "position": [
+                        968.5011806220184,
+                        403.51969705875405
+                    ],
+                    "asset_index": 2
+                },
+                {
+                    "position": [
+                        854.1478468923314,
+                        335.2016974656937
+                    ],
+                    "asset_index": 5
+                },
+                {
+                    "position": [
+                        857.935490385197,
+                        317.7678789806034
+                    ],
+                    "asset_index": 6
+                }
+            ],
+            "grass_folder": "assets/_grass_assets/grass_2"
+        }
+    ],
+    "plant_systems": [
+        {
+            "assets": [
+                {
+                    "index": 0,
+                    "stiffness": 0.011897937485028664,
+                    "scale": 1,
+                    "num_branches": 6,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_1/branches/branch_7",
+                        "assets/_plant_assets/bush_1/branches/branch_2",
+                        "assets/_plant_assets/bush_1/branches/branch_1",
+                        "assets/_plant_assets/bush_1/branches/branch_1",
+                        "assets/_plant_assets/bush_1/branches/branch_4",
+                        "assets/_plant_assets/bush_1/branches/branch_1"
+                    ],
+                    "branch_base_angles": [
+                        -0.5235987755982988,
+                        -0.34906585039886584,
+                        -0.17453292519943292,
+                        0.0,
+                        0.17453292519943298,
+                        0.34906585039886595
+                    ]
+                },
+                {
+                    "index": 1,
+                    "stiffness": 0.007772939422737263,
+                    "scale": 1,
+                    "num_branches": 4,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_1/branches/branch_2",
+                        "assets/_plant_assets/bush_1/branches/branch_0",
+                        "assets/_plant_assets/bush_1/branches/branch_9",
+                        "assets/_plant_assets/bush_1/branches/branch_3"
+                    ],
+                    "branch_base_angles": [
+                        -0.9250245035569946,
+                        -0.4625122517784973,
+                        0.0,
+                        0.4625122517784972
+                    ]
+                },
+                {
+                    "index": 2,
+                    "stiffness": 0.01809213119316175,
+                    "scale": 1,
+                    "num_branches": 7,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_1/branches/branch_8",
+                        "assets/_plant_assets/bush_1/branches/branch_2",
+                        "assets/_plant_assets/bush_1/branches/branch_6",
+                        "assets/_plant_assets/bush_1/branches/branch_9",
+                        "assets/_plant_assets/bush_1/branches/branch_1",
+                        "assets/_plant_assets/bush_1/branches/branch_3",
+                        "assets/_plant_assets/bush_1/branches/branch_1"
+                    ],
+                    "branch_base_angles": [
+                        -0.8028514559173916,
+                        -0.5734653256552797,
+                        -0.34407919539316784,
+                        -0.11469306513105593,
+                        0.11469306513105593,
+                        0.3440791953931679,
+                        0.5734653256552797
+                    ]
+                },
+                {
+                    "index": 3,
+                    "stiffness": 0.01649959634525652,
+                    "scale": 1,
+                    "num_branches": 5,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_1/branches/branch_8",
+                        "assets/_plant_assets/bush_1/branches/branch_3",
+                        "assets/_plant_assets/bush_1/branches/branch_0",
+                        "assets/_plant_assets/bush_1/branches/branch_1",
+                        "assets/_plant_assets/bush_1/branches/branch_4"
+                    ],
+                    "branch_base_angles": [
+                        -0.7853981633974483,
+                        -0.47123889803846897,
+                        -0.15707963267948966,
+                        0.15707963267948966,
+                        0.47123889803846897
+                    ]
+                },
+                {
+                    "index": 4,
+                    "stiffness": 0.007450937259641943,
+                    "scale": 1,
+                    "num_branches": 6,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_1/branches/branch_7",
+                        "assets/_plant_assets/bush_1/branches/branch_1",
+                        "assets/_plant_assets/bush_1/branches/branch_0",
+                        "assets/_plant_assets/bush_1/branches/branch_3",
+                        "assets/_plant_assets/bush_1/branches/branch_8",
+                        "assets/_plant_assets/bush_1/branches/branch_7"
+                    ],
+                    "branch_base_angles": [
+                        -1.0821041362364843,
+                        -0.7214027574909896,
+                        -0.3607013787454948,
+                        0.0,
+                        0.3607013787454947,
+                        0.7214027574909894
+                    ]
+                },
+                {
+                    "index": 5,
+                    "stiffness": 0.014985913265955587,
+                    "scale": 1,
+                    "num_branches": 5,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_1/branches/branch_3",
+                        "assets/_plant_assets/bush_1/branches/branch_0",
+                        "assets/_plant_assets/bush_1/branches/branch_7",
+                        "assets/_plant_assets/bush_1/branches/branch_3",
+                        "assets/_plant_assets/bush_1/branches/branch_0"
+                    ],
+                    "branch_base_angles": [
+                        -1.1344640137963142,
+                        -0.6806784082777886,
+                        -0.22689280275926282,
+                        0.22689280275926293,
+                        0.6806784082777886
+                    ]
+                },
+                {
+                    "index": 6,
+                    "stiffness": 0.019670403475700603,
+                    "scale": 1,
+                    "num_branches": 5,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_1/branches/branch_9",
+                        "assets/_plant_assets/bush_1/branches/branch_5",
+                        "assets/_plant_assets/bush_1/branches/branch_9",
+                        "assets/_plant_assets/bush_1/branches/branch_0",
+                        "assets/_plant_assets/bush_1/branches/branch_2"
+                    ],
+                    "branch_base_angles": [
+                        -1.0297442586766545,
+                        -0.6178465552059927,
+                        -0.20594885173533095,
+                        0.20594885173533073,
+                        0.6178465552059926
+                    ]
+                },
+                {
+                    "index": 7,
+                    "stiffness": 0.007867400174627821,
+                    "scale": 1,
+                    "num_branches": 7,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_1/branches/branch_4",
+                        "assets/_plant_assets/bush_1/branches/branch_6",
+                        "assets/_plant_assets/bush_1/branches/branch_9",
+                        "assets/_plant_assets/bush_1/branches/branch_6",
+                        "assets/_plant_assets/bush_1/branches/branch_4",
+                        "assets/_plant_assets/bush_1/branches/branch_6",
+                        "assets/_plant_assets/bush_1/branches/branch_4"
+                    ],
+                    "branch_base_angles": [
+                        -0.8377580409572782,
+                        -0.5983986006837702,
+                        -0.3590391604102621,
+                        -0.1196797201367541,
+                        0.11967972013675399,
+                        0.35903916041026207,
+                        0.59839860068377
+                    ]
+                },
+                {
+                    "index": 8,
+                    "stiffness": 0.00546378465989828,
+                    "scale": 1,
+                    "num_branches": 5,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_1/branches/branch_8",
+                        "assets/_plant_assets/bush_1/branches/branch_1",
+                        "assets/_plant_assets/bush_1/branches/branch_6",
+                        "assets/_plant_assets/bush_1/branches/branch_4",
+                        "assets/_plant_assets/bush_1/branches/branch_1"
+                    ],
+                    "branch_base_angles": [
+                        -1.1868238913561442,
+                        -0.7120943348136866,
+                        -0.23736477827122882,
+                        0.23736477827122893,
+                        0.7120943348136866
+                    ]
+                },
+                {
+                    "index": 9,
+                    "stiffness": 0.005324637212722696,
+                    "scale": 1,
+                    "num_branches": 5,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_1/branches/branch_3",
+                        "assets/_plant_assets/bush_1/branches/branch_9",
+                        "assets/_plant_assets/bush_1/branches/branch_7",
+                        "assets/_plant_assets/bush_1/branches/branch_2",
+                        "assets/_plant_assets/bush_1/branches/branch_7"
+                    ],
+                    "branch_base_angles": [
+                        -0.5759586531581288,
+                        -0.3455751918948773,
+                        -0.11519173063162574,
+                        0.1151917306316258,
+                        0.3455751918948773
+                    ]
+                }
+            ],
+            "plants": [
+                {
+                    "position": [
+                        505.87154742273844,
+                        448.8884761855502
+                    ],
+                    "asset_index": 2
+                },
+                {
+                    "position": [
+                        479.58003299615103,
+                        484.45758114806233
+                    ],
+                    "asset_index": 3
+                },
+                {
+                    "position": [
+                        495.0407228176665,
+                        467.6712614398084
+                    ],
+                    "asset_index": 7
+                },
+                {
+                    "position": [
+                        640.4065622629205,
+                        387.8506557346115
+                    ],
+                    "asset_index": 8
+                },
+                {
+                    "position": [
+                        420.4767062022304,
+                        525.9837448210171
+                    ],
+                    "asset_index": 9
+                },
+                {
+                    "position": [
+                        301.3461101926473,
+                        473.9122294496702
+                    ],
+                    "asset_index": 5
+                },
+                {
+                    "position": [
+                        1112.3096112987803,
+                        291.3911661464794
+                    ],
+                    "asset_index": 6
+                },
+                {
+                    "position": [
+                        1125.3459756462796,
+                        239.1855158662582
+                    ],
+                    "asset_index": 8
+                },
+                {
+                    "position": [
+                        1129.8851554213518,
+                        272.68742215541783
+                    ],
+                    "asset_index": 9
+                },
+                {
+                    "position": [
+                        1010.5421123601317,
+                        240.68114014372216
+                    ],
+                    "asset_index": 0
+                },
+                {
+                    "position": [
+                        1020.7684851999744,
+                        215.80991511460104
+                    ],
+                    "asset_index": 1
+                },
+                {
+                    "position": [
+                        797.2151553334872,
+                        288.8388191302316
+                    ],
+                    "asset_index": 6
+                },
+                {
+                    "position": [
+                        814.664129574688,
+                        309.9533539024792
+                    ],
+                    "asset_index": 8
+                },
+                {
+                    "position": [
+                        781.0598172524362,
+                        298.2754206033014
+                    ],
+                    "asset_index": 9
+                },
+                {
+                    "position": [
+                        767.8461051777863,
+                        311.5083469768737
+                    ],
+                    "asset_index": 7
+                }
+            ],
+            "scale": 1,
+            "plant_folder": "assets/_plant_assets/bush_1"
+        },
+        {
+            "assets": [
+                {
+                    "index": 0,
+                    "stiffness": 0.00545126709167305,
+                    "scale": 1,
+                    "num_branches": 2,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_2/branches/branch_4",
+                        "assets/_plant_assets/bush_2/branches/branch_0"
+                    ],
+                    "branch_base_angles": [
+                        -1.2566370614359172,
+                        0.0
+                    ]
+                },
+                {
+                    "index": 1,
+                    "stiffness": 0.007738994168594959,
+                    "scale": 1,
+                    "num_branches": 6,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_2/branches/branch_1",
+                        "assets/_plant_assets/bush_2/branches/branch_4",
+                        "assets/_plant_assets/bush_2/branches/branch_0",
+                        "assets/_plant_assets/bush_2/branches/branch_1",
+                        "assets/_plant_assets/bush_2/branches/branch_3",
+                        "assets/_plant_assets/bush_2/branches/branch_3"
+                    ],
+                    "branch_base_angles": [
+                        -1.2740903539558606,
+                        -0.849393569303907,
+                        -0.4246967846519535,
+                        0.0,
+                        0.4246967846519536,
+                        0.849393569303907
+                    ]
+                },
+                {
+                    "index": 2,
+                    "stiffness": 0.016473788795286118,
+                    "scale": 1,
+                    "num_branches": 8,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_2/branches/branch_0",
+                        "assets/_plant_assets/bush_2/branches/branch_0",
+                        "assets/_plant_assets/bush_2/branches/branch_2",
+                        "assets/_plant_assets/bush_2/branches/branch_4",
+                        "assets/_plant_assets/bush_2/branches/branch_4",
+                        "assets/_plant_assets/bush_2/branches/branch_2",
+                        "assets/_plant_assets/bush_2/branches/branch_4",
+                        "assets/_plant_assets/bush_2/branches/branch_4"
+                    ],
+                    "branch_base_angles": [
+                        -1.3788101090755203,
+                        -1.0341075818066403,
+                        -0.6894050545377601,
+                        -0.34470252726887995,
+                        0.0,
+                        0.34470252726887995,
+                        0.6894050545377604,
+                        1.0341075818066403
+                    ]
+                },
+                {
+                    "index": 3,
+                    "stiffness": 0.017007325849339235,
+                    "scale": 1,
+                    "num_branches": 2,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_2/branches/branch_0",
+                        "assets/_plant_assets/bush_2/branches/branch_2"
+                    ],
+                    "branch_base_angles": [
+                        -1.361356816555577,
+                        0.0
+                    ]
+                },
+                {
+                    "index": 4,
+                    "stiffness": 0.018626664642791384,
+                    "scale": 1,
+                    "num_branches": 2,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_2/branches/branch_1",
+                        "assets/_plant_assets/bush_2/branches/branch_4"
+                    ],
+                    "branch_base_angles": [
+                        -1.3089969389957472,
+                        0.0
+                    ]
+                },
+                {
+                    "index": 5,
+                    "stiffness": 0.01002481665359142,
+                    "scale": 1,
+                    "num_branches": 1,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_2/branches/branch_3"
+                    ],
+                    "branch_base_angles": [
+                        -1.3439035240356338,
+                        0.10471975511965978
+                    ]
+                },
+                {
+                    "index": 6,
+                    "stiffness": 0.009733562847894534,
+                    "scale": 1,
+                    "num_branches": 4,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_2/branches/branch_2",
+                        "assets/_plant_assets/bush_2/branches/branch_0",
+                        "assets/_plant_assets/bush_2/branches/branch_2",
+                        "assets/_plant_assets/bush_2/branches/branch_2"
+                    ],
+                    "branch_base_angles": [
+                        -1.3439035240356338,
+                        -0.6719517620178169,
+                        0.0,
+                        0.671951762017817
+                    ]
+                },
+                {
+                    "index": 7,
+                    "stiffness": 0.018643604678581744,
+                    "scale": 1,
+                    "num_branches": 1,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_2/branches/branch_4"
+                    ],
+                    "branch_base_angles": [
+                        -1.2915436464758039,
+                        0.4014257279586958
+                    ]
+                },
+                {
+                    "index": 8,
+                    "stiffness": 0.0070796548233018515,
+                    "scale": 1,
+                    "num_branches": 2,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_2/branches/branch_4",
+                        "assets/_plant_assets/bush_2/branches/branch_0"
+                    ],
+                    "branch_base_angles": [
+                        -1.361356816555577,
+                        0.0
+                    ]
+                },
+                {
+                    "index": 9,
+                    "stiffness": 0.005612146519107351,
+                    "scale": 1,
+                    "num_branches": 5,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_2/branches/branch_3",
+                        "assets/_plant_assets/bush_2/branches/branch_3",
+                        "assets/_plant_assets/bush_2/branches/branch_3",
+                        "assets/_plant_assets/bush_2/branches/branch_2",
+                        "assets/_plant_assets/bush_2/branches/branch_2"
+                    ],
+                    "branch_base_angles": [
+                        -1.3439035240356338,
+                        -0.8063421144213803,
+                        -0.2687807048071267,
+                        0.2687807048071269,
+                        0.8063421144213805
+                    ]
+                }
+            ],
+            "plants": [
+                {
+                    "position": [
+                        391.5759775502528,
+                        535.5671384973733
+                    ],
+                    "asset_index": 2
+                },
+                {
+                    "position": [
+                        397.0973063925404,
+                        543.6530952379436
+                    ],
+                    "asset_index": 3
+                },
+                {
+                    "position": [
+                        410.9022995087159,
+                        538.7237749886392
+                    ],
+                    "asset_index": 5
+                },
+                {
+                    "position": [
+                        517.1424364697035,
+                        448.5114829783752
+                    ],
+                    "asset_index": 5
+                },
+                {
+                    "position": [
+                        507.7450420990098,
+                        457.02222799244623
+                    ],
+                    "asset_index": 7
+                },
+                {
+                    "position": [
+                        311.3470718757788,
+                        529.9583084657876
+                    ],
+                    "asset_index": 9
+                },
+                {
+                    "position": [
+                        319.92983993531885,
+                        534.5703993236616
+                    ],
+                    "asset_index": 0
+                },
+                {
+                    "position": [
+                        342.36699749954715,
+                        542.87027944477
+                    ],
+                    "asset_index": 1
+                },
+                {
+                    "position": [
+                        322.5973894290662,
+                        552.6756895745887
+                    ],
+                    "asset_index": 5
+                },
+                {
+                    "position": [
+                        1028.2389365890579,
+                        205.01906917726507
+                    ],
+                    "asset_index": 2
+                },
+                {
+                    "position": [
+                        1003.6424352183283,
+                        236.15390990538953
+                    ],
+                    "asset_index": 9
+                },
+                {
+                    "position": [
+                        1001.8577391053087,
+                        213.3888906390599
+                    ],
+                    "asset_index": 9
+                },
+                {
+                    "position": [
+                        1076.5702943445403,
+                        181.36564173256662
+                    ],
+                    "asset_index": 2
+                },
+                {
+                    "position": [
+                        1099.6467693145767,
+                        179.37157479355108
+                    ],
+                    "asset_index": 9
+                },
+                {
+                    "position": [
+                        1120.0860824288852,
+                        306.03312437314287
+                    ],
+                    "asset_index": 9
+                },
+                {
+                    "position": [
+                        1144.3143678872461,
+                        276.3409646225728
+                    ],
+                    "asset_index": 1
+                },
+                {
+                    "position": [
+                        1144.7204220453777,
+                        301.54658971458434
+                    ],
+                    "asset_index": 5
+                },
+                {
+                    "position": [
+                        1021.7705308224139,
+                        347.36298665932054
+                    ],
+                    "asset_index": 9
+                },
+                {
+                    "position": [
+                        1030.947190241198,
+                        320.59007269928196
+                    ],
+                    "asset_index": 0
+                },
+                {
+                    "position": [
+                        1051.9985776050175,
+                        320.5767058122831
+                    ],
+                    "asset_index": 2
+                },
+                {
+                    "position": [
+                        1036.598982394373,
+                        330.66131982016975
+                    ],
+                    "asset_index": 4
+                },
+                {
+                    "position": [
+                        791.5319501793329,
+                        272.09719800625516
+                    ],
+                    "asset_index": 9
+                },
+                {
+                    "position": [
+                        821.6279824846241,
+                        292.9050804219634
+                    ],
+                    "asset_index": 1
+                },
+                {
+                    "position": [
+                        744.2222976281273,
+                        303.3740641987289
+                    ],
+                    "asset_index": 1
+                },
+                {
+                    "position": [
+                        731.0923600067687,
+                        317.93802211856087
+                    ],
+                    "asset_index": 2
+                },
+                {
+                    "position": [
+                        737.757193050026,
+                        326.34412972753216
+                    ],
+                    "asset_index": 5
+                },
+                {
+                    "position": [
+                        710.2881601626019,
+                        334.13781232486537
+                    ],
+                    "asset_index": 7
+                },
+                {
+                    "position": [
+                        707.4548635914545,
+                        340.90569780905446
+                    ],
+                    "asset_index": 5
+                },
+                {
+                    "position": [
+                        813.2925686509535,
+                        329.6872039047165
+                    ],
+                    "asset_index": 5
+                }
+            ],
+            "scale": 1,
+            "plant_folder": "assets/_plant_assets/bush_2"
+        },
+        {
+            "assets": [
+                {
+                    "index": 0,
+                    "stiffness": 0.013425326671131929,
+                    "scale": 1,
+                    "num_branches": 5,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_3/branches/branch_3",
+                        "assets/_plant_assets/bush_3/branches/branch_0",
+                        "assets/_plant_assets/bush_3/branches/branch_2",
+                        "assets/_plant_assets/bush_3/branches/branch_1",
+                        "assets/_plant_assets/bush_3/branches/branch_0"
+                    ],
+                    "branch_base_angles": [
+                        -1.3264502315156905,
+                        -0.7958701389094143,
+                        -0.265290046303138,
+                        0.26529004630313824,
+                        0.7958701389094145
+                    ]
+                },
+                {
+                    "index": 1,
+                    "stiffness": 0.018033742173303474,
+                    "scale": 1,
+                    "num_branches": 2,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_3/branches/branch_2",
+                        "assets/_plant_assets/bush_3/branches/branch_3"
+                    ],
+                    "branch_base_angles": [
+                        -1.2740903539558606,
+                        0.0
+                    ]
+                },
+                {
+                    "index": 2,
+                    "stiffness": 0.012324510003506293,
+                    "scale": 1,
+                    "num_branches": 8,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_3/branches/branch_1",
+                        "assets/_plant_assets/bush_3/branches/branch_3",
+                        "assets/_plant_assets/bush_3/branches/branch_1",
+                        "assets/_plant_assets/bush_3/branches/branch_3",
+                        "assets/_plant_assets/bush_3/branches/branch_2",
+                        "assets/_plant_assets/bush_3/branches/branch_3",
+                        "assets/_plant_assets/bush_3/branches/branch_2",
+                        "assets/_plant_assets/bush_3/branches/branch_2"
+                    ],
+                    "branch_base_angles": [
+                        -1.2566370614359172,
+                        -0.9424777960769379,
+                        -0.6283185307179586,
+                        -0.3141592653589793,
+                        0.0,
+                        0.3141592653589793,
+                        0.6283185307179586,
+                        0.9424777960769379
+                    ]
+                },
+                {
+                    "index": 3,
+                    "stiffness": 0.013895051270648707,
+                    "scale": 1,
+                    "num_branches": 3,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_3/branches/branch_1",
+                        "assets/_plant_assets/bush_3/branches/branch_0",
+                        "assets/_plant_assets/bush_3/branches/branch_3"
+                    ],
+                    "branch_base_angles": [
+                        -1.2740903539558606,
+                        -0.4246967846519535,
+                        0.4246967846519536
+                    ]
+                },
+                {
+                    "index": 4,
+                    "stiffness": 0.018379719161495427,
+                    "scale": 1,
+                    "num_branches": 5,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_3/branches/branch_3",
+                        "assets/_plant_assets/bush_3/branches/branch_0",
+                        "assets/_plant_assets/bush_3/branches/branch_3",
+                        "assets/_plant_assets/bush_3/branches/branch_2",
+                        "assets/_plant_assets/bush_3/branches/branch_0"
+                    ],
+                    "branch_base_angles": [
+                        -1.2740903539558606,
+                        -0.7644542123735163,
+                        -0.254818070791172,
+                        0.25481807079117225,
+                        0.7644542123735165
+                    ]
+                },
+                {
+                    "index": 5,
+                    "stiffness": 0.012845796440618232,
+                    "scale": 1,
+                    "num_branches": 5,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_3/branches/branch_1",
+                        "assets/_plant_assets/bush_3/branches/branch_0",
+                        "assets/_plant_assets/bush_3/branches/branch_2",
+                        "assets/_plant_assets/bush_3/branches/branch_3",
+                        "assets/_plant_assets/bush_3/branches/branch_2"
+                    ],
+                    "branch_base_angles": [
+                        -1.361356816555577,
+                        -0.8168140899333461,
+                        -0.27227136331111534,
+                        0.27227136331111557,
+                        0.8168140899333463
+                    ]
+                },
+                {
+                    "index": 6,
+                    "stiffness": 0.005953563693760939,
+                    "scale": 1,
+                    "num_branches": 3,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_3/branches/branch_2",
+                        "assets/_plant_assets/bush_3/branches/branch_1",
+                        "assets/_plant_assets/bush_3/branches/branch_2"
+                    ],
+                    "branch_base_angles": [
+                        -1.3962634015954636,
+                        -0.4654211338651545,
+                        0.4654211338651546
+                    ]
+                },
+                {
+                    "index": 7,
+                    "stiffness": 0.013116970474847226,
+                    "scale": 1,
+                    "num_branches": 4,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_3/branches/branch_0",
+                        "assets/_plant_assets/bush_3/branches/branch_2",
+                        "assets/_plant_assets/bush_3/branches/branch_3",
+                        "assets/_plant_assets/bush_3/branches/branch_2"
+                    ],
+                    "branch_base_angles": [
+                        -1.361356816555577,
+                        -0.6806784082777885,
+                        0.0,
+                        0.6806784082777886
+                    ]
+                },
+                {
+                    "index": 8,
+                    "stiffness": 0.018817797130701714,
+                    "scale": 1,
+                    "num_branches": 2,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_3/branches/branch_2",
+                        "assets/_plant_assets/bush_3/branches/branch_0"
+                    ],
+                    "branch_base_angles": [
+                        -1.361356816555577,
+                        0.0
+                    ]
+                },
+                {
+                    "index": 9,
+                    "stiffness": 0.013603026279695483,
+                    "scale": 1,
+                    "num_branches": 2,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_3/branches/branch_2",
+                        "assets/_plant_assets/bush_3/branches/branch_2"
+                    ],
+                    "branch_base_angles": [
+                        -1.3089969389957472,
+                        0.0
+                    ]
+                }
+            ],
+            "plants": [
+                {
+                    "position": [
+                        355.888407486855,
+                        483.73201826191234
+                    ],
+                    "asset_index": 5
+                },
+                {
+                    "position": [
+                        356.6979098193861,
+                        458.762651991681
+                    ],
+                    "asset_index": 7
+                },
+                {
+                    "position": [
+                        327.6104045245088,
+                        388.1101049880162
+                    ],
+                    "asset_index": 8
+                },
+                {
+                    "position": [
+                        330.54270801775033,
+                        411.20881396826246
+                    ],
+                    "asset_index": 0
+                },
+                {
+                    "position": [
+                        316.504391688733,
+                        415.8761347246549
+                    ],
+                    "asset_index": 1
+                },
+                {
+                    "position": [
+                        308.4887698479863,
+                        393.7428557558464
+                    ],
+                    "asset_index": 2
+                },
+                {
+                    "position": [
+                        377.0438350381869,
+                        415.33167297253823
+                    ],
+                    "asset_index": 3
+                },
+                {
+                    "position": [
+                        270.57075876270574,
+                        398.5422544131309
+                    ],
+                    "asset_index": 8
+                },
+                {
+                    "position": [
+                        286.4170920420448,
+                        473.55518829426006
+                    ],
+                    "asset_index": 9
+                },
+                {
+                    "position": [
+                        1054.113275274084,
+                        193.44646318950777
+                    ],
+                    "asset_index": 3
+                },
+                {
+                    "position": [
+                        1027.5530829854954,
+                        195.85606597694158
+                    ],
+                    "asset_index": 4
+                },
+                {
+                    "position": [
+                        1043.938516049308,
+                        178.71641652570392
+                    ],
+                    "asset_index": 7
+                },
+                {
+                    "position": [
+                        1065.6445784952846,
+                        169.69716749425194
+                    ],
+                    "asset_index": 9
+                },
+                {
+                    "position": [
+                        1135.1464418635405,
+                        247.20528537749135
+                    ],
+                    "asset_index": 2
+                },
+                {
+                    "position": [
+                        1134.2625244297074,
+                        216.38777915180583
+                    ],
+                    "asset_index": 9
+                },
+                {
+                    "position": [
+                        1133.2354823730257,
+                        287.1295692249778
+                    ],
+                    "asset_index": 8
+                },
+                {
+                    "position": [
+                        793.0166025364738,
+                        300.23491544213056
+                    ],
+                    "asset_index": 3
+                }
+            ],
+            "scale": 1,
+            "plant_folder": "assets/_plant_assets/bush_3"
+        },
+        {
+            "assets": [
+                {
+                    "index": 0,
+                    "stiffness": 0.09002499250371129,
+                    "scale": 1,
+                    "num_branches": 2,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_4/branches/branch_2",
+                        "assets/_plant_assets/bush_4/branches/branch_0"
+                    ],
+                    "branch_base_angles": [
+                        -0.19198621771937624,
+                        0.0
+                    ]
+                },
+                {
+                    "index": 1,
+                    "stiffness": 0.06188770738023348,
+                    "scale": 1,
+                    "num_branches": 4,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_4/branches/branch_0",
+                        "assets/_plant_assets/bush_4/branches/branch_0",
+                        "assets/_plant_assets/bush_4/branches/branch_2",
+                        "assets/_plant_assets/bush_4/branches/branch_4"
+                    ],
+                    "branch_base_angles": [
+                        -0.2617993877991494,
+                        -0.1308996938995747,
+                        0.0,
+                        0.13089969389957473
+                    ]
+                },
+                {
+                    "index": 2,
+                    "stiffness": 0.08139612935005014,
+                    "scale": 1,
+                    "num_branches": 3,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_4/branches/branch_1",
+                        "assets/_plant_assets/bush_4/branches/branch_4",
+                        "assets/_plant_assets/bush_4/branches/branch_1"
+                    ],
+                    "branch_base_angles": [
+                        -0.10471975511965978,
+                        -0.0349065850398866,
+                        0.034906585039886584
+                    ]
+                },
+                {
+                    "index": 3,
+                    "stiffness": 0.07779544111714495,
+                    "scale": 1,
+                    "num_branches": 1,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_4/branches/branch_2"
+                    ],
+                    "branch_base_angles": [
+                        -0.19198621771937624,
+                        0.2617993877991494
+                    ]
+                },
+                {
+                    "index": 4,
+                    "stiffness": 0.0885323773040349,
+                    "scale": 1,
+                    "num_branches": 3,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_4/branches/branch_1",
+                        "assets/_plant_assets/bush_4/branches/branch_4",
+                        "assets/_plant_assets/bush_4/branches/branch_1"
+                    ],
+                    "branch_base_angles": [
+                        -0.24434609527920614,
+                        -0.08144869842640204,
+                        0.08144869842640207
+                    ]
+                },
+                {
+                    "index": 5,
+                    "stiffness": 0.07444209325750331,
+                    "scale": 1,
+                    "num_branches": 1,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_4/branches/branch_4"
+                    ],
+                    "branch_base_angles": [
+                        -0.10471975511965978,
+                        -0.4363323129985824
+                    ]
+                },
+                {
+                    "index": 6,
+                    "stiffness": 0.09106741802026665,
+                    "scale": 1,
+                    "num_branches": 4,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_4/branches/branch_3",
+                        "assets/_plant_assets/bush_4/branches/branch_0",
+                        "assets/_plant_assets/bush_4/branches/branch_0",
+                        "assets/_plant_assets/bush_4/branches/branch_0"
+                    ],
+                    "branch_base_angles": [
+                        -0.20943951023931956,
+                        -0.10471975511965978,
+                        0.0,
+                        0.10471975511965975
+                    ]
+                },
+                {
+                    "index": 7,
+                    "stiffness": 0.034746590278949024,
+                    "scale": 1,
+                    "num_branches": 3,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_4/branches/branch_2",
+                        "assets/_plant_assets/bush_4/branches/branch_0",
+                        "assets/_plant_assets/bush_4/branches/branch_0"
+                    ],
+                    "branch_base_angles": [
+                        -0.2617993877991494,
+                        -0.08726646259971646,
+                        0.08726646259971649
+                    ]
+                },
+                {
+                    "index": 8,
+                    "stiffness": 0.08516799150485205,
+                    "scale": 1,
+                    "num_branches": 3,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_4/branches/branch_0",
+                        "assets/_plant_assets/bush_4/branches/branch_0",
+                        "assets/_plant_assets/bush_4/branches/branch_3"
+                    ],
+                    "branch_base_angles": [
+                        -0.2617993877991494,
+                        -0.08726646259971646,
+                        0.08726646259971649
+                    ]
+                },
+                {
+                    "index": 9,
+                    "stiffness": 0.06771095237159541,
+                    "scale": 1,
+                    "num_branches": 1,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_4/branches/branch_1"
+                    ],
+                    "branch_base_angles": [
+                        -0.2617993877991494,
+                        0.12217304763960307
+                    ]
+                }
+            ],
+            "plants": [
+                {
+                    "position": [
+                        806.856347053187,
+                        281.2109010375541
+                    ],
+                    "asset_index": 4
+                },
+                {
+                    "position": [
+                        750.8890968243838,
+                        315.81384774065964
+                    ],
+                    "asset_index": 6
+                },
+                {
+                    "position": [
+                        811.4602538065795,
+                        319.2128102401454
+                    ],
+                    "asset_index": 9
+                }
+            ],
+            "scale": 1,
+            "plant_folder": "assets/_plant_assets/bush_4"
+        }
+    ],
+    "particle_systems": [
+        {
+            "position": [
+                876.7065968097734,
+                542.7743337219217,
+                0
+            ],
+            "asset_index": 0
+        }
+    ]
+}

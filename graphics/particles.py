@@ -5,6 +5,8 @@ import pygame
 import random
 from math import sin, cos, pi, radians, sqrt, atan2
 
+from general_game_mechanics.collisions import Hitbox
+
 
 WHITE = (255, 255, 255)
 
@@ -204,3 +206,42 @@ class ImageCloudParticleSystem(ParticleSystem):
         for particle in self.particles:
             particle.draw(screen, camera)
 
+
+
+
+class Projectile():
+    def __init__(self, particle_system, start_position, angle, speed):
+
+        self.mass = 50
+        self.hitbox_size = (10, 10)
+        self.hitbox_type = 'circle'
+        self.movelocked = False
+
+        self.particle_system = particle_system
+        self.particle_system.position = start_position
+
+        self.position = self.particle_system.position
+
+        self.vx = speed * sin(angle)
+        self.vy = speed * cos(angle)
+
+        self.dt = 0.1
+
+        self.hitbox = Hitbox(
+            object=self,
+            size=self.hitbox_size,
+            type=self.hitbox_type
+        )
+
+    def update(self):
+        self.particle_system.position[0] += self.vx * self.dt
+        self.particle_system.position[1] += self.vy * self.dt
+        self.particle_system.update()
+        self.position = self.particle_system.position
+
+        if self.hitbox.collided: 
+            self.vx *= 0.99
+            self.vy *= 0.99
+
+    def render(self, screen, camera):
+        self.particle_system.render(screen, camera)

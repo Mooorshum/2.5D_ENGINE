@@ -65,6 +65,8 @@ class Level:
         self.load = False
         self.cache = []
 
+        self.play = False
+
 
         """ GAME ASSETS AND OBJECTS"""
         self.game = game
@@ -108,7 +110,10 @@ class Level:
 
     def handle_controls_editing(self, keys):
 
-        self.player.handle_movement(keys, self.game.events)
+        self.player.handle_controls(keys, self.game.events)
+
+        if self.play:
+            self.player.handle_aiming_and_shooting(self.place_position)
 
         ctrl_pressed = pygame.key.get_mods() & pygame.KMOD_CTRL
         shift_pressed = pygame.key.get_mods() & pygame.KMOD_SHIFT
@@ -143,6 +148,7 @@ class Level:
                     self.place_plant = False
                     self.place_grass_tile = False
                     self.place_particle_system = False
+                    self.play = False
 
                 elif event.key == pygame.K_2:
                     self.place_noninteractable_sprite_stack = False
@@ -151,6 +157,7 @@ class Level:
                     self.place_plant = False
                     self.place_grass_tile = False
                     self.place_particle_system = False
+                    self.play = False
 
                 elif event.key == pygame.K_3:
                     self.place_noninteractable_sprite_stack = False
@@ -159,6 +166,7 @@ class Level:
                     self.place_plant = False
                     self.place_grass_tile = False
                     self.place_particle_system = False
+                    self.play = False
 
                 elif event.key == pygame.K_4:
                     self.place_noninteractable_sprite_stack = False
@@ -167,6 +175,7 @@ class Level:
                     self.place_plant = True
                     self.place_grass_tile = False
                     self.place_particle_system = False
+                    self.play = False
 
                 elif event.key == pygame.K_5:
                     self.place_noninteractable_sprite_stack = False
@@ -175,6 +184,7 @@ class Level:
                     self.place_plant = False
                     self.place_grass_tile = True
                     self.place_particle_system = False
+                    self.play = False
 
                 elif event.key == pygame.K_6:
                     self.place_noninteractable_sprite_stack = False
@@ -183,6 +193,16 @@ class Level:
                     self.place_plant = False
                     self.place_grass_tile = False
                     self.place_particle_system = True
+                    self.play = False
+
+                elif event.key == pygame.K_RETURN :
+                    self.place_noninteractable_sprite_stack = False
+                    self.place_dynamic_sprite_stack = False
+                    self.place_vehicle = False
+                    self.place_plant = False
+                    self.place_grass_tile = False
+                    self.place_particle_system = False
+                    self.play = True
 
                 # SAVING AND LOADING LEVEL FROM FILE
                 elif ctrl_pressed and event.key == pygame.K_s:
@@ -350,8 +370,8 @@ class Level:
                     self.current_asset_rotation -= 360 / self.current_asset.asset.num_unique_angles * self.rotation_speed
 
             if self.undo:
-                if  len(self.vehicle_assets) > 0:
-                    last_object = self.vehicle_assets.pop()
+                if  len(self.vehicles) > 0:
+                    last_object = self.vehicles.pop()
 
 
 
@@ -584,23 +604,28 @@ class Level:
         self.camera.follow(self.player.position)
         self.camera.move()
 
-        """ HANDLING PLAYER MOVEMENT """
-        self.player.move(self.camera)
+        """ UPDATING PLAYER AND ALL PLAYER-LINKED OBJECTS """
+        self.player.update(self.camera)
 
         """ HANDLING OBJECT MOVEMENT """
         for obj in self.dynamic_sprite_stack_objects + self.vehicles:
             obj.move()
 
         """ HANDLING VEHICLE DRIVING """
-        for vehicle in self.vehicles:
-            vehicle.handle_driver(self.player)
+        if self.play:
+            for vehicle in self.vehicles:
+                vehicle.handle_driver(self.player)
 
         """ HANDLING DYNAMIC OBJECT COLLISION """
-        dynamic_objects = self.dynamic_sprite_stack_objects + [self.player] + self.vehicles
+        dynamic_objects = self.dynamic_sprite_stack_objects + [self.player] + self.vehicles + self.player.projectiles
         for object_1 in dynamic_objects:
             for object_2 in dynamic_objects:
                 if object_1 != object_2:
-                    object_1.hitbox.handle_collision(object_2)
+                    is_on_screen_x = abs(self.camera.position[0] - object_1.position[0]) < self.camera.width/2
+                    if is_on_screen_x:
+                        is_on_screen_y = abs(self.camera.position[1] - object_1.position[1]) < self.camera.height/2
+                        if is_on_screen_y:
+                            object_1.hitbox.handle_collision(object_2)
 
         """ UPDATING PARTICLE SYSTEMS """
         for particle_system in self.particle_systems:
@@ -634,6 +659,10 @@ class Level:
             bend_objects=self.dynamic_sprite_stack_objects + [self.player] + self.vehicles,
             background=self.background,
         )
+
+        """ RENDERING PLAYER PROJECTILES """
+        for projectile in self.player.projectiles:
+            projectile.render(screen=render_surface, camera=self.camera)
 
         for grass_system in self.grass_systems:
             grass_system.apply_wind()

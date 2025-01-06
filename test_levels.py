@@ -236,7 +236,7 @@ class Game:
         self.test_level.update()
         pygame.display.update()
 
-        self.clock.tick(60)
+        self.clock.tick(110)
         self.time += 1
 
 

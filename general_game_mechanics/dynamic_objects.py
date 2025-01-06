@@ -5,12 +5,14 @@ import pygame
 
 from general_game_mechanics.collisions import Hitbox
 
-from graphics.particles import ParticleSystem
+from graphics.particles import ParticleSystem, Projectile
 from graphics.sprite_stacks import SpritestackModel
 
-from presets.particle_presets import earthen_dust
+from presets.particle_presets import earthen_dust, flame
 
 import random
+
+import copy
 
 
 
@@ -66,7 +68,8 @@ class DynamicObject(SpritestackModel):
     def render(self, screen, camera, offset=[0, 0]):
         super().render(screen, camera, offset)
         if self.show_hitbox:
-            self.hitbox.render(screen, camera, offset)
+            """ self.hitbox.render(screen, camera, offset) """
+            pass
             
 
 
@@ -235,10 +238,16 @@ class Character(DynamicObject):
 
         self.vehicle = None
 
+        self.projectile_asset = flame
+        self.projectile_speed = 50
+        self.aiming = False
+        self.shoot = False
+        self.projectiles = []
+
         self.action = None
 
 
-    def handle_movement(self, keys, events):
+    def handle_controls(self, keys, events):
         self.move_up = keys[pygame.K_s]
         self.move_down = keys[pygame.K_w]
         self.move_left = keys[pygame.K_a]
@@ -246,56 +255,37 @@ class Character(DynamicObject):
         self.running = pygame.key.get_mods() & pygame.KMOD_SHIFT
 
         self.action = False
+        self.aiming = False
+        self.shoot = False
+
         for event in events:
+
+            """ ACTION """
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     self.action = True
+
+            """ AIMING """
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 3:
+                    self.aiming = True
+
+            """ SHOOTING """
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    self.shoot = True
 
         if self.vehicle != None:
             self.vehicle.handle_movement(keys)
 
 
-    def move(self, camera):
-        if self.vehicle != None:
-            self.position = self.vehicle.position
-        else:
-            if self.running:
-                speed_limit = self.run_speed_limit
-            else:
-                speed_limit = self.walk_speed_limit
-            ax, ay = 0, 0
-
-            if self.move_up:
-                ay -= self.movespeed
-            if self.move_down:
-                ay += self.movespeed
-            if self.move_left:
-                ax -= self.movespeed
-            if self.move_right:
-                ax += self.movespeed
-
-            transformed_ax = ax * cos(radians(camera.rotation)) - ay * sin(radians(camera.rotation))
-            transformed_ay = ax * sin(radians(camera.rotation)) + ay * cos(radians(camera.rotation))
-
-            if transformed_ax != 0 or transformed_ay != 0:
-                norm_factor = sqrt(transformed_ax**2 + transformed_ay**2)
-                transformed_ax /= norm_factor
-                transformed_ay /= norm_factor
-
-            if sqrt(self.vx**2 + self.vy**2) <= speed_limit:
-                self.ax = transformed_ax * self.movespeed
-                self.ay = transformed_ay * self.movespeed
-            else:
-                self.ax = 0
-                self.ay = 0
-
-            if self.ax != 0 or self.ay != 0:
-                self.rotation = degrees(atan2(self.ay, self.ax))
-
-            super().move()
 
 
-    def render(self, screen, camera, offset=[0, 0]):
+
+
+
+        
+    def update(self, camera):
 
         """ ANIMATING OBJECT BY SWITCHING STACK INDEX """
         if sqrt(self.vx**2 + self.vy**2) > 5:
@@ -341,5 +331,78 @@ class Character(DynamicObject):
 
         self.internal_time += 1
 
+
+        """ RUNNING / WALKING MOVEMENT """
+        if self.vehicle != None:
+            self.position = self.vehicle.position
+        else:
+            if self.running:
+                speed_limit = self.run_speed_limit
+            else:
+                speed_limit = self.walk_speed_limit
+            ax, ay = 0, 0
+
+            if self.move_up:
+                ay -= self.movespeed
+            if self.move_down:
+                ay += self.movespeed
+            if self.move_left:
+                ax -= self.movespeed
+            if self.move_right:
+                ax += self.movespeed
+
+            transformed_ax = ax * cos(radians(camera.rotation)) - ay * sin(radians(camera.rotation))
+            transformed_ay = ax * sin(radians(camera.rotation)) + ay * cos(radians(camera.rotation))
+
+            if transformed_ax != 0 or transformed_ay != 0:
+                norm_factor = sqrt(transformed_ax**2 + transformed_ay**2)
+                transformed_ax /= norm_factor
+                transformed_ay /= norm_factor
+
+            if sqrt(self.vx**2 + self.vy**2) <= speed_limit:
+                self.ax = transformed_ax * self.movespeed
+                self.ay = transformed_ay * self.movespeed
+            else:
+                self.ax = 0
+                self.ay = 0
+
+            if self.ax != 0 or self.ay != 0:
+                self.rotation = degrees(atan2(self.ay, self.ax))
+
+            super().move()
+
+
+        """ UPDATING PROJECTILES """
+        for projectile in self.projectiles:
+            projectile.update()
+            if sqrt(projectile.vx**2 + projectile.vy**2) < self.projectile_speed / 5:
+                self.projectiles.remove(projectile)
+
+
+
+    def render(self, screen, camera, offset=[0, 0]):
+
         if not self.vehicle:
             super().render(screen, camera, offset)
+
+
+    def handle_aiming_and_shooting(self, mouse_location_on_map):
+        if self.shoot:
+            startpoint_distance = sqrt(self.hitbox.size[0]**2 + self.hitbox.size[1]**2) / 2 + 20
+            projectile_angle = atan2(
+                mouse_location_on_map[0] - self.position[0],
+                mouse_location_on_map[1] - self.position[1]
+            )
+            projectile_start_position = [
+                self.position[0] + startpoint_distance * sin(projectile_angle),
+                self.position[1] + startpoint_distance * cos(projectile_angle),
+                0
+            ]
+            projectile_particle_system = copy.deepcopy(self.projectile_asset)
+            projectile = Projectile(
+                projectile_particle_system,
+                projectile_start_position,
+                projectile_angle,
+                self.projectile_speed
+            )
+            self.projectiles.append(projectile)

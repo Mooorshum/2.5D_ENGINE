@@ -21,16 +21,16 @@ def global_render(screen, camera, objects, bend_objects=[], background=None):
     if background:
         camera_rotation = radians(camera.rotation)
         background_position = (
-            camera.map_width//2,
-            camera.map_height//2
+            camera.map_width/2,
+            camera.map_height/2
         )
         background_offset_x = camera.position[0] - background_position[0] + (background_position[0] - camera.position[0])*cos(camera_rotation) - (background_position[1] - camera.position[1])*sin(camera_rotation)
         background_offset_y = camera.position[1] - background_position[1] + (background_position[0] - camera.position[0])*sin(camera_rotation) + (background_position[1] - camera.position[1])*cos(camera_rotation)
         background_offset = [background_offset_x - camera.position[0] + camera.width/2, background_offset_y - camera.position[1] + camera.height/2]
 
         background_position = (
-            camera.map_width//2 + background_offset[0],
-            camera.map_height//2 + background_offset[1]
+            camera.map_width/2 + background_offset[0],
+            camera.map_height/2 + background_offset[1]
         )
 
         background_rotated = pygame.transform.rotate(background, -camera.rotation)

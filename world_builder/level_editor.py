@@ -595,13 +595,21 @@ class Level:
             plant_systems_data.append(plant_system_data)
         level_data['plant_systems'] = plant_systems_data
 
-
         # SAVING PARTICLE SYSTEMS DATA
         particle_systems_data = []
         for particle_system in self.particle_systems:
             particle_system_data = particle_system.get_data()
             particle_systems_data.append(particle_system_data)
         level_data['particle_systems'] = particle_systems_data
+
+        # SAVING LOADPOINTS
+        loadpoints_data = []
+        for loadpoint in self.loadpoints:
+            loadpoint_data = {}
+            loadpoint_data['position'] = loadpoint.position
+            loadpoint_data['level_index'] = loadpoint.loadpoint_level_index
+            loadpoints_data.append(loadpoint_data)
+        level_data['loadpoints'] = loadpoints_data
 
 
         with open(f'{self.name}_data.json', "w") as file:
@@ -659,6 +667,13 @@ class Level:
                     particle_system_object.position = particle_system_position
                     particle_system_object.asset_index = particle_system_data['asset_index']
                     self.particle_systems.append(particle_system_object)
+
+                # LOADING LOADPOINT DATA
+                self.loadpoints = []
+                for loadpoint in data['loadpoints']:
+                    loadpoint_object = LoadPoint(level=self.loadpoint_levels[loadpoint['level_index']])
+                    loadpoint_object.position = loadpoint['position']
+                    self.loadpoints.append(loadpoint_object)
 
         except FileNotFoundError:
             print(f'No file found for {self.name}')

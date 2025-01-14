@@ -8,7 +8,7 @@ from general_game_mechanics.collisions import Hitbox
 from graphics.particles import ParticleSystem, Projectile
 from graphics.sprite_stacks import SpritestackModel
 
-from presets.particle_presets import earthen_dust, flame
+from presets.particle_presets import earthen_dust, flame_front
 
 import random
 
@@ -238,7 +238,7 @@ class Character(DynamicObject):
 
         self.vehicle = None
 
-        self.projectile_asset = flame
+        self.projectile_asset = flame_front
         self.projectile_speed = 50
         self.aiming = False
         self.shoot = False

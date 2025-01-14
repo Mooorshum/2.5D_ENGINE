@@ -145,7 +145,10 @@ class Game:
             SpritestackAsset(type='house_1_interior', name='bed_1', hitbox_size=(20,20), scale=1, hitbox_type='circle'),
             SpritestackAsset(type='house_1_interior', name='chest_1', hitbox_size=(20,20), scale=1, hitbox_type='circle'),
             SpritestackAsset(type='house_1_interior', name='chair_2', hitbox_size=(20,20), scale=1, hitbox_type='circle'),
-            SpritestackAsset(type='house_1_interior', name='wardrobe_1', hitbox_size=(32,32), scale=1, hitbox_type='circle'),
+            SpritestackAsset(type='house_1_interior', name='wardrobe_1', hitbox_size=(45,32), scale=1, hitbox_type='circle'),
+            SpritestackAsset(type='house_1_interior', name='fireplace_front_1', hitbox_size=(45,32), scale=1, hitbox_type='circle'),
+            SpritestackAsset(type='house_1_interior', name='fireplace_back_1', hitbox_size=(45,32), scale=1, hitbox_type='circle'),
+            SpritestackAsset(type='house_1_interior', name='cactus_1', hitbox_size=(20,20), scale=1, hitbox_type='circle'),
             
         ]
 
@@ -214,7 +217,8 @@ class Game:
 
         """ PARTICLE SYSTEM PRESETS """
         self.particle_system_presets = [
-            particle_presets.flame,
+            particle_presets.flame_front,
+            particle_presets.flame_fireplace,
         ]
 
 
@@ -227,6 +231,8 @@ class Game:
             background=None,
             fill_colour=(105, 66, 56)
         )
+        self.outdoors_level.player.position = [500, 700]
+
         # HOUSE_1 LEVEL
         self.house_1_level = Level(
             game=self,
@@ -235,6 +241,7 @@ class Game:
             background=None,
             fill_colour=(20, 0, 20)
             )
+        self.house_1_level.player.position = [280, 180]
 
         """ LOADPOINTS BETWEEN LEVELS"""
         # OUTDOORS LEVEL

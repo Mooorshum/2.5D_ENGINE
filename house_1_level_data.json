@@ -7,6 +7,14 @@
             ],
             "rotation": 4.0,
             "asset_index": 1
+        },
+        {
+            "position": [
+                187.30190440345032,
+                143.9848345170021
+            ],
+            "rotation": -4.0,
+            "asset_index": 2
         }
     ],
     "dynamic_spritestack_objects_data": [

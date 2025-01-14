@@ -44,7 +44,7 @@ flame.lifetime_range = (10, 100)
 flame.acceleration_range_x = (10, 30)
 flame.acceleration_range_y = (10, 30)
 flame.acceleration_range_z = (1, 3)
-flame.y0_offset = -1000
+flame.y0_offset = 100
 
 
 

@@ -7,10 +7,13 @@ from math import radians, sin, cos, sqrt, atan2
 from graphics.rendering import global_render
 from general_game_mechanics.dynamic_objects import DynamicObject, Vehicle, Character
 
+from graphics.camera import Camera
 from graphics.grass import GrassTile
 from graphics.plants import Plant
 from graphics.sprite_stacks import SpritestackModel
 from graphics.particles import ParticleSystem
+
+from world_builder.loadpoints import LoadPoint
 
 
 pygame.init()
@@ -34,9 +37,11 @@ def cycle_list(direction, current_index, lst):
 
 
 class Level:
-    def __init__(self, game):
+    def __init__(self, game, name, map_size, background=None, fill_colour=(0, 0, 0)):
 
-        self.name = 'test_level'
+        self.game = game
+
+        self.name = name
 
         """ LEVEL EDITING PARAMETERS """
         self.place_position = [0, 0]
@@ -48,12 +53,16 @@ class Level:
         self.grass_system_index = 0
         self.particle_system_index = 0
 
+        self.loadpoint_level_index = 0
+
         self.place_noninteractable_sprite_stack = True
         self.place_dynamic_sprite_stack = False
         self.place_plant = False
         self.place_grass_tile = False
         self.place_vehicle = False
         self.place_particle_system = False
+
+        self.place_loadpoint = False
 
         self.rotate_clockwise = False
         self.rotate_counterclockwise = False
@@ -68,10 +77,19 @@ class Level:
         self.play = False
 
 
-        """ GAME ASSETS AND OBJECTS"""
-        self.game = game
-        self.camera = self.game.camera
+        """ DISPLAY SETTINGS """
+        self.render_width = 400
+        self.render_height = 300
+        self.map_size = map_size
+        self.camera = Camera(
+            width=self.render_width,
+            height=self.render_height,
+            map_width=self.map_size[0],
+            map_height=self.map_size[1]
+        )
 
+
+        """ GAME ASSETS """
         self.vehicle_assets = self.game.vehicle_assets
 
         self.non_interactable_sprite_stack_assets = self.game.non_interactable_sprite_stack_assets
@@ -83,27 +101,34 @@ class Level:
         self.particle_system_presets = self.game.particle_system_presets
 
         self.npc_assets = self.game.npc_assets
-        
+
+        self.loadpoint_levels = []
+
+
+        """ GAME OBJECTS """
         self.vehicles = []
         self.non_interactable_sprite_stack_objects = []
         self.dynamic_sprite_stack_objects = []
         self.particle_systems = []
+        self.loadpoints = []
 
         """ CONFIGURING PLAYER OBJECT """
         self.player_asset = self.game.player_asset
-        player_start_position = [250, 350]
+        player_start_position = [self.map_size[0]//2, self.map_size[1]//2]
         player_start_rotation = 0
         self.player = Character(asset=self.player_asset, asset_index=0, position=player_start_position, rotation=player_start_rotation)
         self.player.movelocked = False
         
 
-        self.fill_colour = (105, 66, 56)
+        self.fill_colour = fill_colour
 
         self.rotation_speed = 2
         self.scroll_speed = 0.1
 
-        background = "background_small.png"
-        self.background = pygame.image.load(background).convert_alpha()
+        if background:
+            self.background = pygame.image.load(background).convert_alpha()
+        else:
+            self.background = None
 
 
 
@@ -148,6 +173,9 @@ class Level:
                     self.place_plant = False
                     self.place_grass_tile = False
                     self.place_particle_system = False
+
+                    self.place_loadpoint = False
+
                     self.play = False
 
                 elif event.key == pygame.K_2:
@@ -157,6 +185,9 @@ class Level:
                     self.place_plant = False
                     self.place_grass_tile = False
                     self.place_particle_system = False
+
+                    self.place_loadpoint = False
+
                     self.play = False
 
                 elif event.key == pygame.K_3:
@@ -166,6 +197,9 @@ class Level:
                     self.place_plant = False
                     self.place_grass_tile = False
                     self.place_particle_system = False
+
+                    self.place_loadpoint = False
+                    
                     self.play = False
 
                 elif event.key == pygame.K_4:
@@ -175,6 +209,9 @@ class Level:
                     self.place_plant = True
                     self.place_grass_tile = False
                     self.place_particle_system = False
+
+                    self.place_loadpoint = False
+
                     self.play = False
 
                 elif event.key == pygame.K_5:
@@ -184,6 +221,9 @@ class Level:
                     self.place_plant = False
                     self.place_grass_tile = True
                     self.place_particle_system = False
+
+                    self.place_loadpoint = False
+
                     self.play = False
 
                 elif event.key == pygame.K_6:
@@ -193,6 +233,21 @@ class Level:
                     self.place_plant = False
                     self.place_grass_tile = False
                     self.place_particle_system = True
+
+                    self.place_loadpoint = False
+
+                    self.play = False
+
+                elif event.key == pygame.K_7:
+                    self.place_noninteractable_sprite_stack = False
+                    self.place_dynamic_sprite_stack = False
+                    self.place_vehicle = False
+                    self.place_plant = False
+                    self.place_grass_tile = False
+                    self.place_particle_system = False
+
+                    self.place_loadpoint = True
+                    
                     self.play = False
 
                 elif event.key == pygame.K_RETURN :
@@ -202,6 +257,10 @@ class Level:
                     self.place_plant = False
                     self.place_grass_tile = False
                     self.place_particle_system = False
+
+                    self.current_asset = None
+                    self.place_loadpoint = False
+
                     self.play = True
 
                 # SAVING AND LOADING LEVEL FROM FILE
@@ -221,13 +280,13 @@ class Level:
             if keys[pygame.K_LCTRL]:
                     if event.type == pygame.MOUSEWHEEL:
                         if event.y == -1:
-                            self.game.render_width *= 1 + self.scroll_speed
-                            self.game.render_height *= 1 + self.scroll_speed
+                            self.render_width *= 1 + self.scroll_speed
+                            self.render_height *= 1 + self.scroll_speed
                             self.camera.width *= 1 + self.scroll_speed
                             self.camera.height *= 1 + self.scroll_speed
                         elif event.y == 1:
-                            self.game.render_width /= 1 + self.scroll_speed
-                            self.game.render_height /= 1 + self.scroll_speed
+                            self.render_width /= 1 + self.scroll_speed
+                            self.render_height /= 1 + self.scroll_speed
                             self.camera.width /= 1 + self.scroll_speed
                             self.camera.height /= 1 + self.scroll_speed
 
@@ -469,6 +528,35 @@ class Level:
                     last_object = self.particle_systems.pop()
 
 
+        """ LOADPOINTS """
+        if self.place_loadpoint:
+            try:
+                loadpoint_level = self.loadpoint_levels[self.loadpoint_level_index]
+                loadpoint = LoadPoint(level=loadpoint_level)
+                
+            except IndexError:
+                self.loadpoint_level_index = 0
+                loadpoint_level = self.loadpoint_levels[self.loadpoint_level_index]
+                loadpoint = LoadPoint(level=loadpoint_level)
+
+            loadpoint.position = [self.place_position[0], self.place_position[1]]
+            loadpoint.loadpoint_level_index = self.loadpoint_level_index
+            self.current_asset = loadpoint
+
+            if self.place:
+                self.loadpoints.append(self.current_asset)
+
+            if self.next_item:
+                self.loadpoint_index = cycle_list('forward', self.level_index, self.loadpoint_levels)
+
+            if self.prev_item:
+                self.loadpoint_index = cycle_list('backwards', self.level_index, self.loadpoint_levels)
+
+            if self.undo:
+                if  len(self.loadpoints) > 0:
+                    last_object = self.loadpoints.pop()
+
+
         """ SAVING AND LOADING LEVEL """
         if self.save:
             self.save_level()
@@ -621,21 +709,32 @@ class Level:
         for object_1 in dynamic_objects:
             for object_2 in dynamic_objects:
                 if object_1 != object_2:
-                    is_on_screen_x = abs(self.camera.position[0] - object_1.position[0]) < self.camera.width/2
-                    if is_on_screen_x:
-                        is_on_screen_y = abs(self.camera.position[1] - object_1.position[1]) < self.camera.height/2
-                        if is_on_screen_y:
-                            object_1.hitbox.handle_collision(object_2)
+
+                    object_1_is_on_screen_x = abs(self.camera.position[0] - object_1.position[0]) < self.camera.width/2
+                    if object_1_is_on_screen_x:
+                        object_1_is_on_screen_y = abs(self.camera.position[1] - object_1.position[1]) < self.camera.height/2
+                        if object_1_is_on_screen_y:
+
+                            object_2_is_on_screen_x = abs(self.camera.position[0] - object_2.position[0]) < self.camera.width/2
+                            if object_2_is_on_screen_x:
+                                object_2_is_on_screen_y = abs(self.camera.position[1] - object_2.position[1]) < self.camera.height/2
+                                if object_2_is_on_screen_y:
+                                    
+                                    object_1.hitbox.handle_collision(object_2)
 
         """ UPDATING PARTICLE SYSTEMS """
         for particle_system in self.particle_systems:
             particle_system.update()
 
+        """ HANDLING LOADPOINTS """
+        for loadpoint in self.loadpoints:
+            loadpoint.handle_loading(player=self.player, game=self.game)
+
 
 
 
     def render(self):
-        render_surface = pygame.Surface((self.game.render_width, self.game.render_height))
+        render_surface = pygame.Surface((self.render_width, self.render_height))
         render_surface.fill(self.fill_colour)
 
         # GETTING A LIST OF ALL PLANT OBJECTS ACROSS ALL PLANT SYSTEMS
@@ -652,11 +751,15 @@ class Level:
             for j in range(len(system_tiles)):
                 grass_tiles.append(system_tiles[j])
 
+        """ RENDERING ALL LEVEL OBJECTS """
+        render_objects=[self.player] + self.vehicles + self.non_interactable_sprite_stack_objects + self.dynamic_sprite_stack_objects + plants + grass_tiles + self.particle_systems + self.loadpoints
+        if self.current_asset:
+            render_objects += [self.current_asset]
         global_render(
             screen=render_surface,
             camera=self.camera,
-            objects=[self.player] + self.vehicles + [self.current_asset] + self.non_interactable_sprite_stack_objects + self.dynamic_sprite_stack_objects + plants + grass_tiles + self.particle_systems,
-            bend_objects=self.dynamic_sprite_stack_objects + [self.player] + self.vehicles,
+            objects=render_objects,
+            bend_objects=[self.player] + self.vehicles, #self.dynamic_sprite_stack_objects + [self.player] + self.vehicles,
             background=self.background,
         )
 

@@ -211,7 +211,7 @@ class ImageCloudParticleSystem(ParticleSystem):
 
 class Projectile():
     def __init__(self, particle_system, start_position, angle, speed):
-
+        self.lifetime = 200
         self.mass = 50
         self.hitbox_size = (10, 10)
         self.hitbox_type = 'circle'
@@ -222,8 +222,13 @@ class Projectile():
 
         self.position = self.particle_system.position
 
-        self.vx = speed * sin(angle)
-        self.vy = speed * cos(angle)
+        self.start_speed = speed
+        self.start_angle = angle
+
+        self.vx = self.start_speed * sin(self.start_angle)
+        self.vy = self.start_speed * cos(self.start_angle)
+
+        self.elapsed_time = 0
 
         self.dt = 0.1
 
@@ -234,6 +239,8 @@ class Projectile():
         )
 
     def update(self):
+        self.elapsed_time += 1
+
         self.particle_system.position[0] += self.vx * self.dt
         self.particle_system.position[1] += self.vy * self.dt
         self.particle_system.update()

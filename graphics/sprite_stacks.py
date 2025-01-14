@@ -85,7 +85,16 @@ class SpritestackAsset:
             rotation = 0
             for i in range(0, num_unique_angles):
                 rotation += angle_step
-                rotation_image[rotation] = self.render_stack(sheet_slices, spread, rotation)
+                rotation_rendered_image = self.render_stack(sheet_slices, spread, rotation)
+                if self.scale != 1:
+                    rotation_rendered_image = pygame.transform.scale(
+                        rotation_rendered_image,
+                        (
+                            int(rotation_rendered_image.get_width() * self.scale),
+                            int(rotation_rendered_image.get_height() * self.scale)
+                        )
+                    )
+                rotation_image[rotation] = rotation_rendered_image
             stack_angle_image.append(rotation_image)
         
         return stack_angle_image

@@ -6,6 +6,8 @@ from graphics import grass, plants
 from graphics.particles import ParticleSystem
 from graphics.sprite_stacks import SpritestackModel
 
+from world_builder.loadpoints import LoadPoint
+
 
 
 
@@ -47,6 +49,7 @@ def global_render(screen, camera, objects, bend_objects=[], background=None):
         camera_rotation = radians(camera.rotation)
         rotated_y = (object.position[0] - camera.position[0]) * sin(camera_rotation) + (object.position[1] - camera.position[1]) * cos(camera_rotation)
         return rotated_y + object.y0_offset
+    
     if len(objects) > 0:
         sorted_objects = sorted(objects, key=calculate_sort_key)
     
@@ -81,6 +84,9 @@ def global_render(screen, camera, objects, bend_objects=[], background=None):
     
                 elif isinstance(game_object, ParticleSystem):
                     game_object.render(screen, camera)
+
+                elif isinstance(game_object, LoadPoint):
+                    game_object.render(screen, offset)
 
     
     

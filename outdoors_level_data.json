@@ -1,0 +1,2000 @@
+{
+    "non_interactable_spritestack_objects_data": [],
+    "dynamic_spritestack_objects_data": [
+        {
+            "position": [
+                681.223920473305,
+                464.9433082044471
+            ],
+            "rotation": -32.0,
+            "asset_index": 0
+        },
+        {
+            "position": [
+                739.9044862136464,
+                551.5854453642547
+            ],
+            "rotation": 20.0,
+            "asset_index": 24
+        },
+        {
+            "position": [
+                858.5587189518419,
+                592.9209977837871
+            ],
+            "rotation": 36.0,
+            "asset_index": 1
+        },
+        {
+            "position": [
+                580.9861067948059,
+                466.7024750530893
+            ],
+            "rotation": 88.0,
+            "asset_index": 18
+        },
+        {
+            "position": [
+                708.2100621744628,
+                584.2038497942958
+            ],
+            "rotation": 88.0,
+            "asset_index": 19
+        },
+        {
+            "position": [
+                592.8672029237582,
+                428.8888467364546
+            ],
+            "rotation": 88.0,
+            "asset_index": 28
+        },
+        {
+            "position": [
+                548.1260580082046,
+                436.3246016843689
+            ],
+            "rotation": 88.0,
+            "asset_index": 32
+        },
+        {
+            "position": [
+                840.3057723323267,
+                721.4240807521726
+            ],
+            "rotation": 88.0,
+            "asset_index": 44
+        }
+    ],
+    "grass_systems": [
+        {
+            "assets": [
+                {
+                    "index": 0,
+                    "size": 23,
+                    "stiffness": 0.1,
+                    "relax_speed": 1,
+                    "num_blades": 8,
+                    "wind_magnitude": 8,
+                    "num_states": 11,
+                    "scale": 0.5,
+                    "blade_positions": [
+                        [
+                            5,
+                            -5
+                        ],
+                        [
+                            2,
+                            -3
+                        ],
+                        [
+                            0,
+                            -2
+                        ],
+                        [
+                            2,
+                            0
+                        ],
+                        [
+                            1,
+                            0
+                        ],
+                        [
+                            -6,
+                            0
+                        ],
+                        [
+                            -3,
+                            1
+                        ],
+                        [
+                            4,
+                            5
+                        ]
+                    ],
+                    "blade_image_paths": [
+                        "assets/_grass_assets/grass_1/blade_images/grass_0.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_5.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_9.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_2.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_4.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_4.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_5.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_2.png"
+                    ],
+                    "blade_image_indices": [
+                        0,
+                        5,
+                        9,
+                        2,
+                        4,
+                        4,
+                        5,
+                        2
+                    ]
+                },
+                {
+                    "index": 1,
+                    "size": 23,
+                    "stiffness": 0.1,
+                    "relax_speed": 1,
+                    "num_blades": 9,
+                    "wind_magnitude": 8,
+                    "num_states": 11,
+                    "scale": 0.5,
+                    "blade_positions": [
+                        [
+                            -5,
+                            -6
+                        ],
+                        [
+                            2,
+                            -6
+                        ],
+                        [
+                            5,
+                            -1
+                        ],
+                        [
+                            -5,
+                            -1
+                        ],
+                        [
+                            -6,
+                            0
+                        ],
+                        [
+                            -1,
+                            1
+                        ],
+                        [
+                            4,
+                            2
+                        ],
+                        [
+                            3,
+                            4
+                        ],
+                        [
+                            -1,
+                            5
+                        ]
+                    ],
+                    "blade_image_paths": [
+                        "assets/_grass_assets/grass_1/blade_images/grass_6.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_8.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_4.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_1.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_4.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_6.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_9.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_1.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_4.png"
+                    ],
+                    "blade_image_indices": [
+                        6,
+                        8,
+                        4,
+                        1,
+                        4,
+                        6,
+                        9,
+                        1,
+                        4
+                    ]
+                },
+                {
+                    "index": 2,
+                    "size": 23,
+                    "stiffness": 0.1,
+                    "relax_speed": 1,
+                    "num_blades": 6,
+                    "wind_magnitude": 8,
+                    "num_states": 11,
+                    "scale": 0.5,
+                    "blade_positions": [
+                        [
+                            4,
+                            -6
+                        ],
+                        [
+                            3,
+                            -6
+                        ],
+                        [
+                            0,
+                            -4
+                        ],
+                        [
+                            2,
+                            -4
+                        ],
+                        [
+                            1,
+                            4
+                        ],
+                        [
+                            -3,
+                            4
+                        ]
+                    ],
+                    "blade_image_paths": [
+                        "assets/_grass_assets/grass_1/blade_images/grass_0.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_6.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_7.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_4.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_9.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_2.png"
+                    ],
+                    "blade_image_indices": [
+                        0,
+                        6,
+                        7,
+                        4,
+                        9,
+                        2
+                    ]
+                },
+                {
+                    "index": 3,
+                    "size": 23,
+                    "stiffness": 0.1,
+                    "relax_speed": 1,
+                    "num_blades": 8,
+                    "wind_magnitude": 8,
+                    "num_states": 11,
+                    "scale": 0.5,
+                    "blade_positions": [
+                        [
+                            -3,
+                            -6
+                        ],
+                        [
+                            -4,
+                            -4
+                        ],
+                        [
+                            3,
+                            -3
+                        ],
+                        [
+                            -2,
+                            -2
+                        ],
+                        [
+                            5,
+                            -1
+                        ],
+                        [
+                            -1,
+                            -1
+                        ],
+                        [
+                            5,
+                            0
+                        ],
+                        [
+                            -5,
+                            3
+                        ]
+                    ],
+                    "blade_image_paths": [
+                        "assets/_grass_assets/grass_1/blade_images/grass_1.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_9.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_3.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_7.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_1.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_7.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_4.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_6.png"
+                    ],
+                    "blade_image_indices": [
+                        1,
+                        9,
+                        3,
+                        7,
+                        1,
+                        7,
+                        4,
+                        6
+                    ]
+                },
+                {
+                    "index": 4,
+                    "size": 32,
+                    "stiffness": 0.1,
+                    "relax_speed": 1,
+                    "num_blades": 5,
+                    "wind_magnitude": 8,
+                    "num_states": 11,
+                    "scale": 0.5,
+                    "blade_positions": [
+                        [
+                            -5,
+                            -2
+                        ],
+                        [
+                            0,
+                            -1
+                        ],
+                        [
+                            -5,
+                            0
+                        ],
+                        [
+                            7,
+                            5
+                        ],
+                        [
+                            -5,
+                            7
+                        ]
+                    ],
+                    "blade_image_paths": [
+                        "assets/_grass_assets/grass_1/blade_images/grass_0.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_0.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_2.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_8.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_4.png"
+                    ],
+                    "blade_image_indices": [
+                        0,
+                        0,
+                        2,
+                        8,
+                        4
+                    ]
+                },
+                {
+                    "index": 5,
+                    "size": 33,
+                    "stiffness": 0.1,
+                    "relax_speed": 1,
+                    "num_blades": 8,
+                    "wind_magnitude": 8,
+                    "num_states": 11,
+                    "scale": 0.5,
+                    "blade_positions": [
+                        [
+                            -4,
+                            -9
+                        ],
+                        [
+                            -1,
+                            -9
+                        ],
+                        [
+                            6,
+                            -6
+                        ],
+                        [
+                            8,
+                            -4
+                        ],
+                        [
+                            7,
+                            1
+                        ],
+                        [
+                            1,
+                            6
+                        ],
+                        [
+                            -1,
+                            6
+                        ],
+                        [
+                            7,
+                            7
+                        ]
+                    ],
+                    "blade_image_paths": [
+                        "assets/_grass_assets/grass_1/blade_images/grass_4.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_1.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_2.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_3.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_1.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_1.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_1.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_1.png"
+                    ],
+                    "blade_image_indices": [
+                        4,
+                        1,
+                        2,
+                        3,
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "index": 6,
+                    "size": 38,
+                    "stiffness": 0.1,
+                    "relax_speed": 1,
+                    "num_blades": 2,
+                    "wind_magnitude": 8,
+                    "num_states": 11,
+                    "scale": 0.5,
+                    "blade_positions": [
+                        [
+                            -6,
+                            -9
+                        ],
+                        [
+                            5,
+                            -9
+                        ]
+                    ],
+                    "blade_image_paths": [
+                        "assets/_grass_assets/grass_1/blade_images/grass_7.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_2.png"
+                    ],
+                    "blade_image_indices": [
+                        7,
+                        2
+                    ]
+                },
+                {
+                    "index": 7,
+                    "size": 26,
+                    "stiffness": 0.1,
+                    "relax_speed": 1,
+                    "num_blades": 5,
+                    "wind_magnitude": 8,
+                    "num_states": 11,
+                    "scale": 0.5,
+                    "blade_positions": [
+                        [
+                            6,
+                            -2
+                        ],
+                        [
+                            -6,
+                            -2
+                        ],
+                        [
+                            -4,
+                            1
+                        ],
+                        [
+                            -3,
+                            1
+                        ],
+                        [
+                            -3,
+                            4
+                        ]
+                    ],
+                    "blade_image_paths": [
+                        "assets/_grass_assets/grass_1/blade_images/grass_5.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_9.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_1.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_1.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_0.png"
+                    ],
+                    "blade_image_indices": [
+                        5,
+                        9,
+                        1,
+                        1,
+                        0
+                    ]
+                },
+                {
+                    "index": 8,
+                    "size": 40,
+                    "stiffness": 0.1,
+                    "relax_speed": 1,
+                    "num_blades": 5,
+                    "wind_magnitude": 8,
+                    "num_states": 11,
+                    "scale": 0.5,
+                    "blade_positions": [
+                        [
+                            -1,
+                            -10
+                        ],
+                        [
+                            3,
+                            -7
+                        ],
+                        [
+                            8,
+                            -3
+                        ],
+                        [
+                            0,
+                            3
+                        ],
+                        [
+                            5,
+                            5
+                        ]
+                    ],
+                    "blade_image_paths": [
+                        "assets/_grass_assets/grass_1/blade_images/grass_6.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_4.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_3.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_3.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_3.png"
+                    ],
+                    "blade_image_indices": [
+                        6,
+                        4,
+                        3,
+                        3,
+                        3
+                    ]
+                },
+                {
+                    "index": 9,
+                    "size": 37,
+                    "stiffness": 0.1,
+                    "relax_speed": 1,
+                    "num_blades": 7,
+                    "wind_magnitude": 8,
+                    "num_states": 11,
+                    "scale": 0.5,
+                    "blade_positions": [
+                        [
+                            9,
+                            -10
+                        ],
+                        [
+                            0,
+                            -5
+                        ],
+                        [
+                            3,
+                            -4
+                        ],
+                        [
+                            -1,
+                            -3
+                        ],
+                        [
+                            -2,
+                            0
+                        ],
+                        [
+                            -9,
+                            3
+                        ],
+                        [
+                            -6,
+                            5
+                        ]
+                    ],
+                    "blade_image_paths": [
+                        "assets/_grass_assets/grass_1/blade_images/grass_9.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_7.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_7.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_0.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_7.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_5.png",
+                        "assets/_grass_assets/grass_1/blade_images/grass_2.png"
+                    ],
+                    "blade_image_indices": [
+                        9,
+                        7,
+                        7,
+                        0,
+                        7,
+                        5,
+                        2
+                    ]
+                }
+            ],
+            "tiles": [],
+            "grass_folder": "assets/_grass_assets/grass_1"
+        },
+        {
+            "assets": [
+                {
+                    "index": 0,
+                    "size": 33,
+                    "stiffness": 0.1,
+                    "relax_speed": 1,
+                    "num_blades": 4,
+                    "wind_magnitude": 8,
+                    "num_states": 11,
+                    "scale": 0.5,
+                    "blade_positions": [
+                        [
+                            7,
+                            -9
+                        ],
+                        [
+                            -4,
+                            -3
+                        ],
+                        [
+                            3,
+                            -1
+                        ],
+                        [
+                            0,
+                            6
+                        ]
+                    ],
+                    "blade_image_paths": [
+                        "assets/_grass_assets/grass_2/blade_images/grass_1.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_5.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_2.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_0.png"
+                    ],
+                    "blade_image_indices": [
+                        1,
+                        5,
+                        2,
+                        0
+                    ]
+                },
+                {
+                    "index": 1,
+                    "size": 29,
+                    "stiffness": 0.1,
+                    "relax_speed": 1,
+                    "num_blades": 10,
+                    "wind_magnitude": 8,
+                    "num_states": 11,
+                    "scale": 0.5,
+                    "blade_positions": [
+                        [
+                            7,
+                            -6
+                        ],
+                        [
+                            -1,
+                            -6
+                        ],
+                        [
+                            -8,
+                            -6
+                        ],
+                        [
+                            -7,
+                            -5
+                        ],
+                        [
+                            1,
+                            -5
+                        ],
+                        [
+                            -4,
+                            -2
+                        ],
+                        [
+                            -5,
+                            -2
+                        ],
+                        [
+                            -7,
+                            0
+                        ],
+                        [
+                            -5,
+                            4
+                        ],
+                        [
+                            -3,
+                            5
+                        ]
+                    ],
+                    "blade_image_paths": [
+                        "assets/_grass_assets/grass_2/blade_images/grass_5.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_1.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_0.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_4.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_4.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_2.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_3.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_5.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_5.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_5.png"
+                    ],
+                    "blade_image_indices": [
+                        5,
+                        1,
+                        0,
+                        4,
+                        4,
+                        2,
+                        3,
+                        5,
+                        5,
+                        5
+                    ]
+                },
+                {
+                    "index": 2,
+                    "size": 24,
+                    "stiffness": 0.1,
+                    "relax_speed": 1,
+                    "num_blades": 4,
+                    "wind_magnitude": 8,
+                    "num_states": 11,
+                    "scale": 0.5,
+                    "blade_positions": [
+                        [
+                            6,
+                            -4
+                        ],
+                        [
+                            -1,
+                            2
+                        ],
+                        [
+                            5,
+                            3
+                        ],
+                        [
+                            5,
+                            6
+                        ]
+                    ],
+                    "blade_image_paths": [
+                        "assets/_grass_assets/grass_2/blade_images/grass_4.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_5.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_6.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_1.png"
+                    ],
+                    "blade_image_indices": [
+                        4,
+                        5,
+                        6,
+                        1
+                    ]
+                },
+                {
+                    "index": 3,
+                    "size": 23,
+                    "stiffness": 0.1,
+                    "relax_speed": 1,
+                    "num_blades": 8,
+                    "wind_magnitude": 8,
+                    "num_states": 11,
+                    "scale": 0.5,
+                    "blade_positions": [
+                        [
+                            4,
+                            -6
+                        ],
+                        [
+                            -5,
+                            -2
+                        ],
+                        [
+                            3,
+                            -2
+                        ],
+                        [
+                            -4,
+                            -1
+                        ],
+                        [
+                            4,
+                            0
+                        ],
+                        [
+                            -6,
+                            1
+                        ],
+                        [
+                            -2,
+                            2
+                        ],
+                        [
+                            -3,
+                            3
+                        ]
+                    ],
+                    "blade_image_paths": [
+                        "assets/_grass_assets/grass_2/blade_images/grass_4.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_3.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_6.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_2.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_5.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_3.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_5.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_4.png"
+                    ],
+                    "blade_image_indices": [
+                        4,
+                        3,
+                        6,
+                        2,
+                        5,
+                        3,
+                        5,
+                        4
+                    ]
+                },
+                {
+                    "index": 4,
+                    "size": 25,
+                    "stiffness": 0.1,
+                    "relax_speed": 1,
+                    "num_blades": 4,
+                    "wind_magnitude": 8,
+                    "num_states": 11,
+                    "scale": 0.5,
+                    "blade_positions": [
+                        [
+                            3,
+                            -7
+                        ],
+                        [
+                            4,
+                            -5
+                        ],
+                        [
+                            -7,
+                            3
+                        ],
+                        [
+                            -3,
+                            6
+                        ]
+                    ],
+                    "blade_image_paths": [
+                        "assets/_grass_assets/grass_2/blade_images/grass_5.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_6.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_0.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_1.png"
+                    ],
+                    "blade_image_indices": [
+                        5,
+                        6,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "index": 5,
+                    "size": 38,
+                    "stiffness": 0.1,
+                    "relax_speed": 1,
+                    "num_blades": 5,
+                    "wind_magnitude": 8,
+                    "num_states": 11,
+                    "scale": 0.5,
+                    "blade_positions": [
+                        [
+                            -8,
+                            -8
+                        ],
+                        [
+                            -10,
+                            0
+                        ],
+                        [
+                            -9,
+                            6
+                        ],
+                        [
+                            0,
+                            9
+                        ],
+                        [
+                            -6,
+                            9
+                        ]
+                    ],
+                    "blade_image_paths": [
+                        "assets/_grass_assets/grass_2/blade_images/grass_3.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_2.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_3.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_3.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_1.png"
+                    ],
+                    "blade_image_indices": [
+                        3,
+                        2,
+                        3,
+                        3,
+                        1
+                    ]
+                },
+                {
+                    "index": 6,
+                    "size": 35,
+                    "stiffness": 0.1,
+                    "relax_speed": 1,
+                    "num_blades": 10,
+                    "wind_magnitude": 8,
+                    "num_states": 11,
+                    "scale": 0.5,
+                    "blade_positions": [
+                        [
+                            6,
+                            -9
+                        ],
+                        [
+                            1,
+                            -6
+                        ],
+                        [
+                            -1,
+                            -6
+                        ],
+                        [
+                            -4,
+                            -3
+                        ],
+                        [
+                            -4,
+                            -2
+                        ],
+                        [
+                            4,
+                            -2
+                        ],
+                        [
+                            -3,
+                            -1
+                        ],
+                        [
+                            2,
+                            4
+                        ],
+                        [
+                            -4,
+                            4
+                        ],
+                        [
+                            -9,
+                            7
+                        ]
+                    ],
+                    "blade_image_paths": [
+                        "assets/_grass_assets/grass_2/blade_images/grass_2.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_3.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_0.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_5.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_2.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_2.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_4.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_6.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_3.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_0.png"
+                    ],
+                    "blade_image_indices": [
+                        2,
+                        3,
+                        0,
+                        5,
+                        2,
+                        2,
+                        4,
+                        6,
+                        3,
+                        0
+                    ]
+                },
+                {
+                    "index": 7,
+                    "size": 30,
+                    "stiffness": 0.1,
+                    "relax_speed": 1,
+                    "num_blades": 6,
+                    "wind_magnitude": 8,
+                    "num_states": 11,
+                    "scale": 0.5,
+                    "blade_positions": [
+                        [
+                            -4,
+                            -6
+                        ],
+                        [
+                            0,
+                            -2
+                        ],
+                        [
+                            6,
+                            0
+                        ],
+                        [
+                            2,
+                            1
+                        ],
+                        [
+                            7,
+                            3
+                        ],
+                        [
+                            0,
+                            7
+                        ]
+                    ],
+                    "blade_image_paths": [
+                        "assets/_grass_assets/grass_2/blade_images/grass_5.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_5.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_2.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_6.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_2.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_2.png"
+                    ],
+                    "blade_image_indices": [
+                        5,
+                        5,
+                        2,
+                        6,
+                        2,
+                        2
+                    ]
+                },
+                {
+                    "index": 8,
+                    "size": 35,
+                    "stiffness": 0.1,
+                    "relax_speed": 1,
+                    "num_blades": 3,
+                    "wind_magnitude": 8,
+                    "num_states": 11,
+                    "scale": 0.5,
+                    "blade_positions": [
+                        [
+                            7,
+                            0
+                        ],
+                        [
+                            -8,
+                            4
+                        ],
+                        [
+                            -8,
+                            5
+                        ]
+                    ],
+                    "blade_image_paths": [
+                        "assets/_grass_assets/grass_2/blade_images/grass_5.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_2.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_4.png"
+                    ],
+                    "blade_image_indices": [
+                        5,
+                        2,
+                        4
+                    ]
+                },
+                {
+                    "index": 9,
+                    "size": 20,
+                    "stiffness": 0.1,
+                    "relax_speed": 1,
+                    "num_blades": 4,
+                    "wind_magnitude": 8,
+                    "num_states": 11,
+                    "scale": 0.5,
+                    "blade_positions": [
+                        [
+                            2,
+                            -5
+                        ],
+                        [
+                            4,
+                            -5
+                        ],
+                        [
+                            1,
+                            -4
+                        ],
+                        [
+                            1,
+                            3
+                        ]
+                    ],
+                    "blade_image_paths": [
+                        "assets/_grass_assets/grass_2/blade_images/grass_2.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_5.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_1.png",
+                        "assets/_grass_assets/grass_2/blade_images/grass_2.png"
+                    ],
+                    "blade_image_indices": [
+                        2,
+                        5,
+                        1,
+                        2
+                    ]
+                }
+            ],
+            "tiles": [],
+            "grass_folder": "assets/_grass_assets/grass_2"
+        }
+    ],
+    "plant_systems": [
+        {
+            "assets": [
+                {
+                    "index": 0,
+                    "stiffness": 0.015925151649777876,
+                    "scale": 1,
+                    "num_branches": 6,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_1/branches/branch_2",
+                        "assets/_plant_assets/bush_1/branches/branch_8",
+                        "assets/_plant_assets/bush_1/branches/branch_3",
+                        "assets/_plant_assets/bush_1/branches/branch_0",
+                        "assets/_plant_assets/bush_1/branches/branch_2",
+                        "assets/_plant_assets/bush_1/branches/branch_3"
+                    ],
+                    "branch_base_angles": [
+                        -0.9773843811168246,
+                        -0.6515895874112163,
+                        -0.32579479370560815,
+                        0.0,
+                        0.32579479370560827,
+                        0.6515895874112165
+                    ]
+                },
+                {
+                    "index": 1,
+                    "stiffness": 0.013327025001904632,
+                    "scale": 1,
+                    "num_branches": 6,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_1/branches/branch_8",
+                        "assets/_plant_assets/bush_1/branches/branch_0",
+                        "assets/_plant_assets/bush_1/branches/branch_7",
+                        "assets/_plant_assets/bush_1/branches/branch_2",
+                        "assets/_plant_assets/bush_1/branches/branch_5",
+                        "assets/_plant_assets/bush_1/branches/branch_8"
+                    ],
+                    "branch_base_angles": [
+                        -0.8028514559173916,
+                        -0.5352343039449277,
+                        -0.26761715197246383,
+                        0.0,
+                        0.26761715197246394,
+                        0.5352343039449279
+                    ]
+                },
+                {
+                    "index": 2,
+                    "stiffness": 0.016476195258304217,
+                    "scale": 1,
+                    "num_branches": 6,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_1/branches/branch_5",
+                        "assets/_plant_assets/bush_1/branches/branch_4",
+                        "assets/_plant_assets/bush_1/branches/branch_5",
+                        "assets/_plant_assets/bush_1/branches/branch_5",
+                        "assets/_plant_assets/bush_1/branches/branch_4",
+                        "assets/_plant_assets/bush_1/branches/branch_7"
+                    ],
+                    "branch_base_angles": [
+                        -0.6632251157578453,
+                        -0.4421500771718968,
+                        -0.2210750385859484,
+                        0.0,
+                        0.22107503858594846,
+                        0.4421500771718969
+                    ]
+                },
+                {
+                    "index": 3,
+                    "stiffness": 0.007303502915502654,
+                    "scale": 1,
+                    "num_branches": 6,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_1/branches/branch_8",
+                        "assets/_plant_assets/bush_1/branches/branch_5",
+                        "assets/_plant_assets/bush_1/branches/branch_2",
+                        "assets/_plant_assets/bush_1/branches/branch_3",
+                        "assets/_plant_assets/bush_1/branches/branch_1",
+                        "assets/_plant_assets/bush_1/branches/branch_3"
+                    ],
+                    "branch_base_angles": [
+                        -0.7155849933176751,
+                        -0.47705666221178344,
+                        -0.23852833110589172,
+                        0.0,
+                        0.23852833110589167,
+                        0.47705666221178344
+                    ]
+                },
+                {
+                    "index": 4,
+                    "stiffness": 0.011857728351547234,
+                    "scale": 1,
+                    "num_branches": 4,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_1/branches/branch_7",
+                        "assets/_plant_assets/bush_1/branches/branch_5",
+                        "assets/_plant_assets/bush_1/branches/branch_8",
+                        "assets/_plant_assets/bush_1/branches/branch_3"
+                    ],
+                    "branch_base_angles": [
+                        -1.2042771838760873,
+                        -0.6021385919380436,
+                        0.0,
+                        0.6021385919380438
+                    ]
+                },
+                {
+                    "index": 5,
+                    "stiffness": 0.01848657318958751,
+                    "scale": 1,
+                    "num_branches": 7,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_1/branches/branch_5",
+                        "assets/_plant_assets/bush_1/branches/branch_7",
+                        "assets/_plant_assets/bush_1/branches/branch_8",
+                        "assets/_plant_assets/bush_1/branches/branch_5",
+                        "assets/_plant_assets/bush_1/branches/branch_7",
+                        "assets/_plant_assets/bush_1/branches/branch_6",
+                        "assets/_plant_assets/bush_1/branches/branch_2"
+                    ],
+                    "branch_base_angles": [
+                        -0.6108652381980153,
+                        -0.43633231299858233,
+                        -0.2617993877991494,
+                        -0.08726646259971649,
+                        0.08726646259971649,
+                        0.26179938779914946,
+                        0.43633231299858233
+                    ]
+                },
+                {
+                    "index": 6,
+                    "stiffness": 0.01949094272141724,
+                    "scale": 1,
+                    "num_branches": 7,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_1/branches/branch_6",
+                        "assets/_plant_assets/bush_1/branches/branch_9",
+                        "assets/_plant_assets/bush_1/branches/branch_2",
+                        "assets/_plant_assets/bush_1/branches/branch_0",
+                        "assets/_plant_assets/bush_1/branches/branch_0",
+                        "assets/_plant_assets/bush_1/branches/branch_7",
+                        "assets/_plant_assets/bush_1/branches/branch_0"
+                    ],
+                    "branch_base_angles": [
+                        -0.5235987755982988,
+                        -0.3739991254273563,
+                        -0.2243994752564138,
+                        -0.07479982508547128,
+                        0.07479982508547123,
+                        0.22439947525641368,
+                        0.37399912542735625
+                    ]
+                },
+                {
+                    "index": 7,
+                    "stiffness": 0.012667932689952853,
+                    "scale": 1,
+                    "num_branches": 7,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_1/branches/branch_9",
+                        "assets/_plant_assets/bush_1/branches/branch_9",
+                        "assets/_plant_assets/bush_1/branches/branch_5",
+                        "assets/_plant_assets/bush_1/branches/branch_9",
+                        "assets/_plant_assets/bush_1/branches/branch_0",
+                        "assets/_plant_assets/bush_1/branches/branch_4",
+                        "assets/_plant_assets/bush_1/branches/branch_3"
+                    ],
+                    "branch_base_angles": [
+                        -0.767944870877505,
+                        -0.5485320506267892,
+                        -0.32911923037607355,
+                        -0.10970641012535787,
+                        0.10970641012535787,
+                        0.3291192303760735,
+                        0.5485320506267892
+                    ]
+                },
+                {
+                    "index": 8,
+                    "stiffness": 0.0063923622657315994,
+                    "scale": 1,
+                    "num_branches": 7,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_1/branches/branch_9",
+                        "assets/_plant_assets/bush_1/branches/branch_3",
+                        "assets/_plant_assets/bush_1/branches/branch_1",
+                        "assets/_plant_assets/bush_1/branches/branch_5",
+                        "assets/_plant_assets/bush_1/branches/branch_3",
+                        "assets/_plant_assets/bush_1/branches/branch_6",
+                        "assets/_plant_assets/bush_1/branches/branch_3"
+                    ],
+                    "branch_base_angles": [
+                        -0.767944870877505,
+                        -0.5485320506267892,
+                        -0.32911923037607355,
+                        -0.10970641012535787,
+                        0.10970641012535787,
+                        0.3291192303760735,
+                        0.5485320506267892
+                    ]
+                },
+                {
+                    "index": 9,
+                    "stiffness": 0.01041362149093284,
+                    "scale": 1,
+                    "num_branches": 5,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_1/branches/branch_7",
+                        "assets/_plant_assets/bush_1/branches/branch_2",
+                        "assets/_plant_assets/bush_1/branches/branch_7",
+                        "assets/_plant_assets/bush_1/branches/branch_3",
+                        "assets/_plant_assets/bush_1/branches/branch_8"
+                    ],
+                    "branch_base_angles": [
+                        -1.2217304763960306,
+                        -0.7330382858376183,
+                        -0.24434609527920614,
+                        0.24434609527920603,
+                        0.7330382858376183
+                    ]
+                }
+            ],
+            "plants": [
+                {
+                    "position": [
+                        547.0657442083409,
+                        474.4440594408195
+                    ],
+                    "asset_index": 0
+                },
+                {
+                    "position": [
+                        577.9894051740054,
+                        491.86775716778436
+                    ],
+                    "asset_index": 1
+                },
+                {
+                    "position": [
+                        557.5065440494667,
+                        494.4923130174062
+                    ],
+                    "asset_index": 2
+                },
+                {
+                    "position": [
+                        514.0542198494624,
+                        450.8081417237017
+                    ],
+                    "asset_index": 4
+                }
+            ],
+            "scale": 1,
+            "plant_folder": "assets/_plant_assets/bush_1"
+        },
+        {
+            "assets": [
+                {
+                    "index": 0,
+                    "stiffness": 0.018675754307186848,
+                    "scale": 1,
+                    "num_branches": 6,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_2/branches/branch_2",
+                        "assets/_plant_assets/bush_2/branches/branch_4",
+                        "assets/_plant_assets/bush_2/branches/branch_1",
+                        "assets/_plant_assets/bush_2/branches/branch_3",
+                        "assets/_plant_assets/bush_2/branches/branch_2",
+                        "assets/_plant_assets/bush_2/branches/branch_1"
+                    ],
+                    "branch_base_angles": [
+                        -1.3089969389957472,
+                        -0.8726646259971649,
+                        -0.43633231299858244,
+                        0.0,
+                        0.43633231299858233,
+                        0.8726646259971649
+                    ]
+                },
+                {
+                    "index": 1,
+                    "stiffness": 0.010755032143393975,
+                    "scale": 1,
+                    "num_branches": 6,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_2/branches/branch_1",
+                        "assets/_plant_assets/bush_2/branches/branch_4",
+                        "assets/_plant_assets/bush_2/branches/branch_0",
+                        "assets/_plant_assets/bush_2/branches/branch_1",
+                        "assets/_plant_assets/bush_2/branches/branch_1",
+                        "assets/_plant_assets/bush_2/branches/branch_4"
+                    ],
+                    "branch_base_angles": [
+                        -1.3439035240356338,
+                        -0.8959356826904226,
+                        -0.4479678413452113,
+                        0.0,
+                        0.4479678413452113,
+                        0.8959356826904228
+                    ]
+                },
+                {
+                    "index": 2,
+                    "stiffness": 0.00527065437404959,
+                    "scale": 1,
+                    "num_branches": 2,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_2/branches/branch_1",
+                        "assets/_plant_assets/bush_2/branches/branch_0"
+                    ],
+                    "branch_base_angles": [
+                        -1.361356816555577,
+                        0.0
+                    ]
+                },
+                {
+                    "index": 3,
+                    "stiffness": 0.014346324576201799,
+                    "scale": 1,
+                    "num_branches": 2,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_2/branches/branch_2",
+                        "assets/_plant_assets/bush_2/branches/branch_4"
+                    ],
+                    "branch_base_angles": [
+                        -1.2217304763960306,
+                        0.0
+                    ]
+                },
+                {
+                    "index": 4,
+                    "stiffness": 0.01635652687656934,
+                    "scale": 1,
+                    "num_branches": 3,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_2/branches/branch_2",
+                        "assets/_plant_assets/bush_2/branches/branch_2",
+                        "assets/_plant_assets/bush_2/branches/branch_1"
+                    ],
+                    "branch_base_angles": [
+                        -1.3089969389957472,
+                        -0.43633231299858244,
+                        0.43633231299858233
+                    ]
+                },
+                {
+                    "index": 5,
+                    "stiffness": 0.01700331368928069,
+                    "scale": 1,
+                    "num_branches": 10,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_2/branches/branch_1",
+                        "assets/_plant_assets/bush_2/branches/branch_1",
+                        "assets/_plant_assets/bush_2/branches/branch_1",
+                        "assets/_plant_assets/bush_2/branches/branch_2",
+                        "assets/_plant_assets/bush_2/branches/branch_0",
+                        "assets/_plant_assets/bush_2/branches/branch_4",
+                        "assets/_plant_assets/bush_2/branches/branch_4",
+                        "assets/_plant_assets/bush_2/branches/branch_2",
+                        "assets/_plant_assets/bush_2/branches/branch_1",
+                        "assets/_plant_assets/bush_2/branches/branch_4"
+                    ],
+                    "branch_base_angles": [
+                        -1.2566370614359172,
+                        -1.0053096491487339,
+                        -0.7539822368615503,
+                        -0.5026548245743668,
+                        -0.25132741228718336,
+                        0.0,
+                        0.2513274122871836,
+                        0.5026548245743672,
+                        0.7539822368615505,
+                        1.0053096491487339
+                    ]
+                },
+                {
+                    "index": 6,
+                    "stiffness": 0.017823327094063198,
+                    "scale": 1,
+                    "num_branches": 5,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_2/branches/branch_3",
+                        "assets/_plant_assets/bush_2/branches/branch_3",
+                        "assets/_plant_assets/bush_2/branches/branch_3",
+                        "assets/_plant_assets/bush_2/branches/branch_2",
+                        "assets/_plant_assets/bush_2/branches/branch_3"
+                    ],
+                    "branch_base_angles": [
+                        -1.2740903539558606,
+                        -0.7644542123735163,
+                        -0.254818070791172,
+                        0.25481807079117225,
+                        0.7644542123735165
+                    ]
+                },
+                {
+                    "index": 7,
+                    "stiffness": 0.009357896491198971,
+                    "scale": 1,
+                    "num_branches": 6,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_2/branches/branch_3",
+                        "assets/_plant_assets/bush_2/branches/branch_4",
+                        "assets/_plant_assets/bush_2/branches/branch_3",
+                        "assets/_plant_assets/bush_2/branches/branch_3",
+                        "assets/_plant_assets/bush_2/branches/branch_1",
+                        "assets/_plant_assets/bush_2/branches/branch_4"
+                    ],
+                    "branch_base_angles": [
+                        -1.2217304763960306,
+                        -0.8144869842640203,
+                        -0.40724349213201017,
+                        0.0,
+                        0.4072434921320103,
+                        0.8144869842640206
+                    ]
+                },
+                {
+                    "index": 8,
+                    "stiffness": 0.018602696191713244,
+                    "scale": 1,
+                    "num_branches": 8,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_2/branches/branch_3",
+                        "assets/_plant_assets/bush_2/branches/branch_0",
+                        "assets/_plant_assets/bush_2/branches/branch_4",
+                        "assets/_plant_assets/bush_2/branches/branch_0",
+                        "assets/_plant_assets/bush_2/branches/branch_4",
+                        "assets/_plant_assets/bush_2/branches/branch_4",
+                        "assets/_plant_assets/bush_2/branches/branch_2",
+                        "assets/_plant_assets/bush_2/branches/branch_4"
+                    ],
+                    "branch_base_angles": [
+                        -1.2217304763960306,
+                        -0.916297857297023,
+                        -0.6108652381980153,
+                        -0.30543261909900765,
+                        0.0,
+                        0.30543261909900776,
+                        0.6108652381980153,
+                        0.9162978572970228
+                    ]
+                },
+                {
+                    "index": 9,
+                    "stiffness": 0.01839698751524101,
+                    "scale": 1,
+                    "num_branches": 5,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_2/branches/branch_1",
+                        "assets/_plant_assets/bush_2/branches/branch_4",
+                        "assets/_plant_assets/bush_2/branches/branch_0",
+                        "assets/_plant_assets/bush_2/branches/branch_2",
+                        "assets/_plant_assets/bush_2/branches/branch_3"
+                    ],
+                    "branch_base_angles": [
+                        -1.3089969389957472,
+                        -0.7853981633974483,
+                        -0.26179938779914935,
+                        0.2617993877991496,
+                        0.7853981633974485
+                    ]
+                }
+            ],
+            "plants": [
+                {
+                    "position": [
+                        520.5097322655831,
+                        465.31736583959815
+                    ],
+                    "asset_index": 5
+                },
+                {
+                    "position": [
+                        540.0543729821736,
+                        486.11189983917103
+                    ],
+                    "asset_index": 6
+                },
+                {
+                    "position": [
+                        571.8619028646093,
+                        495.3454239647668
+                    ],
+                    "asset_index": 7
+                }
+            ],
+            "scale": 1,
+            "plant_folder": "assets/_plant_assets/bush_2"
+        },
+        {
+            "assets": [
+                {
+                    "index": 0,
+                    "stiffness": 0.015593200087767895,
+                    "scale": 1,
+                    "num_branches": 6,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_3/branches/branch_1",
+                        "assets/_plant_assets/bush_3/branches/branch_1",
+                        "assets/_plant_assets/bush_3/branches/branch_0",
+                        "assets/_plant_assets/bush_3/branches/branch_0",
+                        "assets/_plant_assets/bush_3/branches/branch_2",
+                        "assets/_plant_assets/bush_3/branches/branch_2"
+                    ],
+                    "branch_base_angles": [
+                        -1.2217304763960306,
+                        -0.8144869842640203,
+                        -0.40724349213201017,
+                        0.0,
+                        0.4072434921320103,
+                        0.8144869842640206
+                    ]
+                },
+                {
+                    "index": 1,
+                    "stiffness": 0.017342151766144613,
+                    "scale": 1,
+                    "num_branches": 4,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_3/branches/branch_3",
+                        "assets/_plant_assets/bush_3/branches/branch_1",
+                        "assets/_plant_assets/bush_3/branches/branch_1",
+                        "assets/_plant_assets/bush_3/branches/branch_2"
+                    ],
+                    "branch_base_angles": [
+                        -1.2740903539558606,
+                        -0.6370451769779303,
+                        0.0,
+                        0.6370451769779304
+                    ]
+                },
+                {
+                    "index": 2,
+                    "stiffness": 0.007550613356419711,
+                    "scale": 1,
+                    "num_branches": 3,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_3/branches/branch_1",
+                        "assets/_plant_assets/bush_3/branches/branch_0",
+                        "assets/_plant_assets/bush_3/branches/branch_3"
+                    ],
+                    "branch_base_angles": [
+                        -1.239183768915974,
+                        -0.41306125630532464,
+                        0.41306125630532464
+                    ]
+                },
+                {
+                    "index": 3,
+                    "stiffness": 0.011499347625923674,
+                    "scale": 1,
+                    "num_branches": 1,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_3/branches/branch_3"
+                    ],
+                    "branch_base_angles": [
+                        -1.3439035240356338,
+                        0.47123889803846897
+                    ]
+                },
+                {
+                    "index": 4,
+                    "stiffness": 0.01619750190531497,
+                    "scale": 1,
+                    "num_branches": 6,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_3/branches/branch_0",
+                        "assets/_plant_assets/bush_3/branches/branch_3",
+                        "assets/_plant_assets/bush_3/branches/branch_1",
+                        "assets/_plant_assets/bush_3/branches/branch_2",
+                        "assets/_plant_assets/bush_3/branches/branch_3",
+                        "assets/_plant_assets/bush_3/branches/branch_1"
+                    ],
+                    "branch_base_angles": [
+                        -1.3962634015954636,
+                        -0.930842267730309,
+                        -0.4654211338651545,
+                        0.0,
+                        0.4654211338651546,
+                        0.930842267730309
+                    ]
+                },
+                {
+                    "index": 5,
+                    "stiffness": 0.006029301985810455,
+                    "scale": 1,
+                    "num_branches": 5,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_3/branches/branch_3",
+                        "assets/_plant_assets/bush_3/branches/branch_1",
+                        "assets/_plant_assets/bush_3/branches/branch_3",
+                        "assets/_plant_assets/bush_3/branches/branch_3",
+                        "assets/_plant_assets/bush_3/branches/branch_2"
+                    ],
+                    "branch_base_angles": [
+                        -1.3962634015954636,
+                        -0.8377580409572781,
+                        -0.27925268031909267,
+                        0.2792526803190929,
+                        0.8377580409572782
+                    ]
+                },
+                {
+                    "index": 6,
+                    "stiffness": 0.010224976276886628,
+                    "scale": 1,
+                    "num_branches": 1,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_3/branches/branch_0"
+                    ],
+                    "branch_base_angles": [
+                        -1.239183768915974,
+                        -0.2792526803190927
+                    ]
+                },
+                {
+                    "index": 7,
+                    "stiffness": 0.01690913194542811,
+                    "scale": 1,
+                    "num_branches": 2,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_3/branches/branch_3",
+                        "assets/_plant_assets/bush_3/branches/branch_0"
+                    ],
+                    "branch_base_angles": [
+                        -1.2217304763960306,
+                        0.0
+                    ]
+                },
+                {
+                    "index": 8,
+                    "stiffness": 0.015472720474966357,
+                    "scale": 1,
+                    "num_branches": 7,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_3/branches/branch_3",
+                        "assets/_plant_assets/bush_3/branches/branch_1",
+                        "assets/_plant_assets/bush_3/branches/branch_0",
+                        "assets/_plant_assets/bush_3/branches/branch_3",
+                        "assets/_plant_assets/bush_3/branches/branch_2",
+                        "assets/_plant_assets/bush_3/branches/branch_1",
+                        "assets/_plant_assets/bush_3/branches/branch_3"
+                    ],
+                    "branch_base_angles": [
+                        -1.2217304763960306,
+                        -0.8726646259971647,
+                        -0.5235987755982988,
+                        -0.17453292519943298,
+                        0.17453292519943298,
+                        0.5235987755982989,
+                        0.8726646259971647
+                    ]
+                },
+                {
+                    "index": 9,
+                    "stiffness": 0.012305103431962956,
+                    "scale": 1,
+                    "num_branches": 2,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_3/branches/branch_1",
+                        "assets/_plant_assets/bush_3/branches/branch_0"
+                    ],
+                    "branch_base_angles": [
+                        -1.3962634015954636,
+                        0.0
+                    ]
+                }
+            ],
+            "plants": [
+                {
+                    "position": [
+                        609.0494083682732,
+                        501.50527567625176
+                    ],
+                    "asset_index": 0
+                },
+                {
+                    "position": [
+                        577.2146109049279,
+                        514.9818218015683
+                    ],
+                    "asset_index": 1
+                },
+                {
+                    "position": [
+                        540.5895281624449,
+                        501.06377006627605
+                    ],
+                    "asset_index": 2
+                },
+                {
+                    "position": [
+                        511.9461589266098,
+                        476.47733633098983
+                    ],
+                    "asset_index": 3
+                }
+            ],
+            "scale": 1,
+            "plant_folder": "assets/_plant_assets/bush_3"
+        },
+        {
+            "assets": [
+                {
+                    "index": 0,
+                    "stiffness": 0.043627649275086965,
+                    "scale": 1,
+                    "num_branches": 3,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_4/branches/branch_2",
+                        "assets/_plant_assets/bush_4/branches/branch_2",
+                        "assets/_plant_assets/bush_4/branches/branch_0"
+                    ],
+                    "branch_base_angles": [
+                        -0.08726646259971647,
+                        -0.029088820866572156,
+                        0.029088820866572163
+                    ]
+                },
+                {
+                    "index": 1,
+                    "stiffness": 0.03986769300134533,
+                    "scale": 1,
+                    "num_branches": 2,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_4/branches/branch_2",
+                        "assets/_plant_assets/bush_4/branches/branch_2"
+                    ],
+                    "branch_base_angles": [
+                        -0.15707963267948966,
+                        0.0
+                    ]
+                },
+                {
+                    "index": 2,
+                    "stiffness": 0.09577272355351495,
+                    "scale": 1,
+                    "num_branches": 3,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_4/branches/branch_4",
+                        "assets/_plant_assets/bush_4/branches/branch_0",
+                        "assets/_plant_assets/bush_4/branches/branch_2"
+                    ],
+                    "branch_base_angles": [
+                        -0.22689280275926285,
+                        -0.07563093425308762,
+                        0.07563093425308762
+                    ]
+                },
+                {
+                    "index": 3,
+                    "stiffness": 0.03173214291347963,
+                    "scale": 1,
+                    "num_branches": 3,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_4/branches/branch_2",
+                        "assets/_plant_assets/bush_4/branches/branch_0",
+                        "assets/_plant_assets/bush_4/branches/branch_3"
+                    ],
+                    "branch_base_angles": [
+                        -0.08726646259971647,
+                        -0.029088820866572156,
+                        0.029088820866572163
+                    ]
+                },
+                {
+                    "index": 4,
+                    "stiffness": 0.057021590259199464,
+                    "scale": 1,
+                    "num_branches": 1,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_4/branches/branch_2"
+                    ],
+                    "branch_base_angles": [
+                        -0.2617993877991494,
+                        -0.22689280275926285
+                    ]
+                },
+                {
+                    "index": 5,
+                    "stiffness": 0.06444598525071574,
+                    "scale": 1,
+                    "num_branches": 1,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_4/branches/branch_4"
+                    ],
+                    "branch_base_angles": [
+                        -0.08726646259971647,
+                        0.19198621771937624
+                    ]
+                },
+                {
+                    "index": 6,
+                    "stiffness": 0.048568124636584366,
+                    "scale": 1,
+                    "num_branches": 4,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_4/branches/branch_2",
+                        "assets/_plant_assets/bush_4/branches/branch_1",
+                        "assets/_plant_assets/bush_4/branches/branch_0",
+                        "assets/_plant_assets/bush_4/branches/branch_1"
+                    ],
+                    "branch_base_angles": [
+                        -0.17453292519943295,
+                        -0.08726646259971647,
+                        0.0,
+                        0.08726646259971646
+                    ]
+                },
+                {
+                    "index": 7,
+                    "stiffness": 0.06479988403617155,
+                    "scale": 1,
+                    "num_branches": 2,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_4/branches/branch_1",
+                        "assets/_plant_assets/bush_4/branches/branch_4"
+                    ],
+                    "branch_base_angles": [
+                        -0.08726646259971647,
+                        0.0
+                    ]
+                },
+                {
+                    "index": 8,
+                    "stiffness": 0.09469111689635432,
+                    "scale": 1,
+                    "num_branches": 4,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_4/branches/branch_0",
+                        "assets/_plant_assets/bush_4/branches/branch_0",
+                        "assets/_plant_assets/bush_4/branches/branch_4",
+                        "assets/_plant_assets/bush_4/branches/branch_0"
+                    ],
+                    "branch_base_angles": [
+                        -0.2617993877991494,
+                        -0.1308996938995747,
+                        0.0,
+                        0.13089969389957473
+                    ]
+                },
+                {
+                    "index": 9,
+                    "stiffness": 0.09682276031490489,
+                    "scale": 1,
+                    "num_branches": 4,
+                    "branch_paths": [
+                        "assets/_plant_assets/bush_4/branches/branch_1",
+                        "assets/_plant_assets/bush_4/branches/branch_1",
+                        "assets/_plant_assets/bush_4/branches/branch_2",
+                        "assets/_plant_assets/bush_4/branches/branch_3"
+                    ],
+                    "branch_base_angles": [
+                        -0.15707963267948966,
+                        -0.07853981633974483,
+                        0.0,
+                        0.07853981633974483
+                    ]
+                }
+            ],
+            "plants": [],
+            "scale": 1,
+            "plant_folder": "assets/_plant_assets/bush_4"
+        }
+    ],
+    "particle_systems": []
+}

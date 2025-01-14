@@ -5,9 +5,9 @@ from graphics.grass import GrassSystem
 from graphics.sprite_stacks import SpritestackAsset
 
 from general_game_mechanics.dynamic_objects import DynamicObject, Character # , Vehicle
-from graphics.camera import Camera
 
 from world_builder.level_editor import Level
+from world_builder.loadpoints import LoadPoint
 
 from presets import particle_presets
 
@@ -17,27 +17,14 @@ pygame.init()
 
 class Game:
     def __init__(self):
-
-        """ MAP SETTINGS """
-        self.map_width = 2000
-        self.map_height = 2000
         
         """ DISPLAY SETTINGS """
         self.screen_width = 800
         self.screen_height = 600
 
-        """ RENDER RESOLUTION """
-        self.render_width = 400
-        self.render_height = 300
-
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
 
-        self.camera = Camera(
-            width=self.render_width,
-            height=self.render_height,
-            map_width=self.map_width,
-            map_height=self.map_height
-        )
+        self.current_level = None
 
         pygame.display.set_caption("SANDBOX")
 
@@ -46,7 +33,7 @@ class Game:
 
 
         """ PLAYER ASSETS """
-        self.player_asset = SpritestackAsset(type='character', name='dude', hitbox_size=(16, 16), movelocked=False)
+        self.player_asset = SpritestackAsset(type='character', name='dude', hitbox_size=(16, 16), scale=1, movelocked=False)
 
 
         """ NPC ASSETS """
@@ -64,6 +51,8 @@ class Game:
         """ NON-INTERACTABLE SPRITE STACK ASSETS """
         self.non_interactable_sprite_stack_assets = [
             SpritestackAsset(type='texture', name='branches_1', hitbox_size=(32,32), hitbox_type='circle', y0_base_offset=-1000),
+            SpritestackAsset(type='house_1_interior', name='floor_1', hitbox_size=(32,32), scale=1, hitbox_type='circle', y0_base_offset=-2000),
+            SpritestackAsset(type='house_1_interior', name='carpet_1', hitbox_size=(32,32), scale=1, hitbox_type='circle', y0_base_offset=-1500),
         ]
 
 
@@ -141,6 +130,23 @@ class Game:
 
             # CAMPFIRES
             SpritestackAsset(type='campfire', name='campfire_1', hitbox_size=(32,32), hitbox_type='circle'),
+
+            # INTERIOR
+            SpritestackAsset(type='house_1_interior', name='wall_north', hitbox_size=(32,32), scale=1, hitbox_type='circle'),
+            SpritestackAsset(type='house_1_interior', name='wall_east', hitbox_size=(32,32), scale=1, hitbox_type='circle'),
+            SpritestackAsset(type='house_1_interior', name='wall_south', hitbox_size=(32,32), scale=1, hitbox_type='circle'),
+            SpritestackAsset(type='house_1_interior', name='wall_west', hitbox_size=(32,32), scale=1, hitbox_type='circle'),
+
+            # FURNITURE
+            SpritestackAsset(type='house_1_interior', name='table_1', hitbox_size=(30,50), scale=1, hitbox_type='circle'),
+            SpritestackAsset(type='house_1_interior', name='chair_1', hitbox_size=(20,20), scale=1, hitbox_type='circle'),
+            SpritestackAsset(type='house_1_interior', name='cabinet_1', hitbox_size=(20,20), scale=1, hitbox_type='circle'),
+            SpritestackAsset(type='house_1_interior', name='shelf_1', hitbox_size=(20,20), scale=1, hitbox_type='circle'),
+            SpritestackAsset(type='house_1_interior', name='bed_1', hitbox_size=(20,20), scale=1, hitbox_type='circle'),
+            SpritestackAsset(type='house_1_interior', name='chest_1', hitbox_size=(20,20), scale=1, hitbox_type='circle'),
+            SpritestackAsset(type='house_1_interior', name='chair_2', hitbox_size=(20,20), scale=1, hitbox_type='circle'),
+            SpritestackAsset(type='house_1_interior', name='wardrobe_1', hitbox_size=(32,32), scale=1, hitbox_type='circle'),
+            
         ]
 
 
@@ -212,11 +218,40 @@ class Game:
         ]
 
 
-        """ TEST LEVEL """
-        self.test_level = Level(self)
+        """ LEVELS """
+        # OUTDOORS LEVEL
+        self.outdoors_level = Level(
+            game=self,
+            name='outdoors_level',
+            map_size=(1000, 1000),
+            background=None,
+            fill_colour=(105, 66, 56)
+        )
+        # HOUSE_1 LEVEL
+        self.house_1_level = Level(
+            game=self,
+            name='house_1_level',
+            map_size=(500, 500),
+            background=None,
+            fill_colour=(20, 0, 20)
+            )
+
+        """ LOADPOINTS BETWEEN LEVELS"""
+        # OUTDOORS LEVEL
+        self.outdoors_level.loadpoint_levels = [
+            self.house_1_level,
+        ]
+        # HOUSE_1 LEVEL
+        self.house_1_level.loadpoint_levels = [
+            self.outdoors_level,
+        ]
+
+
 
 
     def run(self):
+        self.current_level = self.outdoors_level
+        self.current_level.load_level()
         while 1 != 0:
             self.handle_events()
             self.update_screen_game()
@@ -225,15 +260,15 @@ class Game:
     def handle_events(self):
         self.events = pygame.event.get()
         keys = pygame.key.get_pressed()
-        self.test_level.handle_controls_editing(keys)
-        self.test_level.edit_level()
-        self.camera.handle_movement(keys)
+        self.current_level.handle_controls_editing(keys)
+        self.current_level.edit_level()
+        self.current_level.camera.handle_movement(keys)
 
 
     def update_screen_game(self):
 
-        self.test_level.render()
-        self.test_level.update()
+        self.current_level.render()
+        self.current_level.update()
         pygame.display.update()
 
         self.clock.tick(110)

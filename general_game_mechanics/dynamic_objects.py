@@ -406,3 +406,9 @@ class Character(DynamicObject):
                 self.projectile_speed
             )
             self.projectiles.append(projectile)
+            self.vx += sin(-projectile_angle) * projectile.mass / self.mass * projectile.start_speed
+            self.vy += cos(-projectile_angle) * projectile.mass / self.mass * projectile.start_speed
+
+        for projectile in self.projectiles:
+            if projectile.elapsed_time > projectile.lifetime:
+                self.projectiles.remove(projectile)

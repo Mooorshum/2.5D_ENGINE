@@ -1,5 +1,8 @@
 import pygame
 
+import os
+
+
 from graphics.plants import PlantSystem
 from graphics.grass import GrassSystem
 from graphics.sprite_stacks import SpritestackAsset
@@ -11,6 +14,7 @@ from world_builder.loadpoints import LoadPoint
 
 from presets import particle_presets
 
+os.environ['SDL_VIDEO_CENTERED'] = '1'
 
 pygame.init()
 
@@ -19,9 +23,17 @@ class Game:
     def __init__(self):
         
         """ DISPLAY SETTINGS """
-        self.screen_width = 800
-        self.screen_height = 600
+        scale = 0.75 # Percentage of max screen
+        ratio = 4/3 # WIDTH / HEIGHT ratio
 
+        info = pygame.display.Info()
+        screen_width, screen_height = info.current_w, info.current_h
+        if ratio >= 1:
+            self.screen_width = int(screen_height * ratio * scale)
+            self.screen_height = int(screen_height * scale)
+        else:
+            self.screen_width = int(screen_width * scale)
+            self.screen_height = int(screen_width / ratio * scale)
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
 
         self.current_level = None
@@ -149,6 +161,9 @@ class Game:
             SpritestackAsset(type='house_1_interior', name='fireplace_front_1', hitbox_size=(45,32), scale=1, hitbox_type='circle'),
             SpritestackAsset(type='house_1_interior', name='fireplace_back_1', hitbox_size=(45,32), scale=1, hitbox_type='circle'),
             SpritestackAsset(type='house_1_interior', name='cactus_1', hitbox_size=(20,20), scale=1, hitbox_type='circle'),
+
+            # TENTS
+            SpritestackAsset(type='tent', name='tent_1', hitbox_size=(80,80), scale=1, hitbox_type='circle'),
             
         ]
 

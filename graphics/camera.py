@@ -2,6 +2,8 @@ import pygame
 
 from math import sqrt
 
+from numpy import sign
+
 
 class Camera:
     def __init__(self, width, height, map_width, map_height):
@@ -19,6 +21,7 @@ class Camera:
         self.linear_drag = 0.1
         self.omega_drag = 0.05
         self.linear_speed_limit = 500
+        self.max_omega = 20
         self.dt = 0.1
 
         self.map_width = map_width
@@ -81,14 +84,19 @@ class Camera:
     def move(self):
 
         """ CAMERA ROTATION """
-        turn_speed = 15
-        turn_speed_limit = 200
+        turn_speed = 1
+        
         self.rotation = self.rotation % 360
         if self.rotate_left:
             self.omega += turn_speed
         if self.rotate_right:
             self.omega -= turn_speed
-        self.rotation = self.omega * self.dt * (1 - self.omega_drag)
+
+        if abs(self.omega) > self.max_omega:
+            self.omega = sign(self.omega) * self.max_omega
+
+        self.rotation += self.omega * self.dt
+        self.omega *= 1 - self.omega_drag
 
         self.vx *= (1 - self.linear_drag)
         self.vy *= (1 - self.linear_drag)

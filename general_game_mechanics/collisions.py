@@ -11,6 +11,8 @@ class Hitbox:
 
         self.colour = colour
 
+        self.collision_position = [0, 0]
+
         self.collided = False
 
         # Defining edges and axes for SAT algorithm
@@ -103,11 +105,29 @@ class Hitbox:
                 mtv_axis = axis
 
         self.resolve_collision(object, mtv_axis, min_overlap)
-    
+
+
+
+
+
+
+
+
+    def calculate_contact_point(self, other_object, mtv_axis_normal):
+        dist = sqrt(self.size[0]**2 + self.size[1]**2)
+        contact_point = [
+            self.object.position[0] + dist * mtv_axis_normal[0] / 2,
+            self.object.position[1] + dist * mtv_axis_normal[1] / 2,
+        ]
+
+        return contact_point
+
+
+
+
+
 
     def resolve_collision(self, other_object, mtv_axis, overlap):
-        if self.collided or other_object.hitbox.collided:
-            return
         self.collided = True
         other_object.hitbox.collided = True
         self_center_x = sum(vertex[0] for vertex in self.vertices) / len(self.vertices)
@@ -122,7 +142,12 @@ class Hitbox:
         if dot < 0:
             mtv_axis = [-mtv_axis[0], -mtv_axis[1]]
         mtv_magnitude = sqrt(mtv_axis[0]**2 + mtv_axis[1]**2)
-        mtv = [mtv_axis[0]/mtv_magnitude * overlap * 1.1, mtv_axis[1]/mtv_magnitude * overlap * 1.1]
+
+        mtv_axis_normal = [mtv_axis[0]/mtv_magnitude, mtv_axis[1]/mtv_magnitude]
+        mtv = [mtv_axis_normal[0] * overlap, mtv_axis_normal[1] * overlap]
+
+
+        self.collision_position = self.calculate_contact_point(other_object, mtv_axis_normal)
         
         if self.object.movelocked and not other_object.movelocked:
             other_object.position[0] += mtv[0]
@@ -158,6 +183,22 @@ class Hitbox:
                 (
                     vertex[0] + vertex_offset[0],
                     vertex[1] + vertex_offset[1]
+                ),
+                2,
+                1
+            )
+
+        # DRAWING COLLISION POINT
+        if self.collided:
+            collision_point_offset_x = camera.position[0] - self.collision_position[0] + (self.collision_position[0] - camera.position[0])*cos(camera_rotation) - (self.collision_position[1] - camera.position[1])*sin(camera_rotation)
+            collision_point_offset_y = camera.position[1] - self.collision_position[1] + (self.collision_position[0] - camera.position[0])*sin(camera_rotation) + (self.collision_position[1] - camera.position[1])*cos(camera_rotation)
+            collision_point_offset = [collision_point_offset_x - camera.position[0] + camera.width/2, collision_point_offset_y - camera.position[1] + camera.height/2]
+            pygame.draw.circle(
+                screen,
+                (0, 255, 255),
+                (
+                    self.collision_position[0] + collision_point_offset[0],
+                    self.collision_position[1] + collision_point_offset[1]
                 ),
                 2,
                 1

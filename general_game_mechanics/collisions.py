@@ -13,108 +13,152 @@ class Hitbox:
 
         self.collided = False
 
+        # Defining edges and axes for SAT algorithm
+        self.vertices = []
+        self.axes = []
+
+
+    def get_vertices(self):
+        self.vertices = []
+
+        if self.type == 'rectangle':
+
+            # VERTEX COORDINATES IN OBJECT REFERENCE FRAME
+            upper_left_0 = [-self.size[0]/2, -self.size[1]/2]
+            upper_right_0 = [self.size[0]/2, -self.size[1]/2]
+            lower_left_0 = [-self.size[0]/2, self.size[1]/2]
+            lower_right_0 = [self.size[0]/2, self.size[1]/2]
+            vertices_0 = [upper_left_0, upper_right_0, lower_right_0, lower_left_0]
+
+        # GETTING VERTEX COORDINATES FOR ROTATED HITBOX
+        object_rotation = -radians(self.object.rotation)
+        for vertex in vertices_0:
+            rotated_vertex_x = vertex[0] * cos(object_rotation) - vertex[1] * sin(object_rotation)
+            rotated_vertex_y = vertex[1] * cos(object_rotation) + vertex[0] * sin(object_rotation)
+            rotated_point = [self.object.position[0] + rotated_vertex_x, self.object.position[1] + rotated_vertex_y]
+            self.vertices.append(rotated_point)
+
+
+    def get_axes(self):
+        self.get_vertices()
+        self.axes = []
+
+        for vertex_index in range(len(self.vertices)):
+
+            vertex_1 = self.vertices[vertex_index]
+            vertex_2 = self.vertices[(vertex_index + 1) % len(self.vertices)]
+
+            edge_vector = [vertex_2[0] - vertex_1[0], vertex_2[1] - vertex_1[1]]
+            normal_vector = [
+                -edge_vector[1] / sqrt(edge_vector[0]**2 + edge_vector[1]**2),
+                edge_vector[0] / sqrt(edge_vector[0]**2 + edge_vector[1]**2)
+            ]
+
+            axis = normal_vector
+            self.axes.append(axis)
+
+    
+    def project_point_onto_axis(self, axis, point):
+        projection = axis[0]*point[0] + axis[1]*point[1]
+        return projection
+
+
+
+    def check_collision(self, object):
+        other_hitbox = object.hitbox
+
+        self.get_axes()
+        other_hitbox.get_axes()
+
+        all_axes = self.axes + other_hitbox.axes
+
+        min_overlap = float('inf')
+        mtv_axis = None
+
+        for axis in all_axes:
+
+            # GETTING PROJECTIONS OF OWN HITBOX VERTICES ONTO ALL AXES
+            self_projections = []
+            for vertex in self.vertices:
+                projection = self.project_point_onto_axis(axis, vertex)
+                self_projections.append(projection)
+
+            # GETTING PROJECTIONS OF OTHER HITBOX VERTICES ONTO ALL AXES
+            other_projections = []
+            for vertex in other_hitbox.vertices:
+                projection = self.project_point_onto_axis(axis, vertex)
+                other_projections.append(projection)
+
+            self_min = min(self_projections)
+            self_max = max(self_projections)
+            other_min = min(other_projections)
+            other_max = max(other_projections)
+
+            if self_max < other_min or other_max < self_min:
+                return
+            
+            overlap = min(self_max - other_min, other_max - self_min)
+            if overlap < min_overlap:
+                min_overlap = overlap
+                mtv_axis = axis
+
+        self.resolve_collision(object, mtv_axis, min_overlap)
+    
+
+    def resolve_collision(self, other_object, mtv_axis, overlap):
+        if self.collided or other_object.hitbox.collided:
+            return
+        self.collided = True
+        other_object.hitbox.collided = True
+        self_center_x = sum(vertex[0] for vertex in self.vertices) / len(self.vertices)
+        self_center_y = sum(vertex[1] for vertex in self.vertices) / len(self.vertices)
+        other_center_x = sum(vertex[0] for vertex in other_object.hitbox.vertices) / len(other_object.hitbox.vertices)
+        other_center_y = sum(vertex[1] for vertex in other_object.hitbox.vertices) / len(other_object.hitbox.vertices)
+
+        direction_x = other_center_x - self_center_x
+        direction_y = other_center_y - self_center_y
+
+        dot = direction_x * mtv_axis[0] + direction_y * mtv_axis[1]
+        if dot < 0:
+            mtv_axis = [-mtv_axis[0], -mtv_axis[1]]
+        mtv_magnitude = sqrt(mtv_axis[0]**2 + mtv_axis[1]**2)
+        mtv = [mtv_axis[0]/mtv_magnitude * overlap * 1.1, mtv_axis[1]/mtv_magnitude * overlap * 1.1]
+        
+        if self.object.movelocked and not other_object.movelocked:
+            other_object.position[0] += mtv[0]
+            other_object.position[1] += mtv[1]
+        elif other_object.movelocked and not self.object.movelocked:
+            self.object.position[0] -= mtv[0]
+            self.object.position[1] -= mtv[1]
+        else:
+            self.object.position[0] -= mtv[0]/2
+            self.object.position[1] -= mtv[1]/2
+            other_object.position[0] += mtv[0]/2
+            other_object.position[1] += mtv[1]/2
+
 
     def render(self, screen, camera, offset=[0, 0]):
-        if self.type == 'box':
+        if self.type == 'rectangle':
             rect_surface = pygame.Surface((self.size[0], self.size[1]), pygame.SRCALPHA)
-            pygame.draw.rect(rect_surface, (255, 0, 0), rect_surface.get_rect(), 1)
+            pygame.draw.rect(rect_surface, self.colour, rect_surface.get_rect(), 1)
             rotated_surface = pygame.transform.rotate(rect_surface, self.object.rotation - camera.rotation)
             rotated_rect = rotated_surface.get_rect(center=(self.object.position[0] + offset[0], self.object.position[1] + offset[1]))
             screen.blit(rotated_surface, rotated_rect.topleft)
 
-
-        if self.type == 'circle':
+        # DRAWING HIBOX VERTICES
+        camera_rotation = radians(camera.rotation)
+        self.get_axes()
+        for vertex in self.vertices:
+            vertex_offset_x = camera.position[0] - vertex[0] + (vertex[0] - camera.position[0])*cos(camera_rotation) - (vertex[1] - camera.position[1])*sin(camera_rotation)
+            vertex_offset_y = camera.position[1] - vertex[1] + (vertex[0] - camera.position[0])*sin(camera_rotation) + (vertex[1] - camera.position[1])*cos(camera_rotation)
+            vertex_offset = [vertex_offset_x - camera.position[0] + camera.width/2, vertex_offset_y - camera.position[1] + camera.height/2]
             pygame.draw.circle(
                 screen,
-                self.colour,
+                (255, 255, 255),
                 (
-                    self.object.position[0] + offset[0],
-                    self.object.position[1] + offset[1]
+                    vertex[0] + vertex_offset[0],
+                    vertex[1] + vertex_offset[1]
                 ),
-                sqrt(self.size[0]**2 + self.size[1]**2)/2,
+                2,
                 1
             )
-
-
-
-    def handle_collision(self,  colliding_object):
-        displacement = 2
-        damping = 0.6
-        if self.type == 'circle' and colliding_object.hitbox.type == 'circle':
-            first_check_distance = 100
-            dx = (self.object.position[0]) - (colliding_object.position[0])
-            dy = (self.object.position[1]) - (colliding_object.position[1])
-            distance = sqrt(dx**2 + dy**2)
-            if distance < first_check_distance:
-                object_hitbox_radius = sqrt(self.size[0]**2 + self.size[1]**2)//2
-                colliding_object_hitbox_radius = sqrt(colliding_object.hitbox.size[0]**2 + colliding_object.hitbox.size[1]**2)//2
-                if distance < object_hitbox_radius + colliding_object_hitbox_radius and distance > 0:
-                
-                    self.collided = True
-                    colliding_object.hitbox.collided = True             
-    
-                    object_vx = self.object.vx
-                    object_vy = self.object.vy
-    
-                    colliding_object_vx = colliding_object.vx
-                    colliding_object_vy = colliding_object.vy
-    
-                    normal_x = dx/distance
-                    normal_y = dy/distance
-    
-                    relative_velocity_x = object_vx - colliding_object_vx
-                    relative_velocity_y = object_vy - colliding_object_vy
-    
-                    velocity_normal = (relative_velocity_x * normal_x) + (relative_velocity_y * normal_y)
-    
-                    impulse = (2 * velocity_normal) / (self.object.mass + colliding_object.mass)
-    
-                    object_vx -= impulse * colliding_object.mass * normal_x * damping
-                    object_vy -= impulse * colliding_object.mass * normal_y * damping
-    
-                    colliding_object_vx += impulse * self.object.mass * normal_x
-                    colliding_object_vy += impulse * self.object.mass * normal_y
-    
-                    self.object.vx = object_vx
-                    self.object.vy = object_vy
-    
-                    colliding_object.vx = colliding_object_vx
-                    colliding_object.vy = colliding_object_vy
-    
-                    if not self.object.movelocked:
-                        self.object.position[0] += displacement * normal_x
-                        self.object.position[1] += displacement * normal_y
-                    if not colliding_object.movelocked:
-                        colliding_object.position[0] -= displacement * normal_x
-                        colliding_object.position[1] -= displacement * normal_y
-    
-    
-                    """ APPLY A COLLISION-DIRECTION DEPENDENT SPIN """
-                    """ SPIN_SENSITIVITY = 1
-    
-                    dx = colliding_object.position[0] - self.object.position[0]
-                    dy = colliding_object.position[1] - self.object.position[1]
-    
-                    distance = sqrt(dx**2 + dy**2)
-    
-                    global_coordinates_relative_v_angle = atan2(dy, dx) # ALPHA
-                    object_coordinates_relative_v_angle = global_coordinates_relative_v_angle + radians(colliding_object.rotation) # BETA
-    
-                    global_coordinates_relative_vx = colliding_object.vx - self.object.vx
-                    global_coordinates_relative_vy = colliding_object.vy - self.object.vy
-    
-                    cos_object_rotation = cos(radians(colliding_object.rotation))
-                    sin_object_rotation = sin(radians(colliding_object.rotation))
-    
-                    object_coordinates_relative_vy = -global_coordinates_relative_vx * sin_object_rotation + global_coordinates_relative_vy * cos_object_rotation
-                    
-                    spin_v_factor = object_coordinates_relative_vy
-                    spin_collision_offset_factor =  cos(global_coordinates_relative_v_angle + object_coordinates_relative_v_angle)
-                    
-                    if object_coordinates_relative_v_angle % 2*pi > -pi/2 and object_coordinates_relative_v_angle % 2*pi < pi/2:
-                        spin_direction_factor = 1
-                    else:
-                        spin_direction_factor = -1
-    
-                    colliding_object.omega += spin_v_factor * spin_direction_factor * spin_collision_offset_factor * SPIN_SENSITIVITY * self.object.mass / (self.object.mass + colliding_object.mass)
-                    self.object.omega -= spin_v_factor * spin_direction_factor * spin_collision_offset_factor * SPIN_SENSITIVITY * colliding_object.mass / (colliding_object.mass + colliding_object.mass) """

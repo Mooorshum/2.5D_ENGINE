@@ -1,0 +1,46 @@
+{
+    "non_interactable_spritestack_objects_data": [
+        {
+            "position": [
+                -38.145833333333314,
+                -29.374999999999993
+            ],
+            "rotation": -24.0,
+            "asset_index": 3
+        },
+        {
+            "position": [
+                -62.10416666666665,
+                -21.5625
+            ],
+            "rotation": -36.0,
+            "asset_index": 4
+        },
+        {
+            "position": [
+                -50.3069616266138,
+                -58.46821936546591
+            ],
+            "rotation": -24.0,
+            "asset_index": 5
+        }
+    ],
+    "dynamic_spritestack_objects_data": [],
+    "grass_systems": [],
+    "plant_systems": [],
+    "particle_systems": [],
+    "loadpoints": [
+        {
+            "position": [
+                -6.895833333333314,
+                -14.791666666666664
+            ],
+            "level_index": 0,
+            "colour": [
+                255,
+                255,
+                0
+            ]
+        }
+    ]
+}

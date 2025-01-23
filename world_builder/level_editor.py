@@ -11,7 +11,6 @@ from graphics.camera import Camera
 from graphics.grass import GrassTile
 from graphics.plants import Plant
 from graphics.sprite_stacks import SpritestackModel
-from graphics.particles import ParticleSystem
 
 from world_builder.loadpoints import LoadPoint
 
@@ -90,18 +89,13 @@ class Level:
 
 
         """ GAME ASSETS """
-        self.vehicle_assets = self.game.vehicle_assets
-
-        self.non_interactable_sprite_stack_assets = self.game.non_interactable_sprite_stack_assets
-        self.dynamic_sprite_stack_assets = self.game.dynamic_sprite_stack_assets
-
-        self.plant_systems = self.game.plant_systems
-        self.grass_systems = self.game.grass_systems
-
-        self.particle_system_presets = self.game.particle_system_presets
-
-        self.npc_assets = self.game.npc_assets
-
+        self.vehicle_assets = []
+        self.non_interactable_sprite_stack_assets = []
+        self.dynamic_sprite_stack_assets = []
+        self.plant_systems = []
+        self.grass_systems = []
+        self.particle_system_presets = []
+        self.npc_assets = []
         self.loadpoint_levels = []
 
 
@@ -320,75 +314,77 @@ class Level:
     def edit_level(self):
 
         """ NON-INTERACTABLE SPRITE STACK ASSETS """
-        if self.place_noninteractable_sprite_stack:
-            try:
-                asset = self.non_interactable_sprite_stack_assets[self.current_asset_index]
-                self.current_asset = SpritestackModel(asset, self.current_asset_index, self.place_position, self.current_asset_rotation)
+        if len(self.non_interactable_sprite_stack_assets) > 0:
+            if self.place_noninteractable_sprite_stack:
+                try:
+                    asset = self.non_interactable_sprite_stack_assets[self.current_asset_index]
+                    self.current_asset = SpritestackModel(asset, self.current_asset_index, self.place_position, self.current_asset_rotation)
 
-            except IndexError:
-                self.current_asset_index = 0
-                asset = self.non_interactable_sprite_stack_assets[self.current_asset_index]
-                self.current_asset = SpritestackModel(asset, self.current_asset_index, self.place_position, self.current_asset_rotation)
+                except IndexError:
+                    self.current_asset_index = 0
+                    asset = self.non_interactable_sprite_stack_assets[self.current_asset_index]
+                    self.current_asset = SpritestackModel(asset, self.current_asset_index, self.place_position, self.current_asset_rotation)
 
-            self.current_asset.rotation = self.current_asset_rotation
-            self.current_asset.position = self.place_position
+                self.current_asset.rotation = self.current_asset_rotation
+                self.current_asset.position = self.place_position
 
-            if self.place:
-                self.non_interactable_sprite_stack_objects.append(self.current_asset)
+                if self.place:
+                    self.non_interactable_sprite_stack_objects.append(self.current_asset)
 
-            if self.next_item:
-                self.current_asset_index = cycle_list('forward', self.current_asset_index, self.non_interactable_sprite_stack_assets)
+                if self.next_item:
+                    self.current_asset_index = cycle_list('forward', self.current_asset_index, self.non_interactable_sprite_stack_assets)
 
-            if self.prev_item:
-                self.current_asset_index = cycle_list('backwards', self.current_asset_index, self.non_interactable_sprite_stack_assets)
+                if self.prev_item:
+                    self.current_asset_index = cycle_list('backwards', self.current_asset_index, self.non_interactable_sprite_stack_assets)
 
-            if self.rotate_clockwise:
-                if 'rotation' in vars(self.current_asset).keys():
-                    self.current_asset_rotation += 360 / self.current_asset.asset.num_unique_angles * self.rotation_speed
+                if self.rotate_clockwise:
+                    if 'rotation' in vars(self.current_asset).keys():
+                        self.current_asset_rotation += 360 / self.current_asset.asset.num_unique_angles * self.rotation_speed
 
-            if self.rotate_counterclockwise:
-                if 'rotation' in vars(self.current_asset).keys():
-                    self.current_asset_rotation -= 360 / self.current_asset.asset.num_unique_angles * self.rotation_speed
+                if self.rotate_counterclockwise:
+                    if 'rotation' in vars(self.current_asset).keys():
+                        self.current_asset_rotation -= 360 / self.current_asset.asset.num_unique_angles * self.rotation_speed
 
-            if self.undo:
-                if  len(self.non_interactable_sprite_stack_objects) > 0:
-                    last_object = self.non_interactable_sprite_stack_objects.pop()
+                if self.undo:
+                    if  len(self.non_interactable_sprite_stack_objects) > 0:
+                        last_object = self.non_interactable_sprite_stack_objects.pop()
 
 
         """ DYNAMIC SPRITE STACK ASSETS """
-        if self.place_dynamic_sprite_stack:
-            try:
-                asset = self.dynamic_sprite_stack_assets[self.current_asset_index]
-                self.current_asset = DynamicObject(asset, self.current_asset_index, self.place_position, self.current_asset_rotation)
+        if len(self.dynamic_sprite_stack_assets) > 0:
+            if self.place_dynamic_sprite_stack:
+                try:
+                    asset = self.dynamic_sprite_stack_assets[self.current_asset_index]
+                    self.current_asset = DynamicObject(asset, self.current_asset_index, self.place_position, self.current_asset_rotation)
 
-            except IndexError:
-                self.current_asset_index = 0
-                asset = self.dynamic_sprite_stack_assets[self.current_asset_index]
-                self.current_asset = DynamicObject(asset, self.current_asset_index, self.place_position, self.current_asset_rotation)
+                except IndexError:
+                    self.current_asset_index = 0
+                    asset = self.dynamic_sprite_stack_assets[self.current_asset_index]
+                    self.current_asset = DynamicObject(asset, self.current_asset_index, self.place_position, self.current_asset_rotation)
 
-            self.current_asset.rotation = self.current_asset_rotation
-            self.current_asset.position = self.place_position
+                self.current_asset.rotation = self.current_asset_rotation
+                self.current_asset.position = self.place_position
 
-            if self.place:
-                self.dynamic_sprite_stack_objects.append(self.current_asset)
+                if self.place:
+                    self.dynamic_sprite_stack_objects.append(self.current_asset)
 
-            if self.next_item:
-                self.current_asset_index = cycle_list('forward', self.current_asset_index, self.dynamic_sprite_stack_assets)
+                if self.next_item:
+                    self.current_asset_index = cycle_list('forward', self.current_asset_index, self.dynamic_sprite_stack_assets)
 
-            if self.prev_item:
-                self.current_asset_index = cycle_list('backwards', self.current_asset_index, self.dynamic_sprite_stack_assets)
+                if self.prev_item:
+                    self.current_asset_index = cycle_list('backwards', self.current_asset_index, self.dynamic_sprite_stack_assets)
 
-            if self.rotate_clockwise:
-                if 'rotation' in vars(self.current_asset).keys():
-                    self.current_asset_rotation += 360 / self.current_asset.asset.num_unique_angles * self.rotation_speed
+                if self.rotate_clockwise:
+                    if 'rotation' in vars(self.current_asset).keys():
+                        self.current_asset_rotation += 360 / self.current_asset.asset.num_unique_angles * self.rotation_speed
 
-            if self.rotate_counterclockwise:
-                if 'rotation' in vars(self.current_asset).keys():
-                    self.current_asset_rotation -= 360 / self.current_asset.asset.num_unique_angles * self.rotation_speed
+                if self.rotate_counterclockwise:
+                    if 'rotation' in vars(self.current_asset).keys():
+                        self.current_asset_rotation -= 360 / self.current_asset.asset.num_unique_angles * self.rotation_speed
 
-            if self.undo:
-                if  len(self.dynamic_sprite_stack_objects) > 0:
-                    last_object = self.dynamic_sprite_stack_objects.pop()
+                if self.undo:
+                    if  len(self.dynamic_sprite_stack_objects) > 0:
+                        last_object = self.dynamic_sprite_stack_objects.pop()
 
 
 
@@ -398,39 +394,40 @@ class Level:
 
 
         """ VEHICLE ASSETS """
-        if self.place_vehicle:
-            try:
-                asset = self.vehicle_assets[self.current_asset_index]
-                self.current_asset = Vehicle(asset, self.current_asset_index, self.place_position, self.current_asset_rotation)
+        if len(self.vehicle_assets) > 0:
+            if self.place_vehicle:
+                try:
+                    asset = self.vehicle_assets[self.current_asset_index]
+                    self.current_asset = Vehicle(asset, self.current_asset_index, self.place_position, self.current_asset_rotation)
 
-            except IndexError:
-                self.current_asset_index = 0
-                asset = self.vehicle_assets[self.current_asset_index]
-                self.current_asset = Vehicle(asset, self.current_asset_index, self.place_position, self.current_asset_rotation)
+                except IndexError:
+                    self.current_asset_index = 0
+                    asset = self.vehicle_assets[self.current_asset_index]
+                    self.current_asset = Vehicle(asset, self.current_asset_index, self.place_position, self.current_asset_rotation)
 
-            self.current_asset.rotation = self.current_asset_rotation
-            self.current_asset.position = self.place_position
+                self.current_asset.rotation = self.current_asset_rotation
+                self.current_asset.position = self.place_position
 
-            if self.place:
-                self.vehicles.append(self.current_asset)
+                if self.place:
+                    self.vehicles.append(self.current_asset)
 
-            if self.next_item:
-                self.current_asset_index = cycle_list('forward', self.current_asset_index, self.vehicle_assets)
+                if self.next_item:
+                    self.current_asset_index = cycle_list('forward', self.current_asset_index, self.vehicle_assets)
 
-            if self.prev_item:
-                self.current_asset_index = cycle_list('backwards', self.current_asset_index, self.vehicle_assets)
+                if self.prev_item:
+                    self.current_asset_index = cycle_list('backwards', self.current_asset_index, self.vehicle_assets)
 
-            if self.rotate_clockwise:
-                if 'rotation' in vars(self.current_asset).keys():
-                    self.current_asset_rotation += 360 / self.current_asset.asset.num_unique_angles * self.rotation_speed
+                if self.rotate_clockwise:
+                    if 'rotation' in vars(self.current_asset).keys():
+                        self.current_asset_rotation += 360 / self.current_asset.asset.num_unique_angles * self.rotation_speed
 
-            if self.rotate_counterclockwise:
-                if 'rotation' in vars(self.current_asset).keys():
-                    self.current_asset_rotation -= 360 / self.current_asset.asset.num_unique_angles * self.rotation_speed
+                if self.rotate_counterclockwise:
+                    if 'rotation' in vars(self.current_asset).keys():
+                        self.current_asset_rotation -= 360 / self.current_asset.asset.num_unique_angles * self.rotation_speed
 
-            if self.undo:
-                if  len(self.vehicles) > 0:
-                    last_object = self.vehicles.pop()
+                if self.undo:
+                    if  len(self.vehicles) > 0:
+                        last_object = self.vehicles.pop()
 
 
 
@@ -438,123 +435,133 @@ class Level:
 
 
         """ PLANT ASSETS """
-        if self.place_plant:
-            try:
-                plant_asset = self.plant_systems[self.plant_system_index].assets[self.current_asset_index]
-            except IndexError:
-                self.current_asset_index = 0
-                plant_asset = self.plant_systems[self.plant_system_index].assets[self.current_asset_index]
-            plant = Plant(plant_asset, self.place_position)
-            self.current_asset = plant
-            self.current_asset.position = self.place_position
-            for branch in self.current_asset.branches:
-                branch.base_position = self.current_asset.position
-
-            if self.place:
-                self.plant_systems[self.plant_system_index].create_plant(self.current_asset_index, self.current_asset.position)
+        if len(self.plant_systems) > 0:
+            if self.place_plant:
+                try:
+                    plant_asset = self.plant_systems[self.plant_system_index].assets[self.current_asset_index]
+                except IndexError:
+                    self.current_asset_index = 0
+                    plant_asset = self.plant_systems[self.plant_system_index].assets[self.current_asset_index]
+                plant = Plant(plant_asset, self.place_position)
+                self.current_asset = plant
+                self.current_asset.position = self.place_position
                 for branch in self.current_asset.branches:
                     branch.base_position = self.current_asset.position
 
-            if self.next_item:
-                self.current_asset_index = cycle_list('forward', self.current_asset_index, self.plant_systems[self.plant_system_index].assets)
+                if self.place:
+                    self.plant_systems[self.plant_system_index].create_plant(self.current_asset_index, self.current_asset.position)
+                    for branch in self.current_asset.branches:
+                        branch.base_position = self.current_asset.position
 
-            if self.prev_item:
-                self.current_asset_index = cycle_list('backwards', self.current_asset_index, self.plant_systems[self.plant_system_index].assets)
+                if self.next_item:
+                    self.current_asset_index = cycle_list('forward', self.current_asset_index, self.plant_systems[self.plant_system_index].assets)
 
-            if self.next_system:
-                self.plant_system_index = cycle_list('forward', self.plant_system_index, self.plant_systems)
+                if self.prev_item:
+                    self.current_asset_index = cycle_list('backwards', self.current_asset_index, self.plant_systems[self.plant_system_index].assets)
 
-            if self.prev_system:
-                self.plant_system_index = cycle_list('backwards', self.plant_system_index, self.plant_systems)
+                if self.next_system:
+                    self.plant_system_index = cycle_list('forward', self.plant_system_index, self.plant_systems)
 
-            if self.undo:
-                if  len(self.plant_systems[self.plant_system_index].plants) > 0:
-                    last_object = self.plant_systems[self.plant_system_index].plants.pop()
+                if self.prev_system:
+                    self.plant_system_index = cycle_list('backwards', self.plant_system_index, self.plant_systems)
+
+                if self.undo:
+                    if  len(self.plant_systems[self.plant_system_index].plants) > 0:
+                        last_object = self.plant_systems[self.plant_system_index].plants.pop()
 
 
         """ GRASS ASSETS """
-        if self.place_grass_tile:
-            try:
-                grass_tile_asset = self.grass_systems[self.grass_system_index].assets[self.current_asset_index]
-            except IndexError:
-                self.current_asset_index = 0
-                grass_tile_asset = self.grass_systems[self.grass_system_index].assets[self.current_asset_index]
-            grass_tile = GrassTile(self.place_position, grass_tile_asset)
-            self.current_asset = grass_tile
-            self.current_asset.position = self.place_position
+        if len(self.grass_systems) > 0:
+            if self.place_grass_tile:
+                try:
+                    grass_tile_asset = self.grass_systems[self.grass_system_index].assets[self.current_asset_index]
+                except IndexError:
+                    self.current_asset_index = 0
+                    grass_tile_asset = self.grass_systems[self.grass_system_index].assets[self.current_asset_index]
+                grass_tile = GrassTile(self.place_position, grass_tile_asset)
+                self.current_asset = grass_tile
+                self.current_asset.position = self.place_position
 
-            if self.place:
-                self.grass_systems[self.grass_system_index].create_tile(self.current_asset_index, self.current_asset.position)
+                if self.place:
+                    self.grass_systems[self.grass_system_index].create_tile(self.current_asset_index, self.current_asset.position)
 
-            if self.next_item:
-                self.current_asset_index = cycle_list('forward', self.current_asset_index, self.grass_systems[self.grass_system_index].assets)
+                if self.next_item:
+                    self.current_asset_index = cycle_list('forward', self.current_asset_index, self.grass_systems[self.grass_system_index].assets)
 
-            if self.prev_item:
-                self.current_asset_index = cycle_list('backwards', self.current_asset_index, self.grass_systems[self.grass_system_index].assets)
+                if self.prev_item:
+                    self.current_asset_index = cycle_list('backwards', self.current_asset_index, self.grass_systems[self.grass_system_index].assets)
 
-            if self.next_system:
-                self.grass_system_index = cycle_list('forward', self.grass_system_index, self.grass_systems)
+                if self.next_system:
+                    self.grass_system_index = cycle_list('forward', self.grass_system_index, self.grass_systems)
 
-            if self.prev_system:
-                self.grass_system_index = cycle_list('backwards', self.grass_system_index, self.grass_systems)
+                if self.prev_system:
+                    self.grass_system_index = cycle_list('backwards', self.grass_system_index, self.grass_systems)
 
-            if self.undo:
-                if  len(self.grass_systems[self.grass_system_index].tiles) > 0:
-                    last_object = self.grass_systems[self.grass_system_index].tiles.pop()
+                if self.undo:
+                    if  len(self.grass_systems[self.grass_system_index].tiles) > 0:
+                        last_object = self.grass_systems[self.grass_system_index].tiles.pop()
 
 
         """ PARTICLE SYSTEMS """
-        if self.place_particle_system:
-            try:
-                particle_system = copy.deepcopy(self.particle_system_presets[self.particle_system_index])
-            except IndexError:
-                self.current_asset_index = 0
-                particle_system = copy.deepcopy(self.particle_system_presets[self.particle_system_index])
-            particle_system.position = [self.place_position[0], self.place_position[1], 0]
-            particle_system.asset_index = self.particle_system_index
-            self.current_asset = particle_system
+        if len(self.particle_system_presets) > 0:
+            if self.place_particle_system:
+                try:
+                    particle_system = copy.deepcopy(self.particle_system_presets[self.particle_system_index])
+                except IndexError:
+                    self.current_asset_index = 0
+                    particle_system = copy.deepcopy(self.particle_system_presets[self.particle_system_index])
+                particle_system.position = [self.place_position[0], self.place_position[1], 0]
+                particle_system.asset_index = self.particle_system_index
+                self.current_asset = particle_system
 
-            if self.place:
-                self.particle_systems.append(self.current_asset)
+                if self.place:
+                    self.particle_systems.append(self.current_asset)
 
-            if self.next_item:
-                self.particle_system_index = cycle_list('forward', self.current_asset_index, self.particle_system_presets)
+                if self.next_item:
+                    self.particle_system_index = cycle_list('forward', self.current_asset_index, self.particle_system_presets)
 
-            if self.prev_item:
-                self.particle_system_index = cycle_list('backwards', self.current_asset_index, self.particle_system_presets)
+                if self.prev_item:
+                    self.particle_system_index = cycle_list('backwards', self.current_asset_index, self.particle_system_presets)
 
-            if self.undo:
-                if  len(self.particle_systems) > 0:
-                    last_object = self.particle_systems.pop()
+                if self.undo:
+                    if  len(self.particle_systems) > 0:
+                        last_object = self.particle_systems.pop()
 
 
         """ LOADPOINTS """
-        if self.place_loadpoint:
-            try:
-                loadpoint_level = self.loadpoint_levels[self.loadpoint_level_index]
-                loadpoint = LoadPoint(level=loadpoint_level)
-                
-            except IndexError:
-                self.loadpoint_level_index = 0
-                loadpoint_level = self.loadpoint_levels[self.loadpoint_level_index]
-                loadpoint = LoadPoint(level=loadpoint_level)
+        if len(self.loadpoint_levels) > 0:
+            if self.place_loadpoint:
+                try:
+                    loadpoint_level = self.loadpoint_levels[self.current_asset_index]
+                except IndexError:
+                    self.current_asset_index = 0
+                    loadpoint_level = self.loadpoint_levels[self.current_asset_index]
 
-            loadpoint.position = [self.place_position[0], self.place_position[1]]
-            loadpoint.loadpoint_level_index = self.loadpoint_level_index
-            self.current_asset = loadpoint
+                if self.current_asset_index % 2 == 0:
+                    loadpoint_colour = (255, 255, 0)
+                else:
+                    loadpoint_colour = (255, 150, 150)
 
-            if self.place:
-                self.loadpoints.append(self.current_asset)
+                loadpoint = LoadPoint(
+                    level=loadpoint_level,
+                    level_index=self.current_asset_index,
+                    colour=loadpoint_colour
+                )
+                loadpoint.position = [self.place_position[0], self.place_position[1]]
+                self.current_asset = loadpoint
 
-            if self.next_item:
-                self.loadpoint_index = cycle_list('forward', self.level_index, self.loadpoint_levels)
+                if self.place:
+                    self.loadpoints.append(self.current_asset)
 
-            if self.prev_item:
-                self.loadpoint_index = cycle_list('backwards', self.level_index, self.loadpoint_levels)
+                if self.next_item:
+                    self.current_asset_index = cycle_list('forward', self.current_asset_index, self.loadpoint_levels)
 
-            if self.undo:
-                if  len(self.loadpoints) > 0:
-                    last_object = self.loadpoints.pop()
+                if self.prev_item:
+                    self.current_asset_index = cycle_list('backwards', self.current_asset_index, self.loadpoint_levels)
+
+                if self.undo:
+                    if  len(self.loadpoints) > 0:
+                        last_object = self.loadpoints.pop()
 
 
         """ SAVING AND LOADING LEVEL """
@@ -607,7 +614,8 @@ class Level:
         for loadpoint in self.loadpoints:
             loadpoint_data = {}
             loadpoint_data['position'] = loadpoint.position
-            loadpoint_data['level_index'] = loadpoint.loadpoint_level_index
+            loadpoint_data['level_index'] = loadpoint.level_index
+            loadpoint_data['colour'] = loadpoint.colour
             loadpoints_data.append(loadpoint_data)
         level_data['loadpoints'] = loadpoints_data
 
@@ -671,7 +679,11 @@ class Level:
                 # LOADING LOADPOINT DATA
                 self.loadpoints = []
                 for loadpoint in data['loadpoints']:
-                    loadpoint_object = LoadPoint(level=self.loadpoint_levels[loadpoint['level_index']])
+                    loadpoint_object = LoadPoint(
+                        level=self.loadpoint_levels[loadpoint['level_index']],
+                        level_index=loadpoint['level_index'],
+                        colour=loadpoint['colour']
+                    )
                     loadpoint_object.position = loadpoint['position']
                     self.loadpoints.append(loadpoint_object)
 
@@ -721,9 +733,14 @@ class Level:
 
         """ HANDLING DYNAMIC OBJECT COLLISION """
         dynamic_objects = self.dynamic_sprite_stack_objects + [self.player] + self.vehicles + self.player.projectiles
+        for obj in dynamic_objects:
+            obj.hitbox.collided = False
+            
         for object_1 in dynamic_objects:
             for object_2 in dynamic_objects:
-                if object_1 != object_2:
+                object_1.hitbox.colour = (255, 0, 0)
+                object_1.hitbox.colour = (255, 0, 0)
+                if object_1 != object_2 and not (object_1.movelocked and object_2.movelocked):
 
                     object_1_is_on_screen_x = abs(self.camera.position[0] - object_1.position[0]) < self.camera.width/2
                     if object_1_is_on_screen_x:
@@ -734,8 +751,17 @@ class Level:
                             if object_2_is_on_screen_x:
                                 object_2_is_on_screen_y = abs(self.camera.position[1] - object_2.position[1]) < self.camera.height/2
                                 if object_2_is_on_screen_y:
-                                    
-                                    object_1.hitbox.handle_collision(object_2)
+
+                                    check_threshold_distance_x = (object_1.hitbox.size[0] + object_2.hitbox.size[0]) * sqrt(2)
+                                    dx = abs(object_1.position[0] - object_2.position[0])
+                                    if dx < check_threshold_distance_x:
+
+                                        check_threshold_distance_y = (object_1.hitbox.size[1] + object_2.hitbox.size[1]) * sqrt(2)
+                                        dy = abs(object_1.position[1] - object_2.position[1])
+                                        if dy < check_threshold_distance_y:
+
+                                            object_1.hitbox.check_collision(object_2)
+
 
         """ UPDATING PARTICLE SYSTEMS """
         for particle_system in self.particle_systems:

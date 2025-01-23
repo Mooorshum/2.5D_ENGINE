@@ -90,8 +90,8 @@ class SpritestackAsset:
                     rotation_rendered_image = pygame.transform.scale(
                         rotation_rendered_image,
                         (
-                            int(rotation_rendered_image.get_width() * self.scale),
-                            int(rotation_rendered_image.get_height() * self.scale)
+                            (rotation_rendered_image.get_width() * self.scale),
+                            (rotation_rendered_image.get_height() * self.scale)
                         )
                     )
                 rotation_image[rotation] = rotation_rendered_image

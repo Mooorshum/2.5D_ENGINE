@@ -68,8 +68,7 @@ class DynamicObject(SpritestackModel):
     def render(self, screen, camera, offset=[0, 0]):
         super().render(screen, camera, offset)
         if self.show_hitbox:
-            """ self.hitbox.render(screen, camera, offset) """
-            pass
+            self.hitbox.render(screen, camera, offset)
             
 
 

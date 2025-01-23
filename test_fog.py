@@ -6,7 +6,7 @@ from general_game_mechanics.dynamic_objects import DynamicObject, Vehicle
 from graphics.camera import Camera
 from graphics.particles import FogSystem
 
-from world.particle_presets import flame
+from presets.particle_presets import flame
 
 
 pygame.init()

@@ -3,8 +3,8 @@ import pygame
 from math import sqrt
 
 class LoadPoint:
-    def __init__(self, level, position=[0, 0], size=20, colour=(255, 255, 0)):
-        self.loadpoint_level_index = 0
+    def __init__(self, level, level_index=0, position=[0, 0], size=20, colour=(255, 255, 0)):
+        self.level_index = level_index
         self.level = level
         self.position = position
         self.size = size

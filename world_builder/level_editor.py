@@ -762,6 +762,12 @@ class Level:
 
                                             object_1.hitbox.check_collision(object_2)
 
+        for obj in dynamic_objects:
+            if obj.hitbox.collided:
+                obj.hitbox.colour = (255, 255, 0)
+            else:
+                obj.hitbox.colour = (255, 0, 0)
+
 
         """ UPDATING PARTICLE SYSTEMS """
         for particle_system in self.particle_systems:

@@ -123,11 +123,11 @@ class Hitbox:
 
 
 
-    def calculate_contact_point(self, other_object, mtv_axis_normal):
+    def calculate_contact_point(self, other_object, mtv_axis_normal, overlap):
         dist = sqrt(self.size[0]**2 + self.size[1]**2)
         contact_point = [
-            self.object.position[0] + dist * mtv_axis_normal[0] / 2,
-            self.object.position[1] + dist * mtv_axis_normal[1] / 2,
+            self.object.position[0] + dist * mtv_axis_normal[0] / 2 * overlap,
+            self.object.position[1] + dist * mtv_axis_normal[1] / 2 * overlap,
         ]
 
         return contact_point
@@ -157,7 +157,7 @@ class Hitbox:
         mtv = [mtv_axis_normal[0] * overlap, mtv_axis_normal[1] * overlap]
 
 
-        self.collision_position = self.calculate_contact_point(other_object, mtv_axis_normal)
+        self.collision_position = self.calculate_contact_point(other_object, mtv_axis_normal, overlap)
         
         if self.object.movelocked and not other_object.movelocked:
             other_object.position[0] += mtv[0]

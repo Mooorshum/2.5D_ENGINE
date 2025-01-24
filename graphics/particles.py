@@ -214,7 +214,7 @@ class Projectile():
         self.lifetime = 200
         self.mass = 50
         self.hitbox_size = (10, 10)
-        self.hitbox_type = 'rectangle'
+        self.hitbox_type = 'circle'
         self.movelocked = False
 
         self.rotation = 0

@@ -19,6 +19,7 @@ class Hitbox:
         self.vertices = []
         self.axes = []
 
+        self.mtv_axis_normalized = [0, 0]
 
     def get_vertices(self):
         self.vertices = []
@@ -30,7 +31,12 @@ class Hitbox:
             upper_right_0 = [self.size[0]/2, -self.size[1]/2]
             lower_left_0 = [-self.size[0]/2, self.size[1]/2]
             lower_right_0 = [self.size[0]/2, self.size[1]/2]
-            vertices_0 = [upper_left_0, upper_right_0, lower_right_0, lower_left_0]
+            vertices_0 = [
+                upper_left_0,
+                upper_right_0,
+                lower_right_0,
+                lower_left_0,
+            ]
 
         # VERTICES FOR CIRCULAR HITBOX
         if self.type == 'circle':
@@ -117,20 +123,83 @@ class Hitbox:
         self.resolve_collision(object, mtv_axis, min_overlap)
 
 
+    def calculate_contact_point(self, other_object):
+        self_center_x = sum(vertex[0] for vertex in self.vertices) / len(self.vertices)
+        self_center_y = sum(vertex[1] for vertex in self.vertices) / len(self.vertices)
+
+        other_center_x = sum(vertex[0] for vertex in other_object.hitbox.vertices) / len(other_object.hitbox.vertices)
+        other_center_y = sum(vertex[1] for vertex in other_object.hitbox.vertices) / len(other_object.hitbox.vertices)
+
+        object_connecting_line = [other_center_x - self_center_x, other_center_y - self_center_y]
+
+        object_connecting_line_angle = atan2(object_connecting_line[1], object_connecting_line[0])
+
+        min_angle_diff_between_connecting_line_and_vertex_ray = float('inf')
+
+        for vertex_index in range(len(self.vertices)):
+            vertex = self.vertices[vertex_index]
+
+            vertex_ray_angle = atan2(vertex[1] - self_center_y, vertex[0] - self_center_x)
+            angle_diff = object_connecting_line_angle - vertex_ray_angle
+
+            if abs(angle_diff) < abs(min_angle_diff_between_connecting_line_and_vertex_ray):
+                
+                nearest_vertex_index = vertex_index
+                min_angle_diff_between_connecting_line_and_vertex_ray = angle_diff
+
+        vertex_1 = self.vertices[nearest_vertex_index]
+
+        if min_angle_diff_between_connecting_line_and_vertex_ray < 0:
+            vertex_2_index = (nearest_vertex_index - 1) % len(self.vertices)
+        elif min_angle_diff_between_connecting_line_and_vertex_ray > 0:
+            vertex_2_index = (nearest_vertex_index + 1) % len(self.vertices)
+        else:
+            return vertex_1
+        
+        vertex_2 = self.vertices[vertex_2_index]
+
+        # Solve for the intersection point between the connecting line and the edge
+        x1, y1 = vertex_1
+        x2, y2 = vertex_2
+
+        magnitude = sqrt(object_connecting_line[0]**2 + object_connecting_line[1]**2)
+        connecting_dx = object_connecting_line[0] / magnitude
+        connecting_dy = object_connecting_line[1] / magnitude
+
+        # Edge parameters
+        edge_dx = x2 - x1
+        edge_dy = y2 - y1
+
+        # Solve linear equations for intersection
+        t_mtv = ((x1 - self_center_x) * edge_dy - (y1 - self_center_y) * edge_dx) / (connecting_dx * edge_dy - connecting_dy * edge_dx)
+
+        # Calculate the contact point
+        contact_x = self_center_x + t_mtv * connecting_dx
+        contact_y = self_center_y + t_mtv * connecting_dy
+
+        return contact_x, contact_y
 
 
 
 
 
 
-    def calculate_contact_point(self, other_object, mtv_axis_normal, overlap):
+    """ def calculate_contact_point(self, other_object, mtv_axis_normal, overlap):
+        penetration_axis = [-mtv_axis_normal[1], mtv_axis_normal[0]]
+        current_min_projection = float('inf')
+
+        for vertex in self.vertices:
+            projection = self.project_point_onto_axis(penetration_axis, vertex)
+            if projection < current_min_projection:
+                current_min_projection = projection
+
         dist = sqrt(self.size[0]**2 + self.size[1]**2)
         contact_point = [
             self.object.position[0] + dist * mtv_axis_normal[0] / 2 * overlap,
             self.object.position[1] + dist * mtv_axis_normal[1] / 2 * overlap,
         ]
 
-        return contact_point
+        return contact_point """
 
 
 
@@ -153,12 +222,13 @@ class Hitbox:
             mtv_axis = [-mtv_axis[0], -mtv_axis[1]]
         mtv_magnitude = sqrt(mtv_axis[0]**2 + mtv_axis[1]**2)
 
-        mtv_axis_normal = [mtv_axis[0]/mtv_magnitude, mtv_axis[1]/mtv_magnitude]
-        mtv = [mtv_axis_normal[0] * overlap, mtv_axis_normal[1] * overlap]
+        mtv_axis_normalized = [mtv_axis[0]/mtv_magnitude, mtv_axis[1]/mtv_magnitude]
 
+        self.mtv_axis_normalized = mtv_axis_normalized
 
-        self.collision_position = self.calculate_contact_point(other_object, mtv_axis_normal, overlap)
-        
+        mtv = [mtv_axis_normalized[0] * overlap, mtv_axis_normalized[1] * overlap]
+
+        # SEPARATING OBJECTS
         if self.object.movelocked and not other_object.movelocked:
             other_object.position[0] += mtv[0]
             other_object.position[1] += mtv[1]
@@ -170,6 +240,9 @@ class Hitbox:
             self.object.position[1] -= mtv[1]/2
             other_object.position[0] += mtv[0]/2
             other_object.position[1] += mtv[1]/2
+
+        # CALCULATING COLLISION POINT
+        self.collision_position = self.calculate_contact_point(other_object)
 
 
     def render(self, screen, camera, offset=[0, 0]):
@@ -218,10 +291,44 @@ class Hitbox:
             collision_point_offset = [collision_point_offset_x - camera.position[0] + camera.width/2, collision_point_offset_y - camera.position[1] + camera.height/2]
             pygame.draw.circle(
                 screen,
-                self.colour,
+                (255, 255, 255),
                 (
                     self.collision_position[0] + collision_point_offset[0],
                     self.collision_position[1] + collision_point_offset[1]
                 ),
                 2,
             )
+
+
+        """ # DRAWING MTV
+        if self.collided:
+            self_center_x = sum(vertex[0] for vertex in self.vertices) / len(self.vertices)
+            self_center_y = sum(vertex[1] for vertex in self.vertices) / len(self.vertices)
+            mtv_length = (sqrt((self.size[0]/2)**2 + (self.size[1]/2)**2) + 10)
+            mtv_point_1 = [
+                self_center_x + self.mtv_axis_normalized[0] * mtv_length,
+                self_center_y + self.mtv_axis_normalized[1] * mtv_length
+            ]
+            mtv_point_1_offset_x = camera.position[0] - mtv_point_1[0] + (mtv_point_1[0] - camera.position[0])*cos(camera_rotation) - (mtv_point_1[1] - camera.position[1])*sin(camera_rotation)
+            mtv_point_1_offset_y = camera.position[1] - mtv_point_1[1] + (mtv_point_1[0] - camera.position[0])*sin(camera_rotation) + (mtv_point_1[1] - camera.position[1])*cos(camera_rotation)
+            mtv_point_1_offset = [mtv_point_1_offset_x - camera.position[0] + camera.width/2, mtv_point_1_offset_y - camera.position[1] + camera.height/2]
+
+
+            mtv_point_2 = [
+                self_center_x - self.mtv_axis_normalized[0] * mtv_length,
+                self_center_y - self.mtv_axis_normalized[1] * mtv_length
+            ]
+            mtv_point_2_offset_x = camera.position[0] - mtv_point_2[0] + (mtv_point_2[0] - camera.position[0])*cos(camera_rotation) - (mtv_point_2[1] - camera.position[1])*sin(camera_rotation)
+            mtv_point_2_offset_y = camera.position[1] - mtv_point_2[1] + (mtv_point_2[0] - camera.position[0])*sin(camera_rotation) + (mtv_point_2[1] - camera.position[1])*cos(camera_rotation)
+            mtv_point_2_offset = [mtv_point_2_offset_x - camera.position[0] + camera.width/2, mtv_point_2_offset_y - camera.position[1] + camera.height/2]
+            
+            collision_point_offset_x = camera.position[0] - self.collision_position[0] + (self.collision_position[0] - camera.position[0])*cos(camera_rotation) - (self.collision_position[1] - camera.position[1])*sin(camera_rotation)
+            collision_point_offset_y = camera.position[1] - self.collision_position[1] + (self.collision_position[0] - camera.position[0])*sin(camera_rotation) + (self.collision_position[1] - camera.position[1])*cos(camera_rotation)
+            collision_point_offset = [collision_point_offset_x - camera.position[0] + camera.width/2, collision_point_offset_y - camera.position[1] + camera.height/2]
+            pygame.draw.line(
+                screen,
+                (255, 255, 255),
+                (mtv_point_1[0] + mtv_point_1_offset[0], mtv_point_1[1] + mtv_point_1_offset[1]),
+                (mtv_point_2[0] + mtv_point_2_offset[0], mtv_point_2[1] + mtv_point_2_offset[1]),
+                1,
+            ) """

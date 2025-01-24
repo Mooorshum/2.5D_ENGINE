@@ -23,8 +23,8 @@ class Hitbox:
     def get_vertices(self):
         self.vertices = []
 
+        # VERTICES FOR RECTANGULAR HITBOX
         if self.type == 'rectangle':
-
             # VERTEX COORDINATES IN OBJECT REFERENCE FRAME
             upper_left_0 = [-self.size[0]/2, -self.size[1]/2]
             upper_right_0 = [self.size[0]/2, -self.size[1]/2]
@@ -32,13 +32,23 @@ class Hitbox:
             lower_right_0 = [self.size[0]/2, self.size[1]/2]
             vertices_0 = [upper_left_0, upper_right_0, lower_right_0, lower_left_0]
 
+        # VERTICES FOR CIRCULAR HITBOX
+        if self.type == 'circle':
+            # VERTEX COORDINATES IN OBJECT REFERENCE FRAME
+            vertex_count = 10
+            vertices_0 = []
+            for phi_degrees in range(0, 360, int(360/vertex_count)):
+                phi = radians(phi_degrees)
+                vertex = [self.size[0]/2 * cos(phi), self.size[1]/2 * sin(phi)]
+                vertices_0.append(vertex)
+
         # GETTING VERTEX COORDINATES FOR ROTATED HITBOX
         object_rotation = -radians(self.object.rotation)
         for vertex in vertices_0:
             rotated_vertex_x = vertex[0] * cos(object_rotation) - vertex[1] * sin(object_rotation)
             rotated_vertex_y = vertex[1] * cos(object_rotation) + vertex[0] * sin(object_rotation)
-            rotated_point = [self.object.position[0] + rotated_vertex_x, self.object.position[1] + rotated_vertex_y]
-            self.vertices.append(rotated_point)
+            rotated_vertex = [self.object.position[0] + rotated_vertex_x, self.object.position[1] + rotated_vertex_y]
+            self.vertices.append(rotated_vertex)
 
 
     def get_axes(self):
@@ -163,13 +173,6 @@ class Hitbox:
 
 
     def render(self, screen, camera, offset=[0, 0]):
-        if self.type == 'rectangle':
-            rect_surface = pygame.Surface((self.size[0], self.size[1]), pygame.SRCALPHA)
-            pygame.draw.rect(rect_surface, self.colour, rect_surface.get_rect(), 1)
-            rotated_surface = pygame.transform.rotate(rect_surface, self.object.rotation - camera.rotation)
-            rotated_rect = rotated_surface.get_rect(center=(self.object.position[0] + offset[0], self.object.position[1] + offset[1]))
-            screen.blit(rotated_surface, rotated_rect.topleft)
-
         # DRAWING HIBOX VERTICES
         camera_rotation = radians(camera.rotation)
         self.get_axes()
@@ -179,12 +182,32 @@ class Hitbox:
             vertex_offset = [vertex_offset_x - camera.position[0] + camera.width/2, vertex_offset_y - camera.position[1] + camera.height/2]
             pygame.draw.circle(
                 screen,
-                (255, 255, 255),
+                self.colour,
                 (
                     vertex[0] + vertex_offset[0],
                     vertex[1] + vertex_offset[1]
                 ),
                 2,
+            )
+
+        # DRAWING HITBOX EDGES
+        for vertex_index in range(len(self.vertices)):
+
+            vertex_1 = self.vertices[vertex_index]
+            vertex_1_offset_x = camera.position[0] - vertex_1[0] + (vertex_1[0] - camera.position[0])*cos(camera_rotation) - (vertex_1[1] - camera.position[1])*sin(camera_rotation)
+            vertex_1_offset_y = camera.position[1] - vertex_1[1] + (vertex_1[0] - camera.position[0])*sin(camera_rotation) + (vertex_1[1] - camera.position[1])*cos(camera_rotation)
+            vertex_1_offset = [vertex_1_offset_x - camera.position[0] + camera.width/2, vertex_1_offset_y - camera.position[1] + camera.height/2]
+
+            vertex_2 = self.vertices[(vertex_index + 1) % len(self.vertices)]
+            vertex_2_offset_x = camera.position[0] - vertex_2[0] + (vertex_2[0] - camera.position[0])*cos(camera_rotation) - (vertex_2[1] - camera.position[1])*sin(camera_rotation)
+            vertex_2_offset_y = camera.position[1] - vertex_2[1] + (vertex_2[0] - camera.position[0])*sin(camera_rotation) + (vertex_2[1] - camera.position[1])*cos(camera_rotation)
+            vertex_2_offset = [vertex_2_offset_x - camera.position[0] + camera.width/2, vertex_2_offset_y - camera.position[1] + camera.height/2]
+
+            pygame.draw.line(
+                screen,
+                self.colour,
+                (vertex_1[0] + vertex_1_offset[0], vertex_1[1] + vertex_1_offset[1]),
+                (vertex_2[0] + vertex_2_offset[0], vertex_2[1] + vertex_2_offset[1]),
                 1
             )
 
@@ -195,11 +218,10 @@ class Hitbox:
             collision_point_offset = [collision_point_offset_x - camera.position[0] + camera.width/2, collision_point_offset_y - camera.position[1] + camera.height/2]
             pygame.draw.circle(
                 screen,
-                (0, 255, 255),
+                self.colour,
                 (
                     self.collision_position[0] + collision_point_offset[0],
                     self.collision_position[1] + collision_point_offset[1]
                 ),
                 2,
-                1
             )

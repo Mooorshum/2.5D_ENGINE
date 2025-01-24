@@ -42,7 +42,7 @@ class Game:
 
 
         """ PLAYER ASSETS """
-        self.player_asset = SpritestackAsset(type='character', name='dude', hitbox_size=(16, 16), hitbox_type='rectangle', movelocked=False)
+        self.player_asset = SpritestackAsset(type='character', name='dude', hitbox_size=(16, 16), hitbox_type='circle', movelocked=False)
 
 
         """ NPC ASSETS """

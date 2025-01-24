@@ -99,28 +99,28 @@ class Game:
             SpritestackAsset(type='windmill', name='windmill_1', hitbox_size=(32,32), hitbox_type='rectangle'),
 
             # WELLS
-            SpritestackAsset(type='well', name='well_1', hitbox_size=(50,50), hitbox_type='rectangle'),
+            SpritestackAsset(type='well', name='well_1', hitbox_size=(50,50), hitbox_type='circle'),
 
             # TREES
-            SpritestackAsset(type='tree', name='tree_1', hitbox_size=(20,20), hitbox_type='rectangle'),
-            SpritestackAsset(type='tree', name='tree_2', hitbox_size=(20,20), hitbox_type='rectangle'),
-            SpritestackAsset(type='tree', name='tree_3', hitbox_size=(20,20), hitbox_type='rectangle'),
-            SpritestackAsset(type='tree', name='tree_4', hitbox_size=(20,20), hitbox_type='rectangle'),
-            SpritestackAsset(type='tree', name='tree_5', hitbox_size=(20,20), hitbox_type='rectangle'),
-            SpritestackAsset(type='tree', name='tree_6', hitbox_size=(20,20), hitbox_type='rectangle'),
-            SpritestackAsset(type='tree', name='tree_7', hitbox_size=(32,32), hitbox_type='rectangle'),
-            SpritestackAsset(type='tree', name='tree_8', hitbox_size=(20,20), hitbox_type='rectangle'),
-            SpritestackAsset(type='tree', name='tree_9', hitbox_size=(32,32), hitbox_type='rectangle'),
-            SpritestackAsset(type='tree', name='tree_trunk_1', hitbox_size=(25,25), hitbox_type='rectangle'),
-            SpritestackAsset(type='tree', name='tree_trunk_2', hitbox_size=(25,25), hitbox_type='rectangle'),
-            SpritestackAsset(type='tree', name='tree_trunk_3', hitbox_size=(25,25), hitbox_type='rectangle'),
+            SpritestackAsset(type='tree', name='tree_1', hitbox_size=(20,20), hitbox_type='circle'),
+            SpritestackAsset(type='tree', name='tree_2', hitbox_size=(20,20), hitbox_type='circle'),
+            SpritestackAsset(type='tree', name='tree_3', hitbox_size=(20,20), hitbox_type='circle'),
+            SpritestackAsset(type='tree', name='tree_4', hitbox_size=(20,20), hitbox_type='circle'),
+            SpritestackAsset(type='tree', name='tree_5', hitbox_size=(20,20), hitbox_type='circle'),
+            SpritestackAsset(type='tree', name='tree_6', hitbox_size=(20,20), hitbox_type='circle'),
+            SpritestackAsset(type='tree', name='tree_7', hitbox_size=(32,32), hitbox_type='circle'),
+            SpritestackAsset(type='tree', name='tree_8', hitbox_size=(20,20), hitbox_type='circle'),
+            SpritestackAsset(type='tree', name='tree_9', hitbox_size=(32,32), hitbox_type='circle'),
+            SpritestackAsset(type='tree', name='tree_trunk_1', hitbox_size=(25,25), hitbox_type='circle'),
+            SpritestackAsset(type='tree', name='tree_trunk_2', hitbox_size=(25,25), hitbox_type='circle'),
+            SpritestackAsset(type='tree', name='tree_trunk_3', hitbox_size=(25,25), hitbox_type='circle'),
 
             # ROCKS
-            SpritestackAsset(type='rock', name='rock_1', hitbox_size=(32,32), hitbox_type='rectangle'),
-            SpritestackAsset(type='rock', name='rock_2', hitbox_size=(32,32), hitbox_type='rectangle'),
-            SpritestackAsset(type='rock', name='rock_3', hitbox_size=(32,32), hitbox_type='rectangle'),
-            SpritestackAsset(type='rock', name='rock_4', hitbox_size=(32,32), hitbox_type='rectangle'),
-            SpritestackAsset(type='rock', name='rock_5', hitbox_size=(32,32), hitbox_type='rectangle'),
+            SpritestackAsset(type='rock', name='rock_1', hitbox_size=(32,32), hitbox_type='circle'),
+            SpritestackAsset(type='rock', name='rock_2', hitbox_size=(32,32), hitbox_type='circle'),
+            SpritestackAsset(type='rock', name='rock_3', hitbox_size=(32,32), hitbox_type='circle'),
+            SpritestackAsset(type='rock', name='rock_4', hitbox_size=(32,32), hitbox_type='circle'),
+            SpritestackAsset(type='rock', name='rock_5', hitbox_size=(32,32), hitbox_type='circle'),
 
             # CRATES
             SpritestackAsset(type='crate', name='crate_1', hitbox_size=(32,20), hitbox_type='rectangle', movelocked=False),
@@ -131,8 +131,8 @@ class Game:
             SpritestackAsset(type='hay_bale', name='hay_bale_2', hitbox_size=(32,32), hitbox_type='rectangle', movelocked=False),
 
             # BARRELS
-            SpritestackAsset(type='barrel', name='barrel_1', hitbox_size=(16,16), hitbox_type='rectangle', movelocked=False),
-            SpritestackAsset(type='barrel', name='barrel_2', hitbox_size=(16,16), hitbox_type='rectangle', movelocked=False),
+            SpritestackAsset(type='barrel', name='barrel_1', hitbox_size=(16,16), hitbox_type='circle', movelocked=False),
+            SpritestackAsset(type='barrel', name='barrel_2', hitbox_size=(16,16), hitbox_type='circle', movelocked=False),
 
             # WHEELBARROWS
             SpritestackAsset(type='wheelbarrow', name='wheelbarrow_1', hitbox_size=(25,25), hitbox_type='rectangle', movelocked=False),
@@ -141,7 +141,7 @@ class Game:
             SpritestackAsset(type='water_tower', name='water_tower_1', hitbox_size=(64,64), hitbox_type='rectangle'),
 
             # CAMPFIRES
-            SpritestackAsset(type='campfire', name='campfire_1', hitbox_size=(32,32), hitbox_type='rectangle'),
+            SpritestackAsset(type='campfire', name='campfire_1', hitbox_size=(32,32), hitbox_type='circle'),
 
             # HOUSE_1 INTERIOR
             SpritestackAsset(type='house_1_interior', name='wall_north', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),

@@ -11,7 +11,7 @@ class Hitbox:
 
         self.colour = colour
 
-        self.collision_position = [0, 0]
+        self.contact_point = [0, 0]
 
         self.collided = False
 
@@ -41,7 +41,7 @@ class Hitbox:
         # VERTICES FOR CIRCULAR HITBOX
         if self.type == 'circle':
             # VERTEX COORDINATES IN OBJECT REFERENCE FRAME
-            vertex_count = 10
+            vertex_count = 6
             vertices_0 = []
             for phi_degrees in range(0, 360, int(360/vertex_count)):
                 phi = radians(phi_degrees)
@@ -76,10 +76,9 @@ class Hitbox:
             self.axes.append(axis)
 
     
-    def project_point_onto_axis(self, axis, point):
-        projection = axis[0]*point[0] + axis[1]*point[1]
+    def project_onto_axis(self, axis, vector_or_point):
+        projection = axis[0]*vector_or_point[0] + axis[1]*vector_or_point[1]
         return projection
-
 
 
     def check_collision(self, object):
@@ -98,13 +97,13 @@ class Hitbox:
             # GETTING PROJECTIONS OF OWN HITBOX VERTICES ONTO ALL AXES
             self_projections = []
             for vertex in self.vertices:
-                projection = self.project_point_onto_axis(axis, vertex)
+                projection = self.project_onto_axis(axis, vertex)
                 self_projections.append(projection)
 
             # GETTING PROJECTIONS OF OTHER HITBOX VERTICES ONTO ALL AXES
             other_projections = []
             for vertex in other_hitbox.vertices:
-                projection = self.project_point_onto_axis(axis, vertex)
+                projection = self.project_onto_axis(axis, vertex)
                 other_projections.append(projection)
 
             self_min = min(self_projections)
@@ -124,11 +123,11 @@ class Hitbox:
 
 
     def calculate_contact_point(self, other_object):
-        self_center_x = sum(vertex[0] for vertex in self.vertices) / len(self.vertices)
-        self_center_y = sum(vertex[1] for vertex in self.vertices) / len(self.vertices)
+        self_center_x = self.object.position[0] #sum(vertex[0] for vertex in self.vertices) / len(self.vertices)
+        self_center_y = self.object.position[1] #sum(vertex[1] for vertex in self.vertices) / len(self.vertices)
 
-        other_center_x = sum(vertex[0] for vertex in other_object.hitbox.vertices) / len(other_object.hitbox.vertices)
-        other_center_y = sum(vertex[1] for vertex in other_object.hitbox.vertices) / len(other_object.hitbox.vertices)
+        other_center_x = other_object.position[0] #sum(vertex[0] for vertex in other_object.hitbox.vertices) / len(other_object.hitbox.vertices)
+        other_center_y = other_object.position[1] #sum(vertex[1] for vertex in other_object.hitbox.vertices) / len(other_object.hitbox.vertices)
 
         object_connecting_line = [other_center_x - self_center_x, other_center_y - self_center_y]
 
@@ -178,18 +177,50 @@ class Hitbox:
         return contact_x, contact_y
 
 
+    def calculate_impulse_change(self, other_object):
+        self_center_x = self.object.position[0] #sum(vertex[0] for vertex in self.vertices) / len(self.vertices)
+        self_center_y = self.object.position[1] #sum(vertex[1] for vertex in self.vertices) / len(self.vertices)
 
+        other_center_x = other_object.position[0] #sum(vertex[0] for vertex in other_object.hitbox.vertices) / len(other_object.hitbox.vertices)
+        other_center_y = other_object.position[1] #sum(vertex[1] for vertex in other_object.hitbox.vertices) / len(other_object.hitbox.vertices)
 
+        distance = sqrt((other_center_x - self_center_x)**2 + (other_center_y - self_center_y)**2)
+        direction_norm = [(other_center_x - self_center_x) / distance, (other_center_y - self_center_y) / distance] 
 
+        self_speed = [self.object.vx, self.object.vy]
+        other_speed = [other_object.vx, other_object.vy]
+
+        self_speed_projection = self.project_onto_axis(direction_norm, self_speed)
+        other_speed_projection = self.project_onto_axis(direction_norm, other_speed)
+        relative_velocity = other_speed_projection - self_speed_projection
+
+        impulse_magnitude = relative_velocity / (1/self.object.mass + 1/other_object.mass)
+        impulse = [impulse_magnitude * direction_norm[0], impulse_magnitude * direction_norm[1]]
+
+        self.object.vx += impulse[0] / self.object.mass
+        self.object.vy += impulse[1] / self.object.mass
+
+        if not other_object.movelocked:
+            other_object.vx -= impulse[0] / other_object.mass
+            other_object.vy -= impulse[1] / other_object.mass
+
+        """ ANGULAR MOMENTUM CALCULATIONS GO HERE """
 
 
     def resolve_collision(self, other_object, mtv_axis, overlap):
+        tolerance = 5 # tolerance for object minimum obejct collision distance
+
+        self_center_x = self.object.position[0] #sum(vertex[0] for vertex in self.vertices) / len(self.vertices)
+        self_center_y = self.object.position[1] #sum(vertex[1] for vertex in self.vertices) / len(self.vertices)
+
+        other_center_x = other_object.position[0] #sum(vertex[0] for vertex in other_object.hitbox.vertices) / len(other_object.hitbox.vertices)
+        other_center_y = other_object.position[1] #sum(vertex[1] for vertex in other_object.hitbox.vertices) / len(other_object.hitbox.vertices)
+
+        if abs(self_center_x - other_center_x) < tolerance and abs(self_center_y - other_center_y) < tolerance:
+                return
+
         self.collided = True
         other_object.hitbox.collided = True
-        self_center_x = sum(vertex[0] for vertex in self.vertices) / len(self.vertices)
-        self_center_y = sum(vertex[1] for vertex in self.vertices) / len(self.vertices)
-        other_center_x = sum(vertex[0] for vertex in other_object.hitbox.vertices) / len(other_object.hitbox.vertices)
-        other_center_y = sum(vertex[1] for vertex in other_object.hitbox.vertices) / len(other_object.hitbox.vertices)
 
         direction_x = other_center_x - self_center_x
         direction_y = other_center_y - self_center_y
@@ -219,7 +250,10 @@ class Hitbox:
             other_object.position[1] += mtv[1]/2
 
         # CALCULATING COLLISION POINT
-        self.collision_position = self.calculate_contact_point(other_object)
+        self.contact_point = self.calculate_contact_point(other_object)
+
+        # CONSERVATION OF MOMENTUM
+        self.calculate_impulse_change(other_object)
 
 
     def render(self, screen, camera, offset=[0, 0]):
@@ -263,15 +297,15 @@ class Hitbox:
 
         # DRAWING COLLISION POINT
         if self.collided:
-            collision_point_offset_x = camera.position[0] - self.collision_position[0] + (self.collision_position[0] - camera.position[0])*cos(camera_rotation) - (self.collision_position[1] - camera.position[1])*sin(camera_rotation)
-            collision_point_offset_y = camera.position[1] - self.collision_position[1] + (self.collision_position[0] - camera.position[0])*sin(camera_rotation) + (self.collision_position[1] - camera.position[1])*cos(camera_rotation)
+            collision_point_offset_x = camera.position[0] - self.contact_point[0] + (self.contact_point[0] - camera.position[0])*cos(camera_rotation) - (self.contact_point[1] - camera.position[1])*sin(camera_rotation)
+            collision_point_offset_y = camera.position[1] - self.contact_point[1] + (self.contact_point[0] - camera.position[0])*sin(camera_rotation) + (self.contact_point[1] - camera.position[1])*cos(camera_rotation)
             collision_point_offset = [collision_point_offset_x - camera.position[0] + camera.width/2, collision_point_offset_y - camera.position[1] + camera.height/2]
             pygame.draw.circle(
                 screen,
                 (255, 255, 255),
                 (
-                    self.collision_position[0] + collision_point_offset[0],
-                    self.collision_position[1] + collision_point_offset[1]
+                    self.contact_point[0] + collision_point_offset[0],
+                    self.contact_point[1] + collision_point_offset[1]
                 ),
                 2,
             )

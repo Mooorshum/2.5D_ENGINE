@@ -11,7 +11,8 @@ class Hitbox:
 
         self.colour = colour
 
-        self.restitution = 0 # DISSIPATION CONSTANT = 1 FOR FULLY ELASTIC COLLISIONS = 0 FOR FULLY DAMPED COLLISIONS
+        self.restitution = 0 # COLLISION RESTITUTION
+        self.max_spin_amp = 10 # MAGIC NUMBER TO AMPLIFY ANGULAR MOMENTUM EXCHANGE
         
         self.moment_of_inertia = self.calculate_moment_of_inertia()
 
@@ -338,7 +339,7 @@ class Hitbox:
         self.object.vy +=  (j / m_A) * n_A[1]
 
         # CHANGE IN ANGULAR MOMENTUM
-        self.object.omega += -spin_direction_A * j * self_distance / m_A * abs(dot(r_AP_norm, n_A)) * deg_to_rad_conversion_constant * min(m_B / m_A, 10)
+        self.object.omega += -spin_direction_A * j * self_distance / m_A * abs(dot(r_AP_norm, n_A)) * deg_to_rad_conversion_constant * min(m_B / m_A, self.max_spin_amp)
 
 
 

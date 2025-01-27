@@ -72,8 +72,7 @@ class Game:
         self.dynamic_sprite_stack_assets = [
 
             # BUILDINGS
-            #SpritestackAsset(type='building', name='house_1', hitbox_size=(128,128), hitbox_type='rectangle'),
-            SpritestackAsset(type='building', name='house_1', hitbox_size=(128,128), hitbox_type='circle'),
+            SpritestackAsset(type='building', name='house_1', hitbox_size=(128,128), hitbox_type='rectangle'),
             SpritestackAsset(type='building', name='red_barn', hitbox_size=(128,128), hitbox_type='rectangle'),
             SpritestackAsset(type='building', name='shed', hitbox_size=(64,45), hitbox_type='rectangle'),
             SpritestackAsset(type='building', name='toilet', hitbox_size=(45,45), hitbox_type='rectangle'),

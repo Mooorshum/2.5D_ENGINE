@@ -11,8 +11,8 @@ class Hitbox:
 
         self.colour = colour
 
-        self.restitution = 1 # DISSIPATION CONSTANT = 1 FOR FULLY ELASTIC COLLISIONS = 0 FOR FULLY DAMPED COLLISIONS
-
+        self.restitution = 0 # DISSIPATION CONSTANT = 1 FOR FULLY ELASTIC COLLISIONS = 0 FOR FULLY DAMPED COLLISIONS
+        
         self.moment_of_inertia = self.calculate_moment_of_inertia()
 
         self.contact_point = [0, 0]
@@ -26,6 +26,7 @@ class Hitbox:
         self.axes = []
 
         self.mtv_axis_normalized = [0, 0]
+        
 
 
     def get_vertices(self):
@@ -219,12 +220,6 @@ class Hitbox:
             pass
 
 
-
-
-
-
-
-
     def calculate_impulse_change(self, other_object):
         deg_to_rad_conversion_constant = pi / 180 # the rotation of each object is in degrees, so we introduce a conversion constant
 
@@ -238,42 +233,59 @@ class Hitbox:
         # COLLISION RESTITUTION
         e = self.restitution
 
-        # SELF COLLISION NORMAL
+        # SELF COLLISION NORMALS
         n_A = [
             self.collision_normal[0],
             self.collision_normal[1]
         ]
+        n_B = [
+            other_object.hitbox.collision_normal[0],
+            other_object.hitbox.collision_normal[1]
+        ]
 
-        # RADIUS VECTOR FROM CENTER TO THE POINT OF COLLISION
+        # RADIUS VECTORS FROM CENTER TO THE POINT OF COLLISION
         r_AP = [
             self.contact_point[0] - self_center[0],
             self.contact_point[1] - self_center[1]
         ]
+        r_BP = [
+            self.contact_point[0] - other_center[0],
+            self.contact_point[1] - other_center[1]
+        ]
 
-        # NORMALIZED RADIUS VECTOR
+        # NORMALIZED RADIUS VECTORS
         self_distance = sqrt(r_AP[0]**2 + r_AP[1]**2)
         r_AP_norm = [
             r_AP[0] / self_distance,
             r_AP[1] / self_distance
         ]
+        other_distance = sqrt(r_BP[0]**2 + r_BP[1]**2)
+        r_BP_norm = [
+            r_BP[0] / other_distance,
+            r_BP[1] / other_distance
+        ]
 
-        # APPROXIMATING TRANSVERSE RADIUS AXIS (WE DO NOT YET KNOW THE CORRECT DIRECTION)
-        r_t_AP_norm_aprox = [
+        # APPROXIMATING TRANSVERSE RADIUS AXES (WE DO NOT YET KNOW THE CORRECT DIRECTION)
+        r_t_AP_norm_approx = [
             -r_AP_norm[1],
             r_AP_norm[0]
         ]
+        r_t_BP_norm_approx = [
+            -r_BP_norm[1],
+            r_BP_norm[0]
+        ]
 
-        # CORRECTING TRANSVERSE RADIUS AXIS
+        # CORRECTING TRANSVERSE RADIUS AXES
         spin_direction_A = sign(r_AP_norm[0]*n_A[1] - r_AP_norm[1]*n_A[0])
         if spin_direction_A < 0:
             r_t_AP_norm = [
-                r_t_AP_norm_aprox[0],
-                r_t_AP_norm_aprox[1]
+                r_t_AP_norm_approx[0],
+                r_t_AP_norm_approx[1]
             ]
         elif spin_direction_A >= 0:
             r_t_AP_norm = [
-                -r_t_AP_norm_aprox[0],
-                -r_t_AP_norm_aprox[1]
+                -r_t_AP_norm_approx[0],
+                -r_t_AP_norm_approx[1]
             ]
         self.spin_vector = r_t_AP_norm
         r_t_AP = [
@@ -281,12 +293,27 @@ class Hitbox:
             r_t_AP_norm[1] * self_distance
         ]
 
+        spin_direction_B = sign(r_BP_norm[0]*n_B[1] - r_BP_norm[1]*n_B[0])
+        if spin_direction_B > 0:
+            r_t_BP_norm = [
+                r_t_BP_norm_approx[0],
+                r_t_BP_norm_approx[1]
+            ]
+        elif spin_direction_B <= 0:
+            r_t_BP_norm = [
+                -r_t_BP_norm_approx[0],
+                -r_t_BP_norm_approx[1]
+            ]
+        other_object.hitbox.spin_vector = r_t_BP_norm
+        r_t_BP = [
+            r_t_BP_norm[0] * other_distance,
+            r_t_BP_norm[1] * other_distance
+        ]
 
-
-        # RELATIVE SPEED (TRANSLATIONAL, NO ROTATIONAL MOVEMENT)
+        # RELATIVE SPEED (TRANSLATIONAL ONLY, NOT ACCOUNTING FOR ROTATIONAL MOVEMENT)
         v_AP = [
             self.object.vx,
-            self.object.vy,
+            self.object.vy
         ]
         v_BP = [
             other_object.vx,
@@ -300,17 +327,19 @@ class Hitbox:
         # HANDLING DEGENERATE COLLISION CASES
         if abs(dot(v_AB, n_A)) < 1e-8 or abs(dot(n_A, n_A)) < 1e-8:
             return
-        
-        # IMPULSE
-        j = 10
 
-        """ # CHANGE IN LINEAR MOMENTUM
-        self.object.vx += j / m_A * n_A[0]
-        self.object.vy += j / m_A * n_A[1]
-        
+        # IMPULSE
+        dot_product = dot(v_AB, n_A)
+        relative_incoming_speed = abs(dot_product)
+        j = -(1 + self.restitution) * relative_incoming_speed * sign(dot_product) / (1/m_A + 1/m_B)
+
+        # CHANGE IN LINEAR MOMENTUM
+        self.object.vx +=  (j / m_A) * n_A[0]
+        self.object.vy +=  (j / m_A) * n_A[1]
+
         # CHANGE IN ANGULAR MOMENTUM
-        self.object.omega += j * self_distance * spin_direction_A * deg_to_rad_conversion_constant / self.moment_of_inertia / m_A """
-        self.object.omega += spin_direction_A * 10
+        self.object.omega += -spin_direction_A * j * self_distance / m_A * abs(dot(r_AP_norm, n_A)) * deg_to_rad_conversion_constant * min(m_B / m_A, 10)
+
 
 
     def resolve_collision(self, other_object, mtv_axis, overlap):

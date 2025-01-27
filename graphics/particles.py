@@ -218,6 +218,7 @@ class Projectile():
         self.movelocked = False
 
         self.rotation = 0
+        self.omega = 0
 
         self.particle_system = particle_system
         self.particle_system.position = start_position

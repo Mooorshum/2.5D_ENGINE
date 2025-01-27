@@ -22,11 +22,11 @@ class DynamicObject(SpritestackModel):
     def __init__(self, asset, asset_index, position, rotation):
         super().__init__(asset, asset_index, position, rotation)
 
-        self.mass = 100
-
         self.v_drag = 0.03
         self.omega_drag = 0.05
         self.dt = 0.01
+
+        self.mass = asset.mass
 
         self.vx = 0
         self.vy = 0

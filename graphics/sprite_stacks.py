@@ -6,11 +6,13 @@ from math import sin, cos, sqrt, atan2, radians, copysign, degrees
 
 
 class SpritestackAsset:
-    def __init__(self, type=None, name=None, hitbox_size=(64, 64), hitbox_type='circle', spread=1, scale=1, y0_base_offset=0, movelocked=True):
+    def __init__(self, type=None, name=None, hitbox_size=(64, 64), hitbox_type='circle', mass=10, spread=1, scale=1, y0_base_offset=0, movelocked=True):
         self.type = type
         self.name = name
 
         self.scale = scale
+
+        self.mass = mass
 
         self.movelocked = movelocked
 
@@ -110,6 +112,8 @@ class SpritestackModel:
 
         self.rotation = rotation
         self.position = position
+
+        self.mass = self.asset.mass
 
         self.movelocked = self.asset.movelocked
 

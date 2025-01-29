@@ -1,0 +1,144 @@
+{
+    "non_interactable_spritestack_objects_data": [
+        {
+            "position": [
+                247.32324640292242,
+                167.9005572481447
+            ],
+            "rotation": 0,
+            "asset_index": 1
+        },
+        {
+            "position": [
+                229.61491306958908,
+                158.5255572481447
+            ],
+            "rotation": -8.0,
+            "asset_index": 2
+        }
+    ],
+    "dynamic_spritestack_objects_data": [
+        {
+            "position": [
+                136.88615271956428,
+                174.6823729861193
+            ],
+            "rotation": 92.0,
+            "asset_index": 59
+        },
+        {
+            "position": [
+                149.39019122046778,
+                174.0850099693227
+            ],
+            "rotation": 92.0,
+            "asset_index": 58
+        },
+        {
+            "position": [
+                178.80708312139086,
+                112.73535175496596
+            ],
+            "rotation": 0.0,
+            "asset_index": 54
+        },
+        {
+            "position": [
+                227.5940097024285,
+                110.47931668398105
+            ],
+            "rotation": 172.0,
+            "asset_index": 55
+        },
+        {
+            "position": [
+                273.74126288514674,
+                106.50060101543019
+            ],
+            "rotation": 0.0,
+            "asset_index": 57
+        },
+        {
+            "position": [
+                157.24057655521045,
+                228.3370410575343
+            ],
+            "rotation": 120.0,
+            "asset_index": 52
+        },
+        {
+            "position": [
+                233.64095277358211,
+                230.0314324801164
+            ],
+            "rotation": 180.0,
+            "asset_index": 50
+        },
+        {
+            "position": [
+                197.58706991089554,
+                226.08134869725671
+            ],
+            "rotation": 164.0,
+            "asset_index": 51
+        },
+        {
+            "position": [
+                178.02979486441944,
+                148.4630054145222
+            ],
+            "rotation": 164.0,
+            "asset_index": 56
+        },
+        {
+            "position": [
+                347.80097986484196,
+                172.3488403430997
+            ],
+            "rotation": 268.0,
+            "asset_index": 53
+        },
+        {
+            "position": [
+                334.50557083109044,
+                104.39804280270509
+            ],
+            "rotation": 324.0,
+            "asset_index": 60
+        }
+    ],
+    "grass_systems": [],
+    "plant_systems": [],
+    "particle_systems": [
+        {
+            "position": [
+                140.29862850837765,
+                172.6882102506889,
+                0
+            ],
+            "asset_index": 1
+        },
+        {
+            "position": [
+                143.3092787421702,
+                183.1744022009233,
+                0
+            ],
+            "asset_index": 1
+        }
+    ],
+    "loadpoints": [
+        {
+            "position": [
+                311.08359956769027,
+                224.04565034050688
+            ],
+            "level_index": 0,
+            "colour": [
+                255,
+                255,
+                0
+            ]
+        }
+    ]
+}

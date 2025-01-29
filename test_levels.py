@@ -165,7 +165,6 @@ class Game:
 
             # TENT_1 INTERIOR
             
-            
         ]
 
 
@@ -228,6 +227,12 @@ class Game:
                 num_assets=10,
                 scale=0.5
             ),
+        ]
+
+
+        """ WATER OBJECTS """
+        self.water_body_presets = [
+            SpritestackAsset(type='pond', name='pond_1', hitbox_size=(100, 100), scale=1, hitbox_type='circle', y0_base_offset=-1000, z_offset=-7),
         ]
 
 

@@ -8,7 +8,7 @@ from graphics.sprite_stacks import SpritestackModel
 
 from world_builder.loadpoints import LoadPoint
 
-
+from general_game_mechanics.water import WaterBody
 
 
 def global_render(screen, camera, objects, bend_objects=[], background=None):
@@ -73,21 +73,21 @@ def global_render(screen, camera, objects, bend_objects=[], background=None):
     
                 if isinstance(game_object, plants.Plant):
                     game_object.render(screen, bend_objects, offset)
-                    colour = (0, 0, 255)
     
                 elif isinstance(game_object, grass.GrassTile):
                     game_object.render(screen, bend_objects, offset)
-                    colour = (0, 255, 255)
     
                 elif isinstance(game_object, SpritestackModel):
                     game_object.render(screen, camera, offset)
-    
+
+                elif isinstance(game_object, WaterBody):
+                    game_object.render(screen, camera, offset)
+                
                 elif isinstance(game_object, ParticleSystem):
                     game_object.render(screen, camera)
 
                 elif isinstance(game_object, LoadPoint):
                     game_object.render(screen, offset)
-
     
     
     

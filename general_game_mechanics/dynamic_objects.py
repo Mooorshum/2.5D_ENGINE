@@ -35,10 +35,12 @@ class DynamicObject(SpritestackModel):
         self.ax = 0
         self.ay = 0
         self.a_omega = 0
+        
+        self.ground_effect_particle_system = None
 
         self.movelocked = self.asset.movelocked
 
-        self.show_hitbox = True
+        self.show_hitbox = False
         self.hitbox = Hitbox(
             object=self,
             size=self.asset.hitbox_size,
@@ -69,6 +71,11 @@ class DynamicObject(SpritestackModel):
         super().render(screen, camera, offset)
         if self.show_hitbox:
             self.hitbox.render(screen, camera, offset)
+
+        if self.ground_effect_particle_system:
+            self.ground_effect_particle_system.position = [self.position[0], self.position[1],  -self.z_offset_additional]
+            self.ground_effect_particle_system.render(screen, camera)
+            self.ground_effect_particle_system.update()
             
 
 

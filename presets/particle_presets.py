@@ -82,6 +82,30 @@ flame_fireplace.y0_offset = 0
 
 
 
+water_splash = ParticleSystem()
+BLUE_1 = (50, 50, 255)
+BLUE_2 = (75, 75, 255)
+BLUE_3 = (100, 100, 255)
+BLUE_4 = (125, 125, 255)
+BLUE_5 = (150, 150, 255)
+water_splash.colours = (
+    BLUE_1,
+    BLUE_2,
+    BLUE_3,
+    BLUE_4,
+    BLUE_5
+)
+water_splash.max_count = 10
+water_splash.r_range = (1, 5)
+water_splash.lifetime_range = (10, 50)
+water_splash.acceleration_range_x = (10, 50)
+water_splash.acceleration_range_y = (10, 50)
+water_splash.acceleration_range_z = (0, 1)
+water_splash.y0_offset = 0
+
+
+
+
 
 fog_cloud = ImageCloudParticleSystem(
     cloud_size=(50, 50, 30),

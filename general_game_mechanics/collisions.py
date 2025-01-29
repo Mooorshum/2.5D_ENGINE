@@ -27,7 +27,6 @@ class Hitbox:
         self.axes = []
 
         self.mtv_axis_normalized = [0, 0]
-        
 
 
     def get_vertices(self):
@@ -133,11 +132,13 @@ class Hitbox:
     def calculate_moment_of_inertia(self):
         return 1
 
+
     def vectors_angle(self, v1, v2):
         angle_v1 = atan2(v1[1], v1[0])
         angle_v2 = atan2(v2[1], v2[0])
         angle = angle_v1 - angle_v2
         return angle
+
 
     def calculate_contact_point_and_collision_normal(self, other_object): 
 
@@ -342,7 +343,6 @@ class Hitbox:
         self.object.omega += -spin_direction_A * j * self_distance / m_A * abs(dot(r_AP_norm, n_A)) * deg_to_rad_conversion_constant * min(m_B / m_A, self.max_spin_amp)
 
 
-
     def resolve_collision(self, other_object, mtv_axis, overlap):
         tolerance = 5 # tolerance for object minimum obejct collision distance
         self_center = self.get_center_of_mass()
@@ -450,7 +450,6 @@ class Hitbox:
                 ),
                 2,
             )
-
 
         # DRAWING NORMAL
         if self.collided:

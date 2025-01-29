@@ -6,6 +6,7 @@ from math import radians, sin, cos, sqrt, atan2
 
 from graphics.rendering import global_render
 from general_game_mechanics.dynamic_objects import DynamicObject, Vehicle, Character
+from general_game_mechanics.water import WaterBody
 
 from graphics.camera import Camera
 from graphics.grass import GrassTile
@@ -92,17 +93,19 @@ class Level:
         self.vehicle_assets = []
         self.non_interactable_sprite_stack_assets = []
         self.dynamic_sprite_stack_assets = []
+        self.water_assets = self.game.water_body_presets # WATER
         self.plant_systems = []
         self.grass_systems = []
+     
         self.particle_system_presets = []
         self.npc_assets = []
         self.loadpoint_levels = []
-
 
         """ GAME OBJECTS """
         self.vehicles = []
         self.non_interactable_sprite_stack_objects = []
         self.dynamic_sprite_stack_objects = []
+        self.water_objects = []
         self.particle_systems = []
         self.loadpoints = []
 
@@ -125,6 +128,9 @@ class Level:
             self.background = None
 
 
+
+        test_pond = WaterBody(asset=self.water_assets[0], asset_index=0, position=[400, 500], rotation=10)
+        self.water_objects.append(test_pond)
 
 
     def handle_controls_editing(self, keys):
@@ -768,6 +774,10 @@ class Level:
             else:
                 obj.hitbox.colour = (255, 0, 0)
 
+        for water_object in self.water_objects:
+            for obj in dynamic_objects:
+                water_object.track_splashes_and_object_depth(obj)
+            
 
         """ UPDATING PARTICLE SYSTEMS """
         for particle_system in self.particle_systems:
@@ -799,7 +809,7 @@ class Level:
                 grass_tiles.append(system_tiles[j])
 
         """ RENDERING ALL LEVEL OBJECTS """
-        render_objects=[self.player] + self.vehicles + self.non_interactable_sprite_stack_objects + self.dynamic_sprite_stack_objects + plants + grass_tiles + self.particle_systems + self.loadpoints
+        render_objects=[self.player] + self.vehicles + self.non_interactable_sprite_stack_objects + self.dynamic_sprite_stack_objects + plants + grass_tiles + self.particle_systems + self.loadpoints + self.water_objects
         if self.current_asset:
             render_objects += [self.current_asset]
         global_render(

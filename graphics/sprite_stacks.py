@@ -6,7 +6,7 @@ from math import sin, cos, sqrt, atan2, radians, copysign, degrees
 
 
 class SpritestackAsset:
-    def __init__(self, type=None, name=None, hitbox_size=(64, 64), hitbox_type='circle', mass=10, spread=1, scale=1, y0_base_offset=0, movelocked=True):
+    def __init__(self, type=None, name=None, hitbox_size=(64, 64), hitbox_type='circle', mass=10, spread=1, scale=1, y0_base_offset=0, movelocked=True, z_offset=0):
         self.type = type
         self.name = name
 
@@ -20,6 +20,8 @@ class SpritestackAsset:
 
         self.y0_base_offset = y0_base_offset
         self.y0_offset = 0
+
+        self.z_offset = z_offset
 
         # caching prerendered images of stacks for discrete angles
         self.spread = spread
@@ -49,7 +51,7 @@ class SpritestackAsset:
         render_surface = pygame.Surface(
             (
                 slice_diagonal,
-                slice_diagonal + len(images)*spread,
+                slice_diagonal + len(images)*spread
             ),
             #pygame.SRCALPHA
         )
@@ -123,6 +125,9 @@ class SpritestackModel:
         self.y0_offset = self.asset.y0_offset
         self.y0_base_offset = self.asset.y0_base_offset
 
+        self.z_offset = self.asset.z_offset
+        self.z_offset_additional = 0
+
 
     def render(self, screen, camera, offset=[0, 0]):
 
@@ -134,7 +139,7 @@ class SpritestackModel:
             image,
             (
                 self.position[0] - image.get_width() // 2 + offset[0],
-                self.position[1] - image.get_height() + sqrt(self.asset.slice_size[0]**2 + self.asset.slice_size[1]**2)/2 + offset[1]
+                self.position[1] - image.get_height() + sqrt(self.asset.slice_size[0]**2 + self.asset.slice_size[1]**2)/2 + offset[1] - self.z_offset - self.z_offset_additional
             )
         )
 

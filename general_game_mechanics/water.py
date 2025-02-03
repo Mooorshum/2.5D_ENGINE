@@ -6,6 +6,7 @@ from copy import deepcopy
 
 from graphics.sprite_stacks import SpritestackModel
 from presets.particle_presets import water_splash
+from graphics.particles import Projectile
 
 
 class WaterBody(SpritestackModel):
@@ -17,6 +18,8 @@ class WaterBody(SpritestackModel):
         self.splash_particle_systems = []
 
     def track_splashes_and_object_depth(self, object):
+        if isinstance(object, Projectile):
+            return
         dx = object.position[0] - self.position[0]
         dy = object.position[1] - (self.position[1] - self.z_offset_additional)
         distance = sqrt(dx**2 + dy**2)

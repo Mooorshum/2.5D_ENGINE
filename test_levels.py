@@ -65,6 +65,11 @@ class Game:
             SpritestackAsset(type='tent_1_interior', name='floor_1', hitbox_size=(80,80), scale=1, hitbox_type='rectangle', y0_base_offset=-2000),
             SpritestackAsset(type='tent_1_interior', name='cow_hide_1', hitbox_size=(80,80), scale=1, hitbox_type='rectangle', y0_base_offset=-1500),
             SpritestackAsset(type='tent_1_interior', name='bed_1', hitbox_size=(80,80), scale=1, hitbox_type='rectangle', y0_base_offset=-1000),
+
+            SpritestackAsset(type='water_surface', name='sea_surface_1', hitbox_size=(80,80), scale=1, hitbox_type='rectangle', y0_base_offset=-2000, z_offset=-20),
+            SpritestackAsset(type='water_surface', name='sea_surface_2', hitbox_size=(80,80), scale=1, hitbox_type='rectangle', y0_base_offset=-2000, z_offset=-20),
+            SpritestackAsset(type='water_surface', name='sea_surface_3', hitbox_size=(80,80), scale=1, hitbox_type='rectangle', y0_base_offset=-2000, z_offset=-20),
+
         ]
 
 
@@ -163,7 +168,20 @@ class Game:
             # TENT_1
             SpritestackAsset(type='tent', name='tent_1', hitbox_size=(80,80), scale=1, hitbox_type='rectangle'),
 
-            # TENT_1 INTERIOR
+            # CLIFFS
+            SpritestackAsset(type='slope', name='slope_1', hitbox_size=(32,32), scale=1, hitbox_type='rectangle', y0_base_offset=-300, z_offset=-20),
+            SpritestackAsset(type='slope', name='slope_2', hitbox_size=(32,32), scale=1, hitbox_type='rectangle', y0_base_offset=-300, z_offset=-20),
+            SpritestackAsset(type='slope', name='slope_3', hitbox_size=(32,32), scale=1, hitbox_type='rectangle', y0_base_offset=-300, z_offset=-20),
+            SpritestackAsset(type='slope', name='slope_4', hitbox_size=(32,32), scale=1, hitbox_type='rectangle', y0_base_offset=-300, z_offset=-20),
+            SpritestackAsset(type='slope', name='slope_5', hitbox_size=(32,32), scale=1, hitbox_type='rectangle', y0_base_offset=-300, z_offset=-20),
+            SpritestackAsset(type='slope', name='slope_6', hitbox_size=(32,32), scale=1, hitbox_type='rectangle', y0_base_offset=-300, z_offset=-20),
+            SpritestackAsset(type='slope', name='slope_7', hitbox_size=(32,32), scale=1, hitbox_type='rectangle', y0_base_offset=-300, z_offset=-20),
+            SpritestackAsset(type='slope', name='slope_8', hitbox_size=(32,32), scale=1, hitbox_type='rectangle', y0_base_offset=-300, z_offset=-20),
+
+            SpritestackAsset(type='cliff', name='cliff_1', hitbox_size=(32,32), scale=1, hitbox_type='rectangle', y0_base_offset=-300, z_offset=-29),
+            SpritestackAsset(type='cliff', name='cliff_2', hitbox_size=(32,32), scale=1, hitbox_type='rectangle', y0_base_offset=-300, z_offset=-29),
+            SpritestackAsset(type='cliff', name='cliff_3', hitbox_size=(32,32), scale=1, hitbox_type='rectangle', y0_base_offset=-300, z_offset=-29),
+            SpritestackAsset(type='cliff', name='cliff_4', hitbox_size=(32,32), scale=1, hitbox_type='rectangle', y0_base_offset=-300, z_offset=-29),
             
         ]
 
@@ -344,7 +362,7 @@ class Game:
         self.current_level.update()
         pygame.display.update()
 
-        self.clock.tick(110)
+        self.clock.tick(80)
         self.time += 1
 
 

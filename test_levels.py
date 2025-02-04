@@ -49,6 +49,13 @@ class Game:
         self.npc_assets = []
 
 
+
+        # TEST STAIRS
+        self.stair_asset = SpritestackAsset(type='stairs', name='stairs_1', hitbox_size=(16, 32), hitbox_type='rectangle', y0_base_offset=-50)
+
+
+
+
         """ VEHICLE ASSETS """
         self.vehicle_assets = [
             SpritestackAsset(type='vehicle', name='cop_car', hitbox_size=(64,36), mass=1000, hitbox_type='rectangle', movelocked=False),
@@ -66,9 +73,14 @@ class Game:
             SpritestackAsset(type='tent_1_interior', name='cow_hide_1', hitbox_size=(80,80), scale=1, hitbox_type='rectangle', y0_base_offset=-1500),
             SpritestackAsset(type='tent_1_interior', name='bed_1', hitbox_size=(80,80), scale=1, hitbox_type='rectangle', y0_base_offset=-1000),
 
-            SpritestackAsset(type='water_surface', name='sea_surface_1', hitbox_size=(80,80), scale=1, hitbox_type='rectangle', y0_base_offset=-2000, z_offset=-20),
-            SpritestackAsset(type='water_surface', name='sea_surface_2', hitbox_size=(80,80), scale=1, hitbox_type='rectangle', y0_base_offset=-2000, z_offset=-20),
-            SpritestackAsset(type='water_surface', name='sea_surface_3', hitbox_size=(80,80), scale=1, hitbox_type='rectangle', y0_base_offset=-2000, z_offset=-20),
+            SpritestackAsset(type='water_surface', name='sea_surface_1', hitbox_size=(32,32), scale=1, hitbox_type='rectangle', y0_base_offset=-2000, z_offset=-29),
+            SpritestackAsset(type='water_surface', name='sea_surface_2', hitbox_size=(32,32), scale=1, hitbox_type='rectangle', y0_base_offset=-2000, z_offset=-29),
+            SpritestackAsset(type='water_surface', name='sea_surface_3', hitbox_size=(32,32), scale=1, hitbox_type='rectangle', y0_base_offset=-2000, z_offset=-29),
+
+            SpritestackAsset(type='pier', name='pier_1', hitbox_size=(32,32), scale=1, hitbox_type='rectangle', y0_base_offset=-500, z_offset=-29),
+            SpritestackAsset(type='cliff', name='cliff_pier', hitbox_size=(32,32), scale=1, hitbox_type='rectangle', y0_base_offset=-500, z_offset=-29),
+
+            SpritestackAsset(type='texture', name='grass_1', hitbox_size=(32,32), hitbox_type='rectangle', y0_base_offset=-300),
 
         ]
 
@@ -169,19 +181,19 @@ class Game:
             SpritestackAsset(type='tent', name='tent_1', hitbox_size=(80,80), scale=1, hitbox_type='rectangle'),
 
             # CLIFFS
-            SpritestackAsset(type='slope', name='slope_1', hitbox_size=(32,32), scale=1, hitbox_type='rectangle', y0_base_offset=-300, z_offset=-20),
-            SpritestackAsset(type='slope', name='slope_2', hitbox_size=(32,32), scale=1, hitbox_type='rectangle', y0_base_offset=-300, z_offset=-20),
-            SpritestackAsset(type='slope', name='slope_3', hitbox_size=(32,32), scale=1, hitbox_type='rectangle', y0_base_offset=-300, z_offset=-20),
-            SpritestackAsset(type='slope', name='slope_4', hitbox_size=(32,32), scale=1, hitbox_type='rectangle', y0_base_offset=-300, z_offset=-20),
-            SpritestackAsset(type='slope', name='slope_5', hitbox_size=(32,32), scale=1, hitbox_type='rectangle', y0_base_offset=-300, z_offset=-20),
-            SpritestackAsset(type='slope', name='slope_6', hitbox_size=(32,32), scale=1, hitbox_type='rectangle', y0_base_offset=-300, z_offset=-20),
-            SpritestackAsset(type='slope', name='slope_7', hitbox_size=(32,32), scale=1, hitbox_type='rectangle', y0_base_offset=-300, z_offset=-20),
-            SpritestackAsset(type='slope', name='slope_8', hitbox_size=(32,32), scale=1, hitbox_type='rectangle', y0_base_offset=-300, z_offset=-20),
+            SpritestackAsset(type='slope', name='slope_1', hitbox_size=(32,32), scale=1, hitbox_type='rectangle', y0_base_offset=-500, z_offset=-20),
+            SpritestackAsset(type='slope', name='slope_2', hitbox_size=(32,32), scale=1, hitbox_type='rectangle', y0_base_offset=-500, z_offset=-20),
+            SpritestackAsset(type='slope', name='slope_3', hitbox_size=(32,32), scale=1, hitbox_type='rectangle', y0_base_offset=-500, z_offset=-20),
+            SpritestackAsset(type='slope', name='slope_4', hitbox_size=(32,32), scale=1, hitbox_type='rectangle', y0_base_offset=-500, z_offset=-20),
+            SpritestackAsset(type='slope', name='slope_5', hitbox_size=(32,32), scale=1, hitbox_type='rectangle', y0_base_offset=-500, z_offset=-20),
+            SpritestackAsset(type='slope', name='slope_6', hitbox_size=(32,32), scale=1, hitbox_type='rectangle', y0_base_offset=-500, z_offset=-20),
+            SpritestackAsset(type='slope', name='slope_7', hitbox_size=(32,32), scale=1, hitbox_type='rectangle', y0_base_offset=-500, z_offset=-20),
+            SpritestackAsset(type='slope', name='slope_8', hitbox_size=(32,32), scale=1, hitbox_type='rectangle', y0_base_offset=-500, z_offset=-20),
 
-            SpritestackAsset(type='cliff', name='cliff_1', hitbox_size=(32,32), scale=1, hitbox_type='rectangle', y0_base_offset=-300, z_offset=-29),
-            SpritestackAsset(type='cliff', name='cliff_2', hitbox_size=(32,32), scale=1, hitbox_type='rectangle', y0_base_offset=-300, z_offset=-29),
-            SpritestackAsset(type='cliff', name='cliff_3', hitbox_size=(32,32), scale=1, hitbox_type='rectangle', y0_base_offset=-300, z_offset=-29),
-            SpritestackAsset(type='cliff', name='cliff_4', hitbox_size=(32,32), scale=1, hitbox_type='rectangle', y0_base_offset=-300, z_offset=-29),
+            SpritestackAsset(type='cliff', name='cliff_1', hitbox_size=(32,32), scale=1, hitbox_type='rectangle', y0_base_offset=-500, z_offset=-29),
+            SpritestackAsset(type='cliff', name='cliff_2', hitbox_size=(32,32), scale=1, hitbox_type='rectangle', y0_base_offset=-500, z_offset=-29),
+            SpritestackAsset(type='cliff', name='cliff_3', hitbox_size=(32,32), scale=1, hitbox_type='rectangle', y0_base_offset=-500, z_offset=-29),
+            SpritestackAsset(type='cliff', name='cliff_4', hitbox_size=(32,32), scale=1, hitbox_type='rectangle', y0_base_offset=-500, z_offset=-29),
             
         ]
 

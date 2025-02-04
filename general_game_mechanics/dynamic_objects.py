@@ -19,8 +19,8 @@ import copy
 
 
 class DynamicObject(SpritestackModel):
-    def __init__(self, asset, asset_index, position, rotation):
-        super().__init__(asset, asset_index, position, rotation)
+    def __init__(self, asset, asset_index, position, rotation, z_offset=None):
+        super().__init__(asset, asset_index, position, rotation, z_offset=z_offset)
 
         self.v_drag = 0.03
         self.omega_drag = 0.05
@@ -88,8 +88,8 @@ class DynamicObject(SpritestackModel):
             
 
 class Vehicle(DynamicObject):
-    def __init__(self, asset, asset_index, position, rotation):
-        super().__init__(asset, asset_index, position, rotation)
+    def __init__(self, asset, asset_index, position, rotation, z_offset=None):
+        super().__init__(asset, asset_index, position, rotation, z_offset=z_offset)
 
         self.driver = None
 
@@ -229,8 +229,8 @@ class Vehicle(DynamicObject):
 
 
 class Character(DynamicObject):
-    def __init__(self, asset, asset_index, position, rotation):
-        super().__init__(asset=asset, asset_index=asset_index, position=position, rotation=rotation)
+    def __init__(self, asset, asset_index, position, rotation, z_offset=None):
+        super().__init__(asset=asset, asset_index=asset_index, position=position, rotation=rotation, z_offset=z_offset)
 
         self.movespeed = 1000
         self.walk_speed_limit = 50
@@ -418,3 +418,36 @@ class Character(DynamicObject):
         for projectile in self.projectiles:
             if projectile.elapsed_time > projectile.lifetime:
                 self.projectiles.remove(projectile)
+
+
+
+
+class Stairs(DynamicObject):
+    def __init__(self, asset, asset_index, position, rotation, z_offset=None):
+        super().__init__(asset, asset_index, position, rotation, z_offset=z_offset)
+        self.height = asset.height
+
+        # CALCULATING START AND END POINTS OF STAIRS
+        self.start = [
+            self.position[0] - self.hitbox.size[0] / 2 * sin(radians(self.rotation) - pi/2),
+            self.position[1] + self.hitbox.size[1] / 2 * cos(radians(self.rotation) - pi/2)
+        ]
+        self.end = [
+            self.position[0] + self.hitbox.size[0] / 2 * sin(radians(self.rotation) - pi/2),
+            self.position[1] - self.hitbox.size[1] / 2 * cos(radians(self.rotation) - pi/2)
+        ]
+
+        self.norm_axis = [
+            (self.end[0] - self.start[0]) / self.hitbox.size[1],
+            (self.end[1] - self.start[1]) / self.hitbox.size[1]
+        ]
+
+
+    def control_object_z_offset(self, obj):
+        # PROJECTION OF OBJECT POSITION ONTO STAIR AXIS
+        projection = (obj.position[0] - self.start[0])*self.norm_axis[0] + (obj.position[1] - self.start[1])*self.norm_axis[1]
+
+        if projection < 0 or projection > self.hitbox.size[1]:
+            return
+        
+        obj.z_offset = self.z_offset + projection / self.hitbox.size[1] * self.height

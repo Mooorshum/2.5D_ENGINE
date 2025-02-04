@@ -2,7 +2,6 @@ import pygame
 from math import sin, cos, pi, radians, atan2, acos, sqrt
 from numpy import sign, dot, cross
 
-
 class Hitbox:
     def __init__(self, object, size, type, colour=(255, 0, 0)):
         self.object = object
@@ -26,6 +25,8 @@ class Hitbox:
         self.vertices = []
         self.axes = []
 
+        self.mtv_axis = [0, 0]
+        self.min_overlap = 0
         self.mtv_axis_normalized = [0, 0]
 
 
@@ -88,7 +89,7 @@ class Hitbox:
         return self.object.position
 
 
-    def check_collision(self, object):
+    def check_and_resolve_collision(self, object):
         other_hitbox = object.hitbox
 
         self.get_axes()
@@ -127,6 +128,7 @@ class Hitbox:
                 mtv_axis = axis
 
         self.resolve_collision(object, mtv_axis, min_overlap)
+
 
 
     def calculate_moment_of_inertia(self):
@@ -344,6 +346,7 @@ class Hitbox:
 
 
     def resolve_collision(self, other_object, mtv_axis, overlap):
+
         tolerance = 5 # tolerance for object minimum obejct collision distance
         self_center = self.get_center_of_mass()
         other_center = other_object.hitbox.get_center_of_mass()

@@ -5,7 +5,7 @@ import json
 from math import radians, sin, cos, sqrt, atan2
 
 from graphics.rendering import global_render
-from general_game_mechanics.dynamic_objects import DynamicObject, Vehicle, Character
+from general_game_mechanics.dynamic_objects import DynamicObject, Vehicle, Character, Stairs
 from general_game_mechanics.water import WaterBody
 
 from graphics.camera import Camera
@@ -76,6 +76,11 @@ class Level:
 
         self.play = False
 
+        self.stairs = [
+            Stairs(asset=self.game.stair_asset, asset_index=1, position=[520, 800], rotation=45),
+            Stairs(asset=self.game.stair_asset, asset_index=1, position=[600, 800], rotation=210, z_offset=-31),
+
+        ]
 
         """ DISPLAY SETTINGS """
         self.render_width = 400
@@ -765,8 +770,8 @@ class Level:
                                         check_threshold_distance_y = (object_1.hitbox.size[1] + object_2.hitbox.size[1]) * sqrt(2)
                                         dy = abs(object_1.position[1] - object_2.position[1])
                                         if dy < check_threshold_distance_y:
-
-                                            object_1.hitbox.check_collision(object_2)
+                                        
+                                            object_1.hitbox.check_and_resolve_collision(object_2)
 
         for obj in dynamic_objects:
             if obj.hitbox.collided:
@@ -786,6 +791,13 @@ class Level:
         """ HANDLING LOADPOINTS """
         for loadpoint in self.loadpoints:
             loadpoint.handle_loading(player=self.player, game=self.game)
+
+        """ HANDLING STAIRS """
+        for stairs in self.stairs:
+            distance = sqrt((self.player.position[0] - stairs.position[0])**2 + (self.player.position[1] - stairs.position[1])**2)
+            effect_radius = sqrt(stairs.hitbox.size[0]**2 + stairs.hitbox.size[1]**2)
+            if distance <= effect_radius:
+                stairs.control_object_z_offset(self.player)
 
 
 
@@ -809,7 +821,7 @@ class Level:
                 grass_tiles.append(system_tiles[j])
 
         """ RENDERING ALL LEVEL OBJECTS """
-        render_objects=[self.player] + self.vehicles + self.non_interactable_sprite_stack_objects + self.dynamic_sprite_stack_objects + plants + grass_tiles + self.particle_systems + self.loadpoints + self.water_objects
+        render_objects= self.stairs + [self.player] + self.vehicles + self.non_interactable_sprite_stack_objects + self.dynamic_sprite_stack_objects + plants + grass_tiles + self.particle_systems + self.loadpoints + self.water_objects
         if self.current_asset:
             render_objects += [self.current_asset]
         global_render(

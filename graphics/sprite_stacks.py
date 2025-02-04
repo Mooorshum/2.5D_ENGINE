@@ -23,6 +23,8 @@ class SpritestackAsset:
 
         self.z_offset = z_offset
 
+        self.height = 0
+
         # caching prerendered images of stacks for discrete angles
         self.spread = spread
         self.num_unique_angles = 180
@@ -32,7 +34,7 @@ class SpritestackAsset:
         self.hitbox_size_unscaled = hitbox_size
         self.hitbox_size = (self.hitbox_size_unscaled[0] * self.scale, self.hitbox_size_unscaled[1] * self.scale)
         self.hitbox_type = hitbox_type
-
+        
 
     def split_sheet_image(self, sheet_image):
         images = []
@@ -42,6 +44,7 @@ class SpritestackAsset:
             rect = pygame.Rect(i * resolution, 0, resolution, resolution)
             sub_image = sheet_image.subsurface(rect).copy()
             images.append(sub_image)
+        self.height = len(images)
         return images
 
 
@@ -107,7 +110,7 @@ class SpritestackAsset:
 
 
 class SpritestackModel:
-    def __init__(self, asset, asset_index, position, rotation):
+    def __init__(self, asset, asset_index, position, rotation, z_offset=None):
 
         self.asset = asset
         self.asset_index = asset_index
@@ -125,7 +128,10 @@ class SpritestackModel:
         self.y0_offset = self.asset.y0_offset
         self.y0_base_offset = self.asset.y0_base_offset
 
-        self.z_offset = self.asset.z_offset
+        if z_offset == None:
+            self.z_offset = self.asset.z_offset
+        else: 
+            self.z_offset = z_offset
         self.z_offset_additional = 0
 
 

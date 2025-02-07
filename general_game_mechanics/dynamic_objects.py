@@ -19,8 +19,8 @@ import copy
 
 
 class DynamicObject(SpritestackModel):
-    def __init__(self, asset, asset_index, position, rotation, z_offset=None):
-        super().__init__(asset, asset_index, position, rotation, z_offset=z_offset)
+    def __init__(self, asset, asset_index, position, rotation):
+        super().__init__(asset, asset_index, position, rotation)
 
         self.v_drag = 0.03
         self.omega_drag = 0.05
@@ -40,7 +40,7 @@ class DynamicObject(SpritestackModel):
 
         self.movelocked = self.asset.movelocked
 
-        self.show_hitbox = False
+        self.show_hitbox = True
         self.hitbox = Hitbox(
             object=self,
             size=self.asset.hitbox_size,
@@ -73,7 +73,7 @@ class DynamicObject(SpritestackModel):
             self.hitbox.render(screen, camera, offset)
 
         if self.ground_effect_particle_system:
-            self.ground_effect_particle_system.position = [self.position[0], self.position[1],  -self.z_offset_additional]
+            self.ground_effect_particle_system.position = self.position
             self.ground_effect_particle_system.render(screen, camera)
             self.ground_effect_particle_system.update()
             
@@ -88,8 +88,8 @@ class DynamicObject(SpritestackModel):
             
 
 class Vehicle(DynamicObject):
-    def __init__(self, asset, asset_index, position, rotation, z_offset=None):
-        super().__init__(asset, asset_index, position, rotation, z_offset=z_offset)
+    def __init__(self, asset, asset_index, position, rotation):
+        super().__init__(asset, asset_index, position, rotation)
 
         self.driver = None
 
@@ -205,6 +205,7 @@ class Vehicle(DynamicObject):
             self.vx = speed * cos(adjusted_angle)
             self.vy = speed * sin(adjusted_angle)
   
+        self.hitbox.get_vertices()
         super().move()
 
 
@@ -212,7 +213,7 @@ class Vehicle(DynamicObject):
         self.dust.position = [
             self.position[0],
             self.position[1],
-            0
+            self.position[2]
         ]
         factor = sqrt(self.vx**2 + self.vy**2)/self.max_speed
         self.dust.r_range = (0, round(self.max_dustcloud_size*factor))
@@ -229,8 +230,8 @@ class Vehicle(DynamicObject):
 
 
 class Character(DynamicObject):
-    def __init__(self, asset, asset_index, position, rotation, z_offset=None):
-        super().__init__(asset=asset, asset_index=asset_index, position=position, rotation=rotation, z_offset=z_offset)
+    def __init__(self, asset, asset_index, position, rotation):
+        super().__init__(asset=asset, asset_index=asset_index, position=position, rotation=rotation)
 
         self.movespeed = 1000
         self.walk_speed_limit = 50
@@ -423,8 +424,8 @@ class Character(DynamicObject):
 
 
 class Stairs(DynamicObject):
-    def __init__(self, asset, asset_index, position, rotation, z_offset=None):
-        super().__init__(asset, asset_index, position, rotation, z_offset=z_offset)
+    def __init__(self, asset, asset_index, position, rotation):
+        super().__init__(asset, asset_index, position, rotation)
         self.height = asset.height
 
         # CALCULATING START AND END POINTS OF STAIRS
@@ -450,4 +451,4 @@ class Stairs(DynamicObject):
         if projection < 0 or projection > self.hitbox.size[1]:
             return
         
-        obj.z_offset = self.z_offset + projection / self.hitbox.size[1] * self.height
+        obj.position[2] = self.position[2] + projection / self.hitbox.size[1] * self.height

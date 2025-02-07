@@ -29,7 +29,7 @@ class GrassBlade:
         rotated_image.blit(shade, (0, 0))
         position = (
             position[0] - rotated_image.get_width() // 2 - self.image_width*sin(rotation_rads) + offset[0],
-            position[1] - rotated_image.get_height()//2 - self.image_width*cos(rotation_rads) + offset[1]
+            position[1] - rotated_image.get_height()//2 - self.image_width*cos(rotation_rads) + offset[1] - position[2]
         )
         surf.blit(rotated_image, position)
 
@@ -47,8 +47,6 @@ class GrassTileAsset:
         self.num_states = num_states
         self.scale = scale
         self.max_angle = 70 # maximum possible inclination
-
-        self.y0_offset = -size / 4
         
         self.grass_blades = []
         self.tile_image_rotation_value = {}
@@ -86,10 +84,10 @@ class GrassTileAsset:
             i = random.randint(x_start, x_end)
             j = random.randint(y_start, y_end)
             if k == 0:
-                self.generate_blade([i, j])
+                self.generate_blade([i, j, 0])
                 k += 1
             elif all((i, j) != blade.position for blade in self.grass_blades):
-                self.generate_blade([i, j])
+                self.generate_blade([i, j, 0])
                 k += 1
         self.grass_blades.sort(key=lambda blade: blade.position[1]) # sorting blades to give an illusion of depth
 
@@ -115,7 +113,8 @@ class GrassTileAsset:
             for blade in self.grass_blades:
                 relative_position = (
                     (self.size * self.scale + padding)//2 + blade.position[0],
-                    (self.size * self.scale + padding)//2 + blade.position[1]
+                    (self.size * self.scale + padding)//2 + blade.position[1],
+                    0
                 )
                 blade.rotation = rotation
                 blade.render_blade(tile_image, rotation, relative_position)
@@ -186,8 +185,6 @@ class GrassTile:
         self.asset = asset
         self.position = position
 
-        self.y0_offset = self.asset.y0_offset
-
         self.phase_shift = 0
 
         self.relaxed = True
@@ -205,7 +202,7 @@ class GrassTile:
         screen.blit(
             tile_image,
             (self.position[0] - tile_image.get_width()//2 + offset[0],
-             self.position[1] - tile_image.get_height()//2 + offset[1],
+             self.position[1] - tile_image.get_height()//2 + offset[1]  - self.position[2],
             )
         )
 
@@ -221,7 +218,7 @@ class GrassTile:
 
     def render_tile_detailed(self, screen, bend_objects, bend_effect_radius, offset=[0, 0]):   
         for blade in self.grass_blades:
-            blade_position_on_tile = (blade.position[0] + self.position[0], blade.position[1] + self.position[1])
+            blade_position_on_tile = (blade.position[0] + self.position[0], blade.position[1] + self.position[1], blade.position[2] + self.position[2])
             for bend_object in bend_objects:
                 if not bend_object.movelocked:
                     object_distance_to_blade = sqrt((blade_position_on_tile[0] - bend_object.position[0])**2 + (blade_position_on_tile[1] - bend_object.position[1])**2)
@@ -237,7 +234,7 @@ class GrassTile:
             blade.render_blade(
                 screen,
                 blade.rotation,
-                (blade_position_on_tile[0], blade_position_on_tile[1]),
+                (blade_position_on_tile[0], blade_position_on_tile[1], blade_position_on_tile[2]),
                 offset)
 
 
@@ -349,7 +346,7 @@ class GrassSystem:
 
 
     def sort_tiles(self):
-        self.tiles.sort(key=lambda tile: tile.position[1])
+        self.tiles.sort(key=lambda tile: tile.position[1] - tile.position[2])
 
 
     def apply_wind(self):
@@ -408,5 +405,3 @@ class GrassSystem:
         self.tiles = []
         for tile_data in system_data['tiles']:
             self.create_tile(tile_data['asset_index'], tile_data['position'])
-
-            

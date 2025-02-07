@@ -2,11 +2,15 @@ import os
 
 import pygame
 
+from copy import deepcopy
+
 from math import sin, cos, sqrt, atan2, radians, copysign, degrees
+
+from general_game_mechanics.collisions import Hitbox
 
 
 class SpritestackAsset:
-    def __init__(self, type=None, name=None, hitbox_size=(64, 64), hitbox_type='circle', mass=10, spread=1, scale=1, y0_base_offset=0, movelocked=True, z_offset=0):
+    def __init__(self, type=None, name=None, hitbox_size=(64, 64), hitbox_type='circle', mass=10, spread=1, scale=1, y0_base_offset=0, movelocked=True):
         self.type = type
         self.name = name
 
@@ -20,8 +24,6 @@ class SpritestackAsset:
 
         self.y0_base_offset = y0_base_offset
         self.y0_offset = 0
-
-        self.z_offset = z_offset
 
         self.height = 0
 
@@ -110,13 +112,15 @@ class SpritestackAsset:
 
 
 class SpritestackModel:
-    def __init__(self, asset, asset_index, position, rotation, z_offset=None):
+    def __init__(self, asset, asset_index, position, rotation):
 
         self.asset = asset
         self.asset_index = asset_index
 
         self.rotation = rotation
         self.position = position
+
+        self.height = asset.height
 
         self.mass = self.asset.mass
 
@@ -125,14 +129,12 @@ class SpritestackModel:
         self.stack_index = 0
         self.internal_time = 0
 
-        self.y0_offset = self.asset.y0_offset
-        self.y0_base_offset = self.asset.y0_base_offset
+        self.hitbox = Hitbox(
+            object=self,
+            size=self.asset.hitbox_size,
+            type=self.asset.hitbox_type
+        )
 
-        if z_offset == None:
-            self.z_offset = self.asset.z_offset
-        else: 
-            self.z_offset = z_offset
-        self.z_offset_additional = 0
 
 
     def render(self, screen, camera, offset=[0, 0]):
@@ -145,17 +147,9 @@ class SpritestackModel:
             image,
             (
                 self.position[0] - image.get_width() // 2 + offset[0],
-                self.position[1] - image.get_height() + sqrt(self.asset.slice_size[0]**2 + self.asset.slice_size[1]**2)/2 + offset[1] - self.z_offset - self.z_offset_additional
+                self.position[1] - image.get_height() + sqrt(self.asset.slice_size[0]**2 + self.asset.slice_size[1]**2)/2 + offset[1] - self.position[2]
             )
         )
-
-
-        """ UPDATING THE TOTAL Y0_OFFSET OF THE OBJECT """
-        h = self.asset.hitbox_size[1]/ 2
-        w = self.asset.hitbox_size[0] / 2
-        L = sqrt(h**2 + w**2)
-        beta = atan2(h, w)
-        self.y0_offset = self.y0_base_offset + L * ( abs(sin(radians(self.rotation))) + abs(beta)) / 2 * self.asset.scale
 
 
     def get_data(self):

@@ -175,8 +175,6 @@ class PlantAsset:
         self.relax_speed = relax_speed
         self.scale = scale
 
-        self.y0_offset = 0
-
         self.initialize_asset(plant_folder, base_angle_range)
         self.prerender_plant()
 
@@ -263,13 +261,16 @@ class Plant:
         self.is_bent = False
         self.relax_speed = self.asset.relax_speed
 
-        self.y0_offset = self.asset.y0_offset
-
 
     def render_simple(self, screen, offset=[0, 0]):
         if self.asset.image:
-            screen.blit(self.asset.image, (self.position[0] - self.asset.image.get_width() // 2 + offset[0], 
-                                     self.position[1] - self.asset.image.get_height() // 2 + offset[1]))
+            screen.blit(
+                self.asset.image,
+                (
+                    self.position[0] - self.asset.image.get_width() // 2 + offset[0], 
+                    self.position[1] - self.asset.image.get_height() // 2 + offset[1] - self.position[2]
+                )
+            )
 
 
     def render_detailed(self, screen, bend_objects, offset=[0, 0]):
@@ -357,6 +358,7 @@ class PlantSystem:
         for branch in plant.branches:
             branch.base_position[0] += position[0]
             branch.base_position[1] += position[1]
+            branch.base_position[1] -= position[2]
         self.plants.append(plant)
 
 

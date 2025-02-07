@@ -19,12 +19,20 @@ from world_builder.loadpoints import LoadPoint
 pygame.init()
 
 font = pygame.font.SysFont(None, 20)
+
 def display_fps(screen, clock, font):
     fps = str(int(clock.get_fps()))
     fps_text = font.render(f'fps: {fps}', True, pygame.Color("white"))
     screen_width, screen_height = screen.get_size()
     text_rect = fps_text.get_rect(topright=(screen_width - 10, 10))
     screen.blit(fps_text, text_rect)
+
+def display_place_info(screen, font, place_position, rotation):
+    info = f'x: {int(place_position[0])},  y: {int(place_position[1])},  z: {int(place_position[2])},  rot: {rotation}'
+    info_text = font.render(info, True, pygame.Color("white"))
+    screen_width, screen_height = screen.get_size()
+    text_rect = info_text.get_rect(topright=(screen_width - 10, 30))
+    screen.blit(info_text, text_rect)
 
 
 def cycle_list(direction, current_index, lst):
@@ -37,14 +45,16 @@ def cycle_list(direction, current_index, lst):
 
 
 class Level:
-    def __init__(self, game, name, map_size, background=None, fill_colour=(0, 0, 0)):
+    def __init__(self, game, name, map_size, fill_colour=(0, 0, 0)):
 
         self.game = game
 
         self.name = name
 
         """ LEVEL EDITING PARAMETERS """
-        self.place_position = [0, 0]
+        self.place_position = [0, 0, 0]
+        self.place_height = 0
+
         self.current_asset = None
         self.current_asset_index = 0
         self.current_asset_rotation = 0
@@ -76,10 +86,12 @@ class Level:
 
         self.play = False
 
-        self.stairs = [
-            Stairs(asset=self.game.stair_asset, asset_index=1, position=[520, 800], rotation=45),
-            Stairs(asset=self.game.stair_asset, asset_index=1, position=[600, 800], rotation=210, z_offset=-31),
+        """ self.stairs = [
+            Stairs(asset=self.game.stair_asset, asset_index=1, position=[520, 800, 0], rotation=45),
+            Stairs(asset=self.game.stair_asset, asset_index=1, position=[600, 800, -31], rotation=210),
 
+        ] """
+        self.stairs = [
         ]
 
         """ DISPLAY SETTINGS """
@@ -98,7 +110,7 @@ class Level:
         self.vehicle_assets = []
         self.non_interactable_sprite_stack_assets = []
         self.dynamic_sprite_stack_assets = []
-        self.water_assets = self.game.water_body_presets # WATER
+
         self.plant_systems = []
         self.grass_systems = []
      
@@ -116,7 +128,7 @@ class Level:
 
         """ CONFIGURING PLAYER OBJECT """
         self.player_asset = self.game.player_asset
-        player_start_position = [self.map_size[0]//2, self.map_size[1]//2]
+        player_start_position = [self.map_size[0]//2, self.map_size[1]//2, 0]
         player_start_rotation = 0
         self.player = Character(asset=self.player_asset, asset_index=0, position=player_start_position, rotation=player_start_rotation)
         self.player.movelocked = False
@@ -126,16 +138,6 @@ class Level:
 
         self.rotation_speed = 2
         self.scroll_speed = 0.1
-
-        if background:
-            self.background = pygame.image.load(background).convert_alpha()
-        else:
-            self.background = None
-
-
-
-        test_pond = WaterBody(asset=self.water_assets[0], asset_index=0, position=[400, 500], rotation=10)
-        self.water_objects.append(test_pond)
 
 
     def handle_controls_editing(self, keys):
@@ -295,6 +297,14 @@ class Level:
                             self.camera.width /= 1 + self.scroll_speed
                             self.camera.height /= 1 + self.scroll_speed
 
+            # CHANGE OBJECT PLACEMENT HEIGHT
+            if keys[pygame.K_z]:
+                    if event.type == pygame.MOUSEWHEEL:
+                        if event.y == -1:
+                            self.place_height += 1
+                        elif event.y == 1:
+                            self.place_height -= 1
+    
             # ROTATE ASSET
             if self.place_noninteractable_sprite_stack or self.place_dynamic_sprite_stack or self.place_vehicle:
                 if keys[pygame.K_LSHIFT]:
@@ -306,7 +316,7 @@ class Level:
 
             # CYCLE CURRENT SYSTEM ASSETS 
             if event.type == pygame.MOUSEWHEEL:
-                if not ( keys[pygame.K_LCTRL] or keys[pygame.K_LSHIFT]):
+                if not ( keys[pygame.K_LCTRL] or keys[pygame.K_LSHIFT] or keys[pygame.K_z]):
                     if event.y == 1:
                         self.next_item = True
                     elif event.y == -1:
@@ -521,7 +531,7 @@ class Level:
                 except IndexError:
                     self.current_asset_index = 0
                     particle_system = copy.deepcopy(self.particle_system_presets[self.particle_system_index])
-                particle_system.position = [self.place_position[0], self.place_position[1], 0]
+                particle_system.position = self.place_position
                 particle_system.asset_index = self.particle_system_index
                 self.current_asset = particle_system
 
@@ -558,7 +568,7 @@ class Level:
                     level_index=self.current_asset_index,
                     colour=loadpoint_colour
                 )
-                loadpoint.position = [self.place_position[0], self.place_position[1]]
+                loadpoint.position = self.place_position
                 self.current_asset = loadpoint
 
                 if self.place:
@@ -724,7 +734,7 @@ class Level:
         place_position_x = d * cos(camera_angle + gamma) + self.camera.position[0]
         place_position_y = d * sin(camera_angle + gamma) + self.camera.position[1]
 
-        self.place_position = [place_position_x, place_position_y]   
+        self.place_position = [place_position_x, place_position_y, self.place_height]   
 
         """ CAMERA MOVEMENT"""
         self.camera.follow(self.player.position)
@@ -821,7 +831,7 @@ class Level:
                 grass_tiles.append(system_tiles[j])
 
         """ RENDERING ALL LEVEL OBJECTS """
-        render_objects= self.stairs + [self.player] + self.vehicles + self.non_interactable_sprite_stack_objects + self.dynamic_sprite_stack_objects + plants + grass_tiles + self.particle_systems + self.loadpoints + self.water_objects
+        render_objects= self.stairs + [self.player] + self.vehicles + self.non_interactable_sprite_stack_objects + self.dynamic_sprite_stack_objects + plants + grass_tiles + self.particle_systems + self.loadpoints
         if self.current_asset:
             render_objects += [self.current_asset]
         global_render(
@@ -829,7 +839,6 @@ class Level:
             camera=self.camera,
             objects=render_objects,
             bend_objects=[self.player] + self.vehicles, #self.dynamic_sprite_stack_objects + [self.player] + self.vehicles,
-            background=self.background,
         )
 
         """ RENDERING PLAYER PROJECTILES """
@@ -844,3 +853,5 @@ class Level:
 
 
         display_fps(self.game.screen, self.game.clock, font)
+
+        display_place_info(self.game.screen, font, self.place_position, self.current_asset_rotation)

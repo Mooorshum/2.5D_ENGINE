@@ -23,7 +23,7 @@ class Hitbox:
 
         # Defining edges and axes for SAT algorithm
         self.vertices = []
-        self.axes = []
+        self.axes = self.get_axes()
 
         self.mtv_axis = [0, 0]
         self.min_overlap = 0
@@ -50,7 +50,7 @@ class Hitbox:
         # VERTICES FOR CIRCULAR HITBOX
         if self.type == 'circle':
             # VERTEX COORDINATES IN OBJECT REFERENCE FRAME
-            vertex_count = 8
+            vertex_count = 6
             vertices_0 = []
             for phi_degrees in range(0, 360, int(360/vertex_count)):
                 phi = radians(phi_degrees)
@@ -413,7 +413,7 @@ class Hitbox:
                 self.colour,
                 (
                     vertex[0] + vertex_offset[0],
-                    vertex[1] + vertex_offset[1]
+                    vertex[1] + vertex_offset[1] - self.object.position[2]
                 ),
                 2,
             )
@@ -434,8 +434,8 @@ class Hitbox:
             pygame.draw.line(
                 screen,
                 self.colour,
-                (vertex_1[0] + vertex_1_offset[0], vertex_1[1] + vertex_1_offset[1]),
-                (vertex_2[0] + vertex_2_offset[0], vertex_2[1] + vertex_2_offset[1]),
+                (vertex_1[0] + vertex_1_offset[0], vertex_1[1] + vertex_1_offset[1] - self.object.position[2]),
+                (vertex_2[0] + vertex_2_offset[0], vertex_2[1] + vertex_2_offset[1] - self.object.position[2]),
                 1
             )
 
@@ -449,7 +449,7 @@ class Hitbox:
                 (255, 255, 255),
                 (
                     self.contact_point[0] + collision_point_offset[0],
-                    self.contact_point[1] + collision_point_offset[1]
+                    self.contact_point[1] + collision_point_offset[1] - self.object.position[2]
                 ),
                 2,
             )
@@ -467,8 +467,8 @@ class Hitbox:
             pygame.draw.line(
                 screen,
                 (255, 255, 255),
-                (self.contact_point[0] + collision_point_offset[0], self.contact_point[1] + collision_point_offset[1]),
-                (collision_endpoint[0] + collision_normal_endpoint_offset[0], collision_endpoint[1] + collision_normal_endpoint_offset[1]),
+                (self.contact_point[0] + collision_point_offset[0], self.contact_point[1] + collision_point_offset[1] - self.object.position[2]),
+                (collision_endpoint[0] + collision_normal_endpoint_offset[0], collision_endpoint[1] + collision_normal_endpoint_offset[1] - self.object.position[2]),
                 1
             )
 
@@ -486,7 +486,7 @@ class Hitbox:
             pygame.draw.line(
                 screen,
                 (0, 255, 0),
-                (self.contact_point[0] + collision_point_offset[0], self.contact_point[1] + collision_point_offset[1]),
-                (spin_endpoint[0] + spin_endpoint_offset[0], spin_endpoint[1] + spin_endpoint_offset[1]),
+                (self.contact_point[0] + collision_point_offset[0], self.contact_point[1] + collision_point_offset[1] - self.object.position[2]),
+                (spin_endpoint[0] + spin_endpoint_offset[0], spin_endpoint[1] + spin_endpoint_offset[1] - self.object.position[2]),
                 1
             )

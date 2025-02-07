@@ -10,7 +10,7 @@ from general_game_mechanics.collisions import Hitbox
 
 
 class SpritestackAsset:
-    def __init__(self, type=None, name=None, hitbox_size=(64, 64), hitbox_type='circle', mass=10, spread=1, scale=1, y0_base_offset=0, movelocked=True):
+    def __init__(self, type=None, name=None, hitbox_size=(32, 32), render_box_size=None, hitbox_type='circle', mass=10, spread=1, scale=1, y0_base_offset=0, movelocked=True):
         self.type = type
         self.name = name
 
@@ -33,8 +33,8 @@ class SpritestackAsset:
         self.stack_angle_image = self.generate_images_cache(self.num_unique_angles, self.spread)
 
         # providing scaled hitbox size
-        self.hitbox_size_unscaled = hitbox_size
-        self.hitbox_size = (self.hitbox_size_unscaled[0] * self.scale, self.hitbox_size_unscaled[1] * self.scale)
+        self.hitbox_size = hitbox_size
+        self.render_box_size = render_box_size if render_box_size is not None else hitbox_size
         self.hitbox_type = hitbox_type
         
 
@@ -132,6 +132,7 @@ class SpritestackModel:
         self.hitbox = Hitbox(
             object=self,
             size=self.asset.hitbox_size,
+            render_box_size=self.asset.render_box_size,
             type=self.asset.hitbox_type
         )
 

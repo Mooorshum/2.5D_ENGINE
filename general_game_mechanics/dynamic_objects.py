@@ -41,11 +41,6 @@ class DynamicObject(SpritestackModel):
         self.movelocked = self.asset.movelocked
 
         self.show_hitbox = True
-        self.hitbox = Hitbox(
-            object=self,
-            size=self.asset.hitbox_size,
-            type=self.asset.hitbox_type
-        )
 
 
     def move(self):

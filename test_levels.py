@@ -119,12 +119,12 @@ class Game:
             SpritestackAsset(type='well', name='well_1', hitbox_size=(50,50), hitbox_type='circle'),
 
             # TREES
-            SpritestackAsset(type='tree', name='tree_1', hitbox_size=(20,20), hitbox_type='circle'),
-            SpritestackAsset(type='tree', name='tree_2', hitbox_size=(20,20), hitbox_type='circle'),
-            SpritestackAsset(type='tree', name='tree_3', hitbox_size=(20,20), hitbox_type='circle'),
-            SpritestackAsset(type='tree', name='tree_4', hitbox_size=(20,20), hitbox_type='circle'),
-            SpritestackAsset(type='tree', name='tree_5', hitbox_size=(20,20), hitbox_type='circle'),
-            SpritestackAsset(type='tree', name='tree_6', hitbox_size=(20,20), hitbox_type='circle'),
+            SpritestackAsset(type='tree', name='tree_1', hitbox_size=(20,20), render_box_size=(64, 64), hitbox_type='circle'),
+            SpritestackAsset(type='tree', name='tree_2', hitbox_size=(20,20), render_box_size=(64, 64), hitbox_type='circle'),
+            SpritestackAsset(type='tree', name='tree_3', hitbox_size=(20,20), render_box_size=(55, 55), hitbox_type='circle'),
+            SpritestackAsset(type='tree', name='tree_4', hitbox_size=(20,20), render_box_size=(55, 55), hitbox_type='circle'),
+            SpritestackAsset(type='tree', name='tree_5', hitbox_size=(20,20), render_box_size=(45, 45), hitbox_type='circle'),
+            SpritestackAsset(type='tree', name='tree_6', hitbox_size=(20,20), render_box_size=(45, 45), hitbox_type='circle'),
             SpritestackAsset(type='tree', name='tree_7', hitbox_size=(32,32), hitbox_type='circle'),
             SpritestackAsset(type='tree', name='tree_8', hitbox_size=(20,20), hitbox_type='circle'),
             SpritestackAsset(type='tree', name='tree_9', hitbox_size=(32,32), hitbox_type='circle'),

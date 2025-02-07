@@ -18,7 +18,7 @@ def project_object(obj, axis):
     max_projection = -float('inf')
     min_vertex = None
     max_vertex = None
-    for vertex in obj.hitbox.vertices:
+    for vertex in obj.hitbox.render_box_vertices:
         vertex_projection = dot(vertex, axis)
         if vertex_projection < min_projection:
             min_projection = vertex_projection
@@ -53,7 +53,7 @@ def find_ranges_overlap(range_1_min, range_1_max, range_2_min, range_2_max):
 
 
 
-
+""" PERFORMING TOPOLOGICAL DEPTH SORTNG OF OBJECTS """
 def depth_sort(objects, camera):
 
     # CALCULATING CAMERA AXES

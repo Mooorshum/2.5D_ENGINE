@@ -4,8 +4,8 @@ from numpy import sign, dot, cross
 
 class Hitbox:
     def __init__(self, object, size, render_box_size, type, colour=(255, 0, 0), ):
-        self.show_hitbox = True
-        self.show_render_box = True
+        self.show_hitbox = False
+        self.show_render_box = False
 
         self.object = object
         self.size = size
@@ -32,6 +32,7 @@ class Hitbox:
         self.render_box_vertices = []
 
         # Calculating vertices, axes for SAT algorithm + render box vertices
+        self.update() # Getting hitbox and render box vertices
         self.axes = self.get_axes()
 
         
@@ -79,9 +80,13 @@ class Hitbox:
         return vertices
 
 
-    def get_axes(self):
+    def update(self):
         self.vertices = self.get_vertices(self.size)
         self.render_box_vertices = self.get_vertices(self.render_box_size)
+
+
+    def get_axes(self):
+        self.update()
         self.axes = []
 
         for vertex_index in range(len(self.vertices)):
@@ -436,7 +441,7 @@ class Hitbox:
                     (255, 255, 255),
                     (vertex_1[0] + vertex_1_offset[0], vertex_1[1] + vertex_1_offset[1] - self.object.position[2]),
                     (vertex_2[0] + vertex_2_offset[0], vertex_2[1] + vertex_2_offset[1] - self.object.position[2]),
-                    2
+                    1
                 )
 
         if self.show_hitbox:

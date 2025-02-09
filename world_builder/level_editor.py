@@ -86,13 +86,11 @@ class Level:
 
         self.play = False
 
-        """ self.stairs = [
-            Stairs(asset=self.game.stair_asset, asset_index=1, position=[520, 800, 0], rotation=45),
-            Stairs(asset=self.game.stair_asset, asset_index=1, position=[600, 800, -31], rotation=210),
-
-        ] """
         self.stairs = [
+            Stairs(asset=self.game.stair_asset, asset_index=1, position=[520, 800, 0], rotation=20),
+            #Stairs(asset=self.game.stair_asset, asset_index=1, position=[600, 800, -31], rotation=210),
         ]
+        
 
         """ DISPLAY SETTINGS """
         self.render_width = 400
@@ -714,6 +712,8 @@ class Level:
 
     def update(self):
 
+        
+
         """ CALCULATING OBJECT PALCEMENT POSITION """
         display_surface = pygame.display.get_surface()
         display_width, display_height = display_surface.get_size()
@@ -756,6 +756,8 @@ class Level:
         dynamic_objects = self.dynamic_sprite_stack_objects + [self.player] + self.vehicles + self.player.projectiles
         for obj in dynamic_objects:
             obj.hitbox.collided = False
+            if not obj.movelocked:
+                obj.hitbox.update() # UPDATING HITBOX AND RENDER VERTICES
             
         for object_1 in dynamic_objects:
             for object_2 in dynamic_objects:

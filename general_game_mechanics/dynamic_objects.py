@@ -17,7 +17,6 @@ import copy
 
 
 
-
 class DynamicObject(SpritestackModel):
     def __init__(self, asset, asset_index, position, rotation):
         super().__init__(asset, asset_index, position, rotation)
@@ -35,12 +34,10 @@ class DynamicObject(SpritestackModel):
         self.ax = 0
         self.ay = 0
         self.a_omega = 0
-        
+
         self.ground_effect_particle_system = None
 
         self.movelocked = self.asset.movelocked
-
-        self.show_hitbox = True
 
 
     def move(self):
@@ -64,21 +61,16 @@ class DynamicObject(SpritestackModel):
 
     def render(self, screen, camera, offset=[0, 0]):
         super().render(screen, camera, offset)
-        if self.show_hitbox:
-            self.hitbox.render(screen, camera, offset)
+        self.hitbox.render(screen, camera, offset)
 
         if self.ground_effect_particle_system:
             self.ground_effect_particle_system.position = self.position
             self.ground_effect_particle_system.render(screen, camera)
             self.ground_effect_particle_system.update()
+
+
+
             
-
-
-            
-
-
-
-
 
             
 
@@ -199,8 +191,7 @@ class Vehicle(DynamicObject):
             speed = sqrt(self.vx**2 + self.vy**2)
             self.vx = speed * cos(adjusted_angle)
             self.vy = speed * sin(adjusted_angle)
-  
-        self.hitbox.get_vertices()
+            
         super().move()
 
 

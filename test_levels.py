@@ -51,7 +51,7 @@ class Game:
 
 
         # TEST STAIRS
-        self.stair_asset = SpritestackAsset(type='stairs', name='stairs_1', hitbox_size=(16, 32), hitbox_type='rectangle')
+        self.stair_asset = SpritestackAsset(type='stairs', name='stairs_1', hitbox_size=(16, 32), render_box_size=(16,16), hitbox_type='rectangle')
 
 
 
@@ -66,21 +66,21 @@ class Game:
 
         """ NON-INTERACTABLE SPRITE STACK ASSETS """
         self.non_interactable_sprite_stack_assets = [
-            SpritestackAsset(type='texture', name='branches_1', hitbox_size=(32,32), hitbox_type='rectangle'),
-            SpritestackAsset(type='house_1_interior', name='floor_1', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
-            SpritestackAsset(type='house_1_interior', name='carpet_1', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
-            SpritestackAsset(type='tent_1_interior', name='floor_1', hitbox_size=(80,80), scale=1, hitbox_type='rectangle'),
-            SpritestackAsset(type='tent_1_interior', name='cow_hide_1', hitbox_size=(80,80), scale=1, hitbox_type='rectangle'),
+            SpritestackAsset(type='texture', name='branches_1', hitbox_size=(32,32), render_layer_offset=-10000, hitbox_type='rectangle'),
+            SpritestackAsset(type='house_1_interior', name='floor_1', hitbox_size=(32,32), render_layer_offset=10000, scale=1, hitbox_type='rectangle'),
+            SpritestackAsset(type='house_1_interior', name='carpet_1', hitbox_size=(32,32), render_layer_offset=-10000, scale=1, hitbox_type='rectangle'),
+            SpritestackAsset(type='tent_1_interior', name='floor_1', hitbox_size=(80,80), render_layer_offset=-10000, scale=1, hitbox_type='rectangle'),
+            SpritestackAsset(type='tent_1_interior', name='cow_hide_1', hitbox_size=(80,80), render_layer_offset=-10000, scale=1, hitbox_type='rectangle'),
             SpritestackAsset(type='tent_1_interior', name='bed_1', hitbox_size=(80,80), scale=1, hitbox_type='rectangle'),
 
-            SpritestackAsset(type='water_surface', name='sea_surface_1', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
-            SpritestackAsset(type='water_surface', name='sea_surface_2', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
-            SpritestackAsset(type='water_surface', name='sea_surface_3', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
+            SpritestackAsset(type='water_surface', name='sea_surface_1', hitbox_size=(32,32), render_layer_offset=-10000, scale=1, hitbox_type='rectangle'),
+            SpritestackAsset(type='water_surface', name='sea_surface_2', hitbox_size=(32,32), render_layer_offset=-10000, scale=1, hitbox_type='rectangle'),
+            SpritestackAsset(type='water_surface', name='sea_surface_3', hitbox_size=(32,32), render_layer_offset=-10000, scale=1, hitbox_type='rectangle'),
 
             SpritestackAsset(type='pier', name='pier_1', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
             SpritestackAsset(type='cliff', name='cliff_pier', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
 
-            SpritestackAsset(type='texture', name='grass_1', hitbox_size=(32,32), hitbox_type='rectangle'),
+            SpritestackAsset(type='texture', name='grass_1', hitbox_size=(32,32), render_layer_offset=-10000, hitbox_type='rectangle'),
 
         ]
 
@@ -173,7 +173,7 @@ class Game:
             SpritestackAsset(type='house_1_interior', name='chest_1', hitbox_size=(20,20), scale=1, hitbox_type='rectangle'),
             SpritestackAsset(type='house_1_interior', name='chair_2', hitbox_size=(20,20), scale=1, hitbox_type='rectangle'),
             SpritestackAsset(type='house_1_interior', name='wardrobe_1', hitbox_size=(45,32), scale=1, hitbox_type='rectangle'),
-            SpritestackAsset(type='house_1_interior', name='fireplace_front_1', hitbox_size=(45,32), scale=1, hitbox_type='rectangle'),
+            SpritestackAsset(type='house_1_interior', name='fireplace_front_1', hitbox_size=(45,5), scale=1, hitbox_type='rectangle'),
             SpritestackAsset(type='house_1_interior', name='fireplace_back_1', hitbox_size=(45,32), scale=1, hitbox_type='rectangle'),
             SpritestackAsset(type='house_1_interior', name='cactus_1', hitbox_size=(20,20), scale=1, hitbox_type='rectangle'),
 

@@ -37,8 +37,6 @@ class DynamicObject(SpritestackModel):
 
         self.ground_effect_particle_system = None
 
-        self.movelocked = self.asset.movelocked
-
 
     def move(self):
         if not self.movelocked:

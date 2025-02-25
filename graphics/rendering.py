@@ -1,7 +1,7 @@
 import pygame
 
-from math import sin, cos, radians, atan2
-from numpy import dot
+from math import sin, cos, radians, atan2, sqrt
+from numpy import dot, sign
 from itertools import combinations
 
 from graphics import grass, plants
@@ -9,7 +9,7 @@ from graphics.particles import ParticleSystem
 from graphics.sprite_stacks import SpritestackModel
 from world_builder.loadpoints import LoadPoint
 
-from general_game_mechanics.dynamic_objects import Stairs
+from general_game_mechanics.dynamic_objects import Stairs, Character
 
 
 """ CALCULATE MIN AND MAX PROJECTIONS AND CORRESPONDING VERTICES AMONG AN OBJECT'S VERTICES """
@@ -54,8 +54,6 @@ def find_ranges_overlap(range_1_min, range_1_max, range_2_min, range_2_max):
         return False
 
 
-
-
 """ PERFORMING TOPOLOGICAL DEPTH SORTNG OF OBJECTS """
 def depth_sort(objects, camera):
 
@@ -66,34 +64,44 @@ def depth_sort(objects, camera):
     
     # LOOPING THROUGH ALL OBJECTS AND CALCULATING MIN/MAX PROJECTIONS AND CORRESPONDING VERTICES
     projections_x = []
-    vertices_x = []
     projections_y = []
+    vertices_x = []
     vertices_y = []
+
     for obj in objects:
+        # PROJECTION ONTO CAMERA X AXIS
         min_x, max_x, min_vertex_x, max_vertex_x = project_object(obj, camera_x_axis)
         projections_x.append((min_x, max_x))
         vertices_x.append((min_vertex_x, max_vertex_x))
-        min_y, max_y, min_vertex_y, max_vertex_y = project_object(obj, camera_x_axis)
+
+        """ # PROJECTION ONTO CAMERA Y AXIS
+        min_y, max_y, min_vertex_y, max_vertex_y = project_object(obj, camera_y_axis)
         projections_y.append((min_y, max_y))
-        vertices_y.append((min_vertex_y, max_vertex_y))
+        vertices_y.append((min_vertex_y, max_vertex_y)) """
 
     # BUILDING A GRAPH FOR ALL OBJECTS
     adjacency_graph = {obj: set() for obj in objects}
-    
+
     # LOOPING THROUGH ALL OBJECT PAIRS
     for obj_1_index, obj_2_index in combinations(range(len(objects)), 2):
-
-        obj_1_min_x, obj_1_max_x = projections_x[obj_1_index]
-        obj_2_min_x, obj_2_max_x = projections_x[obj_2_index]
-
-        obj_1_min_y, obj_1_max_y = projections_y[obj_1_index]
-        obj_2_min_y, obj_2_max_y = projections_y[obj_2_index]
 
         object_1 = objects[obj_1_index]
         object_2 = objects[obj_2_index]
 
-        # IF THE PROJECTIONS OF TWO OBJECTS ONTO THE CAMERA_X AXIS INTERSECT:
-        if find_ranges_overlap(obj_1_min_x, obj_1_max_x, obj_2_min_x, obj_2_max_x):
+        obj_1_min_x, obj_1_max_x = projections_x[obj_1_index]
+        obj_2_min_x, obj_2_max_x = projections_x[obj_2_index]
+
+        """ obj_1_min_y, obj_1_max_y = projections_y[obj_1_index]
+        obj_2_min_y, obj_2_max_y = projections_y[obj_2_index] """
+
+        # GETTING THE BOUNDING BOX PROJECTIONS ONTO THE X CAMERA AXIS FOR BOTH OBJECTS
+        overlap_x_camera = find_ranges_overlap(obj_1_min_x, obj_1_max_x, obj_2_min_x, obj_2_max_x)
+
+        # CONDITION FOR INTERSECTION OF BOUNDING BOXES ALONG Y AXIS:
+        overlap_y_camera = True
+
+        # IF THE PROJECTIONS OF TWO OBJECTS ONTO BOTH AXES INTERSECT:
+        if overlap_x_camera and overlap_y_camera:
 
             front_object = None
             back_object = None
@@ -102,6 +110,8 @@ def depth_sort(objects, camera):
             # GETTING CAMERA COODRINATES OF THE VERTICES WITH MIN AND MAX X PROJECTIONS FOR OBJECT 1 AND OBJECT 2
             v1_min_x, v1_max_x = vertices_x[obj_1_index]
             v2_min_x, v2_max_x = vertices_x[obj_2_index]
+
+            
             
             v1_min_cam_x = transform_to_camera_space(v1_min_x, camera_x_axis, camera_y_axis)
             v1_max_cam_x = transform_to_camera_space(v1_max_x, camera_x_axis, camera_y_axis)
@@ -127,30 +137,23 @@ def depth_sort(objects, camera):
                 front_object = object_1
                 back_object = object_2
 
-            """ DETERMINE WHETHER ONE RENDER BOX INTERSECTS ANOTHER RENDER BOX (CASES WHEN ONE OBJECT IS DIRECTLY ABOVE ANOTHER) """
-            EPS = 5
-            dz = object_1.position[2] - object_2.position[2]
+            """ FIGURING OUT WHETHER ONE OBJECT IS EXPLICITLY ABOVE THE OTHER """
+            EPS = 10
+            object_1_bottom_pos = object_1.position[2]
+            object_1_top_pos = object_1.position[2] + object_1.height
+            object_2_bottom_pos = object_2.position[2]
+            object_2_top_pos = object_2.position[2] + object_2.height
 
-            # GETTING CAMERA COODRINATES OF THE VERTICES WITH MIN AND MAX Y PROJECTIONS FOR OBJECT 1 AND OBJECT 2
-            v1_min_y, v1_max_y = vertices_y[obj_1_index]
-            v2_min_y, v2_max_y = vertices_x[obj_2_index]
-
-            v1_min_cam_y = transform_to_camera_space(v1_min_y, camera_x_axis, camera_y_axis)
-            v1_max_cam_y = transform_to_camera_space(v1_max_y, camera_x_axis, camera_y_axis)
-            v2_min_cam_y = transform_to_camera_space(v2_min_y, camera_x_axis, camera_y_axis)
-            v2_max_cam_y = transform_to_camera_space(v2_max_y, camera_x_axis, camera_y_axis)
-
-            if <condition>:
+            if object_1_bottom_pos > object_2_top_pos - EPS:
                 front_object = object_2
                 back_object = object_1
-            else:
+            if object_2_bottom_pos > object_1_top_pos - EPS:
                 front_object = object_1
-                back_object = object_2      
+                back_object = object_2
 
-
+            # CREATING GRAPH VERTEX
             adjacency_graph[front_object].add(back_object)
 
-                
     # RUNNING THROUGH CONSTRUCTED GRAPH
     sorted_objects = []
     while adjacency_graph:
@@ -168,9 +171,8 @@ def depth_sort(objects, camera):
                 del adjacency_graph[obj]
             for remaining in adjacency_graph:
                 adjacency_graph[remaining] -= set(no_dependency)
-    
-    return sorted_objects
 
+    return sorted_objects
 
 
 def global_render(screen, camera, objects, bend_objects=[]):

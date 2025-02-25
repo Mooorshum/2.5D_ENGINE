@@ -25,6 +25,8 @@ class Hitbox:
 
         self.collided = False
 
+        self.colliding_objects = {}
+
         # Vertices for SAT algorithm
         self.vertices = []
 
@@ -88,7 +90,6 @@ class Hitbox:
     def get_axes(self):
         self.update()
         self.axes = []
-
         for vertex_index in range(len(self.vertices)):
 
             vertex_1 = self.vertices[vertex_index]
@@ -108,7 +109,7 @@ class Hitbox:
         return self.object.position
 
 
-    def check_and_resolve_collision(self, object):
+    def check_collision(self, object):
         other_hitbox = object.hitbox
 
         self.get_axes()
@@ -139,15 +140,21 @@ class Hitbox:
             other_max = max(other_projections)
 
             if self_max < other_min or other_max < self_min:
+                # REMOVING OBJECT AND COLLISION DATA FROM COLLIDING_OBJECTS DICT
+                if object in self.colliding_objects.keys():
+                    del self.colliding_objects[object]
                 return
-            
+
             overlap = min(self_max - other_min, other_max - self_min)
             if overlap < min_overlap:
                 min_overlap = overlap
                 mtv_axis = axis
 
-        self.resolve_collision(object, mtv_axis, min_overlap)
-
+        # ADDING OBJECT AND COLLISION DATA TO COLLIDING_OBJECTS DICT
+        self.colliding_objects[object] = {
+            'mtv_axis': mtv_axis,
+            'overlap': min_overlap
+        }
 
 
     def calculate_moment_of_inertia(self):

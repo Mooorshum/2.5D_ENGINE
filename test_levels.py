@@ -66,22 +66,23 @@ class Game:
 
         """ NON-INTERACTABLE SPRITE STACK ASSETS """
         self.non_interactable_sprite_stack_assets = [
-            SpritestackAsset(type='texture', name='branches_1', hitbox_size=(32,32), render_layer_offset=-10000, hitbox_type='rectangle'),
-            SpritestackAsset(type='house_1_interior', name='floor_1', hitbox_size=(32,32), render_layer_offset=10000, scale=1, hitbox_type='rectangle'),
-            SpritestackAsset(type='house_1_interior', name='carpet_1', hitbox_size=(32,32), render_layer_offset=-10000, scale=1, hitbox_type='rectangle'),
-            SpritestackAsset(type='tent_1_interior', name='floor_1', hitbox_size=(80,80), render_layer_offset=-10000, scale=1, hitbox_type='rectangle'),
-            SpritestackAsset(type='tent_1_interior', name='cow_hide_1', hitbox_size=(80,80), render_layer_offset=-10000, scale=1, hitbox_type='rectangle'),
-            SpritestackAsset(type='tent_1_interior', name='bed_1', hitbox_size=(80,80), scale=1, hitbox_type='rectangle'),
+            SpritestackAsset(type='texture', name='branches_1', hitbox_size=(32,32), render_layer_offset=-10000, hitbox_type='rectangle', interactable=False),
+            SpritestackAsset(type='house_1_interior', name='floor_1', hitbox_size=(32,32), render_layer_offset=-10000, scale=1, hitbox_type='rectangle', interactable=False),
+            SpritestackAsset(type='house_1_interior', name='carpet_1', hitbox_size=(32,32), render_layer_offset=-10000, scale=1, hitbox_type='rectangle', interactable=False),
+            SpritestackAsset(type='tent_1_interior', name='floor_1', hitbox_size=(80,80), render_layer_offset=-10000, scale=1, hitbox_type='rectangle', interactable=False),
+            SpritestackAsset(type='tent_1_interior', name='cow_hide_1', hitbox_size=(80,80), render_layer_offset=-10000, scale=1, hitbox_type='rectangle', interactable=False),
+            SpritestackAsset(type='tent_1_interior', name='bed_1', hitbox_size=(80,80), scale=1, hitbox_type='rectangle', interactable=False),
 
-            SpritestackAsset(type='water_surface', name='sea_surface_1', hitbox_size=(32,32), render_layer_offset=-10000, scale=1, hitbox_type='rectangle'),
-            SpritestackAsset(type='water_surface', name='sea_surface_2', hitbox_size=(32,32), render_layer_offset=-10000, scale=1, hitbox_type='rectangle'),
-            SpritestackAsset(type='water_surface', name='sea_surface_3', hitbox_size=(32,32), render_layer_offset=-10000, scale=1, hitbox_type='rectangle'),
+            SpritestackAsset(type='water_surface', name='sea_surface_1', hitbox_size=(32,32), render_layer_offset=-10000, scale=1, hitbox_type='rectangle', interactable=False),
+            SpritestackAsset(type='water_surface', name='sea_surface_2', hitbox_size=(32,32), render_layer_offset=-10000, scale=1, hitbox_type='rectangle', interactable=False),
+            SpritestackAsset(type='water_surface', name='sea_surface_4', hitbox_size=(32,32), render_layer_offset=-10000, scale=1, hitbox_type='rectangle', interactable=False),
 
-            SpritestackAsset(type='pier', name='pier_1', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
-            SpritestackAsset(type='cliff', name='cliff_pier', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
+            SpritestackAsset(type='pier', name='pier_1', hitbox_size=(32,32), scale=1, hitbox_type='rectangle', interactable=False),
+            SpritestackAsset(type='cliff', name='cliff_pier', hitbox_size=(32,32), scale=1, hitbox_type='rectangle', interactable=False),
 
-            SpritestackAsset(type='texture', name='grass_1', hitbox_size=(32,32), render_layer_offset=-10000, hitbox_type='rectangle'),
+            SpritestackAsset(type='texture', name='grass_1', hitbox_size=(32,32), render_layer_offset=-10000, hitbox_type='rectangle', interactable=False),
 
+            SpritestackAsset(type='stone_tile', name='stone_tile_1', hitbox_size=(32,32), render_layer_offset=-10000, hitbox_type='rectangle', interactable=False),
         ]
 
 
@@ -194,7 +195,11 @@ class Game:
             SpritestackAsset(type='cliff', name='cliff_2', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
             SpritestackAsset(type='cliff', name='cliff_3', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
             SpritestackAsset(type='cliff', name='cliff_4', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
-            
+
+            # BRICK WALLS
+            SpritestackAsset(type='brick_wall', name='brick_wall_1', hitbox_size=(32,8), scale=1, hitbox_type='rectangle'),
+            SpritestackAsset(type='brick_wall', name='brick_wall_2', hitbox_size=(32,8), scale=1, hitbox_type='rectangle'),
+            SpritestackAsset(type='brick_wall', name='brick_wall_3', hitbox_size=(32,8), scale=1, hitbox_type='rectangle'),
         ]
 
 
@@ -278,7 +283,7 @@ class Game:
             map_size=(1000, 1000),
             fill_colour=(105, 66, 56)
         )
-        self.outdoors_level.player.position = [500, 700, 0]
+        self.outdoors_level.player.position = [400, 600, 0]
         self.outdoors_level.vehicle_assets = self.vehicle_assets
         self.outdoors_level.non_interactable_sprite_stack_assets = self.non_interactable_sprite_stack_assets
         self.outdoors_level.dynamic_sprite_stack_assets = self.dynamic_sprite_stack_assets

@@ -10,7 +10,7 @@ from general_game_mechanics.collisions import Hitbox
 
 
 class SpritestackAsset:
-    def __init__(self, type=None, name=None, hitbox_size=(32, 32), render_box_size=None, render_layer_offset=0, hitbox_type='circle', mass=10, spread=1, scale=1, y0_base_offset=0, movelocked=True):
+    def __init__(self, type=None, name=None, hitbox_size=(32, 32), render_box_size=None, render_layer_offset=0, hitbox_type='circle', mass=10, spread=1, scale=1, y0_base_offset=0, movelocked=True, interactable=True):
         self.type = type
         self.name = name
 
@@ -19,6 +19,7 @@ class SpritestackAsset:
         self.mass = mass
 
         self.movelocked = movelocked
+        self.interactable = interactable
 
         self.slice_size = (0, 0)
 
@@ -127,6 +128,7 @@ class SpritestackModel:
         self.mass = self.asset.mass
 
         self.movelocked = self.asset.movelocked
+        self.interactable = self.asset.interactable
 
         self.stack_index = 0
         self.internal_time = 0

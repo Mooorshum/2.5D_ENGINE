@@ -3,6 +3,7 @@ import copy
 import json
 
 from math import radians, sin, cos, sqrt, atan2
+from itertools import combinations
 
 from graphics.rendering import global_render
 from general_game_mechanics.dynamic_objects import DynamicObject, Vehicle, Character, Stairs
@@ -87,10 +88,11 @@ class Level:
         self.play = False
 
         self.stairs = [
-            Stairs(asset=self.game.stair_asset, asset_index=1, position=[520, 800, 0], rotation=20),
+            Stairs(asset=self.game.stair_asset, asset_index=1, position=[200, 600, 0], rotation=0),
+            #Stairs(asset=self.game.stair_asset, asset_index=1, position=[200, 580, 0], rotation=90),
             #Stairs(asset=self.game.stair_asset, asset_index=1, position=[600, 800, -31], rotation=210),
         ]
-        
+
 
         """ DISPLAY SETTINGS """
         self.render_width = 400
@@ -752,18 +754,21 @@ class Level:
             for vehicle in self.vehicles:
                 vehicle.handle_driver(self.player)
 
+
+
+
+
+
         """ HANDLING DYNAMIC OBJECT COLLISION """
-        dynamic_objects = self.dynamic_sprite_stack_objects + [self.player] + self.vehicles + self.player.projectiles
+        dynamic_objects = self.dynamic_sprite_stack_objects + [self.player] + self.vehicles + self.player.projectiles + self.non_interactable_sprite_stack_objects
         for obj in dynamic_objects:
             obj.hitbox.collided = False
-            if not obj.movelocked:
-                obj.hitbox.update() # UPDATING HITBOX AND RENDER VERTICES
-            
-        for object_1 in dynamic_objects:
-            for object_2 in dynamic_objects:
+            obj.hitbox.update() # UPDATING HITBOX AND RENDER VERTICES
+
+        for object_1, object_2 in combinations(dynamic_objects, 2):
                 object_1.hitbox.colour = (255, 0, 0)
-                object_1.hitbox.colour = (255, 0, 0)
-                if object_1 != object_2 and not (object_1.movelocked and object_2.movelocked):
+                object_2.hitbox.colour = (255, 0, 0)
+                if not (object_1.movelocked and object_2.movelocked):
 
                     object_1_is_on_screen_x = abs(self.camera.position[0] - object_1.position[0]) < self.camera.width/2
                     if object_1_is_on_screen_x:
@@ -782,19 +787,31 @@ class Level:
                                         check_threshold_distance_y = (object_1.hitbox.size[1] + object_2.hitbox.size[1]) * sqrt(2)
                                         dy = abs(object_1.position[1] - object_2.position[1])
                                         if dy < check_threshold_distance_y:
-                                        
-                                            object_1.hitbox.check_and_resolve_collision(object_2)
+
+                                            # CHECKING FOR COLLISION
+                                            object_1.hitbox.check_collision(object_2)
+
+                                            # IF A COLLISION HAS HAPPENED
+                                            if object_2 in object_1.hitbox.colliding_objects.keys():
+
+                                                # GETTING COLLISION DATA
+                                                mtv_axis = object_1.hitbox.colliding_objects[object_2]['mtv_axis']
+                                                overlap = object_1.hitbox.colliding_objects[object_2]['overlap']
+
+                                                # RESOLVING COLLISION
+                                                if object_1.interactable and object_2.interactable:
+                                                    object_1.hitbox.resolve_collision(object_2, mtv_axis, overlap)
 
         for obj in dynamic_objects:
             if obj.hitbox.collided:
                 obj.hitbox.colour = (255, 255, 0)
             else:
                 obj.hitbox.colour = (255, 0, 0)
-
-        for water_object in self.water_objects:
-            for obj in dynamic_objects:
-                water_object.track_splashes_and_object_depth(obj)
             
+
+
+
+
 
         """ UPDATING PARTICLE SYSTEMS """
         for particle_system in self.particle_systems:

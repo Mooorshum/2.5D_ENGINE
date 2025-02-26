@@ -5,7 +5,7 @@ import json
 from math import radians, sin, cos, sqrt, atan2
 from itertools import combinations
 
-from graphics.rendering import global_render
+from graphics.rendering import global_render, get_visible_objects, depth_sort
 from general_game_mechanics.dynamic_objects import DynamicObject, Vehicle, Character, Stairs
 from general_game_mechanics.water import WaterBody
 
@@ -138,6 +138,11 @@ class Level:
 
         self.rotation_speed = 2
         self.scroll_speed = 0.1
+
+        """ TOPOLOGICAL DEPTH SORTING SETTINGS """
+        self.depth_sort_period = 30
+        self.depth_sort_timer = 0
+        self.depth_sorted_objects = []
 
 
     def handle_controls_editing(self, keys):
@@ -851,12 +856,26 @@ class Level:
 
         """ RENDERING ALL LEVEL OBJECTS """
         render_objects= self.stairs + [self.player] + self.vehicles + self.non_interactable_sprite_stack_objects + self.dynamic_sprite_stack_objects + plants + grass_tiles + self.particle_systems + self.loadpoints
+
+        # CONTROLLING TOPOLOGICAL DEPTH SORTING
+        if self.depth_sort_timer > self.depth_sort_period:
+            self.depth_sort_timer = 0
+        if self.depth_sort_timer == 0:
+            # GETTING VISIBLE OBJECTS
+            visible_objects = get_visible_objects(render_surface, self.camera, render_objects)
+            # PERFORMING TOPOLOGICAL DEPTH SORTING OF OBJECTS
+            self.depth_sorted_objects = depth_sort(visible_objects, self.camera)
+        self.depth_sort_timer += 1
+
+        # RENDERING DEPTH SORTED OBJECTS
         if self.current_asset:
-            render_objects += [self.current_asset]
+            sorted_objects = [self.current_asset] + self.depth_sorted_objects
+        else:
+            sorted_objects = self.depth_sorted_objects
         global_render(
             screen=render_surface,
             camera=self.camera,
-            objects=render_objects,
+            sorted_objects=sorted_objects,
             bend_objects=[self.player] + self.vehicles, #self.dynamic_sprite_stack_objects + [self.player] + self.vehicles,
         )
 

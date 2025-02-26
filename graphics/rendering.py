@@ -98,6 +98,12 @@ def depth_sort(objects, camera):
         overlap_x_camera = find_ranges_overlap(obj_1_min_x, obj_1_max_x, obj_2_min_x, obj_2_max_x)
 
         # CONDITION FOR INTERSECTION OF BOUNDING BOXES ALONG Y AXIS:
+        """ overlap_y_camera = find_ranges_overlap(
+            obj_1_min_y + object_1.position[2],
+            obj_1_max_y + object_1.position[2] + object_1.height,
+            obj_2_min_y + object_2.position[2],
+            obj_2_max_y + object_2.position[2] + object_2.height
+        ) """
         overlap_y_camera = True
 
         # IF THE PROJECTIONS OF TWO OBJECTS ONTO BOTH AXES INTERSECT:
@@ -111,8 +117,6 @@ def depth_sort(objects, camera):
             v1_min_x, v1_max_x = vertices_x[obj_1_index]
             v2_min_x, v2_max_x = vertices_x[obj_2_index]
 
-            
-            
             v1_min_cam_x = transform_to_camera_space(v1_min_x, camera_x_axis, camera_y_axis)
             v1_max_cam_x = transform_to_camera_space(v1_max_x, camera_x_axis, camera_y_axis)
             v2_min_cam_x = transform_to_camera_space(v2_min_x, camera_x_axis, camera_y_axis)
@@ -175,7 +179,28 @@ def depth_sort(objects, camera):
     return sorted_objects
 
 
-def global_render(screen, camera, objects, bend_objects=[]):
+""" GETTING A LIST OF VISIBLE OBJECTS """
+def get_visible_objects(screen, camera, objects):
+    extra_padding = 100
+    render_padding_x = screen.get_width() / 2 + extra_padding
+    render_padding_y = screen.get_height() / 2 + extra_padding
+
+    visible_objects = []
+    for game_object in objects:
+        is_in_frame_x = (game_object.position[0] > camera.position[0] - render_padding_x) and \
+                        (game_object.position[0] < camera.position[0] + render_padding_x)
+
+        is_in_frame_y = (game_object.position[1] > camera.position[1] - render_padding_y) and \
+                        (game_object.position[1] < camera.position[1] + render_padding_y)
+        
+        if is_in_frame_x and is_in_frame_y:
+
+            visible_objects.append(game_object)
+    return visible_objects
+
+
+""" RENDERING ALL DEPTH SORTED OBJECTS """
+def global_render(screen, camera, sorted_objects, bend_objects=[]):
     extra_padding = 100
     render_padding_x = screen.get_width() / 2 + extra_padding
     render_padding_y = screen.get_height() / 2 + extra_padding
@@ -185,64 +210,39 @@ def global_render(screen, camera, objects, bend_objects=[]):
     camera_x_axis = [-cos(camera_rotation), sin(camera_rotation)]
     camera_y_axis = [sin(camera_rotation), cos(camera_rotation)]
 
-    if len(objects) > 0:
+    # RENDERING OBJECTS IN SORTED ORDER
+    for game_object in sorted_objects:
+        # GETTING CAMERA TRANSLATIONAL + ROTATIONAL OFFSET
+        offset_x = camera.position[0] - game_object.position[0] + (game_object.position[0] - camera.position[0])*cos(camera_rotation) - (game_object.position[1] - camera.position[1])*sin(camera_rotation)
+        offset_y = camera.position[1] - game_object.position[1] + (game_object.position[0] - camera.position[0])*sin(camera_rotation) + (game_object.position[1] - camera.position[1])*cos(camera_rotation)
+        offset = [offset_x - camera.position[0] + camera.width/2, offset_y - camera.position[1] + camera.height/2]
+        # RENDERING HITBOX
+        if game_object.hitbox.show_render_box:
+            min_x, max_x, best_line_vertice_1, best_line_vertice_2 = project_object(game_object, camera_x_axis)
+            best_line_vertices = [best_line_vertice_1, best_line_vertice_2]
+            for vertex in best_line_vertices:
+                vertex_offset_x = camera.position[0] - vertex[0] + (vertex[0] - camera.position[0])*cos(camera_rotation) - (vertex[1] - camera.position[1])*sin(camera_rotation)
+                vertex_offset_y = camera.position[1] - vertex[1] + (vertex[0] - camera.position[0])*sin(camera_rotation) + (vertex[1] - camera.position[1])*cos(camera_rotation)
+                vertex_offset = [vertex_offset_x - camera.position[0] + camera.width/2, vertex_offset_y - camera.position[1] + camera.height/2]
+                pygame.draw.circle(
+                    screen,
+                    (255, 255, 255),
+                    (
+                        vertex[0] + vertex_offset[0],
+                        vertex[1] + vertex_offset[1] - game_object.position[2]
+                    ),
+                    3,
+                )
+        # UNIQUE RENDER FUNCTIONS
+        if isinstance(game_object, plants.Plant):
+            game_object.render(screen, bend_objects, offset)
+        elif isinstance(game_object, grass.GrassTile):
+            game_object.render(screen, bend_objects, offset)
+        elif isinstance(game_object, SpritestackModel):
+            game_object.render(screen, camera, offset)
         
-
-        # GETTING A LIST OF VISIBLE OBJECTS
-        renderable_objects = []
-        for game_object in objects:
-            is_in_frame_x = (game_object.position[0] > camera.position[0] - render_padding_x) and \
-                            (game_object.position[0] < camera.position[0] + render_padding_x)
-    
-            is_in_frame_y = (game_object.position[1] > camera.position[1] - render_padding_y) and \
-                            (game_object.position[1] < camera.position[1] + render_padding_y)
+        elif isinstance(game_object, ParticleSystem):
+            game_object.render(screen, camera)
             
-            if is_in_frame_x and is_in_frame_y:
-    
-                renderable_objects.append(game_object)
-
-
-        # DOING A TOPOLOGICAL DEPTH SORT ON RENDERABLE OBJECTS
-        sorted_objects = depth_sort(renderable_objects, camera)
-
-        # RENDERING OBJECTS IN SORTED ORDER
-        for game_object in sorted_objects:
-
-            # GETTING CAMERA TRANSLATIONAL + ROTATIONAL OFFSET
-            offset_x = camera.position[0] - game_object.position[0] + (game_object.position[0] - camera.position[0])*cos(camera_rotation) - (game_object.position[1] - camera.position[1])*sin(camera_rotation)
-            offset_y = camera.position[1] - game_object.position[1] + (game_object.position[0] - camera.position[0])*sin(camera_rotation) + (game_object.position[1] - camera.position[1])*cos(camera_rotation)
-            offset = [offset_x - camera.position[0] + camera.width/2, offset_y - camera.position[1] + camera.height/2]
-
-            # RENDERING HITBOX
-            if game_object.hitbox.show_render_box:
-                min_x, max_x, best_line_vertice_1, best_line_vertice_2 = project_object(game_object, camera_x_axis)
-                best_line_vertices = [best_line_vertice_1, best_line_vertice_2]
-                for vertex in best_line_vertices:
-                    vertex_offset_x = camera.position[0] - vertex[0] + (vertex[0] - camera.position[0])*cos(camera_rotation) - (vertex[1] - camera.position[1])*sin(camera_rotation)
-                    vertex_offset_y = camera.position[1] - vertex[1] + (vertex[0] - camera.position[0])*sin(camera_rotation) + (vertex[1] - camera.position[1])*cos(camera_rotation)
-                    vertex_offset = [vertex_offset_x - camera.position[0] + camera.width/2, vertex_offset_y - camera.position[1] + camera.height/2]
-                    pygame.draw.circle(
-                        screen,
-                        (255, 255, 255),
-                        (
-                            vertex[0] + vertex_offset[0],
-                            vertex[1] + vertex_offset[1] - game_object.position[2]
-                        ),
-                        3,
-                    )
-
-            # UNIQUE RENDER FUNCTIONS
-            if isinstance(game_object, plants.Plant):
-                game_object.render(screen, bend_objects, offset)
-
-            elif isinstance(game_object, grass.GrassTile):
-                game_object.render(screen, bend_objects, offset)
-
-            elif isinstance(game_object, SpritestackModel):
-                game_object.render(screen, camera, offset)
-            
-            elif isinstance(game_object, ParticleSystem):
-                game_object.render(screen, camera)
-                
-            elif isinstance(game_object, LoadPoint):
-                game_object.render(screen, offset)
+        elif isinstance(game_object, LoadPoint):
+            game_object.render(screen, offset)

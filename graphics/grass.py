@@ -7,7 +7,7 @@ import random
 from math import sqrt, sin, cos, pi, radians, exp
 from numpy import sign
 
-
+from general_game_mechanics.collisions import Hitbox
 
 
 class GrassBlade:
@@ -189,6 +189,16 @@ class GrassTile:
 
         self.relaxed = True
         self.tile_uniform_rotation = 0
+
+        # PROPERTIES REQUIRED FOR TOPOLOGICAL DEPTH SORTING
+        self.rotation = 0
+        self.height = self.asset.blade_asset_images[0].get_height()
+        self.hitbox = Hitbox(
+            object=self,
+            size=(self.asset.size, self.asset.size),
+            render_box_size=(self.asset.size, self.asset.size),
+            type='rectangle'
+        )
 
         self.grass_blades = [
             GrassBlade(copy.deepcopy(blade.image), copy.deepcopy(blade.position))

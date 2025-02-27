@@ -80,6 +80,20 @@ class ParticleSystem:
 
         self.y0_offset = 0
 
+        # PROPERTIES REQUIRED FOR TOPOLOGICAL DEPTH SORTING
+        self.movelocked = True
+        self.interactable = False
+        self.rotation = 0
+        self.height = 20
+        self.hitbox_size = (20, 20)
+        self.hitbox = Hitbox(
+            object=self,
+            size=self.hitbox_size,
+            render_box_size=self.hitbox_size,
+            type='rectangle'
+        )
+        
+
         
     def create_particle(self):
         if len(self.particles) < self.max_count:
@@ -97,6 +111,7 @@ class ParticleSystem:
             self.particles.append(particle)
 
     def update(self):
+        self.hitbox.update()
         self.create_particle()
         for particle in self.particles[:]:
             particle.move()
@@ -108,6 +123,11 @@ class ParticleSystem:
     def render(self, screen, camera):
         for particle in self.particles:
             particle.draw(screen, camera)
+        camera_rotation = radians(camera.rotation)
+        offset_x = camera.position[0] - self.position[0] + (self.position[0] - camera.position[0]) * cos(camera_rotation) - (self.position[1] - camera.position[1]) * sin(camera_rotation)
+        offset_y = camera.position[1] - self.position[1] + (self.position[0] - camera.position[0]) * sin(camera_rotation) + (self.position[1] - camera.position[1]) * cos(camera_rotation)
+        offset = [offset_x - camera.position[0] + camera.width / 2, offset_y - camera.position[1] + camera.height / 2]
+        self.hitbox.render(screen, camera, offset)
 
     def get_data(self):
         data = {}
@@ -140,7 +160,7 @@ class ImageParticle(Particle):
 
         if self.image:
             """ CHANGE THIS TO BE A FOGSYSTEM PARAMETER !!!!!!!!!!!!!!!!! """
-            scale = 0.25 
+            scale = 0.25
 
             image = self.image
             pygame.transform.scale(image, (image.get_width()* scale, image.get_height() * scale))
@@ -216,6 +236,7 @@ class Projectile():
         self.hitbox_size = (10, 10)
         self.hitbox_type = 'circle'
         self.movelocked = False
+        self.interactable = True
 
         self.rotation = 0
         self.omega = 0
@@ -235,21 +256,28 @@ class Projectile():
 
         self.dt = 0.1
 
+        # PROPERTIES REQUIRED FOR TOPOLOGICAL DEPTH SORTING
+        self.rotation = 0
+        self.hitbox_size = (20, 20)
+        self.hitbox_type = 'circle'
         self.hitbox = Hitbox(
             object=self,
             size=self.hitbox_size,
+            render_box_size=self.hitbox_size,
             type=self.hitbox_type
         )
+        self.movelocked = False
+        self.interactable = True
+
 
     def update(self):
         self.elapsed_time += 1
-
         self.particle_system.position[0] += self.vx * self.dt
         self.particle_system.position[1] += self.vy * self.dt
         self.particle_system.update()
         self.position = self.particle_system.position
-
-        if self.hitbox.collided: 
+        self.hitbox.update()
+        if self.hitbox.collided:
             self.vx *= 0.99
             self.vy *= 0.99
 

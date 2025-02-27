@@ -36,9 +36,7 @@ class Hitbox:
         # Calculating vertices, axes for SAT algorithm + render box vertices
         self.update() # Getting hitbox and render box vertices
         self.axes = self.get_axes()
-
         
-
         self.mtv_axis = [0, 0]
         self.min_overlap = 0
         self.mtv_axis_normalized = [0, 0]

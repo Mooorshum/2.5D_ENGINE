@@ -88,7 +88,7 @@ class Level:
         self.play = False
 
         self.stairs = [
-            Stairs(asset=self.game.stair_asset, asset_index=1, position=[200, 600, 0], rotation=0),
+            #Stairs(asset=self.game.stair_asset, asset_index=1, position=[200, 600, 0], rotation=0),
             #Stairs(asset=self.game.stair_asset, asset_index=1, position=[200, 580, 0], rotation=90),
             #Stairs(asset=self.game.stair_asset, asset_index=1, position=[600, 800, -31], rotation=210),
         ]
@@ -140,7 +140,7 @@ class Level:
         self.scroll_speed = 0.1
 
         """ TOPOLOGICAL DEPTH SORTING SETTINGS """
-        self.depth_sort_period = 30
+        self.depth_sort_period = 50
         self.depth_sort_timer = 0
         self.depth_sorted_objects = []
 
@@ -855,7 +855,12 @@ class Level:
                 grass_tiles.append(system_tiles[j])
 
         """ RENDERING ALL LEVEL OBJECTS """
-        render_objects= self.stairs + [self.player] + self.vehicles + self.non_interactable_sprite_stack_objects + self.dynamic_sprite_stack_objects + plants + grass_tiles + self.particle_systems + self.loadpoints
+        # GETTING A LIST OF PARTICLE SYSTEMS BELONGING TO PROJECTILES
+        projectile_particle_systems = []
+        for projectile in self.player.projectiles:
+            projectile_particle_systems.append(projectile.particle_system)
+
+        render_objects= self.stairs + [self.player] + projectile_particle_systems + self.vehicles + self.non_interactable_sprite_stack_objects + self.dynamic_sprite_stack_objects + plants + grass_tiles + self.particle_systems + self.loadpoints
 
         # CONTROLLING TOPOLOGICAL DEPTH SORTING
         if self.depth_sort_timer > self.depth_sort_period:
@@ -869,19 +874,16 @@ class Level:
 
         # RENDERING DEPTH SORTED OBJECTS
         if self.current_asset:
-            sorted_objects = [self.current_asset] + self.depth_sorted_objects
+            sorted_objects = self.depth_sorted_objects + [self.current_asset]
         else:
             sorted_objects = self.depth_sorted_objects
+
         global_render(
             screen=render_surface,
             camera=self.camera,
             sorted_objects=sorted_objects,
             bend_objects=[self.player] + self.vehicles, #self.dynamic_sprite_stack_objects + [self.player] + self.vehicles,
         )
-
-        """ RENDERING PLAYER PROJECTILES """
-        for projectile in self.player.projectiles:
-            projectile.render(screen=render_surface, camera=self.camera)
 
         for grass_system in self.grass_systems:
             grass_system.apply_wind()

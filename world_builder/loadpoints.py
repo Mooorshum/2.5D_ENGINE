@@ -2,6 +2,8 @@ import pygame
 
 from math import sqrt
 
+from general_game_mechanics.collisions import Hitbox
+
 class LoadPoint:
     def __init__(self, level, level_index=0, position=[0, 0], size=20, colour=(255, 255, 0)):
         self.level_index = level_index
@@ -11,6 +13,18 @@ class LoadPoint:
         self.colour = colour
         self.y0_offset = -1000
         self.marker_opacity = 0.5
+
+        # PROPERTIES REQUIRED FOR TOPOLOGICAL DEPTH SORTING
+        self.rotation = 0
+        self.height = 20
+        self.hitbox = Hitbox(
+            object=self,
+            size=(self.size, self.size),
+            render_box_size=(self.size, self.size),
+            type='circle'
+        )
+        self.movelocked = True
+        self.interactable = False
 
     def handle_loading(self, player, game):
         self.marker_opacity = 0.25

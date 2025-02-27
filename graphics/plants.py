@@ -7,6 +7,8 @@ import os
 from math import sqrt, sin, cos, atan2, degrees, hypot, ceil, asin, pi, copysign, exp, radians
 from numpy import sign
 
+from general_game_mechanics.collisions import Hitbox
+
 
 def draw_rotated_image(image, rotation_point_x, rotation_point_y, screen, angle=0, offset=[0, 0]):
     image_height = image.get_height()
@@ -260,6 +262,23 @@ class Plant:
         self.total_angle_change = 0
         self.is_bent = False
         self.relax_speed = self.asset.relax_speed
+
+        # PROPERTIES REQUIRED FOR TOPOLOGICAL DEPTH SORTING
+        self.rotation = 0
+        max_branch_length = 0
+        for branch in self.asset.branches:
+            branch_length = 0
+            for segment_length in branch.segment_lengths:
+                branch_length += segment_length
+            if branch_length > max_branch_length:
+                max_branch_length = branch_length
+        self.height = max_branch_length
+        self.hitbox = Hitbox(
+            object=self,
+            size=(max_branch_length, max_branch_length),
+            render_box_size=(max_branch_length, max_branch_length),
+            type='rectangle'
+        )
 
 
     def render_simple(self, screen, offset=[0, 0]):

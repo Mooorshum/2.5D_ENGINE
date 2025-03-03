@@ -197,9 +197,44 @@ class Game:
             SpritestackAsset(type='cliff', name='cliff_4', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
 
             # BRICK WALLS
-            SpritestackAsset(type='brick_wall', name='brick_wall_1', hitbox_size=(32,8), scale=1, hitbox_type='rectangle'),
-            SpritestackAsset(type='brick_wall', name='brick_wall_2', hitbox_size=(32,8), scale=1, hitbox_type='rectangle'),
-            SpritestackAsset(type='brick_wall', name='brick_wall_3', hitbox_size=(32,8), scale=1, hitbox_type='rectangle'),
+            SpritestackAsset(type='brick_wall', name='brick_wall_1', hitbox_size=(64,8), scale=1, hitbox_type='rectangle'),
+            SpritestackAsset(type='brick_wall', name='brick_wall_2', hitbox_size=(64,8), scale=1, hitbox_type='rectangle'),
+            SpritestackAsset(type='brick_wall', name='brick_wall_3', hitbox_size=(64,8), scale=1, hitbox_type='rectangle'),
+            SpritestackAsset(type='brick_wall', name='brick_wall_4', hitbox_size=(64,8), scale=1, hitbox_type='rectangle'),
+            SpritestackAsset(type='brick_wall', name='brick_wall_5', hitbox_size=(64,8), scale=1, hitbox_type='rectangle'),
+
+
+
+
+
+
+
+            # WOODEN HOUSE PARTS
+            SpritestackAsset(type='wooden_house_parts', name='wall_simple_32', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle'),
+            SpritestackAsset(type='wooden_house_parts', name='wall_small_window_32', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle'),
+            SpritestackAsset(type='wooden_house_parts', name='wall_door_32', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle'),
+
+            SpritestackAsset(type='wooden_house_parts', name='wall_simple_beams_32', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle'),
+            SpritestackAsset(type='wooden_house_parts', name='wall_small_window_beams_32', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle'),
+            SpritestackAsset(type='wooden_house_parts', name='wall_door_beams_32', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle'),
+
+            SpritestackAsset(type='wooden_house_parts', name='wall_simple_64', hitbox_size=(64,64), hitbox_type='rectangle'),
+            SpritestackAsset(type='wooden_house_parts', name='wall_small_window_64', hitbox_size=(64,64), hitbox_type='rectangle'),
+            SpritestackAsset(type='wooden_house_parts', name='wall_door_64', hitbox_size=(64,64), hitbox_type='rectangle'),
+
+            SpritestackAsset(type='wooden_house_parts', name='test_corner', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle', interactable=False),
+            SpritestackAsset(type='wooden_house_parts', name='test_corner_roof', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle', interactable=False),
+            SpritestackAsset(type='wooden_house_parts', name='test_wall', hitbox_size=(64,64), hitbox_type='rectangle', interactable=False),
+            SpritestackAsset(type='wooden_house_parts', name='test_roof', hitbox_size=(64,64), hitbox_type='rectangle', interactable=False),
+
+            SpritestackAsset(type='wooden_house_parts', name='wall_roof_left_32', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle', interactable=False),
+            SpritestackAsset(type='wooden_house_parts', name='wall_roof_right_32', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle', interactable=False),
+            SpritestackAsset(type='wooden_house_parts', name='wall_roof_double_32', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle', interactable=False),
+            SpritestackAsset(type='wooden_house_parts', name='wall_roof_64', hitbox_size=(64,64), hitbox_type='rectangle', interactable=False),
+            SpritestackAsset(type='wooden_house_parts', name='wall_roof_double_64', hitbox_size=(64,64), hitbox_type='rectangle', interactable=False),
+
+
+
         ]
 
 
@@ -350,7 +385,7 @@ class Game:
 
     def run(self):
         self.current_level = self.outdoors_level
-        self.current_level.load_level()
+        """ self.current_level.load_level() """
         while 1 != 0:
             self.handle_events()
             self.update_screen_game()

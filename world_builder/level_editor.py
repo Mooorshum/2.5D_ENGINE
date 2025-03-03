@@ -136,11 +136,11 @@ class Level:
 
         self.fill_colour = fill_colour
 
-        self.rotation_speed = 2
+        self.rotation_speed = 1
         self.scroll_speed = 0.1
 
         """ TOPOLOGICAL DEPTH SORTING SETTINGS """
-        self.depth_sort_period = 50
+        self.depth_sort_period = 5
         self.depth_sort_timer = 0
         self.depth_sorted_objects = []
 
@@ -309,7 +309,7 @@ class Level:
                             self.place_height += 1
                         elif event.y == 1:
                             self.place_height -= 1
-    
+
             # ROTATE ASSET
             if self.place_noninteractable_sprite_stack or self.place_dynamic_sprite_stack or self.place_vehicle:
                 if keys[pygame.K_LSHIFT]:
@@ -740,8 +740,13 @@ class Level:
 
         place_position_x = d * cos(camera_angle + gamma) + self.camera.position[0]
         place_position_y = d * sin(camera_angle + gamma) + self.camera.position[1]
+        self.place_position = [place_position_x, place_position_y, self.place_height] 
 
-        self.place_position = [place_position_x, place_position_y, self.place_height]   
+        """ SNAPPING TO NON-ROTATING GRID """
+        place_position_x = 16 * round(place_position_x/16)
+        place_position_y = 16 * round(place_position_y/16)
+        place_position_z = 16 * round(self.place_height/16)
+        self.place_position = [place_position_x, place_position_y, place_position_z]   
 
         """ CAMERA MOVEMENT"""
         self.camera.follow(self.player.position)
@@ -868,6 +873,8 @@ class Level:
         if self.depth_sort_timer == 0:
             # GETTING VISIBLE OBJECTS
             visible_objects = get_visible_objects(render_surface, self.camera, render_objects)
+            # SORTING VISIBLE OBJECTS BY THEIR Z COORDINATE
+            visible_objects.sort(key=lambda obj: obj.position[2])
             # PERFORMING TOPOLOGICAL DEPTH SORTING OF OBJECTS
             self.depth_sorted_objects = depth_sort(visible_objects, self.camera)
         self.depth_sort_timer += 1

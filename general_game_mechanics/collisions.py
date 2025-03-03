@@ -3,13 +3,15 @@ from math import sin, cos, pi, radians, atan2, acos, sqrt
 from numpy import sign, dot, cross
 
 class Hitbox:
-    def __init__(self, object, size, render_box_size, type, colour=(255, 0, 0), ):
+    def __init__(self, object, size, render_box_size, type, hitbox_offset=(0,0), render_box_offset=(0,0), colour=(255, 0, 0), ):
         self.show_hitbox = False
         self.show_render_box = False
 
         self.object = object
         self.size = size
+        self.hitbox_offset = hitbox_offset
         self.render_box_size = render_box_size
+        self.render_box_offset = render_box_offset
         self.type = type
 
         self.colour = colour
@@ -42,16 +44,16 @@ class Hitbox:
         self.mtv_axis_normalized = [0, 0]
 
 
-    def get_vertices(self, size):
+    def get_vertices(self, size, offset):
         vertices = []
 
         # VERTICES FOR RECTANGULAR HITBOX
         if self.type == 'rectangle':
             # VERTEX COORDINATES IN OBJECT REFERENCE FRAME
-            upper_left_0 = [-size[0]/2, -size[1]/2]
-            upper_right_0 = [size[0]/2, -size[1]/2]
-            lower_left_0 = [-size[0]/2, size[1]/2]
-            lower_right_0 = [size[0]/2, size[1]/2]
+            upper_left_0 = [-size[0]/2 + offset[0], -size[1]/2 + offset[1]]
+            upper_right_0 = [size[0]/2 + offset[0], -size[1]/2 + offset[1]]
+            lower_left_0 = [-size[0]/2 + offset[0], size[1]/2 + offset[1]]
+            lower_right_0 = [size[0]/2 + offset[0], size[1]/2 + offset[1]]
             vertices_0 = [
                 upper_left_0,
                 upper_right_0,
@@ -66,7 +68,7 @@ class Hitbox:
             vertices_0 = []
             for phi_degrees in range(0, 360, int(360/vertex_count)):
                 phi = radians(phi_degrees)
-                vertex = [size[0]/2 * cos(phi), size[1]/2 * sin(phi)]
+                vertex = [size[0]/2 * cos(phi) + offset[1], size[1]/2 * sin(phi) + offset[1]]
                 vertices_0.append(vertex)
 
         # GETTING VERTEX COORDINATES FOR ROTATED HITBOX
@@ -81,8 +83,8 @@ class Hitbox:
 
 
     def update(self):
-        self.vertices = self.get_vertices(self.size)
-        self.render_box_vertices = self.get_vertices(self.render_box_size)
+        self.vertices = self.get_vertices(self.size, self.hitbox_offset)
+        self.render_box_vertices = self.get_vertices(self.render_box_size, self.render_box_offset)
 
 
     def get_axes(self):

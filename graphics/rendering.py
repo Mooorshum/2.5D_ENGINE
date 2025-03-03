@@ -11,6 +11,8 @@ from world_builder.loadpoints import LoadPoint
 
 from general_game_mechanics.dynamic_objects import Stairs, Character
 
+import random
+
 
 """ CALCULATE MIN AND MAX PROJECTIONS AND CORRESPONDING VERTICES AMONG AN OBJECT'S VERTICES """
 def project_object(obj, axis):
@@ -74,10 +76,10 @@ def depth_sort(objects, camera):
         projections_x.append((min_x, max_x))
         vertices_x.append((min_vertex_x, max_vertex_x))
 
-        """ # PROJECTION ONTO CAMERA Y AXIS
+        # PROJECTION ONTO CAMERA Y AXIS
         min_y, max_y, min_vertex_y, max_vertex_y = project_object(obj, camera_y_axis)
         projections_y.append((min_y, max_y))
-        vertices_y.append((min_vertex_y, max_vertex_y)) """
+        vertices_y.append((min_vertex_y, max_vertex_y))
 
     # BUILDING A GRAPH FOR ALL OBJECTS
     adjacency_graph = {obj: set() for obj in objects}
@@ -91,27 +93,32 @@ def depth_sort(objects, camera):
         obj_1_min_x, obj_1_max_x = projections_x[obj_1_index]
         obj_2_min_x, obj_2_max_x = projections_x[obj_2_index]
 
-        """ obj_1_min_y, obj_1_max_y = projections_y[obj_1_index]
-        obj_2_min_y, obj_2_max_y = projections_y[obj_2_index] """
+        obj_1_min_y, obj_1_max_y = projections_y[obj_1_index]
+        obj_2_min_y, obj_2_max_y = projections_y[obj_2_index]
+
+        """ print(f'obj1 min y: {obj_1_min_y}')
+        print(f'obj1 max y: {obj_1_max_y}')
+        print(f'obj2 min y: {obj_2_min_y}')
+        print(f'obj2 max y: {obj_2_max_y}')
+        print('------------------') """
 
         # GETTING THE BOUNDING BOX PROJECTIONS ONTO THE X CAMERA AXIS FOR BOTH OBJECTS
         overlap_x_camera = find_ranges_overlap(obj_1_min_x, obj_1_max_x, obj_2_min_x, obj_2_max_x)
 
         # CONDITION FOR INTERSECTION OF BOUNDING BOXES ALONG Y AXIS:
-        """ overlap_y_camera = find_ranges_overlap(
-            obj_1_min_y + object_1.position[2],
-            obj_1_max_y + object_1.position[2] + object_1.height,
-            obj_2_min_y + object_2.position[2],
-            obj_2_max_y + object_2.position[2] + object_2.height
-        ) """
-        overlap_y_camera = True
+        overlap_y_camera = find_ranges_overlap(
+            obj_1_min_y - object_1.position[2] - object_1.height,
+            obj_1_max_y - object_1.position[2],
+            obj_2_min_y - object_2.position[2] - object_2.height,
+            obj_2_max_y - object_2.position[2]
+        )
 
-        # IF THE PROJECTIONS OF TWO OBJECTS ONTO BOTH AXES INTERSECT:
+        # IF THE PROJECTIONS OF TWO OBJECTS ONTO THE CAMERA X AXIS INTERSECT:
         if overlap_x_camera and overlap_y_camera:
 
             front_object = None
             back_object = None
-
+    
             """ DETERMINE WHICH LINE COMES FIRST IF WE MOVE ALONG THE CAMERA Y AXIS FROM THE CENTER OF THE OVERLAP """
             # GETTING CAMERA COODRINATES OF THE VERTICES WITH MIN AND MAX X PROJECTIONS FOR OBJECT 1 AND OBJECT 2
             v1_min_x, v1_max_x = vertices_x[obj_1_index]
@@ -140,20 +147,39 @@ def depth_sort(objects, camera):
             else:
                 front_object = object_1
                 back_object = object_2
-
+            
             """ FIGURING OUT WHETHER ONE OBJECT IS EXPLICITLY ABOVE THE OTHER """
-            EPS = 10
+            """ EPS = 5
             object_1_bottom_pos = object_1.position[2]
             object_1_top_pos = object_1.position[2] + object_1.height
             object_2_bottom_pos = object_2.position[2]
             object_2_top_pos = object_2.position[2] + object_2.height
-
             if object_1_bottom_pos > object_2_top_pos - EPS:
                 front_object = object_2
                 back_object = object_1
-            if object_2_bottom_pos > object_1_top_pos - EPS:
+            elif object_2_bottom_pos > object_1_top_pos - EPS:
                 front_object = object_1
-                back_object = object_2
+                back_object = object_2 """
+            
+            """ if object_1.position[2] > object_2.position[2]:
+                front_object = object_2
+                back_object = object_1
+            if object_2.position[2] > object_1.position[2]: 
+                front_object = object_1
+                back_object = object_2 """
+
+            
+            """ if overlap_y_camera:
+                print('overlap y')
+            print(random.randint(0, 0)) """
+
+            """ if int(object_1.position[0]) == int(object_2.position[0]) and int(object_1.position[1]) == int(object_2.position[1]):
+                if object_1.position[2] > object_2.position[2]:
+                    front_object = object_2
+                    back_object = object_1
+                elif object_2.position[2] > object_1.position[2]:
+                    front_object = object_1
+                    back_object = object_2 """
 
             # CREATING GRAPH VERTEX
             adjacency_graph[front_object].add(back_object)
@@ -201,14 +227,8 @@ def get_visible_objects(screen, camera, objects):
 
 """ RENDERING ALL DEPTH SORTED OBJECTS """
 def global_render(screen, camera, sorted_objects, bend_objects=[]):
-    extra_padding = 100
-    render_padding_x = screen.get_width() / 2 + extra_padding
-    render_padding_y = screen.get_height() / 2 + extra_padding
-
     # CALCULATING ROTATED CAMERA X AND Y AXES
     camera_rotation = radians(camera.rotation)
-    camera_x_axis = [-cos(camera_rotation), sin(camera_rotation)]
-    camera_y_axis = [sin(camera_rotation), cos(camera_rotation)]
 
     # RENDERING OBJECTS IN SORTED ORDER
     for game_object in sorted_objects:
@@ -216,23 +236,7 @@ def global_render(screen, camera, sorted_objects, bend_objects=[]):
         offset_x = camera.position[0] - game_object.position[0] + (game_object.position[0] - camera.position[0])*cos(camera_rotation) - (game_object.position[1] - camera.position[1])*sin(camera_rotation)
         offset_y = camera.position[1] - game_object.position[1] + (game_object.position[0] - camera.position[0])*sin(camera_rotation) + (game_object.position[1] - camera.position[1])*cos(camera_rotation)
         offset = [offset_x - camera.position[0] + camera.width/2, offset_y - camera.position[1] + camera.height/2]
-        # RENDERING HITBOX
-        if game_object.hitbox.show_render_box:
-            min_x, max_x, best_line_vertice_1, best_line_vertice_2 = project_object(game_object, camera_x_axis)
-            best_line_vertices = [best_line_vertice_1, best_line_vertice_2]
-            for vertex in best_line_vertices:
-                vertex_offset_x = camera.position[0] - vertex[0] + (vertex[0] - camera.position[0])*cos(camera_rotation) - (vertex[1] - camera.position[1])*sin(camera_rotation)
-                vertex_offset_y = camera.position[1] - vertex[1] + (vertex[0] - camera.position[0])*sin(camera_rotation) + (vertex[1] - camera.position[1])*cos(camera_rotation)
-                vertex_offset = [vertex_offset_x - camera.position[0] + camera.width/2, vertex_offset_y - camera.position[1] + camera.height/2]
-                pygame.draw.circle(
-                    screen,
-                    (255, 255, 255),
-                    (
-                        vertex[0] + vertex_offset[0],
-                        vertex[1] + vertex_offset[1] - game_object.position[2]
-                    ),
-                    3,
-                )
+
         # UNIQUE RENDER FUNCTIONS
         if isinstance(game_object, plants.Plant):
             game_object.render(screen, bend_objects, offset)

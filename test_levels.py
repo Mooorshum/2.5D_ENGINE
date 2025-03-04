@@ -196,20 +196,11 @@ class Game:
             SpritestackAsset(type='cliff', name='cliff_3', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
             SpritestackAsset(type='cliff', name='cliff_4', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
 
-            # BRICK WALLS
-            SpritestackAsset(type='brick_wall', name='brick_wall_1', hitbox_size=(64,8), scale=1, hitbox_type='rectangle'),
-            SpritestackAsset(type='brick_wall', name='brick_wall_2', hitbox_size=(64,8), scale=1, hitbox_type='rectangle'),
-            SpritestackAsset(type='brick_wall', name='brick_wall_3', hitbox_size=(64,8), scale=1, hitbox_type='rectangle'),
-            SpritestackAsset(type='brick_wall', name='brick_wall_4', hitbox_size=(64,8), scale=1, hitbox_type='rectangle'),
-            SpritestackAsset(type='brick_wall', name='brick_wall_5', hitbox_size=(64,8), scale=1, hitbox_type='rectangle'),
 
 
+            ### WOODEN HOUSE PARTS
 
-
-
-
-
-            # WOODEN HOUSE PARTS
+            # front walls
             SpritestackAsset(type='wooden_house_parts', name='wall_simple_32', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle'),
             SpritestackAsset(type='wooden_house_parts', name='wall_small_window_32', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle'),
             SpritestackAsset(type='wooden_house_parts', name='wall_door_32', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle'),
@@ -218,23 +209,61 @@ class Game:
             SpritestackAsset(type='wooden_house_parts', name='wall_small_window_beams_32', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle'),
             SpritestackAsset(type='wooden_house_parts', name='wall_door_beams_32', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle'),
 
+            SpritestackAsset(type='wooden_house_parts', name='wall_roof_left_32', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle', interactable=False),
+            SpritestackAsset(type='wooden_house_parts', name='wall_roof_right_32', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle', interactable=False),
+            SpritestackAsset(type='wooden_house_parts', name='wall_roof_double_32', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle', interactable=False),
+
+            # side walls
             SpritestackAsset(type='wooden_house_parts', name='wall_simple_64', hitbox_size=(64,64), hitbox_type='rectangle'),
             SpritestackAsset(type='wooden_house_parts', name='wall_small_window_64', hitbox_size=(64,64), hitbox_type='rectangle'),
             SpritestackAsset(type='wooden_house_parts', name='wall_door_64', hitbox_size=(64,64), hitbox_type='rectangle'),
 
-            SpritestackAsset(type='wooden_house_parts', name='test_corner', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle', interactable=False),
-            SpritestackAsset(type='wooden_house_parts', name='test_corner_roof', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle', interactable=False),
-            SpritestackAsset(type='wooden_house_parts', name='test_wall', hitbox_size=(64,64), hitbox_type='rectangle', interactable=False),
-            SpritestackAsset(type='wooden_house_parts', name='test_roof', hitbox_size=(64,64), hitbox_type='rectangle', interactable=False),
-
-            SpritestackAsset(type='wooden_house_parts', name='wall_roof_left_32', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle', interactable=False),
-            SpritestackAsset(type='wooden_house_parts', name='wall_roof_right_32', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle', interactable=False),
-            SpritestackAsset(type='wooden_house_parts', name='wall_roof_double_32', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle', interactable=False),
             SpritestackAsset(type='wooden_house_parts', name='wall_roof_64', hitbox_size=(64,64), hitbox_type='rectangle', interactable=False),
             SpritestackAsset(type='wooden_house_parts', name='wall_roof_double_64', hitbox_size=(64,64), hitbox_type='rectangle', interactable=False),
 
 
 
+
+            ### BRICK HOUSE PARTS
+
+            # front walls
+            SpritestackAsset(type='brick_house_parts', name='wall_simple_32', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle'),
+            SpritestackAsset(type='brick_house_parts', name='wall_small_window_32', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle'),
+            SpritestackAsset(type='brick_house_parts', name='wall_door_32', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle'),
+
+            SpritestackAsset(type='brick_house_parts', name='wall_roof_left_32', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle', interactable=False),
+            SpritestackAsset(type='brick_house_parts', name='wall_roof_right_32', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle', interactable=False),
+            SpritestackAsset(type='brick_house_parts', name='wall_roof_double_32', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle', interactable=False),
+
+            # side walls
+            SpritestackAsset(type='brick_house_parts', name='wall_simple_64', hitbox_size=(64,64), hitbox_type='rectangle'),
+            SpritestackAsset(type='brick_house_parts', name='wall_small_window_64', hitbox_size=(64,64), hitbox_type='rectangle'),
+            SpritestackAsset(type='brick_house_parts', name='wall_door_64', hitbox_size=(64,64), hitbox_type='rectangle'),
+
+            SpritestackAsset(type='brick_house_parts', name='wall_roof_64', hitbox_size=(64,64), hitbox_type='rectangle', interactable=False),
+            SpritestackAsset(type='brick_house_parts', name='wall_roof_double_64', hitbox_size=(64,64), hitbox_type='rectangle', interactable=False),
+
+
+
+            # SET THE RIGHT RENDER BOX SIZES !!!!!!!!!
+            ### BUILDING DECOR
+            SpritestackAsset(type='building_decor', name='flag_1', hitbox_size=(4,32), hitbox_type='rectangle', interactable=False),
+            SpritestackAsset(type='building_decor', name='poster_1', hitbox_size=(22,1), hitbox_offset=(0,-16), hitbox_type='rectangle', interactable=False),
+            SpritestackAsset(type='building_decor', name='poster_2', hitbox_size=(32,1), hitbox_offset=(0,-16), hitbox_type='rectangle', interactable=False),
+            SpritestackAsset(type='building_decor', name='poster_stand', hitbox_size=(32,32), hitbox_type='rectangle'),
+            SpritestackAsset(type='building_decor', name='ladder', hitbox_size=(22,16), hitbox_offset=(0,-8), hitbox_type='rectangle', interactable=False),
+            SpritestackAsset(type='building_decor', name='large_crate', hitbox_size=(64,32), hitbox_type='rectangle', interactable=True),
+            SpritestackAsset(type='building_decor', name='medium_crate', hitbox_size=(32,32), hitbox_type='rectangle', interactable=True),
+            SpritestackAsset(type='building_decor', name='blue_canopy', hitbox_size=(32,32), hitbox_type='rectangle', interactable=False),
+            SpritestackAsset(type='building_decor', name='metal_bench', hitbox_size=(50,20), hitbox_offset=(0,-10), hitbox_type='rectangle', interactable=True),
+
+
+
+            ### TEST BLOCKS
+            #SpritestackAsset(type='test_shapes', name='test_corner', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle', interactable=False),
+            #SpritestackAsset(type='test_shapes', name='test_corner_roof', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle', interactable=False),
+            #SpritestackAsset(type='test_shapes', name='test_wall', hitbox_size=(64,64), hitbox_type='rectangle', interactable=False),
+            #SpritestackAsset(type='test_shapes', name='test_roof', hitbox_size=(64,64), hitbox_type='rectangle', interactable=False),
         ]
 
 

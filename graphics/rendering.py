@@ -147,7 +147,20 @@ def depth_sort(objects, camera):
             else:
                 front_object = object_1
                 back_object = object_2
-            
+
+
+            """ HANDLING CASES WHEN AN OBJECT IS ABOVE A TEXTURE """
+            """ if object_1.height == 1 and object_2.height != 1:
+                if object_1.position[2] == object_2.position[2]:
+                    front_object = object_1
+                    back_object = object_2
+
+            if object_1.height != 1 and object_2.height == 1:
+                if object_1.position[2] == object_2.position[2]:
+                    front_object = object_2
+                    back_object = object_1 """
+
+
             """ FIGURING OUT WHETHER ONE OBJECT IS EXPLICITLY ABOVE THE OTHER """
             """ EPS = 5
             object_1_bottom_pos = object_1.position[2]

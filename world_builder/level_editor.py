@@ -88,7 +88,7 @@ class Level:
         self.play = False
 
         self.stairs = [
-            #Stairs(asset=self.game.stair_asset, asset_index=1, position=[200, 600, 0], rotation=0),
+            Stairs(asset=self.game.stair_asset, asset_index=1, position=[map_size[0]//2, map_size[1]//2, 0], rotation=0),
             #Stairs(asset=self.game.stair_asset, asset_index=1, position=[200, 580, 0], rotation=90),
             #Stairs(asset=self.game.stair_asset, asset_index=1, position=[600, 800, -31], rotation=210),
         ]

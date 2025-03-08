@@ -252,12 +252,54 @@ class Game:
             SpritestackAsset(type='building_decor', name='poster_2', hitbox_size=(32,1), hitbox_offset=(0,-16), hitbox_type='rectangle', interactable=False),
             SpritestackAsset(type='building_decor', name='poster_stand', hitbox_size=(32,32), hitbox_type='rectangle'),
             SpritestackAsset(type='building_decor', name='ladder', hitbox_size=(22,16), hitbox_offset=(0,-8), hitbox_type='rectangle', interactable=False),
-            SpritestackAsset(type='building_decor', name='large_crate', hitbox_size=(64,32), hitbox_type='rectangle', interactable=True),
-            SpritestackAsset(type='building_decor', name='medium_crate', hitbox_size=(32,32), hitbox_type='rectangle', interactable=True),
+            SpritestackAsset(type='building_decor', name='large_crate', hitbox_size=(64,32), hitbox_type='rectangle'),
+            SpritestackAsset(type='building_decor', name='medium_crate', hitbox_size=(32,32), hitbox_type='rectangle'),
             SpritestackAsset(type='building_decor', name='blue_canopy', hitbox_size=(32,32), hitbox_type='rectangle', interactable=False),
-            SpritestackAsset(type='building_decor', name='metal_bench', hitbox_size=(50,20), hitbox_offset=(0,-10), hitbox_type='rectangle', interactable=True),
+            SpritestackAsset(type='building_decor', name='metal_bench', hitbox_size=(50,20), hitbox_offset=(0,-10), hitbox_type='rectangle'),
+            SpritestackAsset(type='building_decor', name='utility_pole_bottom', hitbox_size=(10,10), hitbox_type='rectangle'),
+            SpritestackAsset(type='building_decor', name='utility_pole_middle', hitbox_size=(10,10), hitbox_type='rectangle', interactable=False),
+            SpritestackAsset(type='building_decor', name='utility_pole_top_single', hitbox_size=(32,32), hitbox_type='rectangle', interactable=False),
+            SpritestackAsset(type='building_decor', name='utility_pole_top_double', hitbox_size=(32,32), hitbox_type='rectangle', interactable=False),
+            SpritestackAsset(type='building_decor', name='utility_pole_top_triple', hitbox_size=(32,32), hitbox_type='rectangle', interactable=False),
+            SpritestackAsset(type='building_decor', name='utility_pole_top_multiple', hitbox_size=(32,32), hitbox_type='rectangle', interactable=False),
+            
+            SpritestackAsset(type='building_decor', name='wires_straight', hitbox_size=(10,32), hitbox_type='rectangle', interactable=False),
 
 
+            ### BRICK HOUSE FLAT ROOF BLOCKS
+            SpritestackAsset(type='brick_house_parts', name='wall_garage_door_32', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle'),
+            SpritestackAsset(type='brick_house_parts', name='wall_roof_flat_full_32', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle', interactable=False),
+            SpritestackAsset(type='brick_house_parts', name='wall_roof_flat_middle_32', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle', interactable=False),
+            SpritestackAsset(type='brick_house_parts', name='wall_roof_flat_left_32', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle', interactable=False),
+            SpritestackAsset(type='brick_house_parts', name='wall_roof_flat_right_32', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle', interactable=False),
+            SpritestackAsset(type='brick_house_parts', name='wall_roof_flat_middle_64', hitbox_size=(64,64), hitbox_type='rectangle', interactable=False),
+            SpritestackAsset(type='brick_house_parts', name='wall_roof_flat_64', hitbox_size=(64,64), hitbox_type='rectangle', interactable=False),
+
+
+            ### SCAFFOLDING
+            SpritestackAsset(type='building_decor', name='scaffolding_1', hitbox_size=(64,32), hitbox_type='rectangle', interactable=False),
+            SpritestackAsset(type='building_decor', name='scaffolding_2', hitbox_size=(64,32), hitbox_type='rectangle', interactable=False),
+            SpritestackAsset(type='building_decor', name='scaffolding_3', hitbox_size=(64,32), hitbox_type='rectangle', interactable=False),
+            SpritestackAsset(type='building_decor', name='scaffolding_4', hitbox_size=(64,32), hitbox_type='rectangle', interactable=True),
+            SpritestackAsset(type='building_decor', name='scaffolding_5', hitbox_size=(64,32), hitbox_type='rectangle', interactable=False),
+
+            
+            # DUMPSTERS
+            SpritestackAsset(type='building_decor', name='dumpster', hitbox_size=(64,40), hitbox_offset=(0,-10), hitbox_type='rectangle'),
+
+            # WIRE FENCES
+            SpritestackAsset(type='building_decor', name='wire_fence_right', hitbox_size=(32,4), hitbox_offset=(0,2), hitbox_type='rectangle'),
+            SpritestackAsset(type='building_decor', name='wire_fence_left', hitbox_size=(32,4), hitbox_offset=(0,2), hitbox_type='rectangle'),
+            SpritestackAsset(type='building_decor', name='wire_fence_middle', hitbox_size=(32,4), hitbox_offset=(0,2), hitbox_type='rectangle'),
+
+            # VENDING MACHINES
+            SpritestackAsset(type='building_decor', name='vending_machine_cola', hitbox_size=(32,24), hitbox_offset=(0,-5), hitbox_type='rectangle'),
+            SpritestackAsset(type='building_decor', name='vending_machine_kodak', hitbox_size=(32,16), hitbox_offset=(0,-8), hitbox_type='rectangle'),
+            SpritestackAsset(type='building_decor', name='vending_machine_pepsi', hitbox_size=(32,24), hitbox_offset=(0,-5), hitbox_type='rectangle'),
+
+            # SHOP WINDOWS
+            SpritestackAsset(type='brick_house_parts', name='wall_shop_window_barber', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle'),
+            SpritestackAsset(type='brick_house_parts', name='wall_shop_window_butcher', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle'),
 
             ### TEST BLOCKS
             #SpritestackAsset(type='test_shapes', name='test_corner', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle', interactable=False),
@@ -344,7 +386,7 @@ class Game:
         self.outdoors_level = Level(
             game=self,
             name='outdoors_level',
-            map_size=(1000, 1000),
+            map_size=(2000, 2000),
             fill_colour=(105, 66, 56)
         )
         self.outdoors_level.player.position = [400, 600, 0]

@@ -150,15 +150,30 @@ def depth_sort(objects, camera):
 
 
             """ HANDLING CASES WHEN AN OBJECT IS ABOVE A TEXTURE """
-            """ if object_1.height == 1 and object_2.height != 1:
-                if object_1.position[2] == object_2.position[2]:
-                    front_object = object_1
-                    back_object = object_2
+            if hasattr(object_1, 'asset') and hasattr(object_2, 'asset'):
+                if hasattr(object_1.asset, 'type') and hasattr(object_2.asset, 'type'):
+                        if object_1.asset.type == 'texture' and object_2.asset.type != 'texture':
+                            if object_1.position[2] <= object_2.position[2]:
+                                front_object = object_1
+                                back_object = object_2
+                        if object_1.asset.type != 'texture' and object_2.asset.type == 'texture':
+                            if object_1.position[2] >= object_2.position[2]:
+                                front_object = object_2
+                                back_object = object_1
+                
+                if hasattr(object_1.asset, 'type') and not hasattr(object_2.asset, 'type'):
+                        if object_1.asset.type == 'texture':
+                            if object_1.position[2] <= object_2.position[2]:
+                                front_object = object_1
+                                back_object = object_2
+    
+                if not hasattr(object_1.asset, 'type') and hasattr(object_2.asset, 'type'):
+                        if object_2.asset.type == 'texture':
+                            if object_1.position[2] >= object_2.position[2]:
+                                front_object = object_2
+                                back_object = object_1
 
-            if object_1.height != 1 and object_2.height == 1:
-                if object_1.position[2] == object_2.position[2]:
-                    front_object = object_2
-                    back_object = object_1 """
+
 
 
             """ FIGURING OUT WHETHER ONE OBJECT IS EXPLICITLY ABOVE THE OTHER """

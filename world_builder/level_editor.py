@@ -749,7 +749,12 @@ class Level:
         self.place_position = [place_position_x, place_position_y, place_position_z]   
 
         """ CAMERA MOVEMENT"""
-        self.camera.follow(self.player.position)
+        move_vector = [self.player.vx / self.player.run_speed_limit, self.player.vy / self.player.run_speed_limit]
+        camera_follow_position_movement_offset = (
+            self.player.position[0] + self.render_width / 2 * move_vector[0],
+            self.player.position[1] - self.render_height / 2 * move_vector[1]
+            )
+        self.camera.follow(camera_follow_position_movement_offset)
         self.camera.move()
 
         """ UPDATING PLAYER AND ALL PLAYER-LINKED OBJECTS """
@@ -771,7 +776,7 @@ class Level:
 
         """ HANDLING DYNAMIC OBJECT COLLISION """
         dynamic_objects = self.dynamic_sprite_stack_objects + [self.player] + self.vehicles + self.player.projectiles + self.non_interactable_sprite_stack_objects
-        for obj in dynamic_objects:
+        """ for obj in dynamic_objects:
             obj.hitbox.collided = False
             obj.hitbox.update() # UPDATING HITBOX AND RENDER VERTICES
 
@@ -810,7 +815,7 @@ class Level:
 
                                                 # RESOLVING COLLISION
                                                 if object_1.interactable and object_2.interactable:
-                                                    object_1.hitbox.resolve_collision(object_2, mtv_axis, overlap)
+                                                    object_1.hitbox.resolve_collision(object_2, mtv_axis, overlap) """
 
         for obj in dynamic_objects:
             if obj.hitbox.collided:

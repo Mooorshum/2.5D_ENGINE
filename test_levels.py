@@ -80,9 +80,10 @@ class Game:
             SpritestackAsset(type='pier', name='pier_1', hitbox_size=(32,32), scale=1, hitbox_type='rectangle', interactable=False),
             SpritestackAsset(type='cliff', name='cliff_pier', hitbox_size=(32,32), scale=1, hitbox_type='rectangle', interactable=False),
 
-            SpritestackAsset(type='texture', name='grass_1', hitbox_size=(32,32), render_layer_offset=-10000, hitbox_type='rectangle', interactable=False),
+            SpritestackAsset(type='texture', name='grass_64', hitbox_size=(64,64), render_layer_offset=-10000, hitbox_type='rectangle', interactable=False),
 
             SpritestackAsset(type='stone_tile', name='stone_tile_1', hitbox_size=(32,32), render_layer_offset=-10000, hitbox_type='rectangle', interactable=False),
+
         ]
 
 
@@ -297,9 +298,33 @@ class Game:
             SpritestackAsset(type='building_decor', name='vending_machine_kodak', hitbox_size=(32,16), hitbox_offset=(0,-8), hitbox_type='rectangle'),
             SpritestackAsset(type='building_decor', name='vending_machine_pepsi', hitbox_size=(32,24), hitbox_offset=(0,-5), hitbox_type='rectangle'),
 
-            # SHOP WINDOWS
+            # SHOP PIECES
             SpritestackAsset(type='brick_house_parts', name='wall_shop_window_barber', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle'),
-            SpritestackAsset(type='brick_house_parts', name='wall_shop_window_butcher', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle'),
+            SpritestackAsset(type='brick_house_parts', name='wall_shop_door_barber', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle'),
+
+            SpritestackAsset(type='brick_house_parts', name='wall_shop_window_butcher_front', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle'),
+            SpritestackAsset(type='brick_house_parts', name='wall_shop_window_butcher_side', hitbox_size=(64,64), hitbox_type='rectangle'),
+            SpritestackAsset(type='brick_house_parts', name='wall_shop_door_butcher', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle'),
+            #SpritestackAsset(type='brick_house_parts', name='wall_shop_door_butcher', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle'),
+            
+
+            # FLOWER POTS
+            SpritestackAsset(type='building_decor', name='flower_pot_1', hitbox_size=(16,16), hitbox_type='rectangle'),
+            SpritestackAsset(type='building_decor', name='flower_pot_2', hitbox_size=(16,16), hitbox_type='rectangle'),
+
+            # SIDEWALK
+            SpritestackAsset(type='texture', name='sidewalk_1', hitbox_size=(64,64), hitbox_type='rectangle', interactable=False),
+
+            # KERB
+            SpritestackAsset(type='texture', name='kerb_1', hitbox_size=(64,8), hitbox_offset=(0,4), hitbox_type='rectangle', interactable=False),
+
+            # ROAD
+            SpritestackAsset(type='texture', name='road_1', hitbox_size=(64,64), hitbox_type='rectangle', interactable=False),
+            SpritestackAsset(type='texture', name='road_2', hitbox_size=(64,64), hitbox_type='rectangle', interactable=False),
+            SpritestackAsset(type='texture', name='road_3', hitbox_size=(64,64), hitbox_type='rectangle', interactable=False),
+
+            # STONE TILES
+            SpritestackAsset(type='texture', name='tiles_1', hitbox_size=(64,64), hitbox_type='rectangle', interactable=False),
 
             ### TEST BLOCKS
             #SpritestackAsset(type='test_shapes', name='test_corner', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle', interactable=False),

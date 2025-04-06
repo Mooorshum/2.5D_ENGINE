@@ -276,7 +276,6 @@ class Plant:
         self.hitbox = Hitbox(
             object=self,
             size=(max_branch_length, max_branch_length),
-            render_box_size=(max_branch_length, max_branch_length),
             type='rectangle'
         )
 

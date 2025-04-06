@@ -10,16 +10,13 @@ from general_game_mechanics.collisions import Hitbox
 
 
 class SpritestackAsset:
-    def __init__(self, type=None, name=None, hitbox_size=(32, 32), hitbox_offset=(0,0), render_box_size=None, render_box_offset=(0,0), render_layer_offset=0, hitbox_type='circle', mass=10, spread=1, scale=1, y0_base_offset=0, movelocked=True, interactable=True):
+    def __init__(self, type=None, name=None, hitbox_size=(32, 32), hitbox_offset=(0,0), render_box_size=None, render_box_offset=(0,0), hitbox_type='circle', mass=10, spread=1, scale=1, y0_base_offset=0):
         self.type = type
         self.name = name
 
         self.scale = scale
 
         self.mass = mass
-
-        self.movelocked = movelocked
-        self.interactable = interactable
 
         self.slice_size = (0, 0)
 
@@ -28,18 +25,14 @@ class SpritestackAsset:
 
         self.height = 0
 
-        self.render_layer_offset = render_layer_offset
-
         # caching prerendered images of stacks for discrete angles
         self.spread = spread
         self.num_unique_angles = 180
         self.stack_angle_image = self.generate_images_cache(self.num_unique_angles, self.spread)
 
-        # providing scaled hitbox size
+        # hitbox properties
         self.hitbox_size = hitbox_size
         self.hitbox_offset = hitbox_offset
-        self.render_box_size = render_box_size if render_box_size is not None else hitbox_size
-        self.render_box_offset = render_box_offset if render_box_size is not None else hitbox_offset
         self.hitbox_type = hitbox_type
         
 
@@ -117,7 +110,7 @@ class SpritestackAsset:
 
 
 class SpritestackModel:
-    def __init__(self, asset, asset_index, position, rotation):
+    def __init__(self, asset, asset_index, position, rotation, movelocked=True, collidable=False):
 
         self.asset = asset
         self.asset_index = asset_index
@@ -129,26 +122,22 @@ class SpritestackModel:
 
         self.mass = self.asset.mass
 
-        self.movelocked = self.asset.movelocked
-        self.interactable = self.asset.interactable
+        self.movelocked = movelocked
+        self.collidable = collidable
 
         self.stack_index = 0
         self.internal_time = 0
 
-        self.render_layer_offset = self.asset.render_layer_offset
         self.hitbox = Hitbox(
             object=self,
             size=self.asset.hitbox_size,
             hitbox_offset=self.asset.hitbox_offset,
-            render_box_size=self.asset.render_box_size,
-            render_box_offset=self.asset.render_box_offset,
             type=self.asset.hitbox_type
         )
 
 
 
     def render(self, screen, camera, offset=[0, 0]):
-
         true_rotation = ((self.rotation + 360)  - camera.rotation) % 360
         rounded_rotation = min(self.asset.stack_angle_image[self.stack_index].keys(), key=lambda k: abs(k - true_rotation))
         image = self.asset.stack_angle_image[self.stack_index][rounded_rotation]

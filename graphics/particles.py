@@ -89,7 +89,6 @@ class ParticleSystem:
         self.hitbox = Hitbox(
             object=self,
             size=self.hitbox_size,
-            render_box_size=self.hitbox_size,
             type='rectangle'
         )
         
@@ -236,7 +235,8 @@ class Projectile():
         self.hitbox_size = (10, 10)
         self.hitbox_type = 'circle'
         self.movelocked = False
-        self.interactable = True
+
+        self.collidable = True
 
         self.rotation = 0
         self.omega = 0
@@ -263,7 +263,6 @@ class Projectile():
         self.hitbox = Hitbox(
             object=self,
             size=self.hitbox_size,
-            render_box_size=self.hitbox_size,
             type=self.hitbox_type
         )
         self.movelocked = False
@@ -272,6 +271,8 @@ class Projectile():
 
     def update(self):
         self.elapsed_time += 1
+
+    def move(self):
         self.particle_system.position[0] += self.vx * self.dt
         self.particle_system.position[1] += self.vy * self.dt
         self.particle_system.update()

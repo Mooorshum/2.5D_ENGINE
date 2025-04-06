@@ -196,7 +196,6 @@ class GrassTile:
         self.hitbox = Hitbox(
             object=self,
             size=(self.asset.size, self.asset.size),
-            render_box_size=(self.asset.size, self.asset.size),
             type='rectangle'
         )
 

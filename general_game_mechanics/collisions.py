@@ -3,15 +3,12 @@ from math import sin, cos, pi, radians, atan2, acos, sqrt
 from numpy import sign, dot, cross
 
 class Hitbox:
-    def __init__(self, object, size, render_box_size, type, hitbox_offset=(0,0), render_box_offset=(0,0), colour=(255, 0, 0), ):
+    def __init__(self, object, size, type, hitbox_offset=(0,0), colour=(255, 0, 0), ):
         self.show_hitbox = False
-        self.show_render_box = False
 
         self.object = object
         self.size = size
         self.hitbox_offset = hitbox_offset
-        self.render_box_size = render_box_size
-        self.render_box_offset = render_box_offset
         self.type = type
 
         self.colour = colour
@@ -32,11 +29,8 @@ class Hitbox:
         # Vertices for SAT algorithm
         self.vertices = []
 
-        # Vertices used for render box in topological depth sorting
-        self.render_box_vertices = []
-
-        # Calculating vertices, axes for SAT algorithm + render box vertices
-        self.update() # Getting hitbox and render box vertices
+        # Calculating vertices, axes for SAT algorithm and topological depth sorting
+        self.update() # Getting hitbox vertices
         self.axes = self.get_axes()
         
         self.mtv_axis = [0, 0]
@@ -84,7 +78,6 @@ class Hitbox:
 
     def update(self):
         self.vertices = self.get_vertices(self.size, self.hitbox_offset)
-        self.render_box_vertices = self.get_vertices(self.render_box_size, self.render_box_offset)
 
 
     def get_axes(self):
@@ -427,29 +420,6 @@ class Hitbox:
 
 
     def render(self, screen, camera, offset=[0, 0]):
-
-        if self.show_render_box:
-            # DRAWING RENDER BOX EDGES
-            camera_rotation = radians(camera.rotation)
-            for vertex_index in range(len(self.render_box_vertices)):
-
-                vertex_1 = self.render_box_vertices[vertex_index]
-                vertex_1_offset_x = camera.position[0] - vertex_1[0] + (vertex_1[0] - camera.position[0])*cos(camera_rotation) - (vertex_1[1] - camera.position[1])*sin(camera_rotation)
-                vertex_1_offset_y = camera.position[1] - vertex_1[1] + (vertex_1[0] - camera.position[0])*sin(camera_rotation) + (vertex_1[1] - camera.position[1])*cos(camera_rotation)
-                vertex_1_offset = [vertex_1_offset_x - camera.position[0] + camera.width/2, vertex_1_offset_y - camera.position[1] + camera.height/2]
-
-                vertex_2 = self.render_box_vertices[(vertex_index + 1) % len(self.render_box_vertices)]
-                vertex_2_offset_x = camera.position[0] - vertex_2[0] + (vertex_2[0] - camera.position[0])*cos(camera_rotation) - (vertex_2[1] - camera.position[1])*sin(camera_rotation)
-                vertex_2_offset_y = camera.position[1] - vertex_2[1] + (vertex_2[0] - camera.position[0])*sin(camera_rotation) + (vertex_2[1] - camera.position[1])*cos(camera_rotation)
-                vertex_2_offset = [vertex_2_offset_x - camera.position[0] + camera.width/2, vertex_2_offset_y - camera.position[1] + camera.height/2]
-
-                pygame.draw.line(
-                    screen,
-                    (255, 255, 255),
-                    (vertex_1[0] + vertex_1_offset[0], vertex_1[1] + vertex_1_offset[1] - self.object.position[2]),
-                    (vertex_2[0] + vertex_2_offset[0], vertex_2[1] + vertex_2_offset[1] - self.object.position[2]),
-                    1
-                )
 
         if self.show_hitbox:
             # DRAWING HIBOX VERTICES

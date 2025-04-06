@@ -109,14 +109,17 @@ class Vehicle(DynamicObject):
                 if distance_to_character < sqrt(self.hitbox.size[0]**2 + self.hitbox.size[1]**2) / 2 + enter_exit_padding:
                     if character.action:
                         self.driver = character
+                        self.driver.collidable = False
                         self.driver.vehicle = self
             elif (self.driver != None):
                 random_exit_angle = radians(random.randint(-180, 180))
                 self.driver.position = [
                     self.position[0] + (self.hitbox.size[0]/2 + enter_exit_padding) * sin(random_exit_angle),
-                    self.position[1] + (self.hitbox.size[1]/2 + enter_exit_padding) * cos(random_exit_angle)
+                    self.position[1] + (self.hitbox.size[1]/2 + enter_exit_padding) * cos(random_exit_angle),
+                    self.position[2]
                     ]
                 self.driver.vehicle = None
+                self.driver.collidable = True
                 self.driver = None
 
 
@@ -359,8 +362,6 @@ class Character(DynamicObject):
 
             if self.ax != 0 or self.ay != 0:
                 self.rotation = degrees(atan2(self.ay, self.ax))
-
-            super().move()
 
 
         """ UPDATING PROJECTILES """

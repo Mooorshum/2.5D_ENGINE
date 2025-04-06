@@ -28,13 +28,12 @@ def display_fps(screen, clock, font):
     text_rect = fps_text.get_rect(topright=(screen_width - 10, 10))
     screen.blit(fps_text, text_rect)
 
-def display_place_info(screen, font, place_position, rotation):
-    info = f'x: {int(place_position[0])},  y: {int(place_position[1])},  z: {int(place_position[2])},  rot: {rotation}'
+def display_place_info(screen, font, place_position, rotation, mode, play):
+    info = f'x: {int(place_position[0])},  y: {int(place_position[1])},  z: {int(place_position[2])},  rot: {rotation}, mode: {mode}, PLAY: {play}'
     info_text = font.render(info, True, pygame.Color("white"))
     screen_width, screen_height = screen.get_size()
     text_rect = info_text.get_rect(topright=(screen_width - 10, 30))
     screen.blit(info_text, text_rect)
-
 
 def cycle_list(direction, current_index, lst):
     if direction == 'forward':
@@ -42,6 +41,179 @@ def cycle_list(direction, current_index, lst):
     elif direction == 'backwards':
         return (current_index - 1) % len(lst)
     return current_index
+
+
+
+
+def control_editing(level):
+    if level.play:
+        return
+    
+    if level.current_asset_group == 'texture':
+        asset = level.texture_assets[level.current_asset_index]
+        level.current_asset = DynamicObject(asset, level.current_asset_index, level.place_position, level.current_asset_rotation)
+        level.current_asset.rotation = level.current_asset_rotation
+        level.current_asset.position = level.place_position
+            
+    if level.current_asset_group == 'object':
+        asset = level.object_assets[level.current_asset_index]
+        level.current_asset = DynamicObject(asset, level.current_asset_index, level.place_position, level.current_asset_rotation)
+        level.current_asset.rotation = level.current_asset_rotation
+        level.current_asset.position = level.place_position
+
+    if level.current_asset_group == 'vehicle':
+        asset = level.vehicle_assets[level.current_asset_index]
+        level.current_asset = Vehicle(asset, level.current_asset_index, level.place_position, level.current_asset_rotation)
+        level.current_asset.rotation = level.current_asset_rotation
+        level.current_asset.position = level.place_position
+
+    if level.current_asset_group == 'plant':
+        plant_asset = level.plant_systems[level.plant_system_index].assets[level.current_asset_index]
+        plant = Plant(plant_asset, level.place_position)
+        level.current_asset = plant
+        level.current_asset.position = level.place_position
+        for branch in level.current_asset.branches:
+            branch.base_position = level.current_asset.position
+
+    if level.current_asset_group == 'grass':
+        grass_tile_asset = level.grass_systems[level.grass_system_index].assets[level.current_asset_index]
+        grass_tile = GrassTile(level.place_position, grass_tile_asset)
+        level.current_asset = grass_tile
+        level.current_asset.position = level.place_position
+        current_asset = level.grass_systems[level.grass_system_index].assets[level.current_asset_index]
+
+    if level.current_asset_group == 'particle_system':
+        particle_system = copy.deepcopy(level.particle_system_assets[level.particle_system_index])
+        particle_system.position = level.place_position
+        particle_system.asset_index = level.particle_system_index
+        level.current_asset = particle_system
+
+    if level.current_asset_group == 'loadpoint':
+        loadpoint_level = level.loadpoint_levels[level.current_asset_index]
+        loadpoint = LoadPoint(
+            level=loadpoint_level,
+            level_index=level.current_asset_index,
+            colour=(255, 255, 0)
+        )
+        loadpoint.position = level.place_position
+        level.current_asset = loadpoint
+
+
+    if level.current_asset:
+        if level.current_action == 'place':
+            if level.current_asset_group == 'texture':
+                level.textures.append(level.current_asset)
+            if level.current_asset_group == 'object':
+                level.objects.append(level.current_asset)
+            if level.current_asset_group =='vehicle':
+                level.current_asset.hitbox.collidable = True
+                level.vehicles.append(level.current_asset)
+            if level.current_asset_group == 'plant':
+                level.plant_systems[level.plant_system_index].create_plant(level.current_asset_index, level.place_position)
+                for branch in level.current_asset.branches:
+                        branch.base_position = level.place_position
+            if level.current_asset_group == 'grass':
+                level.grass_systems[level.grass_system_index].create_tile(level.current_asset_index, level.place_position)
+            if level.current_asset_group == 'particle_system':
+                level.particle_systems.append(level.current_asset)
+            
+
+
+
+        if level.current_action == 'next_item':
+            if level.current_asset_group == 'texture':
+                level.current_asset_index = cycle_list('forward', level.current_asset_index, level.texture_assets)
+            if level.current_asset_group == 'object':
+                level.current_asset_index = cycle_list('forward', level.current_asset_index, level.object_assets)
+            if level.current_asset_group =='vehicle':
+                level.current_asset_index = cycle_list('forward', level.current_asset_index, level.vehicle_assets)
+            if level.current_asset_group == 'plant':
+                level.current_asset_index = cycle_list('forward', level.current_asset_index, level.plant_systems[level.plant_system_index].assets)
+            if level.current_asset_group == 'grass':
+                level.current_asset_index = cycle_list('forward', level.current_asset_index, level.grass_systems[level.grass_system_index].assets)
+            if level.current_asset_group == 'particle_system':
+                level.current_asset_index = cycle_list('forward', level.current_asset_index, level.particle_system_assets)
+
+
+        if level.current_action == 'prev_item':
+            if level.current_asset_group == 'texture':
+                level.current_asset_index = cycle_list('backwards', level.current_asset_index, level.texture_assets)
+            if level.current_asset_group == 'object':
+                level.current_asset_index = cycle_list('backwards', level.current_asset_index, level.object_assets)
+            if level.current_asset_group =='vehicle':
+                level.current_asset_index = cycle_list('backwards', level.current_asset_index, level.vehicle_assets)
+            if level.current_asset_group == 'plant':
+                level.current_asset_index = cycle_list('backwards', level.current_asset_index, level.plant_systems[level.plant_system_index].assets)
+            if level.current_asset_group == 'grass':
+                level.current_asset_index = cycle_list('backwards', level.current_asset_index, level.grass_systems[level.grass_system_index].assets)
+            if level.current_asset_group == 'particle_system':
+                level.current_asset_index = cycle_list('backwards', level.current_asset_index, level.particle_system_assets)
+
+
+        if level.current_action == 'rotate_clockwise_or_next_system':
+            if level.current_asset_group in ['texture', 'object', 'vehicle']:
+                level.current_asset_rotation += 360 / level.current_asset.asset.num_unique_angles * level.rotation_speed
+            if level.current_asset_group == 'plant':
+                level.plant_system_index = cycle_list('forward', level.plant_system_index, level.plant_systems)
+            if level.current_asset_group == 'grass':
+                level.grass_system_index = cycle_list('forward', level.grass_system_index, level.grass_systems)
+
+        if level.current_action == 'rotate_counterclockwise_or_prev_system':
+            if level.current_asset_group in ['texture', 'object', 'vehicle']:
+                level.current_asset_rotation -= 360 / level.current_asset.asset.num_unique_angles * level.rotation_speed
+            if level.current_asset_group == 'plant':
+                level.plant_system_index = cycle_list('backwards', level.plant_system_index, level.plant_systems)
+            if level.current_asset_group == 'grass':
+                level.grass_system_index = cycle_list('backwards', level.grass_system_index, level.grass_systems)
+
+
+    if level.current_action == 'undo':
+        if level.current_asset_group == 'texture':
+            if  len(level.textures) > 0:
+                last_object = level.textures.pop()
+        if level.current_asset_group == 'object':
+            if  len(level.objects) > 0:
+                last_object = level.objects.pop()
+        if level.current_asset_group =='vehicle':
+            if  len(level.vehicles) > 0:
+                last_object = level.vehicles.pop()
+        if level.current_asset_group == 'plant':
+            if  len(level.plant_systems[level.plant_system_index].plants) > 0:
+                last_object = level.plant_systems[level.plant_system_index].plants.pop()
+        if level.current_asset_group == 'grass':
+            if  len(level.grass_systems[level.grass_system_index].tiles) > 0:
+                last_object = level.grass_systems[level.grass_system_index].tiles.pop()
+        if level.current_asset_group == 'particle_system':
+            if len(level.particle_systems) > 0:
+                last_object = level.particle_systems[level.particle_system_index].pop()
+
+
+    if level.current_asset_group == 'colliding_objects':
+        level.current_asset = None
+        if level.current_action == 'place':
+            nearest_object = min(level.objects + level.vehicles, key=lambda obj: (level.place_position[0] - obj.position[0])**2 + (level.place_position[1] - obj.position[1])**2 + (level.place_position[2] - obj.position[2])**2)
+            if nearest_object.collidable:
+                nearest_object.collidable = False
+                nearest_object.hitbox.show_hitbox = False
+            else:
+                nearest_object.collidable = True
+                nearest_object.hitbox.show_hitbox = True
+
+
+    if level.current_asset_group == 'moving_objects':
+        level.current_asset = None
+        if level.current_action == 'place':
+            nearest_object = min(level.objects + level.vehicles, key=lambda obj: (level.place_position[0] - obj.position[0])**2 + (level.place_position[1] - obj.position[1])**2 + (level.place_position[2] - obj.position[2])**2)
+            if nearest_object.movelocked:
+                nearest_object.movelocked = False
+            else:
+                nearest_object.movelocked = True
+
+
+
+
+
+
 
 
 
@@ -54,43 +226,25 @@ class Level:
 
         """ LEVEL EDITING PARAMETERS """
         self.place_position = [0, 0, 0]
-        self.place_height = 0
 
         self.current_asset = None
         self.current_asset_index = 0
         self.current_asset_rotation = 0
-
         self.plant_system_index = 0
         self.grass_system_index = 0
         self.particle_system_index = 0
 
-        self.loadpoint_level_index = 0
+        self.current_asset_group = 'object'
+        self.current_action = None
 
-        self.place_noninteractable_sprite_stack = True
-        self.place_dynamic_sprite_stack = False
-        self.place_plant = False
-        self.place_grass_tile = False
-        self.place_vehicle = False
-        self.place_particle_system = False
-
-        self.place_loadpoint = False
-
-        self.rotate_clockwise = False
-        self.rotate_counterclockwise = False
-        self.place = False
-        self.next_item = False
-        self.prev_item = False
         self.undo = False
         self.save = False
         self.load = False
-        self.cache = []
 
         self.play = False
 
         self.stairs = [
-            Stairs(asset=self.game.stair_asset, asset_index=1, position=[map_size[0]//2, map_size[1]//2, 0], rotation=0),
-            #Stairs(asset=self.game.stair_asset, asset_index=1, position=[200, 580, 0], rotation=90),
-            #Stairs(asset=self.game.stair_asset, asset_index=1, position=[600, 800, -31], rotation=210),
+            # Stairs(asset=self.game.stair_asset, asset_index=1, position=[map_size[0]//2, map_size[1]//2, 0], rotation=0),
         ]
 
 
@@ -107,24 +261,26 @@ class Level:
 
 
         """ GAME ASSETS """
+        self.texture_assets = []
+        self.object_assets = []
         self.vehicle_assets = []
-        self.non_interactable_sprite_stack_assets = []
-        self.dynamic_sprite_stack_assets = []
-
-        self.plant_systems = []
-        self.grass_systems = []
-     
-        self.particle_system_presets = []
+        self.particle_system_assets = []
         self.npc_assets = []
+
         self.loadpoint_levels = []
 
         """ GAME OBJECTS """
+        self.textures = []
+        self.objects = []
         self.vehicles = []
-        self.non_interactable_sprite_stack_objects = []
-        self.dynamic_sprite_stack_objects = []
-        self.water_objects = []
+        self.plant_systems = []
+        self.grass_systems = []
         self.particle_systems = []
+
         self.loadpoints = []
+
+        self.colliding_objects_moving = []
+        self.colliding_objects_movelocked = []
 
         """ CONFIGURING PLAYER OBJECT """
         self.player_asset = self.game.player_asset
@@ -132,7 +288,8 @@ class Level:
         player_start_rotation = 0
         self.player = Character(asset=self.player_asset, asset_index=0, position=player_start_position, rotation=player_start_rotation)
         self.player.movelocked = False
-        
+        self.player.collidable = True
+
 
         self.fill_colour = fill_colour
 
@@ -140,12 +297,14 @@ class Level:
         self.scroll_speed = 0.1
 
         """ TOPOLOGICAL DEPTH SORTING SETTINGS """
-        self.depth_sort_period = 20
+        self.depth_sort_period = 5
         self.depth_sort_timer = 0
         self.depth_sorted_objects = []
 
 
     def handle_controls_editing(self, keys):
+
+        self.current_action = None
 
         self.player.handle_controls(keys, self.game.events)
 
@@ -162,12 +321,6 @@ class Level:
         self.save = False
         self.load = False
 
-        self.rotate_clockwise = False
-        self.rotate_counterclockwise = False
-
-        self.next_system = False
-        self.prev_system = False
-
         for event in self.game.events:
 
             """ KEY PRESSES """
@@ -175,105 +328,48 @@ class Level:
 
                 # UNDO
                 if ctrl_pressed and event.key == pygame.K_z:
-                    self.undo = True
+                    self.current_action = 'undo'
 
                 # SWITCH BETWEEN DIFFERENT ASSET TYPES
                 elif event.key == pygame.K_1:
-                    self.place_noninteractable_sprite_stack = True
-                    self.place_dynamic_sprite_stack = False
-                    self.place_vehicle = False
-                    self.place_plant = False
-                    self.place_grass_tile = False
-                    self.place_particle_system = False
-
-                    self.place_loadpoint = False
-
-                    self.play = False
+                    self.current_asset_group = 'texture'
+                    self.current_asset_index = 0
 
                 elif event.key == pygame.K_2:
-                    self.place_noninteractable_sprite_stack = False
-                    self.place_dynamic_sprite_stack = True
-                    self.place_vehicle = False
-                    self.place_plant = False
-                    self.place_grass_tile = False
-                    self.place_particle_system = False
-
-                    self.place_loadpoint = False
-
-                    self.play = False
+                    self.current_asset_group = 'object'
+                    self.current_asset_index = 0
 
                 elif event.key == pygame.K_3:
-                    self.place_noninteractable_sprite_stack = False
-                    self.place_dynamic_sprite_stack = False
-                    self.place_vehicle = True
-                    self.place_plant = False
-                    self.place_grass_tile = False
-                    self.place_particle_system = False
-
-                    self.place_loadpoint = False
-                    
-                    self.play = False
+                    self.current_asset_group = 'vehicle'
+                    self.current_asset_index = 0
 
                 elif event.key == pygame.K_4:
-                    self.place_noninteractable_sprite_stack = False
-                    self.place_dynamic_sprite_stack = False
-                    self.place_vehicle = False
-                    self.place_plant = True
-                    self.place_grass_tile = False
-                    self.place_particle_system = False
-
-                    self.place_loadpoint = False
-
-                    self.play = False
+                    self.current_asset_group = 'plant'
+                    self.current_asset_index = 0
 
                 elif event.key == pygame.K_5:
-                    self.place_noninteractable_sprite_stack = False
-                    self.place_dynamic_sprite_stack = False
-                    self.place_vehicle = False
-                    self.place_plant = False
-                    self.place_grass_tile = True
-                    self.place_particle_system = False
-
-                    self.place_loadpoint = False
-
-                    self.play = False
+                    self.current_asset_group = 'grass'
+                    self.current_asset_index = 0
 
                 elif event.key == pygame.K_6:
-                    self.place_noninteractable_sprite_stack = False
-                    self.place_dynamic_sprite_stack = False
-                    self.place_vehicle = False
-                    self.place_plant = False
-                    self.place_grass_tile = False
-                    self.place_particle_system = True
-
-                    self.place_loadpoint = False
-
-                    self.play = False
+                    self.current_asset_group = 'particle_system'
+                    self.current_asset_index = 0
 
                 elif event.key == pygame.K_7:
-                    self.place_noninteractable_sprite_stack = False
-                    self.place_dynamic_sprite_stack = False
-                    self.place_vehicle = False
-                    self.place_plant = False
-                    self.place_grass_tile = False
-                    self.place_particle_system = False
+                    self.current_asset_group = 'loadpoint'
+                    self.current_asset_index = 0
 
-                    self.place_loadpoint = True
-                    
-                    self.play = False
+                elif event.key == pygame.K_c :
+                    self.current_asset_group = 'colliding_objects'
+
+                elif event.key == pygame.K_m :
+                    self.current_asset_group = 'moving_objects'
 
                 elif event.key == pygame.K_RETURN :
-                    self.place_noninteractable_sprite_stack = False
-                    self.place_dynamic_sprite_stack = False
-                    self.place_vehicle = False
-                    self.place_plant = False
-                    self.place_grass_tile = False
-                    self.place_particle_system = False
-
-                    self.current_asset = None
-                    self.place_loadpoint = False
-
-                    self.play = True
+                    if not self.play:
+                        self.play = True
+                    else:
+                        self.play = False
 
                 # SAVING AND LOADING LEVEL FROM FILE
                 elif ctrl_pressed and event.key == pygame.K_s:
@@ -285,7 +381,7 @@ class Level:
             # PLACE OBJECT
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
-                    self.place = True
+                    self.current_action = 'place'
 
             """ MOUSE SCROLLING + KEY PRESSES """
             # ZOOM IN, ZOOM OUT
@@ -306,289 +402,30 @@ class Level:
             if keys[pygame.K_z]:
                     if event.type == pygame.MOUSEWHEEL:
                         if event.y == -1:
-                            self.place_height += 1
+                            self.place_position[2] += 16
                         elif event.y == 1:
-                            self.place_height -= 1
+                            self.place_position[2] -= 16
 
-            # ROTATE ASSET
-            if self.place_noninteractable_sprite_stack or self.place_dynamic_sprite_stack or self.place_vehicle:
-                if keys[pygame.K_LSHIFT]:
-                    if event.type == pygame.MOUSEWHEEL:
-                        if event.y == -1:
-                            self.rotate_clockwise = True
-                        elif event.y == 1:
-                            self.rotate_counterclockwise = True
+            # ROTATE ASSET / CYCLE SYSTEM
+            if keys[pygame.K_LSHIFT]:
+                if event.type == pygame.MOUSEWHEEL:
+                    if event.y == -1:
+                        self.current_action = 'rotate_clockwise_or_next_system'
+                    elif event.y == 1:
+                        self.current_action = 'rotate_counterclockwise_or_prev_system'
 
             # CYCLE CURRENT SYSTEM ASSETS 
-            if event.type == pygame.MOUSEWHEEL:
-                if not ( keys[pygame.K_LCTRL] or keys[pygame.K_LSHIFT] or keys[pygame.K_z]):
+            if not ( keys[pygame.K_LCTRL] or keys[pygame.K_LSHIFT] or keys[pygame.K_z]):
+                if event.type == pygame.MOUSEWHEEL:
                     if event.y == 1:
-                        self.next_item = True
+                        self.current_action = 'next_item'
                     elif event.y == -1:
-                        self.prev_item = True
+                        self.current_action = 'prev_item'
 
-            # CYCLE ASSET SYSTEMS
-            if self.place_plant or self.place_grass_tile:
-                if keys[pygame.K_LSHIFT]:
-                    if event.type == pygame.MOUSEWHEEL:
-                        if event.y == 1:
-                            self.next_system = True
-                        elif event.y == -1:
-                            self.prev_system = True
+        control_editing(self)
 
 
     def edit_level(self):
-
-        """ NON-INTERACTABLE SPRITE STACK ASSETS """
-        if len(self.non_interactable_sprite_stack_assets) > 0:
-            if self.place_noninteractable_sprite_stack:
-                try:
-                    asset = self.non_interactable_sprite_stack_assets[self.current_asset_index]
-                    self.current_asset = SpritestackModel(asset, self.current_asset_index, self.place_position, self.current_asset_rotation)
-
-                except IndexError:
-                    self.current_asset_index = 0
-                    asset = self.non_interactable_sprite_stack_assets[self.current_asset_index]
-                    self.current_asset = SpritestackModel(asset, self.current_asset_index, self.place_position, self.current_asset_rotation)
-
-                self.current_asset.rotation = self.current_asset_rotation
-                self.current_asset.position = self.place_position
-
-                if self.place:
-                    self.non_interactable_sprite_stack_objects.append(self.current_asset)
-
-                if self.next_item:
-                    self.current_asset_index = cycle_list('forward', self.current_asset_index, self.non_interactable_sprite_stack_assets)
-
-                if self.prev_item:
-                    self.current_asset_index = cycle_list('backwards', self.current_asset_index, self.non_interactable_sprite_stack_assets)
-
-                if self.rotate_clockwise:
-                    if 'rotation' in vars(self.current_asset).keys():
-                        self.current_asset_rotation += 360 / self.current_asset.asset.num_unique_angles * self.rotation_speed
-
-                if self.rotate_counterclockwise:
-                    if 'rotation' in vars(self.current_asset).keys():
-                        self.current_asset_rotation -= 360 / self.current_asset.asset.num_unique_angles * self.rotation_speed
-
-                if self.undo:
-                    if  len(self.non_interactable_sprite_stack_objects) > 0:
-                        last_object = self.non_interactable_sprite_stack_objects.pop()
-
-
-        """ DYNAMIC SPRITE STACK ASSETS """
-        if len(self.dynamic_sprite_stack_assets) > 0:
-            if self.place_dynamic_sprite_stack:
-                try:
-                    asset = self.dynamic_sprite_stack_assets[self.current_asset_index]
-                    self.current_asset = DynamicObject(asset, self.current_asset_index, self.place_position, self.current_asset_rotation)
-
-                except IndexError:
-                    self.current_asset_index = 0
-                    asset = self.dynamic_sprite_stack_assets[self.current_asset_index]
-                    self.current_asset = DynamicObject(asset, self.current_asset_index, self.place_position, self.current_asset_rotation)
-
-                self.current_asset.rotation = self.current_asset_rotation
-                self.current_asset.position = self.place_position
-
-                if self.place:
-                    self.dynamic_sprite_stack_objects.append(self.current_asset)
-
-                if self.next_item:
-                    self.current_asset_index = cycle_list('forward', self.current_asset_index, self.dynamic_sprite_stack_assets)
-
-                if self.prev_item:
-                    self.current_asset_index = cycle_list('backwards', self.current_asset_index, self.dynamic_sprite_stack_assets)
-
-                if self.rotate_clockwise:
-                    if 'rotation' in vars(self.current_asset).keys():
-                        self.current_asset_rotation += 360 / self.current_asset.asset.num_unique_angles * self.rotation_speed
-
-                if self.rotate_counterclockwise:
-                    if 'rotation' in vars(self.current_asset).keys():
-                        self.current_asset_rotation -= 360 / self.current_asset.asset.num_unique_angles * self.rotation_speed
-
-                if self.undo:
-                    if  len(self.dynamic_sprite_stack_objects) > 0:
-                        last_object = self.dynamic_sprite_stack_objects.pop()
-
-
-
-
-
-
-
-
-        """ VEHICLE ASSETS """
-        if len(self.vehicle_assets) > 0:
-            if self.place_vehicle:
-                try:
-                    asset = self.vehicle_assets[self.current_asset_index]
-                    self.current_asset = Vehicle(asset, self.current_asset_index, self.place_position, self.current_asset_rotation)
-
-                except IndexError:
-                    self.current_asset_index = 0
-                    asset = self.vehicle_assets[self.current_asset_index]
-                    self.current_asset = Vehicle(asset, self.current_asset_index, self.place_position, self.current_asset_rotation)
-
-                self.current_asset.rotation = self.current_asset_rotation
-                self.current_asset.position = self.place_position
-
-                if self.place:
-                    self.vehicles.append(self.current_asset)
-
-                if self.next_item:
-                    self.current_asset_index = cycle_list('forward', self.current_asset_index, self.vehicle_assets)
-
-                if self.prev_item:
-                    self.current_asset_index = cycle_list('backwards', self.current_asset_index, self.vehicle_assets)
-
-                if self.rotate_clockwise:
-                    if 'rotation' in vars(self.current_asset).keys():
-                        self.current_asset_rotation += 360 / self.current_asset.asset.num_unique_angles * self.rotation_speed
-
-                if self.rotate_counterclockwise:
-                    if 'rotation' in vars(self.current_asset).keys():
-                        self.current_asset_rotation -= 360 / self.current_asset.asset.num_unique_angles * self.rotation_speed
-
-                if self.undo:
-                    if  len(self.vehicles) > 0:
-                        last_object = self.vehicles.pop()
-
-
-
-
-
-
-        """ PLANT ASSETS """
-        if len(self.plant_systems) > 0:
-            if self.place_plant:
-                try:
-                    plant_asset = self.plant_systems[self.plant_system_index].assets[self.current_asset_index]
-                except IndexError:
-                    self.current_asset_index = 0
-                    plant_asset = self.plant_systems[self.plant_system_index].assets[self.current_asset_index]
-                plant = Plant(plant_asset, self.place_position)
-                self.current_asset = plant
-                self.current_asset.position = self.place_position
-                for branch in self.current_asset.branches:
-                    branch.base_position = self.current_asset.position
-
-                if self.place:
-                    self.plant_systems[self.plant_system_index].create_plant(self.current_asset_index, self.current_asset.position)
-                    for branch in self.current_asset.branches:
-                        branch.base_position = self.current_asset.position
-
-                if self.next_item:
-                    self.current_asset_index = cycle_list('forward', self.current_asset_index, self.plant_systems[self.plant_system_index].assets)
-
-                if self.prev_item:
-                    self.current_asset_index = cycle_list('backwards', self.current_asset_index, self.plant_systems[self.plant_system_index].assets)
-
-                if self.next_system:
-                    self.plant_system_index = cycle_list('forward', self.plant_system_index, self.plant_systems)
-
-                if self.prev_system:
-                    self.plant_system_index = cycle_list('backwards', self.plant_system_index, self.plant_systems)
-
-                if self.undo:
-                    if  len(self.plant_systems[self.plant_system_index].plants) > 0:
-                        last_object = self.plant_systems[self.plant_system_index].plants.pop()
-
-
-        """ GRASS ASSETS """
-        if len(self.grass_systems) > 0:
-            if self.place_grass_tile:
-                try:
-                    grass_tile_asset = self.grass_systems[self.grass_system_index].assets[self.current_asset_index]
-                except IndexError:
-                    self.current_asset_index = 0
-                    grass_tile_asset = self.grass_systems[self.grass_system_index].assets[self.current_asset_index]
-                grass_tile = GrassTile(self.place_position, grass_tile_asset)
-                self.current_asset = grass_tile
-                self.current_asset.position = self.place_position
-
-                if self.place:
-                    self.grass_systems[self.grass_system_index].create_tile(self.current_asset_index, self.current_asset.position)
-
-                if self.next_item:
-                    self.current_asset_index = cycle_list('forward', self.current_asset_index, self.grass_systems[self.grass_system_index].assets)
-
-                if self.prev_item:
-                    self.current_asset_index = cycle_list('backwards', self.current_asset_index, self.grass_systems[self.grass_system_index].assets)
-
-                if self.next_system:
-                    self.grass_system_index = cycle_list('forward', self.grass_system_index, self.grass_systems)
-
-                if self.prev_system:
-                    self.grass_system_index = cycle_list('backwards', self.grass_system_index, self.grass_systems)
-
-                if self.undo:
-                    if  len(self.grass_systems[self.grass_system_index].tiles) > 0:
-                        last_object = self.grass_systems[self.grass_system_index].tiles.pop()
-
-
-        """ PARTICLE SYSTEMS """
-        if len(self.particle_system_presets) > 0:
-            if self.place_particle_system:
-                try:
-                    particle_system = copy.deepcopy(self.particle_system_presets[self.particle_system_index])
-                except IndexError:
-                    self.current_asset_index = 0
-                    particle_system = copy.deepcopy(self.particle_system_presets[self.particle_system_index])
-                particle_system.position = self.place_position
-                particle_system.asset_index = self.particle_system_index
-                self.current_asset = particle_system
-
-                if self.place:
-                    self.particle_systems.append(self.current_asset)
-
-                if self.next_item:
-                    self.particle_system_index = cycle_list('forward', self.current_asset_index, self.particle_system_presets)
-
-                if self.prev_item:
-                    self.particle_system_index = cycle_list('backwards', self.current_asset_index, self.particle_system_presets)
-
-                if self.undo:
-                    if  len(self.particle_systems) > 0:
-                        last_object = self.particle_systems.pop()
-
-
-        """ LOADPOINTS """
-        if len(self.loadpoint_levels) > 0:
-            if self.place_loadpoint:
-                try:
-                    loadpoint_level = self.loadpoint_levels[self.current_asset_index]
-                except IndexError:
-                    self.current_asset_index = 0
-                    loadpoint_level = self.loadpoint_levels[self.current_asset_index]
-
-                if self.current_asset_index % 2 == 0:
-                    loadpoint_colour = (255, 255, 0)
-                else:
-                    loadpoint_colour = (255, 150, 150)
-
-                loadpoint = LoadPoint(
-                    level=loadpoint_level,
-                    level_index=self.current_asset_index,
-                    colour=loadpoint_colour
-                )
-                loadpoint.position = self.place_position
-                self.current_asset = loadpoint
-
-                if self.place:
-                    self.loadpoints.append(self.current_asset)
-
-                if self.next_item:
-                    self.current_asset_index = cycle_list('forward', self.current_asset_index, self.loadpoint_levels)
-
-                if self.prev_item:
-                    self.current_asset_index = cycle_list('backwards', self.current_asset_index, self.loadpoint_levels)
-
-                if self.undo:
-                    if  len(self.loadpoints) > 0:
-                        last_object = self.loadpoints.pop()
-
 
         """ SAVING AND LOADING LEVEL """
         if self.save:
@@ -600,40 +437,40 @@ class Level:
     def save_level(self):
         level_data = {}
 
-        # SAVING NON-INTERACTABLE SPRITESTACK OBJECTS DATA
+        # SAVING TEXTURES
         objects_data = []
-        for obj in self.non_interactable_sprite_stack_objects:
+        for obj in self.textures:
             object_data = obj.get_data()
             objects_data.append(object_data)
-        level_data['non_interactable_spritestack_objects_data'] = objects_data
+        level_data['textures_data'] = objects_data
 
-        # SAVING DYNAMIC SPRITESTACK OBJECTS DATA
+        # SAVING OBJECTS
         objects_data = []
-        for obj in self.dynamic_sprite_stack_objects:
+        for obj in self.objects:
             object_data = obj.get_data()
             objects_data.append(object_data)
-        level_data['dynamic_spritestack_objects_data'] = objects_data
+        level_data['objects_data'] = objects_data
 
         # SAVING GRASS SYSTEMS DATA
         grass_systems_data = []
         for grass_system in self.grass_systems:
             grass_system_data = grass_system.get_data()
             grass_systems_data.append(grass_system_data)
-        level_data['grass_systems'] = grass_systems_data
+        level_data['grass_systems_data'] = grass_systems_data
 
         # SAVING PLANT SYSTEMS DATA
         plant_systems_data = []
         for plant_system in self.plant_systems:
             plant_system_data = plant_system.get_data()
             plant_systems_data.append(plant_system_data)
-        level_data['plant_systems'] = plant_systems_data
+        level_data['plant_systems_data'] = plant_systems_data
 
         # SAVING PARTICLE SYSTEMS DATA
         particle_systems_data = []
         for particle_system in self.particle_systems:
             particle_system_data = particle_system.get_data()
             particle_systems_data.append(particle_system_data)
-        level_data['particle_systems'] = particle_systems_data
+        level_data['particle_systems_data'] = particle_systems_data
 
         # SAVING LOADPOINTS
         loadpoints_data = []
@@ -658,26 +495,26 @@ class Level:
 
                 # LOADING NON-INTERACTABLE SPRITESTACK OBJECTS DATA
                 self.non_interactable_sprite_stack_objects = []
-                for object_data in data['non_interactable_spritestack_objects_data']:
+                for object_data in data['textures_data']:
                     object_position = object_data['position']
                     object_rotation = object_data['rotation']
                     asset_index = object_data['asset_index']
-                    object_asset = self.non_interactable_sprite_stack_assets[asset_index]
-                    self.non_interactable_sprite_stack_objects.append(SpritestackModel(
+                    object_asset = self.texture_assets[asset_index]
+                    self.textures.append(SpritestackModel(
                         object_asset,
                         asset_index,
                         object_position,
                         object_rotation
                     ))
 
-                # LOADING DYNAMIC SPRITESTACK OBJECTS DATA
-                self.dynamic_sprite_stack_objects = []
-                for object_data in data['dynamic_spritestack_objects_data']:
+                # LOADING OBJECTS DATA
+                self.objects = []
+                for object_data in data['objects_data']:
                     object_position = object_data['position']
                     object_rotation = object_data['rotation']
                     asset_index = object_data['asset_index']
-                    object_asset = self.dynamic_sprite_stack_assets[asset_index]
-                    self.dynamic_sprite_stack_objects.append(DynamicObject(
+                    object_asset = self.object_assets[asset_index]
+                    self.objects.append(DynamicObject(
                         object_asset,
                         asset_index,
                         object_position,
@@ -686,17 +523,17 @@ class Level:
 
                 # LOADING GRASS SYSTEM DATA
                 for grass_system_index in range(len(self.grass_systems)):
-                    self.grass_systems[grass_system_index].load(data['grass_systems'][grass_system_index])
+                    self.grass_systems[grass_system_index].load(data['grass_systems_data'][grass_system_index])
 
                 # LOADING PLANT SYSTEM DATA
                 for plant_system_index in range(len(self.plant_systems)):
-                    self.plant_systems[plant_system_index].load(data['plant_systems'][plant_system_index])
+                    self.plant_systems[plant_system_index].load(data['plant_systems_data'][plant_system_index])
 
                 # LOADING PARTICLE SYSTEM DATA
                 self.particle_systems = []
-                for particle_system_data in data['particle_systems']:
+                for particle_system_data in data['particle_systems_data']:
                     particle_system_position = particle_system_data['position']
-                    particle_system_asset = self.particle_system_presets[particle_system_data['asset_index']]
+                    particle_system_asset = self.particle_system_assets[particle_system_data['asset_index']]
                     particle_system_object = copy.deepcopy(particle_system_asset)
                     particle_system_object.position = particle_system_position
                     particle_system_object.asset_index = particle_system_data['asset_index']
@@ -719,8 +556,6 @@ class Level:
 
     def update(self):
 
-        
-
         """ CALCULATING OBJECT PALCEMENT POSITION """
         display_surface = pygame.display.get_surface()
         display_width, display_height = display_surface.get_size()
@@ -740,29 +575,25 @@ class Level:
 
         place_position_x = d * cos(camera_angle + gamma) + self.camera.position[0]
         place_position_y = d * sin(camera_angle + gamma) + self.camera.position[1]
-        self.place_position = [place_position_x, place_position_y, self.place_height] 
+        place_position_z = self.place_position[2]
 
         """ SNAPPING TO NON-ROTATING GRID """
         place_position_x = 16 * round(place_position_x/16)
         place_position_y = 16 * round(place_position_y/16)
-        place_position_z = 16 * round(self.place_height/16)
+        place_position_z = 16 * round(place_position_z/16)
         self.place_position = [place_position_x, place_position_y, place_position_z]   
 
         """ CAMERA MOVEMENT"""
         move_vector = [self.player.vx / self.player.run_speed_limit, self.player.vy / self.player.run_speed_limit]
         camera_follow_position_movement_offset = (
-            self.player.position[0] + self.render_width / 2 * move_vector[0],
-            self.player.position[1] - self.render_height / 2 * move_vector[1]
+            self.player.position[0] + self.render_width / 4 * move_vector[0],
+            self.player.position[1] - self.render_height / 4 * move_vector[1]
             )
         self.camera.follow(camera_follow_position_movement_offset)
         self.camera.move()
 
         """ UPDATING PLAYER AND ALL PLAYER-LINKED OBJECTS """
         self.player.update(self.camera)
-
-        """ HANDLING OBJECT MOVEMENT """
-        for obj in self.dynamic_sprite_stack_objects + self.vehicles:
-            obj.move()
 
         """ HANDLING VEHICLE DRIVING """
         if self.play:
@@ -772,18 +603,38 @@ class Level:
 
 
 
-
-
         """ HANDLING DYNAMIC OBJECT COLLISION """
-        dynamic_objects = self.dynamic_sprite_stack_objects + [self.player] + self.vehicles + self.player.projectiles + self.non_interactable_sprite_stack_objects
-        """ for obj in dynamic_objects:
-            obj.hitbox.collided = False
-            obj.hitbox.update() # UPDATING HITBOX AND RENDER VERTICES
+        collidable_objects_moving = []
+        collidable_objects_movelocked = []
+        for obj in self.objects + self.vehicles + self.player.projectiles + [self.player]:
+            if obj.collidable and obj.movelocked:
+                collidable_objects_movelocked.append(obj)
+            elif obj.collidable and not obj.movelocked:
+                collidable_objects_moving.append(obj)
 
-        for object_1, object_2 in combinations(dynamic_objects, 2):
-                object_1.hitbox.colour = (255, 0, 0)
-                object_2.hitbox.colour = (255, 0, 0)
-                if not (object_1.movelocked and object_2.movelocked):
+        EPS = 5
+        for moving_object in collidable_objects_moving:
+            if sqrt(moving_object.vx**2 + moving_object.vy**2) > EPS:
+                moving_object.hitbox.update()
+
+        all_collidable_objects = collidable_objects_moving + collidable_objects_movelocked
+        
+        for collidable_object in all_collidable_objects:
+            collidable_object.hitbox.collided = False
+
+        for object_1, object_2 in combinations(all_collidable_objects, 2):
+                
+                if object_1.movelocked:
+                    object_1.hitbox.colour = (255, 0, 0)
+                else:
+                    object_1.hitbox.colour = (0, 255, 0)
+
+                if object_2.movelocked:
+                    object_2.hitbox.colour = (255, 0, 0)
+                else:
+                    object_2.hitbox.colour = (0, 255, 0)
+
+                if not (object_1.movelocked and object_2.movelocked) and (object_1.collidable and object_2.collidable):
 
                     object_1_is_on_screen_x = abs(self.camera.position[0] - object_1.position[0]) < self.camera.width/2
                     if object_1_is_on_screen_x:
@@ -814,18 +665,26 @@ class Level:
                                                 overlap = object_1.hitbox.colliding_objects[object_2]['overlap']
 
                                                 # RESOLVING COLLISION
-                                                if object_1.interactable and object_2.interactable:
-                                                    object_1.hitbox.resolve_collision(object_2, mtv_axis, overlap) """
+                                                object_1.hitbox.resolve_collision(object_2, mtv_axis, overlap)
 
-        for obj in dynamic_objects:
+        for obj in collidable_objects_movelocked:
             if obj.hitbox.collided:
                 obj.hitbox.colour = (255, 255, 0)
             else:
-                obj.hitbox.colour = (255, 0, 0)
-            
+                if obj.movelocked == True:
+                    obj.hitbox.colour = (255, 0, 0)
+
+        for obj in collidable_objects_moving:
+            if obj.hitbox.collided:
+                obj.hitbox.colour = (255, 255, 0)
+            else:
+                if obj.movelocked == True:
+                    obj.hitbox.colour = (0, 255, 0)
 
 
-
+        """ HANDLING OBJECT MOVEMENT """
+        for moving_object in collidable_objects_moving:
+            moving_object.move()
 
 
         """ UPDATING PARTICLE SYSTEMS """
@@ -866,11 +725,11 @@ class Level:
 
         """ RENDERING ALL LEVEL OBJECTS """
         # GETTING A LIST OF PARTICLE SYSTEMS BELONGING TO PROJECTILES
-        projectile_particle_systems = []
+        projectiles = []
         for projectile in self.player.projectiles:
-            projectile_particle_systems.append(projectile.particle_system)
+            projectiles.append(projectile.particle_system)
 
-        render_objects= self.stairs + [self.player] + projectile_particle_systems + self.vehicles + self.non_interactable_sprite_stack_objects + self.dynamic_sprite_stack_objects + plants + grass_tiles + self.particle_systems + self.loadpoints
+        render_objects = self.stairs + [self.player] + projectiles + self.textures + self.vehicles + self.objects + plants + grass_tiles + self.particle_systems + self.loadpoints
 
         # CONTROLLING TOPOLOGICAL DEPTH SORTING
         if self.depth_sort_timer > self.depth_sort_period:
@@ -885,7 +744,7 @@ class Level:
         self.depth_sort_timer += 1
 
         # RENDERING DEPTH SORTED OBJECTS
-        if self.current_asset:
+        if self.current_asset and not self.play:
             sorted_objects = self.depth_sorted_objects + [self.current_asset]
         else:
             sorted_objects = self.depth_sorted_objects
@@ -906,4 +765,4 @@ class Level:
 
         display_fps(self.game.screen, self.game.clock, font)
 
-        display_place_info(self.game.screen, font, self.place_position, self.current_asset_rotation)
+        display_place_info(self.game.screen, font, self.place_position, self.current_asset_rotation, self.current_asset_group, self.play)

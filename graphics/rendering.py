@@ -20,7 +20,7 @@ def project_object(obj, axis):
     max_projection = -float('inf')
     min_vertex = None
     max_vertex = None
-    for vertex in obj.hitbox.render_box_vertices:
+    for vertex in obj.hitbox.vertices:
         vertex_projection = dot(vertex, axis)
         if vertex_projection < min_projection:
             min_projection = vertex_projection

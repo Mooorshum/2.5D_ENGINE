@@ -20,7 +20,7 @@ class Game:
     def __init__(self):
         
         """ DISPLAY SETTINGS """
-        scale = 0.75 # Percentage of max screen
+        scale = 1 # 0.75 # Percentage of max screen
         ratio = 4/3 # WIDTH / HEIGHT ratio
 
         info = pygame.display.Info()
@@ -348,6 +348,28 @@ class Game:
             SpritestackAsset(type='cactus', name='cactus_11', hitbox_size=(20,20), hitbox_offset=(0,0), hitbox_type='circle'),
             SpritestackAsset(type='cactus', name='cactus_12', hitbox_size=(20,20), hitbox_offset=(0,0), hitbox_type='circle'),
 
+            # RED ROCKS
+            SpritestackAsset(type='rock', name='rock_red_1', hitbox_size=(32,32), hitbox_offset=(0,0), hitbox_type='circle'),
+            SpritestackAsset(type='rock', name='rock_red_2', hitbox_size=(40,40), hitbox_offset=(0,0), hitbox_type='circle'),
+            SpritestackAsset(type='rock', name='rock_red_3', hitbox_size=(60,60), hitbox_offset=(0,0), hitbox_type='circle'),
+            SpritestackAsset(type='rock', name='rock_red_4', hitbox_size=(60,60), hitbox_offset=(0,0), hitbox_type='circle'),
+            SpritestackAsset(type='rock', name='rock_red_5', hitbox_size=(60,60), hitbox_offset=(0,0), hitbox_type='circle'),
+            SpritestackAsset(type='rock', name='rock_red_6', hitbox_size=(50,50), hitbox_offset=(0,0), hitbox_type='circle'),
+            SpritestackAsset(type='rock', name='rock_red_7', hitbox_size=(64,40), hitbox_offset=(0,0), hitbox_type='rectangle'),
+
+            # NEW FENCE
+            SpritestackAsset(type='fence', name='fence_long', hitbox_size=(64,8), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='fence', name='fence_pole', hitbox_size=(8,8), hitbox_offset=(0,0), hitbox_type='rectangle'),
+
+            # DIRT ROAD
+            SpritestackAsset(type='texture', name='dirt_road_straight', hitbox_size=(32,32), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='texture', name='dirt_road_turn', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+
+            # DINER PARTS
+            SpritestackAsset(type='diner', name='wall_window', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='diner', name='wall_corner', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            
+
 
 
             ### TEST BLOCKS
@@ -427,7 +449,11 @@ class Game:
             particle_presets.fog_cloud,
         ]
 
-
+        self.backgrounds = [
+            'assets/texture/background/cracks_1.png',
+            '',
+            '',
+        ]
 
 
         """ LEVELS """
@@ -436,7 +462,9 @@ class Game:
             game=self,
             name='outdoors_level',
             map_size=(2000, 2000),
+            #background='assets/texture/grass_64/sprite_stacks/stack_0.png',
             #fill_colour=(105, 66, 56)
+            background='assets/texture/cracks_2/sprite_stacks/stack_0.png',
             fill_colour=(168, 78, 50)
         )
         self.outdoors_level.player.position = [400, 600, 0]

@@ -192,6 +192,9 @@ class Vehicle(DynamicObject):
             speed = sqrt(self.vx**2 + self.vy**2)
             self.vx = speed * cos(adjusted_angle)
             self.vy = speed * sin(adjusted_angle)
+            if self.driver:
+                self.driver.vx = self.vx
+                self.driver.vy = self.vy
             
         super().move()
 

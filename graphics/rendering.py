@@ -254,9 +254,34 @@ def get_visible_objects(screen, camera, objects):
 
 
 """ RENDERING ALL DEPTH SORTED OBJECTS """
-def global_render(screen, camera, sorted_objects, bend_objects=[]):
+def global_render(screen, camera, sorted_objects, bend_objects=[], map_size=(1024, 1024), background=None):
     # CALCULATING ROTATED CAMERA X AND Y AXES
     camera_rotation = radians(camera.rotation)
+
+    # RENDERING BACKGROUND
+    if background:
+        padding = sqrt(background.get_width()**2 + background.get_height()**2) // 2
+        cam_x, cam_y = camera.position
+        cam_w, cam_h = camera.width, camera.height
+        cam_rot_rad = radians(camera.rotation)
+        cam_rot_deg = -camera.rotation
+        tile_w = background.get_width()
+        tile_h = background.get_height()
+        for x in range(0, map_size[0], tile_w):
+            for y in range(0, map_size[1], tile_h):
+                # Simple visibility check (AABB)
+                if cam_x - cam_w//2 - padding <= x <= cam_x + padding + cam_w//2 and cam_y - cam_h//2 - padding <= y <= cam_y + cam_h//2 + padding:
+                    # CALCULATING OFFSET POSITION
+                    dx = x - cam_x
+                    dy = y - cam_y
+                    rot_dx = dx * cos(cam_rot_rad) - dy * sin(cam_rot_rad)
+                    rot_dy = dx * sin(cam_rot_rad) + dy * cos(cam_rot_rad)
+                    screen_x = cam_w // 2 + rot_dx
+                    screen_y = cam_h // 2 + rot_dy
+                    # Rotate the tile and blit it centered
+                    rotated = pygame.transform.rotate(background, -camera.rotation)
+                    rect = rotated.get_rect(center=(screen_x, screen_y))
+                    screen.blit(rotated, rect)
 
     # RENDERING OBJECTS IN SORTED ORDER
     for game_object in sorted_objects:

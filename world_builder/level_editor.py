@@ -218,11 +218,16 @@ def control_editing(level):
 
 
 class Level:
-    def __init__(self, game, name, map_size, fill_colour=(0, 0, 0)):
+    def __init__(self, game, name, map_size, background=None, fill_colour=(0, 0, 0)):
 
         self.game = game
 
         self.name = name
+
+        if background:
+            self.background = pygame.image.load(background).convert_alpha()
+        else:
+            self.background = None
 
         """ LEVEL EDITING PARAMETERS """
         self.place_position = [0, 0, 0]
@@ -287,6 +292,7 @@ class Level:
         player_start_position = [self.map_size[0]//2, self.map_size[1]//2, 0]
         player_start_rotation = 0
         self.player = Character(asset=self.player_asset, asset_index=0, position=player_start_position, rotation=player_start_rotation)
+        self.player.mass = 70
         self.player.movelocked = False
         self.player.collidable = True
 
@@ -297,7 +303,7 @@ class Level:
         self.scroll_speed = 0.1
 
         """ TOPOLOGICAL DEPTH SORTING SETTINGS """
-        self.depth_sort_period = 5
+        self.depth_sort_period = 20
         self.depth_sort_timer = 0
         self.depth_sorted_objects = []
 
@@ -584,7 +590,10 @@ class Level:
         self.place_position = [place_position_x, place_position_y, place_position_z]   
 
         """ CAMERA MOVEMENT"""
-        move_vector = [self.player.vx / self.player.run_speed_limit, self.player.vy / self.player.run_speed_limit]
+        if self.player.vehicle:
+            move_vector = [self.player.vehicle.vx / (self.player.vehicle.max_speed/3), self.player.vehicle.vy / (self.player.vehicle.max_speed/3)]
+        else:
+            move_vector = [self.player.vx / self.player.run_speed_limit, self.player.vy / self.player.run_speed_limit]
         camera_follow_position_movement_offset = (
             self.player.position[0] + self.render_width / 4 * move_vector[0],
             self.player.position[1] - self.render_height / 4 * move_vector[1]
@@ -754,6 +763,8 @@ class Level:
             camera=self.camera,
             sorted_objects=sorted_objects,
             bend_objects=[self.player] + self.vehicles, #self.dynamic_sprite_stack_objects + [self.player] + self.vehicles,
+            map_size=self.map_size,
+            background=self.background
         )
 
         for grass_system in self.grass_systems:

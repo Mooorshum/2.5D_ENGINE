@@ -303,7 +303,7 @@ class Level:
         self.scroll_speed = 0.1
 
         """ TOPOLOGICAL DEPTH SORTING SETTINGS """
-        self.depth_sort_period = 20
+        self.depth_sort_period = 5
         self.depth_sort_timer = 0
         self.depth_sorted_objects = []
 

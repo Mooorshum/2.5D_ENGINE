@@ -368,6 +368,13 @@ class Game:
             # DINER PARTS
             SpritestackAsset(type='diner', name='wall_window', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
             SpritestackAsset(type='diner', name='wall_corner', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='diner', name='wall_front_entrance', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='diner', name='roof_side', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='diner', name='roof_corner', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='diner', name='roof_middle', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='diner', name='roof_sign_left', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='diner', name='roof_sign_middle', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='diner', name='roof_sign_right', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
             
 
 

@@ -369,12 +369,34 @@ class Game:
             SpritestackAsset(type='diner', name='wall_window', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
             SpritestackAsset(type='diner', name='wall_corner', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
             SpritestackAsset(type='diner', name='wall_front_entrance', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='diner', name='wall_back', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
             SpritestackAsset(type='diner', name='roof_side', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
             SpritestackAsset(type='diner', name='roof_corner', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
             SpritestackAsset(type='diner', name='roof_middle', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
             SpritestackAsset(type='diner', name='roof_sign_left', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
             SpritestackAsset(type='diner', name='roof_sign_middle', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
             SpritestackAsset(type='diner', name='roof_sign_right', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+
+            # GAS STATION PARTS
+            SpritestackAsset(type='gas_station', name='wall_corner_door', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='gas_station', name='wall_corner_window', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='gas_station', name='wall_side_window', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='gas_station', name='wall_side', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='gas_station', name='wall_corner', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='gas_station', name='roof_corner', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='gas_station', name='roof_side', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='gas_station', name='roof_middle', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='gas_station', name='pillar', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='gas_station', name='pump', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='gas_station', name='sign', hitbox_size=(64,8), hitbox_offset=(0,4), hitbox_type='rectangle'),
+
+            # BEANZ BILLBOARD
+            SpritestackAsset(type='billboard_beans', name='pillar_bottom', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='billboard_beans', name='pillar_top', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='billboard_beans', name='sign_middle', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='billboard_beans', name='sign_left', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='billboard_beans', name='sign_right', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+
             
 
 
@@ -456,12 +478,6 @@ class Game:
             particle_presets.fog_cloud,
         ]
 
-        self.backgrounds = [
-            'assets/texture/background/cracks_1.png',
-            '',
-            '',
-        ]
-
 
         """ LEVELS """
         # OUTDOORS LEVEL
@@ -471,7 +487,7 @@ class Game:
             map_size=(2000, 2000),
             #background='assets/texture/grass_64/sprite_stacks/stack_0.png',
             #fill_colour=(105, 66, 56)
-            background='assets/texture/cracks_2/sprite_stacks/stack_0.png',
+            background='assets/texture/cracked_desert/sprite_stacks/stack_0.png',
             fill_colour=(168, 78, 50)
         )
         self.outdoors_level.player.position = [400, 600, 0]

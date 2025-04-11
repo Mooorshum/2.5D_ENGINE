@@ -148,7 +148,6 @@ def depth_sort(objects, camera):
                 front_object = object_1
                 back_object = object_2
 
-
             """ HANDLING CASES WHEN AN OBJECT IS ABOVE A TEXTURE """
             if hasattr(object_1, 'asset') and hasattr(object_2, 'asset'):
                 if hasattr(object_1.asset, 'type') and hasattr(object_2.asset, 'type'):

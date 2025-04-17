@@ -20,7 +20,7 @@ class Game:
     def __init__(self):
         
         """ DISPLAY SETTINGS """
-        scale = 1 # 0.75 # Percentage of max screen
+        scale = 0.5 # 0.75 # Percentage of max screen
         ratio = 4/3 # WIDTH / HEIGHT ratio
 
         info = pygame.display.Info()
@@ -397,7 +397,39 @@ class Game:
             SpritestackAsset(type='billboard_beans', name='sign_left', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
             SpritestackAsset(type='billboard_beans', name='sign_right', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
 
+            # MOTEL PARTS
+            SpritestackAsset(type='motel', name='wall_door', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='motel', name='wall_window', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='motel', name='wall_plain', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+
+            SpritestackAsset(type='motel', name='balcony_bottom_pillar', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='motel', name='balcony_bottom_no_pillar', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='motel', name='balcony_bottom_corner', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+
+            SpritestackAsset(type='motel', name='balcony_middle_pillar', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='motel', name='balcony_middle_no_pillar', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='motel', name='balcony_middle_corner', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
             
+            SpritestackAsset(type='motel', name='balcony_top_pillar', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='motel', name='balcony_top_no_pillar', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+
+            SpritestackAsset(type='motel', name='wall_roof_side', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='motel', name='wall_roof_corner', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='motel', name='wall_roof_middle', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+
+            SpritestackAsset(type='motel', name='balcony_bottom_stairs', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='motel', name='balcony_middle_stairs', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='motel', name='balcony_top_stairs', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+
+            SpritestackAsset(type='motel', name='balcony_top_corner', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+
+            SpritestackAsset(type='motel', name='stairs_top', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='motel', name='stairs_bottom', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+
+            SpritestackAsset(type='motel', name='wall_reception', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='motel', name='wall_roof_reception', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+
+            SpritestackAsset(type='motel', name='sign', hitbox_size=(32,32), hitbox_offset=(0,0), hitbox_type='rectangle'),
 
 
 

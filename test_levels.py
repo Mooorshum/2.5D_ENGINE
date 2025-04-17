@@ -20,7 +20,7 @@ class Game:
     def __init__(self):
         
         """ DISPLAY SETTINGS """
-        scale = 0.5 # 0.75 # Percentage of max screen
+        scale = 0.6 # 0.75 # Percentage of max screen
         ratio = 4/3 # WIDTH / HEIGHT ratio
 
         info = pygame.display.Info()
@@ -430,7 +430,6 @@ class Game:
             SpritestackAsset(type='motel', name='wall_roof_reception', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
 
             SpritestackAsset(type='motel', name='sign', hitbox_size=(32,32), hitbox_offset=(0,0), hitbox_type='rectangle'),
-
 
 
             ### TEST BLOCKS

@@ -520,13 +520,13 @@ class Game:
         self.outdoors_level = Level(
             game=self,
             name='outdoors_level',
-            map_size=(2000, 2000),
+            map_size=(5000, 5000),
             #background='assets/texture/grass_64/sprite_stacks/stack_0.png',
             #fill_colour=(105, 66, 56)
             background='assets/texture/cracked_desert/sprite_stacks/stack_0.png',
             fill_colour=(168, 78, 50)
         )
-        self.outdoors_level.player.position = [400, 600, 0]
+        self.outdoors_level.player.position = [1000, 1000, 0]
         self.outdoors_level.vehicle_assets = self.vehicle_assets
         self.outdoors_level.texture_assets = self.texture_assets
         self.outdoors_level.object_assets = self.object_assets

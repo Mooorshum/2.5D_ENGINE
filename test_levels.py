@@ -432,6 +432,11 @@ class Game:
             SpritestackAsset(type='motel', name='sign', hitbox_size=(32,32), hitbox_offset=(0,0), hitbox_type='rectangle'),
 
 
+            # HOTDOG STAND
+            SpritestackAsset(type='hot_dog_stand', name='wagon', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            #SpritestackAsset(type='hotdog_stand', name='sign', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+
+
             ### TEST BLOCKS
             #SpritestackAsset(type='test_shapes', name='test_corner', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle', interactable=False),
             #SpritestackAsset(type='test_shapes', name='test_corner_roof', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle', interactable=False),

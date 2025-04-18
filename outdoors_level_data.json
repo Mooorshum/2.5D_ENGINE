@@ -4311,6 +4311,15 @@
             ],
             "rotation": 720.0,
             "asset_index": 146
+        },
+        {
+            "position": [
+                1296,
+                1072,
+                0
+            ],
+            "rotation": 0,
+            "asset_index": 224
         }
     ],
     "grass_systems_data": [

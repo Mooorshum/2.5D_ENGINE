@@ -434,7 +434,12 @@ class Game:
 
             # HOTDOG STAND
             SpritestackAsset(type='hot_dog_stand', name='wagon', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            #SpritestackAsset(type='hotdog_stand', name='sign', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            
+            # LARGE WATER TOWER
+            SpritestackAsset(type='water_tower_large', name='bottom', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='water_tower_large', name='middle', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='water_tower_large', name='top', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='water_tower_large', name='roof', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
 
 
             ### TEST BLOCKS

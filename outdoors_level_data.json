@@ -4626,6 +4626,150 @@
             ],
             "rotation": 904.0,
             "asset_index": 165
+        },
+        {
+            "position": [
+                624,
+                688,
+                0
+            ],
+            "rotation": 0,
+            "asset_index": 225
+        },
+        {
+            "position": [
+                624,
+                688,
+                128
+            ],
+            "rotation": 0,
+            "asset_index": 226
+        },
+        {
+            "position": [
+                624,
+                624,
+                0
+            ],
+            "rotation": -90.0,
+            "asset_index": 225
+        },
+        {
+            "position": [
+                688,
+                624,
+                0
+            ],
+            "rotation": -180.0,
+            "asset_index": 225
+        },
+        {
+            "position": [
+                688,
+                688,
+                0
+            ],
+            "rotation": -270.0,
+            "asset_index": 225
+        },
+        {
+            "position": [
+                624,
+                624,
+                128
+            ],
+            "rotation": -90.0,
+            "asset_index": 226
+        },
+        {
+            "position": [
+                688,
+                624,
+                128
+            ],
+            "rotation": -180.0,
+            "asset_index": 226
+        },
+        {
+            "position": [
+                688,
+                688,
+                128
+            ],
+            "rotation": -270.0,
+            "asset_index": 226
+        },
+        {
+            "position": [
+                624,
+                688,
+                256
+            ],
+            "rotation": 0,
+            "asset_index": 227
+        },
+        {
+            "position": [
+                624,
+                624,
+                256
+            ],
+            "rotation": -90.0,
+            "asset_index": 227
+        },
+        {
+            "position": [
+                688,
+                624,
+                256
+            ],
+            "rotation": -180.0,
+            "asset_index": 227
+        },
+        {
+            "position": [
+                688,
+                688,
+                256
+            ],
+            "rotation": -270.0,
+            "asset_index": 227
+        },
+        {
+            "position": [
+                624,
+                688,
+                384
+            ],
+            "rotation": 0,
+            "asset_index": 228
+        },
+        {
+            "position": [
+                624,
+                624,
+                384
+            ],
+            "rotation": -90.0,
+            "asset_index": 228
+        },
+        {
+            "position": [
+                688,
+                624,
+                384
+            ],
+            "rotation": -180.0,
+            "asset_index": 228
+        },
+        {
+            "position": [
+                688,
+                688,
+                384
+            ],
+            "rotation": -270.0,
+            "asset_index": 228
         }
     ],
     "grass_systems_data": [

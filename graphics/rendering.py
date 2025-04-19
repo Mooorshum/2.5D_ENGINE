@@ -243,8 +243,9 @@ def get_visible_objects(screen, camera, objects):
         is_in_frame_x = (game_object.position[0] > camera.position[0] - render_padding_x) and \
                         (game_object.position[0] < camera.position[0] + render_padding_x)
 
-        is_in_frame_y = (game_object.position[1] > camera.position[1] - render_padding_y) and \
-                        (game_object.position[1] < camera.position[1] + render_padding_y)
+        is_in_frame_y = ((game_object.position[1] > camera.position[1] - render_padding_y) and \
+                        (game_object.position[1] < camera.position[1] + render_padding_y)) 
+                            
         
         if is_in_frame_x and is_in_frame_y:
 

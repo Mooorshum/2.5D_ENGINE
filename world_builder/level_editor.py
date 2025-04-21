@@ -299,7 +299,7 @@ class Level:
 
         self.fill_colour = fill_colour
 
-        self.rotation_speed = 1
+        self.rotation_speed = 45
         self.scroll_speed = 0.1
 
         """ TOPOLOGICAL DEPTH SORTING SETTINGS """

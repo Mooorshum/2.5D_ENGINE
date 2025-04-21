@@ -20,7 +20,7 @@ class Game:
     def __init__(self):
         
         """ DISPLAY SETTINGS """
-        scale = 0.6 # 0.75 # Percentage of max screen
+        scale = 0.5 # 0.75 # Percentage of max screen
         ratio = 4/3 # WIDTH / HEIGHT ratio
 
         info = pygame.display.Info()
@@ -440,6 +440,18 @@ class Game:
             SpritestackAsset(type='water_tower_large', name='middle', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
             SpritestackAsset(type='water_tower_large', name='top', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
             SpritestackAsset(type='water_tower_large', name='roof', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+
+            # TRASH CAN
+            SpritestackAsset(type='trash_can', name='trash_can_1', hitbox_size=(32,32), hitbox_offset=(0,0), hitbox_type='rectangle'),
+
+            # FIRE HYDRANT
+            SpritestackAsset(type='fire_hydrant', name='fire_hydrant_1', hitbox_size=(32,32), hitbox_offset=(0,0), hitbox_type='circle'),
+
+            # BUS STOP
+            SpritestackAsset(type='bus_stop', name='bottom_left', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='bus_stop', name='bottom_right', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='bus_stop', name='roof_left', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='bus_stop', name='roof_right', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
 
 
             ### TEST BLOCKS

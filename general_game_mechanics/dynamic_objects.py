@@ -8,6 +8,8 @@ from general_game_mechanics.collisions import Hitbox
 from graphics.particles import ParticleSystem, Projectile
 from graphics.sprite_stacks import SpritestackModel
 
+from graphics.topological_sorting import depth_sort
+
 from presets.particle_presets import earthen_dust, flame_front
 
 import random
@@ -68,11 +70,8 @@ class DynamicObject(SpritestackModel):
 
 
 
-            
 
-            
-
-class Vehicle(DynamicObject):
+""" class Vehicle(DynamicObject):
     def __init__(self, asset, asset_index, position, rotation):
         super().__init__(asset, asset_index, position, rotation)
 
@@ -210,7 +209,7 @@ class Vehicle(DynamicObject):
         self.dust.max_count = self.dust_particles_max_count * factor
         self.dust.render(screen, camera)
         self.dust.update()
-        super().render(screen, camera, offset)
+        super().render(screen, camera, offset) """
 
 
 
@@ -274,12 +273,6 @@ class Character(DynamicObject):
 
         if self.vehicle != None:
             self.vehicle.handle_movement(keys)
-
-
-
-
-
-
 
         
     def update(self, camera):
@@ -374,7 +367,6 @@ class Character(DynamicObject):
                 self.projectiles.remove(projectile)
 
 
-
     def render(self, screen, camera, offset=[0, 0]):
 
         if not self.vehicle:
@@ -440,3 +432,297 @@ class Stairs(DynamicObject):
             return
         
         obj.position[2] = self.position[2] + projection / self.hitbox.size[1] * self.height
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+""" SPECIAL CLASS OF OBJECT CONSISTING OF MULTIPLE SEPARATELY RENDERABLE PARTS """
+class CompositeObject():
+    def __init__(self, parts_positions_rotations, position=[0,0,0], rotation=0, hitbox_size=[64,64], hitbox_offset=(0,0), hitbox_type='rectangle'):
+        self.movelocked = True
+        self.collidable = False
+
+        self.position = position
+        self.rotation = rotation
+
+        # Initializing component parts
+        self.parts_positions_rotations_for_copy = parts_positions_rotations
+        self.parts = []
+        self.part_positions_nonrotated = []
+        self.part_rotations_nonrotated = []
+        for part_asset in parts_positions_rotations.keys():
+            asset_index = 666 # FIX THIS WHEN CODING SERIALIZATION !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            part = DynamicObject(part_asset, asset_index, [0,0,0], 0)
+            self.parts.append(part)
+            self.part_positions_nonrotated.append(parts_positions_rotations[part_asset][0])
+            self.part_rotations_nonrotated.append(parts_positions_rotations[part_asset][1])
+            
+
+        # Placing component parts in predefined positions & calculating object height
+        max_ceiling = 0
+        for part_index in range(len(self.parts)):
+            part = self.parts[part_index]
+            x_rel, y_rel, z_rel = self.part_positions_nonrotated[part_index]
+            part_rotation = self.part_rotations_nonrotated[part_index]
+            part.position[0] = self.position[0] + x_rel
+            part.position[1] = self.position[1] + y_rel
+            part.position[2] = self.position[2] + z_rel
+            part.rotation = part_rotation
+            part.hitbox.update() # UPDATING PART HITBOX VERTICES TO MATCH ITS POSITION
+
+            ceiling = z_rel + part.height
+            if ceiling > max_ceiling:
+                max_ceiling = ceiling
+        self.height = max_ceiling
+
+        # Creating a single hitbox for the whole object
+        self.hitbox_size_for_copy = hitbox_size
+        self.hitbox = Hitbox(
+            object=self,
+            size=hitbox_size,
+            hitbox_offset=hitbox_offset,
+            type=hitbox_type
+        )
+
+        self.mass = sum(part.mass for part in self.parts)
+
+        self.v_drag = 0.03
+        self.omega_drag = 0.05
+        self.dt = 0.01
+
+        self.vx = 0
+        self.vy = 0
+        self.omega = 0
+
+        self.ax = 0
+        self.ay = 0
+        self.a_omega = 0
+
+    def move(self):
+        if not self.movelocked:
+
+            new_vx = (self.vx + self.ax * self.dt) * ( 1 - self.v_drag)
+            new_vy = (self.vy + self.ay * self.dt) * ( 1 - self.v_drag)
+            new_omega = (self.omega +  self.a_omega * self.dt) * ( 1 - self.omega_drag)
+
+            new_x = self.position[0] + new_vx * self.dt
+            new_y = self.position[1] - new_vy * self.dt
+            new_rotation = self.rotation + new_omega * self.dt
+
+            self.vx = new_vx
+            self.vy = new_vy
+            self.omega = new_omega
+
+            self.position[0] = new_x
+            self.position[1] = new_y
+            self.rotation = new_rotation
+
+            # UPDATING THE POSITIONS OF COMPONENT PARTS
+            cos_r = cos(radians(self.rotation))
+            sin_r = -sin(radians(self.rotation))
+
+            for part_index in range(len(self.parts)):
+                part = self.parts[part_index]
+                x_rel, y_rel, z_rel = self.part_positions_nonrotated[part_index]
+                x_rot = cos_r * x_rel - sin_r * y_rel
+                y_rot = sin_r * x_rel + cos_r * y_rel
+                part.position[0] = self.position[0] + x_rot
+                part.position[1] = self.position[1] + y_rot
+                part.position[2] = self.position[2] + z_rel
+                part_rotation = self.part_rotations_nonrotated[part_index]
+                part.rotation = part_rotation + self.rotation
+
+            # UPDATING COMPONENT HITBOX VERTICES
+            EPS = 1 # Speed threshold
+            if sqrt(self.vx**2 + self.vy**2) > EPS:
+                for part in self.parts:
+                    part.hitbox.update()
+
+    def render(self, screen, camera, offset):
+        # rendering hitbox
+        if self.collidable or not self.movelocked:
+            if self.collidable:
+                self.hitbox.colour = (255, 0, 0)
+            if not self.movelocked:
+                self.hitbox.colour = (0, 255, 0)
+            camera_rotation = radians(camera.rotation)
+            self_offset_x = camera.position[0] - self.position[0] + (self.position[0] - camera.position[0])*cos(camera_rotation) - (self.position[1] - camera.position[1])*sin(camera_rotation)
+            self_offset_y = camera.position[1] - self.position[1] + (self.position[0] - camera.position[0])*sin(camera_rotation) + (self.position[1] - camera.position[1])*cos(camera_rotation)
+            self_offset = [self_offset_x - camera.position[0] + camera.width/2, self_offset_y - camera.position[1] + camera.height/2]
+            self.hitbox.render(screen, camera, self_offset)
+        else:
+            self.hitbox.show_hitbox = False
+
+        # Indivilual depth sorting
+        sorted_parts = depth_sort(self.parts, camera)
+        camera_rotation = radians(camera.rotation)
+        for part in sorted_parts:
+            part_offset_x = camera.position[0] - part.position[0] + (part.position[0] - camera.position[0])*cos(camera_rotation) - (part.position[1] - camera.position[1])*sin(camera_rotation)
+            part_offset_y = camera.position[1] - part.position[1] + (part.position[0] - camera.position[0])*sin(camera_rotation) + (part.position[1] - camera.position[1])*cos(camera_rotation)
+            part_offset = [part_offset_x - camera.position[0] + camera.width/2, part_offset_y - camera.position[1] + camera.height/2]
+            part.render(screen, camera, part_offset)
+
+
+
+
+
+
+
+
+
+
+
+
+class Vehicle(CompositeObject):
+    
+    def __init__(self, parts_positions_rotations, position=[0,0,0], rotation=0, hitbox_size=[64,64], hitbox_offset=(0,0), hitbox_type='rectangle'):
+        super().__init__(parts_positions_rotations, position, rotation, hitbox_size, hitbox_offset, hitbox_type)
+
+        self.driver = None
+
+        # Dustcloud settings
+        self.dust = earthen_dust
+        self.max_dustcloud_size = 20
+        self.dust_particles_max_count = 50
+
+        # SPEED_LIMIT
+        self.max_speed = 700
+
+        # ACCELERATION
+        self.driving_acceleration = 1500
+        self.steering_acceleration = 1000
+
+        # DRAG
+        self.braking_drag = 0.05
+        self.omega_drag = 0.02
+
+        self.turn_left = False
+        self.turn_right = False
+        self.accelerate = False
+        self.reverse = False
+        self.brake = False
+
+
+    def handle_driver(self, character):
+        enter_exit_padding = 20
+        if character.action:
+            if not self.driver and not character.vehicle:
+                distance_to_character = sqrt((self.position[0] - character.position[0])**2 + (self.position[1] - character.position[1])**2)
+                if distance_to_character < sqrt(self.hitbox.size[0]**2 + self.hitbox.size[1]**2) / 2 + enter_exit_padding:
+                    if character.action:
+                        self.driver = character
+                        self.driver.collidable = False
+                        self.driver.vehicle = self
+            elif (self.driver != None):
+                random_exit_angle = radians(random.randint(-180, 180))
+                self.driver.position = [
+                    self.position[0] + (self.hitbox.size[0]/2 + enter_exit_padding) * sin(random_exit_angle),
+                    self.position[1] + (self.hitbox.size[1]/2 + enter_exit_padding) * cos(random_exit_angle),
+                    self.position[2]
+                    ]
+                self.driver.vehicle = None
+                self.driver.collidable = True
+                self.driver = None
+
+
+    def handle_movement(self, keys):
+        self.turn_left = keys[pygame.K_a]
+        self.turn_right = keys[pygame.K_d]
+        self.accelerate = keys[pygame.K_w]
+        self.reverse = keys[pygame.K_s]
+        self.brake = keys[pygame.K_b]
+
+
+    def move(self):
+
+        if self.driver:
+            
+            current_driving_acceleration = 0
+            current_steering_acceleration = 0
+            current_speed = sqrt(self.vx**2 + self.vy**2)
+
+            steering_speed_factor = current_speed / self.max_speed
+            if steering_speed_factor < 0.75:
+                steering_speed_factor = 0.75
+            if current_speed < 200:
+                steering_speed_factor = 0.4
+            if current_speed < 100:
+                steering_speed_factor = 0.3
+            if current_speed < 30:
+                steering_speed_factor = 0
+
+            if self.turn_left:
+                current_steering_acceleration = self.steering_acceleration * steering_speed_factor
+            if self.turn_right:
+                current_steering_acceleration = -self.steering_acceleration * steering_speed_factor
+
+            if self.accelerate:
+                current_driving_acceleration = self.driving_acceleration
+
+            if self.reverse:
+                current_driving_acceleration = -self.driving_acceleration
+
+            if self.brake:
+                self.vx *= 1 - self.braking_drag
+                self.vy *= 1 - self.braking_drag
+                self.omega *= (1 - self.braking_drag/10)
+
+            # Applying speed limits
+            if current_speed > self.max_speed:
+                current_driving_acceleration = 0
+
+            self.ax = current_driving_acceleration * cos(radians(self.rotation))
+            self.ay = current_driving_acceleration * sin(radians(self.rotation))
+            self.a_omega = current_steering_acceleration
+
+        # Gradually align velocity direction with the rotation angle when accelerating or braking
+        if self.accelerate or self.brake:
+            current_angle = atan2(self.vy, self.vx)
+            forward_angle = radians(self.rotation)
+            reverse_angle = radians(self.rotation) - pi
+            forward_diff = (forward_angle - current_angle + pi) % (2 * pi) - pi
+            reverse_diff = (reverse_angle - current_angle + pi) % (2 * pi) - pi
+            if abs(forward_diff) < abs(reverse_diff):
+                angle_diff = forward_diff
+            else:
+                angle_diff = reverse_diff
+            align_factor = 1.1 - sqrt(self.vx**2 + self.vy**2) / self.max_speed # LOWER VALUE PROVIDES MORE DRIFT
+            align_factor = max(0, min(align_factor, 1))
+            adjusted_angle = current_angle + angle_diff * align_factor
+            speed = sqrt(self.vx**2 + self.vy**2)
+            self.vx = speed * cos(adjusted_angle)
+            self.vy = speed * sin(adjusted_angle)
+            if self.driver:
+                self.driver.vx = self.vx
+                self.driver.vy = self.vy
+            
+        super().move()
+
+
+    def render(self, screen, camera, offset=[0, 0]):
+        self.dust.position = [
+            self.position[0],
+            self.position[1],
+            self.position[2]
+        ]
+        factor = sqrt(self.vx**2 + self.vy**2)/self.max_speed
+        self.dust.r_range = (0, round(self.max_dustcloud_size*factor))
+        self.dust.max_count = self.dust_particles_max_count * factor
+        self.dust.render(screen, camera)
+        self.dust.update()
+        super().render(screen, camera, offset)

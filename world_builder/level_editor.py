@@ -5,8 +5,13 @@ import json
 from math import radians, sin, cos, sqrt, atan2
 from itertools import combinations
 
-from graphics.rendering import global_render, get_visible_objects, depth_sort
-from general_game_mechanics.dynamic_objects import DynamicObject, Vehicle, Character, Stairs
+from graphics.rendering import global_render, get_visible_objects
+from graphics.topological_sorting import depth_sort
+from general_game_mechanics.dynamic_objects import DynamicObject, Vehicle, Character, Stairs, CompositeObject, Vehicle
+
+#### DELETE THIS AFTER COMPOSITE OBJECTS HAVE BEEN IMPLEMENTED
+from graphics.sprite_stacks import SpritestackAsset
+
 from general_game_mechanics.water import WaterBody
 
 from graphics.camera import Camera
@@ -61,12 +66,36 @@ def control_editing(level):
         level.current_asset.rotation = level.current_asset_rotation
         level.current_asset.position = level.place_position
 
+    if level.current_asset_group == 'composite_object':
+        asset = level.composite_object_assets[level.current_asset_index]
+        level.current_asset = CompositeObject(
+            parts_positions_rotations=asset.parts_positions_rotations_for_copy,
+            hitbox_size=asset.hitbox_size_for_copy,
+            position=level.place_position,
+            rotation=level.current_asset_rotation
+        )
+        # WE NEED TO SOMEHOW UPDATE ALL OF THE PARTS - this will work for now
+        level.current_asset.movelocked = False
+        level.current_asset.move() 
+        for part in level.current_asset.parts:
+            part.hitbox.update()
+        level.current_asset.movelocked = True
+
     if level.current_asset_group == 'vehicle':
         asset = level.vehicle_assets[level.current_asset_index]
-        level.current_asset = Vehicle(asset, level.current_asset_index, level.place_position, level.current_asset_rotation)
-        level.current_asset.rotation = level.current_asset_rotation
-        level.current_asset.position = level.place_position
-
+        level.current_asset = Vehicle(
+            parts_positions_rotations=asset.parts_positions_rotations_for_copy,
+            hitbox_size=asset.hitbox_size_for_copy,
+            position=level.place_position,
+            rotation=level.current_asset_rotation
+        )
+        # WE NEED TO SOMEHOW UPDATE ALL OF THE PARTS - this will work for now
+        level.current_asset.movelocked = False
+        level.current_asset.move() 
+        for part in level.current_asset.parts:
+            part.hitbox.update()
+            level.current_asset.movelocked = True
+        
     if level.current_asset_group == 'plant':
         plant_asset = level.plant_systems[level.plant_system_index].assets[level.current_asset_index]
         plant = Plant(plant_asset, level.place_position)
@@ -105,6 +134,8 @@ def control_editing(level):
                 level.textures.append(level.current_asset)
             if level.current_asset_group == 'object':
                 level.objects.append(level.current_asset)
+            if level.current_asset_group == 'composite_object':
+                level.composite_objects.append(level.current_asset)
             if level.current_asset_group =='vehicle':
                 level.current_asset.hitbox.collidable = True
                 level.vehicles.append(level.current_asset)
@@ -125,6 +156,8 @@ def control_editing(level):
                 level.current_asset_index = cycle_list('forward', level.current_asset_index, level.texture_assets)
             if level.current_asset_group == 'object':
                 level.current_asset_index = cycle_list('forward', level.current_asset_index, level.object_assets)
+            if level.current_asset_group == 'composite_object':
+                level.current_asset_index = cycle_list('forward', level.current_asset_index, level.composite_object_assets)
             if level.current_asset_group =='vehicle':
                 level.current_asset_index = cycle_list('forward', level.current_asset_index, level.vehicle_assets)
             if level.current_asset_group == 'plant':
@@ -140,6 +173,8 @@ def control_editing(level):
                 level.current_asset_index = cycle_list('backwards', level.current_asset_index, level.texture_assets)
             if level.current_asset_group == 'object':
                 level.current_asset_index = cycle_list('backwards', level.current_asset_index, level.object_assets)
+            if level.current_asset_group == 'composite_object':
+                level.current_asset_index = cycle_list('backwards', level.current_asset_index, level.composite_object_assets)
             if level.current_asset_group =='vehicle':
                 level.current_asset_index = cycle_list('backwards', level.current_asset_index, level.vehicle_assets)
             if level.current_asset_group == 'plant':
@@ -151,16 +186,20 @@ def control_editing(level):
 
 
         if level.current_action == 'rotate_clockwise_or_next_system':
-            if level.current_asset_group in ['texture', 'object', 'vehicle']:
+            if level.current_asset_group in ['texture', 'object']:
                 level.current_asset_rotation += 360 / level.current_asset.asset.num_unique_angles * level.rotation_speed
+            if level.current_asset_group in ['composite_object', 'vehicle']:
+                level.current_asset_rotation += 360 / level.current_asset.parts[0].asset.num_unique_angles * level.rotation_speed
             if level.current_asset_group == 'plant':
                 level.plant_system_index = cycle_list('forward', level.plant_system_index, level.plant_systems)
             if level.current_asset_group == 'grass':
                 level.grass_system_index = cycle_list('forward', level.grass_system_index, level.grass_systems)
 
         if level.current_action == 'rotate_counterclockwise_or_prev_system':
-            if level.current_asset_group in ['texture', 'object', 'vehicle']:
+            if level.current_asset_group in ['texture', 'object']:
                 level.current_asset_rotation -= 360 / level.current_asset.asset.num_unique_angles * level.rotation_speed
+            if level.current_asset_group in ['composite_object', 'vehicle']:
+                level.current_asset_rotation -= 360 / level.current_asset.parts[0].asset.num_unique_angles * level.rotation_speed
             if level.current_asset_group == 'plant':
                 level.plant_system_index = cycle_list('backwards', level.plant_system_index, level.plant_systems)
             if level.current_asset_group == 'grass':
@@ -174,6 +213,9 @@ def control_editing(level):
         if level.current_asset_group == 'object':
             if  len(level.objects) > 0:
                 last_object = level.objects.pop()
+        if level.current_asset_group == 'composite_object':
+            if  len(level.composite_objects) > 0:
+                last_object = level.composite_objects.pop()
         if level.current_asset_group =='vehicle':
             if  len(level.vehicles) > 0:
                 last_object = level.vehicles.pop()
@@ -191,7 +233,8 @@ def control_editing(level):
     if level.current_asset_group == 'colliding_objects':
         level.current_asset = None
         if level.current_action == 'place':
-            nearest_object = min(level.objects + level.vehicles, key=lambda obj: (level.place_position[0] - obj.position[0])**2 + (level.place_position[1] - obj.position[1])**2 + (level.place_position[2] - obj.position[2])**2)
+            objects = level.objects + level.vehicles + level.composite_objects
+            nearest_object = min(objects, key=lambda obj: (level.place_position[0] - obj.position[0])**2 + (level.place_position[1] - obj.position[1])**2 + (level.place_position[2] - obj.position[2])**2)
             if nearest_object.collidable:
                 nearest_object.collidable = False
                 nearest_object.hitbox.show_hitbox = False
@@ -203,7 +246,8 @@ def control_editing(level):
     if level.current_asset_group == 'moving_objects':
         level.current_asset = None
         if level.current_action == 'place':
-            nearest_object = min(level.objects + level.vehicles, key=lambda obj: (level.place_position[0] - obj.position[0])**2 + (level.place_position[1] - obj.position[1])**2 + (level.place_position[2] - obj.position[2])**2)
+            objects = level.objects + level.vehicles + level.composite_objects
+            nearest_object = min(objects, key=lambda obj: (level.place_position[0] - obj.position[0])**2 + (level.place_position[1] - obj.position[1])**2 + (level.place_position[2] - obj.position[2])**2)
             if nearest_object.movelocked:
                 nearest_object.movelocked = False
             else:
@@ -248,10 +292,6 @@ class Level:
 
         self.play = False
 
-        self.stairs = [
-            # Stairs(asset=self.game.stair_asset, asset_index=1, position=[map_size[0]//2, map_size[1]//2, 0], rotation=0),
-        ]
-
 
         """ DISPLAY SETTINGS """
         self.render_width = 400
@@ -268,6 +308,7 @@ class Level:
         """ GAME ASSETS """
         self.texture_assets = []
         self.object_assets = []
+        self.composite_object_assets = []
         self.vehicle_assets = []
         self.particle_system_assets = []
         self.npc_assets = []
@@ -277,6 +318,7 @@ class Level:
         """ GAME OBJECTS """
         self.textures = []
         self.objects = []
+        self.composite_objects = []
         self.vehicles = []
         self.plant_systems = []
         self.grass_systems = []
@@ -306,6 +348,9 @@ class Level:
         self.depth_sort_period = 15 # NUMBER OF ITERATIONS AFTER WHICH THE TOPOLOGICAL SORT WILL REORDER THE OBJECTS-TO-RENDER LIST
         self.depth_sort_timer = 0
         self.depth_sorted_objects = []
+
+
+
 
 
     def handle_controls_editing(self, keys):
@@ -363,6 +408,10 @@ class Level:
 
                 elif event.key == pygame.K_7:
                     self.current_asset_group = 'loadpoint'
+                    self.current_asset_index = 0
+
+                elif event.key == pygame.K_8:
+                    self.current_asset_group = 'composite_object'
                     self.current_asset_index = 0
 
                 elif event.key == pygame.K_c :
@@ -610,12 +659,10 @@ class Level:
                 vehicle.handle_driver(self.player)
 
 
-
-
-        """ HANDLING DYNAMIC OBJECT COLLISION """
+        """ HANDLING OBJECT COLLISION """
         collidable_objects_moving = []
         collidable_objects_movelocked = []
-        for obj in self.objects + self.vehicles + self.player.projectiles + [self.player]:
+        for obj in self.objects + self.composite_objects + self.vehicles + self.player.projectiles + [self.player]:
             if obj.collidable and obj.movelocked:
                 collidable_objects_movelocked.append(obj)
             elif obj.collidable and not obj.movelocked:
@@ -695,7 +742,6 @@ class Level:
         for moving_object in collidable_objects_moving:
             moving_object.move()
 
-
         """ UPDATING PARTICLE SYSTEMS """
         for particle_system in self.particle_systems:
             particle_system.update()
@@ -703,15 +749,6 @@ class Level:
         """ HANDLING LOADPOINTS """
         for loadpoint in self.loadpoints:
             loadpoint.handle_loading(player=self.player, game=self.game)
-
-        """ HANDLING STAIRS """
-        for stairs in self.stairs:
-            distance = sqrt((self.player.position[0] - stairs.position[0])**2 + (self.player.position[1] - stairs.position[1])**2)
-            effect_radius = sqrt(stairs.hitbox.size[0]**2 + stairs.hitbox.size[1]**2)
-            if distance <= effect_radius:
-                stairs.control_object_z_offset(self.player)
-
-
 
 
     def render(self):
@@ -738,7 +775,7 @@ class Level:
         for projectile in self.player.projectiles:
             projectiles.append(projectile.particle_system)
 
-        render_objects = self.stairs + [self.player] + projectiles + self.textures + self.vehicles + self.objects + plants + grass_tiles + self.particle_systems + self.loadpoints
+        render_objects = [self.player] + projectiles + self.textures + self.vehicles + self.objects + plants + grass_tiles + self.particle_systems + self.loadpoints + self.composite_objects
 
         # CONTROLLING TOPOLOGICAL DEPTH SORTING
         if self.depth_sort_timer > self.depth_sort_period:
@@ -762,7 +799,7 @@ class Level:
             screen=render_surface,
             camera=self.camera,
             sorted_objects=sorted_objects,
-            bend_objects=[self.player] + self.vehicles, #self.dynamic_sprite_stack_objects + [self.player] + self.vehicles,
+            bend_objects=[self.player], # + self.vehicles,
             map_size=self.map_size,
             background=self.background
         )

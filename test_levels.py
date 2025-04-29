@@ -7,6 +7,8 @@ from graphics.plants import PlantSystem
 from graphics.grass import GrassSystem
 from graphics.sprite_stacks import SpritestackAsset
 
+from general_game_mechanics.dynamic_objects import CompositeObject, Vehicle
+
 from world_builder.level_editor import Level
 
 from presets import particle_presets
@@ -20,8 +22,8 @@ class Game:
     def __init__(self):
         
         """ DISPLAY SETTINGS """
-        scale = 0.5 # 0.75 # Percentage of max screen
-        ratio = 4/3 # WIDTH / HEIGHT ratio
+        scale = 0.6 # 0.75 # Percentage of max screen
+        ratio = 4/3 # WIDTH / HEIGHT ratio    ### INTERESTING OBSERVATION: A HORIZONTALLY STRETCHED PICTURE SEEMS TO HAVE MORE DEPTH
 
         info = pygame.display.Info()
         screen_width, screen_height = info.current_w, info.current_h
@@ -49,18 +51,11 @@ class Game:
         self.npc_assets = []
 
 
-
-        # TEST STAIRS
-        self.stair_asset = SpritestackAsset(type='stairs', name='stairs_1', hitbox_size=(16, 32), render_box_size=(16,16), hitbox_type='rectangle')
-
-
-
-
         """ VEHICLE ASSETS """
         self.vehicle_assets = [
-            SpritestackAsset(type='vehicle', name='cop_car', hitbox_size=(64,36), mass=1000, hitbox_type='rectangle'),
-            SpritestackAsset(type='vehicle', name='pickup_truck', hitbox_size=(64,36), mass=1000, hitbox_type='rectangle'),
-            SpritestackAsset(type='vehicle', name='hippie_van', hitbox_size=(64,36), mass=1000, hitbox_type='rectangle'),
+            #SpritestackAsset(type='vehicle', name='cop_car', hitbox_size=(64,36), mass=1000, hitbox_type='rectangle'),
+            #SpritestackAsset(type='vehicle', name='pickup_truck', hitbox_size=(64,36), mass=1000, hitbox_type='rectangle'),
+            #SpritestackAsset(type='vehicle', name='hippie_van', hitbox_size=(64,36), mass=1000, hitbox_type='rectangle'),
         ]
 
 
@@ -121,12 +116,12 @@ class Game:
             SpritestackAsset(type='well', name='well_1', hitbox_size=(50,50), hitbox_type='circle'),
 
             # TREES
-            SpritestackAsset(type='tree', name='tree_1', hitbox_size=(20,20), render_box_size=(64, 64), hitbox_type='circle'),
-            SpritestackAsset(type='tree', name='tree_2', hitbox_size=(20,20), render_box_size=(64, 64), hitbox_type='circle'),
-            SpritestackAsset(type='tree', name='tree_3', hitbox_size=(20,20), render_box_size=(55, 55), hitbox_type='circle'),
-            SpritestackAsset(type='tree', name='tree_4', hitbox_size=(20,20), render_box_size=(55, 55), hitbox_type='circle'),
-            SpritestackAsset(type='tree', name='tree_5', hitbox_size=(20,20), render_box_size=(45, 45), hitbox_type='circle'),
-            SpritestackAsset(type='tree', name='tree_6', hitbox_size=(20,20), render_box_size=(45, 45), hitbox_type='circle'),
+            SpritestackAsset(type='tree', name='tree_1', hitbox_size=(20,20), hitbox_type='circle'),
+            SpritestackAsset(type='tree', name='tree_2', hitbox_size=(20,20), hitbox_type='circle'),
+            SpritestackAsset(type='tree', name='tree_3', hitbox_size=(20,20), hitbox_type='circle'),
+            SpritestackAsset(type='tree', name='tree_4', hitbox_size=(20,20), hitbox_type='circle'),
+            SpritestackAsset(type='tree', name='tree_5', hitbox_size=(20,20), hitbox_type='circle'),
+            SpritestackAsset(type='tree', name='tree_6', hitbox_size=(20,20), hitbox_type='circle'),
             SpritestackAsset(type='tree', name='tree_7', hitbox_size=(32,32), hitbox_type='circle'),
             SpritestackAsset(type='tree', name='tree_8', hitbox_size=(20,20), hitbox_type='circle'),
             SpritestackAsset(type='tree', name='tree_9', hitbox_size=(32,32), hitbox_type='circle'),
@@ -435,11 +430,7 @@ class Game:
             # HOTDOG STAND
             SpritestackAsset(type='hot_dog_stand', name='wagon', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
             
-            # LARGE WATER TOWER
-            SpritestackAsset(type='water_tower_large', name='bottom', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='water_tower_large', name='middle', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='water_tower_large', name='top', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='water_tower_large', name='roof', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+
 
             # TRASH CAN
             SpritestackAsset(type='trash_can', name='trash_can_1', hitbox_size=(32,32), hitbox_offset=(0,0), hitbox_type='rectangle'),
@@ -447,11 +438,6 @@ class Game:
             # FIRE HYDRANT
             SpritestackAsset(type='fire_hydrant', name='fire_hydrant_1', hitbox_size=(32,32), hitbox_offset=(0,0), hitbox_type='circle'),
 
-            # BUS STOP
-            SpritestackAsset(type='bus_stop', name='bottom_left', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='bus_stop', name='bottom_right', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='bus_stop', name='roof_left', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='bus_stop', name='roof_right', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
 
 
             ### TEST BLOCKS
@@ -532,6 +518,53 @@ class Game:
         ]
 
 
+        """ VEHICLE ASSETS """
+        self.vehicle_assets = [
+
+            # MINIVAN
+            Vehicle(
+                parts_positions_rotations={
+                    SpritestackAsset(type='minivan', name='back', hitbox_size=(64,64), hitbox_type='rectangle'): [[-32,0,0], 0],
+                    SpritestackAsset(type='minivan', name='front', hitbox_size=(64,64), hitbox_type='rectangle'): [[32,0,0], 0],
+                },
+                hitbox_size=(128, 64)
+            ),
+
+            # DELIVERY TRUCK
+            Vehicle(
+                parts_positions_rotations={
+                    SpritestackAsset(type='delivery_truck', name='front', hitbox_size=(64,64), hitbox_type='rectangle'): [[64,0,0], 0],
+                    SpritestackAsset(type='delivery_truck', name='middle', hitbox_size=(64,64), hitbox_type='rectangle'): [[0,0,0], 0],
+                    SpritestackAsset(type='delivery_truck', name='back', hitbox_size=(64,64), hitbox_type='rectangle'): [[-64,0,0], 0],
+                },
+                hitbox_size=(192, 64),
+            ),
+
+        ]
+
+
+        """ COMPOSITE OBJECTS """
+        self.composite_object_assets = [
+
+            # BUS STOP
+            CompositeObject(
+                parts_positions_rotations={
+                    SpritestackAsset(type='bus_stop', name='bottom_left', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'): [[-32,0,0], 0],
+                    SpritestackAsset(type='bus_stop', name='bottom_right', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'): [[32,0,0], 0],
+                    SpritestackAsset(type='bus_stop', name='roof_left', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'): [[-32,0,64], 0],
+                    SpritestackAsset(type='bus_stop', name='roof_right', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'): [[32,0,64], 0],
+                },
+                hitbox_size=(128, 64),
+            ),
+
+
+        ]
+
+
+
+
+
+
         """ LEVELS """
         # OUTDOORS LEVEL
         self.outdoors_level = Level(
@@ -543,7 +576,7 @@ class Game:
             background='assets/texture/cracked_desert/sprite_stacks/stack_0.png',
             fill_colour=(168, 78, 50)
         )
-        self.outdoors_level.player.position = [1000, 1000, 0]
+        self.outdoors_level.composite_object_assets = self.composite_object_assets
         self.outdoors_level.vehicle_assets = self.vehicle_assets
         self.outdoors_level.texture_assets = self.texture_assets
         self.outdoors_level.object_assets = self.object_assets
@@ -551,9 +584,15 @@ class Game:
         self.outdoors_level.grass_systems = self.grass_systems
         self.outdoors_level.particle_system_assets = self.particle_system_assets
         self.outdoors_level.npc_assets = self.npc_assets
+        
 
 
-        # HOUSE_1 LEVEL
+
+
+
+
+
+        """ # HOUSE_1 LEVEL
         self.house_1_level = Level(
             game=self,
             name='house_1_level',
@@ -567,18 +606,18 @@ class Game:
             name='tent_1_level',
             map_size=(128, 80),
             fill_colour=(20, 0, 20)
-            )
+            ) """
 
 
 
         """ LOADPOINTS BETWEEN LEVELS"""
-        # OUTDOORS LEVEL
+        """ # OUTDOORS LEVEL
         self.outdoors_level.loadpoint_levels = [
             self.house_1_level,
             self.tent_1_level
-        ]
+        ] """
 
-        # HOUSE_1 LEVEL
+        """ # HOUSE_1 LEVEL
         self.house_1_level.loadpoint_levels = [
             self.outdoors_level,
         ]
@@ -586,7 +625,7 @@ class Game:
         # TENT_1 LEVEL
         self.tent_1_level.loadpoint_levels = [
             self.outdoors_level,
-        ]
+        ] """
 
 
 

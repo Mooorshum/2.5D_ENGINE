@@ -64,7 +64,6 @@ def global_render(screen, camera, sorted_objects, bend_objects=[], map_size=(102
     # RENDERING OBJECTS IN SORTED ORDER
     for game_object in sorted_objects:
         # GETTING CAMERA TRANSLATIONAL + ROTATIONAL OFFSET
-        print(game_object)
         offset_x = camera.position[0] - game_object.position[0] + (game_object.position[0] - camera.position[0])*cos(camera_rotation) - (game_object.position[1] - camera.position[1])*sin(camera_rotation)
         offset_y = camera.position[1] - game_object.position[1] + (game_object.position[0] - camera.position[0])*sin(camera_rotation) + (game_object.position[1] - camera.position[1])*cos(camera_rotation)
         offset = [offset_x - camera.position[0] + camera.width/2, offset_y - camera.position[1] + camera.height/2]

@@ -86,111 +86,111 @@ class Game:
         self.object_assets = [
 
             # BUILDINGS
-            SpritestackAsset(type='building', name='house_1', hitbox_size=(128,128), hitbox_type='rectangle'),
-            SpritestackAsset(type='building', name='red_barn', hitbox_size=(128,128), hitbox_type='rectangle'),
-            SpritestackAsset(type='building', name='shed', hitbox_size=(64,45), hitbox_type='rectangle'),
-            SpritestackAsset(type='building', name='toilet', hitbox_size=(45,45), hitbox_type='rectangle'),
+            #SpritestackAsset(type='building', name='house_1', hitbox_size=(128,128), hitbox_type='rectangle'),
+            #SpritestackAsset(type='building', name='red_barn', hitbox_size=(128,128), hitbox_type='rectangle'),
+            #SpritestackAsset(type='building', name='shed', hitbox_size=(64,45), hitbox_type='rectangle'),
+            #SpritestackAsset(type='building', name='toilet', hitbox_size=(45,45), hitbox_type='rectangle'),
 
             # FENCES
-            SpritestackAsset(type='fence', name='fence_1', hitbox_size=(32,10), hitbox_type='rectangle'),
-            SpritestackAsset(type='fence', name='fence_2', hitbox_size=(32,10), hitbox_type='rectangle'),
-            SpritestackAsset(type='fence', name='fence_3', hitbox_size=(32,10), hitbox_type='rectangle'),
-            SpritestackAsset(type='fence', name='fence_4', hitbox_size=(32,10), hitbox_type='rectangle'),
-            SpritestackAsset(type='fence', name='fence_5', hitbox_size=(32,10), hitbox_type='rectangle'),
-            SpritestackAsset(type='fence', name='fence_6', hitbox_size=(32,10), hitbox_type='rectangle'),
-            SpritestackAsset(type='fence', name='fence_7', hitbox_size=(10,10), hitbox_type='rectangle'),
-            SpritestackAsset(type='fence', name='fence_8', hitbox_size=(10,10), hitbox_type='rectangle'),
-            SpritestackAsset(type='fence', name='fence_9', hitbox_size=(10,10), hitbox_type='rectangle'),
+            #SpritestackAsset(type='fence', name='fence_1', hitbox_size=(32,10), hitbox_type='rectangle'),
+            #SpritestackAsset(type='fence', name='fence_2', hitbox_size=(32,10), hitbox_type='rectangle'),
+            #SpritestackAsset(type='fence', name='fence_3', hitbox_size=(32,10), hitbox_type='rectangle'),
+            #SpritestackAsset(type='fence', name='fence_4', hitbox_size=(32,10), hitbox_type='rectangle'),
+            #SpritestackAsset(type='fence', name='fence_5', hitbox_size=(32,10), hitbox_type='rectangle'),
+            #SpritestackAsset(type='fence', name='fence_6', hitbox_size=(32,10), hitbox_type='rectangle'),
+            #SpritestackAsset(type='fence', name='fence_7', hitbox_size=(10,10), hitbox_type='rectangle'),
+            #SpritestackAsset(type='fence', name='fence_8', hitbox_size=(10,10), hitbox_type='rectangle'),
+            #SpritestackAsset(type='fence', name='fence_9', hitbox_size=(10,10), hitbox_type='rectangle'),
 
             # WALLS
-            SpritestackAsset(type='wall', name='wall_1', hitbox_size=(32,20), hitbox_type='rectangle'),
-            SpritestackAsset(type='wall', name='wall_2', hitbox_size=(32,20), hitbox_type='rectangle'),
-            SpritestackAsset(type='wall', name='wall_3', hitbox_size=(32,20), hitbox_type='rectangle'),
-            SpritestackAsset(type='wall', name='wall_4', hitbox_size=(32,20), hitbox_type='rectangle'),
-            SpritestackAsset(type='wall', name='wall_5', hitbox_size=(32,20), hitbox_type='rectangle'),
+            #SpritestackAsset(type='wall', name='wall_1', hitbox_size=(32,20), hitbox_type='rectangle'),
+            #SpritestackAsset(type='wall', name='wall_2', hitbox_size=(32,20), hitbox_type='rectangle'),
+            #SpritestackAsset(type='wall', name='wall_3', hitbox_size=(32,20), hitbox_type='rectangle'),
+            #SpritestackAsset(type='wall', name='wall_4', hitbox_size=(32,20), hitbox_type='rectangle'),
+            #SpritestackAsset(type='wall', name='wall_5', hitbox_size=(32,20), hitbox_type='rectangle'),
 
             # WINDMILLS
-            SpritestackAsset(type='windmill', name='windmill_1', hitbox_size=(32,32), hitbox_type='rectangle'),
+            #SpritestackAsset(type='windmill', name='windmill_1', hitbox_size=(32,32), hitbox_type='rectangle'),
 
             # WELLS
-            SpritestackAsset(type='well', name='well_1', hitbox_size=(50,50), hitbox_type='circle'),
+            #SpritestackAsset(type='well', name='well_1', hitbox_size=(50,50), hitbox_type='circle'),
 
             # TREES
-            SpritestackAsset(type='tree', name='tree_1', hitbox_size=(20,20), hitbox_type='circle'),
-            SpritestackAsset(type='tree', name='tree_2', hitbox_size=(20,20), hitbox_type='circle'),
-            SpritestackAsset(type='tree', name='tree_3', hitbox_size=(20,20), hitbox_type='circle'),
-            SpritestackAsset(type='tree', name='tree_4', hitbox_size=(20,20), hitbox_type='circle'),
-            SpritestackAsset(type='tree', name='tree_5', hitbox_size=(20,20), hitbox_type='circle'),
-            SpritestackAsset(type='tree', name='tree_6', hitbox_size=(20,20), hitbox_type='circle'),
-            SpritestackAsset(type='tree', name='tree_7', hitbox_size=(32,32), hitbox_type='circle'),
-            SpritestackAsset(type='tree', name='tree_8', hitbox_size=(20,20), hitbox_type='circle'),
-            SpritestackAsset(type='tree', name='tree_9', hitbox_size=(32,32), hitbox_type='circle'),
-            SpritestackAsset(type='tree', name='tree_trunk_1', hitbox_size=(25,25), hitbox_type='circle'),
-            SpritestackAsset(type='tree', name='tree_trunk_2', hitbox_size=(25,25), hitbox_type='circle'),
-            SpritestackAsset(type='tree', name='tree_trunk_3', hitbox_size=(25,25), hitbox_type='circle'),
+            #SpritestackAsset(type='tree', name='tree_1', hitbox_size=(20,20), hitbox_type='circle'),
+            #SpritestackAsset(type='tree', name='tree_2', hitbox_size=(20,20), hitbox_type='circle'),
+            #SpritestackAsset(type='tree', name='tree_3', hitbox_size=(20,20), hitbox_type='circle'),
+            #SpritestackAsset(type='tree', name='tree_4', hitbox_size=(20,20), hitbox_type='circle'),
+            #SpritestackAsset(type='tree', name='tree_5', hitbox_size=(20,20), hitbox_type='circle'),
+            #SpritestackAsset(type='tree', name='tree_6', hitbox_size=(20,20), hitbox_type='circle'),
+            #SpritestackAsset(type='tree', name='tree_7', hitbox_size=(32,32), hitbox_type='circle'),
+            #SpritestackAsset(type='tree', name='tree_8', hitbox_size=(20,20), hitbox_type='circle'),
+            #SpritestackAsset(type='tree', name='tree_9', hitbox_size=(32,32), hitbox_type='circle'),
+            #SpritestackAsset(type='tree', name='tree_trunk_1', hitbox_size=(25,25), hitbox_type='circle'),
+            #SpritestackAsset(type='tree', name='tree_trunk_2', hitbox_size=(25,25), hitbox_type='circle'),
+            #SpritestackAsset(type='tree', name='tree_trunk_3', hitbox_size=(25,25), hitbox_type='circle'),
 
             # ROCKS
-            SpritestackAsset(type='rock', name='rock_1', hitbox_size=(32,32), hitbox_type='circle'),
-            SpritestackAsset(type='rock', name='rock_2', hitbox_size=(32,32), hitbox_type='circle'),
-            SpritestackAsset(type='rock', name='rock_3', hitbox_size=(32,32), hitbox_type='circle'),
-            SpritestackAsset(type='rock', name='rock_4', hitbox_size=(32,32), hitbox_type='circle'),
-            SpritestackAsset(type='rock', name='rock_5', hitbox_size=(32,32), hitbox_type='circle'),
+            #SpritestackAsset(type='rock', name='rock_1', hitbox_size=(32,32), hitbox_type='circle'),
+            #SpritestackAsset(type='rock', name='rock_2', hitbox_size=(32,32), hitbox_type='circle'),
+            #SpritestackAsset(type='rock', name='rock_3', hitbox_size=(32,32), hitbox_type='circle'),
+            #SpritestackAsset(type='rock', name='rock_4', hitbox_size=(32,32), hitbox_type='circle'),
+            #SpritestackAsset(type='rock', name='rock_5', hitbox_size=(32,32), hitbox_type='circle'),
 
             # CRATES
-            SpritestackAsset(type='crate', name='crate_1', hitbox_size=(32,20), hitbox_type='rectangle'),
-            SpritestackAsset(type='crate', name='crate_2', hitbox_size=(32,32), hitbox_type='rectangle'),
+            #SpritestackAsset(type='crate', name='crate_1', hitbox_size=(32,20), hitbox_type='rectangle'),
+            #SpritestackAsset(type='crate', name='crate_2', hitbox_size=(32,32), hitbox_type='rectangle'),
 
             # HAY BALES
-            SpritestackAsset(type='hay_bale', name='hay_bale_1', hitbox_size=(32,32), hitbox_type='rectangle'),
-            SpritestackAsset(type='hay_bale', name='hay_bale_2', hitbox_size=(32,32), hitbox_type='rectangle'),
+            #SpritestackAsset(type='hay_bale', name='hay_bale_1', hitbox_size=(32,32), hitbox_type='rectangle'),
+            #SpritestackAsset(type='hay_bale', name='hay_bale_2', hitbox_size=(32,32), hitbox_type='rectangle'),
 
             # BARRELS
-            SpritestackAsset(type='barrel', name='barrel_1', hitbox_size=(16,16), hitbox_type='circle'),
-            SpritestackAsset(type='barrel', name='barrel_2', hitbox_size=(16,16), hitbox_type='circle'),
+            #SpritestackAsset(type='barrel', name='barrel_1', hitbox_size=(16,16), hitbox_type='circle'),
+            #SpritestackAsset(type='barrel', name='barrel_2', hitbox_size=(16,16), hitbox_type='circle'),
 
             # WHEELBARROWS
-            SpritestackAsset(type='wheelbarrow', name='wheelbarrow_1', hitbox_size=(25,25), hitbox_type='rectangle'),
+            #SpritestackAsset(type='wheelbarrow', name='wheelbarrow_1', hitbox_size=(25,25), hitbox_type='rectangle'),
 
             # WATER TOWERS
-            SpritestackAsset(type='water_tower', name='water_tower_1', hitbox_size=(64,64), hitbox_type='rectangle'),
+            #SpritestackAsset(type='water_tower', name='water_tower_1', hitbox_size=(64,64), hitbox_type='rectangle'),
 
             # CAMPFIRES
-            SpritestackAsset(type='campfire', name='campfire_1', hitbox_size=(32,32), hitbox_type='circle'),
+            #SpritestackAsset(type='campfire', name='campfire_1', hitbox_size=(32,32), hitbox_type='circle'),
 
             # HOUSE_1 INTERIOR
-            SpritestackAsset(type='house_1_interior', name='wall_north', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
-            SpritestackAsset(type='house_1_interior', name='wall_east', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
-            SpritestackAsset(type='house_1_interior', name='wall_south', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
-            SpritestackAsset(type='house_1_interior', name='wall_west', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
-            SpritestackAsset(type='house_1_interior', name='table_1', hitbox_size=(30,50), scale=1, hitbox_type='rectangle'),
-            SpritestackAsset(type='house_1_interior', name='chair_1', hitbox_size=(20,20), scale=1, hitbox_type='rectangle'),
-            SpritestackAsset(type='house_1_interior', name='cabinet_1', hitbox_size=(20,20), scale=1, hitbox_type='rectangle'),
-            SpritestackAsset(type='house_1_interior', name='shelf_1', hitbox_size=(20,20), scale=1, hitbox_type='rectangle'),
-            SpritestackAsset(type='house_1_interior', name='bed_1', hitbox_size=(20,20), scale=1, hitbox_type='rectangle'),
-            SpritestackAsset(type='house_1_interior', name='chest_1', hitbox_size=(20,20), scale=1, hitbox_type='rectangle'),
-            SpritestackAsset(type='house_1_interior', name='chair_2', hitbox_size=(20,20), scale=1, hitbox_type='rectangle'),
-            SpritestackAsset(type='house_1_interior', name='wardrobe_1', hitbox_size=(45,32), scale=1, hitbox_type='rectangle'),
-            SpritestackAsset(type='house_1_interior', name='fireplace_front_1', hitbox_size=(45,5), scale=1, hitbox_type='rectangle'),
-            SpritestackAsset(type='house_1_interior', name='fireplace_back_1', hitbox_size=(45,32), scale=1, hitbox_type='rectangle'),
-            SpritestackAsset(type='house_1_interior', name='cactus_1', hitbox_size=(20,20), scale=1, hitbox_type='rectangle'),
+            #SpritestackAsset(type='house_1_interior', name='wall_north', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
+            #SpritestackAsset(type='house_1_interior', name='wall_east', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
+            #SpritestackAsset(type='house_1_interior', name='wall_south', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
+            #SpritestackAsset(type='house_1_interior', name='wall_west', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
+            #SpritestackAsset(type='house_1_interior', name='table_1', hitbox_size=(30,50), scale=1, hitbox_type='rectangle'),
+            #SpritestackAsset(type='house_1_interior', name='chair_1', hitbox_size=(20,20), scale=1, hitbox_type='rectangle'),
+            #SpritestackAsset(type='house_1_interior', name='cabinet_1', hitbox_size=(20,20), scale=1, hitbox_type='rectangle'),
+            #SpritestackAsset(type='house_1_interior', name='shelf_1', hitbox_size=(20,20), scale=1, hitbox_type='rectangle'),
+            #SpritestackAsset(type='house_1_interior', name='bed_1', hitbox_size=(20,20), scale=1, hitbox_type='rectangle'),
+            #SpritestackAsset(type='house_1_interior', name='chest_1', hitbox_size=(20,20), scale=1, hitbox_type='rectangle'),
+            #SpritestackAsset(type='house_1_interior', name='chair_2', hitbox_size=(20,20), scale=1, hitbox_type='rectangle'),
+            #SpritestackAsset(type='house_1_interior', name='wardrobe_1', hitbox_size=(45,32), scale=1, hitbox_type='rectangle'),
+            #SpritestackAsset(type='house_1_interior', name='fireplace_front_1', hitbox_size=(45,5), scale=1, hitbox_type='rectangle'),
+            #SpritestackAsset(type='house_1_interior', name='fireplace_back_1', hitbox_size=(45,32), scale=1, hitbox_type='rectangle'),
+            #SpritestackAsset(type='house_1_interior', name='cactus_1', hitbox_size=(20,20), scale=1, hitbox_type='rectangle'),
 
             # TENT_1
-            SpritestackAsset(type='tent', name='tent_1', hitbox_size=(80,80), scale=1, hitbox_type='rectangle'),
+            #SpritestackAsset(type='tent', name='tent_1', hitbox_size=(80,80), scale=1, hitbox_type='rectangle'),
 
             # CLIFFS
-            SpritestackAsset(type='slope', name='slope_1', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
-            SpritestackAsset(type='slope', name='slope_2', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
-            SpritestackAsset(type='slope', name='slope_3', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
-            SpritestackAsset(type='slope', name='slope_4', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
-            SpritestackAsset(type='slope', name='slope_5', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
-            SpritestackAsset(type='slope', name='slope_6', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
-            SpritestackAsset(type='slope', name='slope_7', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
-            SpritestackAsset(type='slope', name='slope_8', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
+            #SpritestackAsset(type='slope', name='slope_1', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
+            #SpritestackAsset(type='slope', name='slope_2', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
+            #SpritestackAsset(type='slope', name='slope_3', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
+            #SpritestackAsset(type='slope', name='slope_4', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
+            #SpritestackAsset(type='slope', name='slope_5', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
+            #SpritestackAsset(type='slope', name='slope_6', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
+            #SpritestackAsset(type='slope', name='slope_7', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
+            #SpritestackAsset(type='slope', name='slope_8', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
 
-            SpritestackAsset(type='cliff', name='cliff_1', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
-            SpritestackAsset(type='cliff', name='cliff_2', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
-            SpritestackAsset(type='cliff', name='cliff_3', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
-            SpritestackAsset(type='cliff', name='cliff_4', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
+            #SpritestackAsset(type='cliff', name='cliff_1', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
+            #SpritestackAsset(type='cliff', name='cliff_2', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
+            #SpritestackAsset(type='cliff', name='cliff_3', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
+            #SpritestackAsset(type='cliff', name='cliff_4', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
 
 
 
@@ -360,37 +360,11 @@ class Game:
             SpritestackAsset(type='texture', name='dirt_road_straight', hitbox_size=(32,32), hitbox_offset=(0,0), hitbox_type='rectangle'),
             SpritestackAsset(type='texture', name='dirt_road_turn', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
 
-            # DINER PARTS
-            SpritestackAsset(type='diner', name='wall_window', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='diner', name='wall_corner', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='diner', name='wall_front_entrance', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='diner', name='wall_back', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='diner', name='roof_side', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='diner', name='roof_corner', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='diner', name='roof_middle', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='diner', name='roof_sign_left', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='diner', name='roof_sign_middle', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='diner', name='roof_sign_right', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
 
-            # GAS STATION PARTS
-            SpritestackAsset(type='gas_station', name='wall_corner_door', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='gas_station', name='wall_corner_window', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='gas_station', name='wall_side_window', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='gas_station', name='wall_side', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='gas_station', name='wall_corner', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='gas_station', name='roof_corner', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='gas_station', name='roof_side', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='gas_station', name='roof_middle', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='gas_station', name='pillar', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='gas_station', name='pump', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='gas_station', name='sign', hitbox_size=(64,8), hitbox_offset=(0,4), hitbox_type='rectangle'),
 
-            # BEANZ BILLBOARD
-            SpritestackAsset(type='billboard_beans', name='pillar_bottom', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='billboard_beans', name='pillar_top', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='billboard_beans', name='sign_middle', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='billboard_beans', name='sign_left', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='billboard_beans', name='sign_right', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+
+
+
 
             # MOTEL PARTS
             SpritestackAsset(type='motel', name='wall_door', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
@@ -523,20 +497,20 @@ class Game:
 
             # MINIVAN
             Vehicle(
-                parts_positions_rotations={
-                    SpritestackAsset(type='minivan', name='back', hitbox_size=(64,64), hitbox_type='rectangle'): [[-32,0,0], 0],
-                    SpritestackAsset(type='minivan', name='front', hitbox_size=(64,64), hitbox_type='rectangle'): [[32,0,0], 0],
-                },
+                parts_positions_rotations=[
+                    (SpritestackAsset(type='minivan', name='back', hitbox_size=(64,64)), [-32,0,0], 0),
+                    (SpritestackAsset(type='minivan', name='front', hitbox_size=(64,64)), [32,0,0], 0),
+                ],
                 hitbox_size=(128, 64)
             ),
 
             # DELIVERY TRUCK
             Vehicle(
-                parts_positions_rotations={
-                    SpritestackAsset(type='delivery_truck', name='front', hitbox_size=(64,64), hitbox_type='rectangle'): [[64,0,0], 0],
-                    SpritestackAsset(type='delivery_truck', name='middle', hitbox_size=(64,64), hitbox_type='rectangle'): [[0,0,0], 0],
-                    SpritestackAsset(type='delivery_truck', name='back', hitbox_size=(64,64), hitbox_type='rectangle'): [[-64,0,0], 0],
-                },
+                parts_positions_rotations=[
+                    (SpritestackAsset(type='delivery_truck', name='front', hitbox_size=(64,64)), [64,0,0], 0),
+                    (SpritestackAsset(type='delivery_truck', name='middle', hitbox_size=(64,64)), [0,0,0], 0),
+                    (SpritestackAsset(type='delivery_truck', name='back', hitbox_size=(64,64)), [-64,0,0], 0),
+                ],
                 hitbox_size=(192, 64),
             ),
 
@@ -548,14 +522,125 @@ class Game:
 
             # BUS STOP
             CompositeObject(
-                parts_positions_rotations={
-                    SpritestackAsset(type='bus_stop', name='bottom_left', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'): [[-32,0,0], 0],
-                    SpritestackAsset(type='bus_stop', name='bottom_right', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'): [[32,0,0], 0],
-                    SpritestackAsset(type='bus_stop', name='roof_left', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'): [[-32,0,64], 0],
-                    SpritestackAsset(type='bus_stop', name='roof_right', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'): [[32,0,64], 0],
-                },
+                parts_positions_rotations=[
+                    (SpritestackAsset(type='bus_stop', name='bottom_left', hitbox_size=(64,64)), [-32,0,0], 0),
+                    (SpritestackAsset(type='bus_stop', name='bottom_right', hitbox_size=(64,64)), [32,0,0], 0),
+                    (SpritestackAsset(type='bus_stop', name='roof_left', hitbox_size=(64,64)), [-32,0,64], 0),
+                    (SpritestackAsset(type='bus_stop', name='roof_right', hitbox_size=(64,64)), [32,0,64], 0),
+                ],
                 hitbox_size=(128, 64),
             ),
+
+
+            # LARGE WATER TOWER
+            CompositeObject(
+                parts_positions_rotations=[
+                    (SpritestackAsset(type='water_tower_large', name='bottom', hitbox_size=(64,64)), [-32,32,0], 0),
+                    (SpritestackAsset(type='water_tower_large', name='bottom', hitbox_size=(64,64)), [-32,-32,0], -90),
+                    (SpritestackAsset(type='water_tower_large', name='bottom', hitbox_size=(64,64)), [32,-32,0], -180),
+                    (SpritestackAsset(type='water_tower_large', name='bottom', hitbox_size=(64,64)), [32,32,0], -270),
+                    (SpritestackAsset(type='water_tower_large', name='middle', hitbox_size=(64,64)), [-32,32,128], 0),
+                    (SpritestackAsset(type='water_tower_large', name='middle', hitbox_size=(64,64)), [-32,-32,128], -90),
+                    (SpritestackAsset(type='water_tower_large', name='middle', hitbox_size=(64,64)), [32,-32,128], -180),
+                    (SpritestackAsset(type='water_tower_large', name='middle', hitbox_size=(64,64)), [32,32,128], -270),
+                    (SpritestackAsset(type='water_tower_large', name='top', hitbox_size=(64,64)), [-32,32,256], 0),
+                    (SpritestackAsset(type='water_tower_large', name='top', hitbox_size=(64,64)), [-32,-32,256], -90),
+                    (SpritestackAsset(type='water_tower_large', name='top', hitbox_size=(64,64)), [32,-32,256], -180),
+                    (SpritestackAsset(type='water_tower_large', name='top', hitbox_size=(64,64)), [32,32,256], -270),
+                    (SpritestackAsset(type='water_tower_large', name='roof', hitbox_size=(64,64)), [-32,32,384], 0),
+                    (SpritestackAsset(type='water_tower_large', name='roof', hitbox_size=(64,64)), [-32,-32,384], -90),
+                    (SpritestackAsset(type='water_tower_large', name='roof', hitbox_size=(64,64)), [32,-32,384], -180),
+                    (SpritestackAsset(type='water_tower_large', name='roof', hitbox_size=(64,64)), [32,32,384], -270),
+
+                ],
+                hitbox_size=(128, 128),
+            ), 
+
+
+            # BEANZ BILLBOARD
+            CompositeObject(
+                parts_positions_rotations=[
+                    (SpritestackAsset(type='billboard_beans', name='pillar_bottom', hitbox_size=(64,64)), [0,0,0], 0),
+                    (SpritestackAsset(type='billboard_beans', name='pillar_top', hitbox_size=(64,64)), [0,0,64], 0),
+                    (SpritestackAsset(type='billboard_beans', name='sign_middle', hitbox_size=(64,64)), [0,0,128], 0),
+                    (SpritestackAsset(type='billboard_beans', name='sign_left', hitbox_size=(64,64)), [-64,0,128], 0),
+                    (SpritestackAsset(type='billboard_beans', name='sign_right', hitbox_size=(64,64)), [64,0,128], 0),
+                ],
+                hitbox_size=(32, 32),
+            ),
+
+
+            # DINER
+            CompositeObject(
+                parts_positions_rotations=[
+                    (SpritestackAsset(type='diner', name='wall_corner', hitbox_size=(64,64)), [-128,64,0], 0),
+                    (SpritestackAsset(type='diner', name='wall_window', hitbox_size=(64,64)), [-64,64,0], 0),
+                    (SpritestackAsset(type='diner', name='wall_front_entrance', hitbox_size=(64,64)), [0,64,0], 0),
+                    (SpritestackAsset(type='diner', name='wall_window', hitbox_size=(64,64)), [64,64,0], 0),
+                    (SpritestackAsset(type='diner', name='wall_corner', hitbox_size=(64,64)), [128,64,0], 90),
+                    (SpritestackAsset(type='diner', name='wall_window', hitbox_size=(64,64)), [128,0,0], 90),
+                    (SpritestackAsset(type='diner', name='wall_corner', hitbox_size=(64,64)), [128,-64,0], 180),
+                    (SpritestackAsset(type='diner', name='wall_back', hitbox_size=(64,64)), [64,-64,0], 180),
+                    (SpritestackAsset(type='diner', name='wall_back', hitbox_size=(64,64)), [0,-64,0], 180),
+                    (SpritestackAsset(type='diner', name='wall_back', hitbox_size=(64,64)), [-64,-64,0], 180),
+                    (SpritestackAsset(type='diner', name='wall_corner', hitbox_size=(64,64)), [-128,-64,0], 270),
+                    (SpritestackAsset(type='diner', name='wall_window', hitbox_size=(64,64)), [-128,0,0], 270),
+                    (SpritestackAsset(type='diner', name='roof_corner', hitbox_size=(64,64)), [-128,64,64], 0),
+                    (SpritestackAsset(type='diner', name='roof_sign_left', hitbox_size=(64,64)), [-64,64,64], 0),
+                    (SpritestackAsset(type='diner', name='roof_sign_middle', hitbox_size=(64,64)), [0,64,64], 0),
+                    (SpritestackAsset(type='diner', name='roof_sign_right', hitbox_size=(64,64)), [64,64,64], 0),
+                    (SpritestackAsset(type='diner', name='roof_corner', hitbox_size=(64,64)), [128,64,64], 90),
+                    (SpritestackAsset(type='diner', name='roof_side', hitbox_size=(64,64)), [128,0,64], 90),
+                    (SpritestackAsset(type='diner', name='roof_corner', hitbox_size=(64,64)), [128,-64,64], 180),
+                    (SpritestackAsset(type='diner', name='roof_side', hitbox_size=(64,64)), [64,-64,64], 180),
+                    (SpritestackAsset(type='diner', name='roof_side', hitbox_size=(64,64)), [0,-64,64], 180),
+                    (SpritestackAsset(type='diner', name='roof_side', hitbox_size=(64,64)), [-64,-64,64], 180),
+                    (SpritestackAsset(type='diner', name='roof_corner', hitbox_size=(64,64)), [-128,-64,64], 270),
+                    (SpritestackAsset(type='diner', name='roof_side', hitbox_size=(64,64)), [-128,0,64], 270),
+                    (SpritestackAsset(type='diner', name='roof_middle', hitbox_size=(64,64)), [-64,0,64], 0),
+                    (SpritestackAsset(type='diner', name='roof_middle', hitbox_size=(64,64)), [0,0,64], 0),
+                    (SpritestackAsset(type='diner', name='roof_middle', hitbox_size=(64,64)), [64,0,64], 0),
+                ],
+                hitbox_size=(320, 192),
+            ),
+
+
+            # GAS STATION
+            CompositeObject(
+                parts_positions_rotations=[
+                    (SpritestackAsset(type='gas_station', name='wall_corner_door', hitbox_size=(64,64)), [64,64,0], 0),
+                    (SpritestackAsset(type='gas_station', name='wall_corner_window', hitbox_size=(64,64)), [128,64,0], 0),
+                    (SpritestackAsset(type='gas_station', name='wall_side', hitbox_size=(64,64)), [128,0,0], 180),
+                    (SpritestackAsset(type='gas_station', name='wall_corner', hitbox_size=(64,64)), [128,-64,0], 180),
+                    (SpritestackAsset(type='gas_station', name='wall_corner', hitbox_size=(64,64)), [64,-64,0], -90),
+                    (SpritestackAsset(type='gas_station', name='wall_side', hitbox_size=(64,64)), [64,0,0], 0),
+
+                    (SpritestackAsset(type='gas_station', name='pump', hitbox_size=(64,64)), [-128,64,0], 0),
+                    (SpritestackAsset(type='gas_station', name='pillar', hitbox_size=(64,64)), [-128,0,0], 0),
+                    (SpritestackAsset(type='gas_station', name='pump', hitbox_size=(64,64)), [-128,-64,0], 0),
+
+                    (SpritestackAsset(type='gas_station', name='roof_corner', hitbox_size=(64,64)), [-128,64,64], 0),
+                    (SpritestackAsset(type='gas_station', name='roof_side', hitbox_size=(64,64)), [-64,64,64], 0),
+                    (SpritestackAsset(type='gas_station', name='roof_side', hitbox_size=(64,64)), [0,64,64], 0),
+                    (SpritestackAsset(type='gas_station', name='roof_side', hitbox_size=(64,64)), [64,64,64], 0),
+                    (SpritestackAsset(type='gas_station', name='roof_corner', hitbox_size=(64,64)), [128,64,64], 90),
+                    (SpritestackAsset(type='gas_station', name='roof_side', hitbox_size=(64,64)), [128,0,64], 90),
+                    (SpritestackAsset(type='gas_station', name='roof_corner', hitbox_size=(64,64)), [128,-64,64], 180),
+                    (SpritestackAsset(type='gas_station', name='roof_side', hitbox_size=(64,64)), [64,-64,64], 180),
+                    (SpritestackAsset(type='gas_station', name='roof_side', hitbox_size=(64,64)), [0,-64,64], 180),
+                    (SpritestackAsset(type='gas_station', name='roof_side', hitbox_size=(64,64)), [-64,-64,64], 180),
+                    (SpritestackAsset(type='gas_station', name='roof_corner', hitbox_size=(64,64)), [-128,-64,64], 270),
+                    (SpritestackAsset(type='gas_station', name='roof_side', hitbox_size=(64,64)), [-128,0,64], 270),
+
+                    (SpritestackAsset(type='gas_station', name='roof_middle', hitbox_size=(64,64)), [-64,0,64], 0),
+                    (SpritestackAsset(type='gas_station', name='roof_middle', hitbox_size=(64,64)), [0,0,64], 0),
+                    (SpritestackAsset(type='gas_station', name='roof_middle', hitbox_size=(64,64)), [64,0,64], 0),
+
+                    (SpritestackAsset(type='gas_station', name='sign', hitbox_size=(64,64)), [-64,96,80], 0),
+                ],
+                hitbox_size=(320, 192),
+            ),
+
 
 
         ]

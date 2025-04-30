@@ -465,12 +465,14 @@ class CompositeObject():
         self.parts = []
         self.part_positions_nonrotated = []
         self.part_rotations_nonrotated = []
-        for part_asset in parts_positions_rotations.keys():
-            asset_index = 666 # FIX THIS WHEN CODING SERIALIZATION !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            part = DynamicObject(part_asset, asset_index, [0,0,0], 0)
+        for part_id in range(len(parts_positions_rotations)):
+            part_info = parts_positions_rotations[part_id]
+            part_asset_index = part_id # REWORK THIS WHEN IMPLEMENTING SERIALIZATION
+            part_asset = part_info[0]
+            part = DynamicObject(part_asset, part_asset_index, [0,0,0], 0)
             self.parts.append(part)
-            self.part_positions_nonrotated.append(parts_positions_rotations[part_asset][0])
-            self.part_rotations_nonrotated.append(parts_positions_rotations[part_asset][1])
+            self.part_positions_nonrotated.append(part_info[1])
+            self.part_rotations_nonrotated.append(part_info[2])
             
 
         # Placing component parts in predefined positions & calculating object height
@@ -512,6 +514,12 @@ class CompositeObject():
         self.ax = 0
         self.ay = 0
         self.a_omega = 0
+
+        # TOPOLOGICAL DEPTH SORT SETTINGS
+        self.depth_sort_pause_time = 10 # Number of iterations between depth sort calls
+        self.depth_sort_timer = 0
+        self.depth_sorted_parts = []
+        self.asset_placement_mode = True # if this is false, the depth sort will be called every interation (used to render a level asset during editing)
 
     def move(self):
         if not self.movelocked:
@@ -568,10 +576,17 @@ class CompositeObject():
         else:
             self.hitbox.show_hitbox = False
 
-        # Indivilual depth sorting
-        sorted_parts = depth_sort(self.parts, camera)
+        # Individual depth sorting
+        if not self.asset_placement_mode: # reordering is done once every N iterations
+            if self.depth_sort_timer > self.depth_sort_pause_time: 
+                self.depth_sorted_parts = depth_sort(self.parts, camera)
+                self.depth_sort_timer = 0
+            self.depth_sort_timer += 1
+        else: # reordering every iteration
+            self.asset_placement_mode = False
+            self.depth_sorted_parts = depth_sort(self.parts, camera)
         camera_rotation = radians(camera.rotation)
-        for part in sorted_parts:
+        for part in self.depth_sorted_parts:
             part_offset_x = camera.position[0] - part.position[0] + (part.position[0] - camera.position[0])*cos(camera_rotation) - (part.position[1] - camera.position[1])*sin(camera_rotation)
             part_offset_y = camera.position[1] - part.position[1] + (part.position[0] - camera.position[0])*sin(camera_rotation) + (part.position[1] - camera.position[1])*cos(camera_rotation)
             part_offset = [part_offset_x - camera.position[0] + camera.width/2, part_offset_y - camera.position[1] + camera.height/2]

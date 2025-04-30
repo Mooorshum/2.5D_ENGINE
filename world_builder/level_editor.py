@@ -137,7 +137,6 @@ def control_editing(level):
             if level.current_asset_group == 'composite_object':
                 level.composite_objects.append(level.current_asset)
             if level.current_asset_group =='vehicle':
-                level.current_asset.hitbox.collidable = True
                 level.vehicles.append(level.current_asset)
             if level.current_asset_group == 'plant':
                 level.plant_systems[level.plant_system_index].create_plant(level.current_asset_index, level.place_position)

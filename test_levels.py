@@ -362,45 +362,6 @@ class Game:
 
 
 
-
-
-
-
-            # MOTEL PARTS
-            SpritestackAsset(type='motel', name='wall_door', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='motel', name='wall_window', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='motel', name='wall_plain', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-
-            SpritestackAsset(type='motel', name='balcony_bottom_pillar', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='motel', name='balcony_bottom_no_pillar', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='motel', name='balcony_bottom_corner', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-
-            SpritestackAsset(type='motel', name='balcony_middle_pillar', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='motel', name='balcony_middle_no_pillar', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='motel', name='balcony_middle_corner', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            
-            SpritestackAsset(type='motel', name='balcony_top_pillar', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='motel', name='balcony_top_no_pillar', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-
-            SpritestackAsset(type='motel', name='wall_roof_side', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='motel', name='wall_roof_corner', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='motel', name='wall_roof_middle', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-
-            SpritestackAsset(type='motel', name='balcony_bottom_stairs', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='motel', name='balcony_middle_stairs', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='motel', name='balcony_top_stairs', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-
-            SpritestackAsset(type='motel', name='balcony_top_corner', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-
-            SpritestackAsset(type='motel', name='stairs_top', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='motel', name='stairs_bottom', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-
-            SpritestackAsset(type='motel', name='wall_reception', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='motel', name='wall_roof_reception', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-
-            SpritestackAsset(type='motel', name='sign', hitbox_size=(32,32), hitbox_offset=(0,0), hitbox_type='rectangle'),
-
-
             # HOTDOG STAND
             SpritestackAsset(type='hot_dog_stand', name='wagon', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
             
@@ -518,15 +479,88 @@ class Game:
 
 
         """ COMPOSITE OBJECTS """
+        # INITIALIZING PART ASSETS TO AVOID CREATING DUPLICATE OBJECTS IN MEMORY
+
+        # BUS STOP
+        bus_stop_bottom_left = SpritestackAsset(type='bus_stop', name='bottom_left', hitbox_size=(64,64))
+        bus_stop_bottom_right = SpritestackAsset(type='bus_stop', name='bottom_right', hitbox_size=(64,64))
+        bus_stop_roof_left = SpritestackAsset(type='bus_stop', name='roof_left', hitbox_size=(64,64))
+        bus_stop_roof_right = SpritestackAsset(type='bus_stop', name='roof_right', hitbox_size=(64,64))
+
+        # LARGE WATER TOWER
+        water_tower_bottom = SpritestackAsset(type='water_tower_large', name='bottom', hitbox_size=(64,64))
+        water_tower_middle = SpritestackAsset(type='water_tower_large', name='middle', hitbox_size=(64,64))
+        water_tower_top = SpritestackAsset(type='water_tower_large', name='top', hitbox_size=(64,64))
+        water_tower_roof = SpritestackAsset(type='water_tower_large', name='roof', hitbox_size=(64,64))
+
+        # BEANZ BILLBOARD
+        beanz_billboard_pillar_bottom = SpritestackAsset(type='billboard_beans', name='pillar_bottom', hitbox_size=(64,64))
+        beanz_billboard_pillar_top = SpritestackAsset(type='billboard_beans', name='pillar_top', hitbox_size=(64,64))
+        beanz_billboard_sign_left = SpritestackAsset(type='billboard_beans', name='sign_left', hitbox_size=(64,64))
+        beanz_billboard_sign_middle = SpritestackAsset(type='billboard_beans', name='sign_middle', hitbox_size=(64,64))
+        beanz_billboard_sign_right = SpritestackAsset(type='billboard_beans', name='sign_right', hitbox_size=(64,64))
+
+        # DINER
+        diner_wall_corner = SpritestackAsset(type='diner', name='wall_corner', hitbox_size=(64,64))
+        diner_wall_window = SpritestackAsset(type='diner', name='wall_window', hitbox_size=(64,64))
+        diner_wall_front_entrance = SpritestackAsset(type='diner', name='wall_front_entrance', hitbox_size=(64,64))
+        diner_wall_back = SpritestackAsset(type='diner', name='wall_back', hitbox_size=(64,64))
+        diner_roof_corner = SpritestackAsset(type='diner', name='wall_corner', hitbox_size=(64,64))
+        diner_roof_side = SpritestackAsset(type='diner', name='roof_side', hitbox_size=(64,64))
+        diner_roof_middle = SpritestackAsset(type='diner', name='roof_middle', hitbox_size=(64,64))
+        diner_roof_sign_left = SpritestackAsset(type='diner', name='roof_sign_left', hitbox_size=(64,64))
+        diner_roof_sign_middle = SpritestackAsset(type='diner', name='roof_sign_middle', hitbox_size=(64,64))
+        diner_roof_sign_right = SpritestackAsset(type='diner', name='roof_sign_right', hitbox_size=(64,64))
+
+        # GAS STATION
+        gas_station_wall_corner_door = SpritestackAsset(type='gas_station', name='wall_corner_door', hitbox_size=(64,64))
+        gas_station_wall_corner_window = SpritestackAsset(type='gas_station', name='wall_corner_window', hitbox_size=(64,64))
+        gas_station_wall_side = SpritestackAsset(type='gas_station', name='wall_side', hitbox_size=(64,64))
+        gas_station_wall_corner = SpritestackAsset(type='gas_station', name='wall_corner', hitbox_size=(64,64))
+        gas_station_pump = SpritestackAsset(type='gas_station', name='pump', hitbox_size=(64,64))
+        gas_station_pillar = SpritestackAsset(type='gas_station', name='pillar', hitbox_size=(64,64))
+        gas_station_roof_corner = SpritestackAsset(type='gas_station', name='roof_corner', hitbox_size=(64,64))
+        gas_station_roof_side = SpritestackAsset(type='gas_station', name='roof_side', hitbox_size=(64,64))
+        gas_station_roof_middle = SpritestackAsset(type='gas_station', name='roof_middle', hitbox_size=(64,64))
+        gas_station_sign = SpritestackAsset(type='gas_station', name='sign', hitbox_size=(64,64))
+
+        # MOTEL
+        motel_wall_door = SpritestackAsset(type='motel', name='wall_door', hitbox_size=(64,64))
+        motel_wall_window = SpritestackAsset(type='motel', name='wall_window', hitbox_size=(64,64))
+        motel_wall_plain = SpritestackAsset(type='motel', name='wall_plain', hitbox_size=(64,64))
+        motel_stairs_top = SpritestackAsset(type='motel', name='stairs_top', hitbox_size=(64,64))
+        motel_stairs_bottom = SpritestackAsset(type='motel', name='stairs_bottom', hitbox_size=(64,64))
+        motel_balcony_bottom_stairs = SpritestackAsset(type='motel', name='balcony_bottom_stairs', hitbox_size=(64,64))
+        motel_balcony_middle_stairs = SpritestackAsset(type='motel', name='balcony_middle_stairs', hitbox_size=(64,64))
+        motel_balcony_top_stairs = SpritestackAsset(type='motel', name='balcony_top_stairs', hitbox_size=(64,64))
+        motel_balcony_bottom_corner = SpritestackAsset(type='motel', name='balcony_bottom_corner', hitbox_size=(64,64))
+        motel_balcony_middle_corner = SpritestackAsset(type='motel', name='balcony_middle_corner', hitbox_size=(64,64))
+        motel_balcony_top_corner = SpritestackAsset(type='motel', name='balcony_top_corner', hitbox_size=(64,64))
+        motel_balcony_bottom_pillar = SpritestackAsset(type='motel', name='balcony_bottom_pillar', hitbox_size=(64,64))
+        motel_balcony_middle_pillar = SpritestackAsset(type='motel', name='balcony_middle_pillar', hitbox_size=(64,64))
+        motel_balcony_top_pillar = SpritestackAsset(type='motel', name='balcony_top_pillar', hitbox_size=(64,64))
+        motel_balcony_bottom_no_pillar = SpritestackAsset(type='motel', name='balcony_bottom_no_pillar', hitbox_size=(64,64))
+        motel_balcony_middle_no_pillar = SpritestackAsset(type='motel', name='balcony_middle_no_pillar', hitbox_size=(64,64))
+        motel_balcony_top_no_pillar = SpritestackAsset(type='motel', name='balcony_top_no_pillar', hitbox_size=(64,64))
+        motel_wall_roof_corner = SpritestackAsset(type='motel', name='wall_roof_corner', hitbox_size=(64,64))
+        motel_wall_roof_side = SpritestackAsset(type='motel', name='wall_roof_side', hitbox_size=(64,64))
+        motel_wall_roof_middle = SpritestackAsset(type='motel', name='wall_roof_middle', hitbox_size=(64,64))
+        motel_wall_reception = SpritestackAsset(type='motel', name='wall_reception', hitbox_size=(64,64))
+        motel_roof_reception = SpritestackAsset(type='motel', name='wall_roof_reception', hitbox_size=(64,64))
+        motel_sign = SpritestackAsset(type='motel', name='sign', hitbox_size=(64,64))
+
+
+        
+
         self.composite_object_assets = [
 
             # BUS STOP
             CompositeObject(
                 parts_positions_rotations=[
-                    (SpritestackAsset(type='bus_stop', name='bottom_left', hitbox_size=(64,64)), [-32,0,0], 0),
-                    (SpritestackAsset(type='bus_stop', name='bottom_right', hitbox_size=(64,64)), [32,0,0], 0),
-                    (SpritestackAsset(type='bus_stop', name='roof_left', hitbox_size=(64,64)), [-32,0,64], 0),
-                    (SpritestackAsset(type='bus_stop', name='roof_right', hitbox_size=(64,64)), [32,0,64], 0),
+                    (bus_stop_bottom_left, [-32,0,0], 0),
+                    (bus_stop_bottom_right, [32,0,0], 0),
+                    (bus_stop_roof_left, [-32,0,64], 0),
+                    (bus_stop_roof_right, [32,0,64], 0),
                 ],
                 hitbox_size=(128, 64),
             ),
@@ -535,23 +569,22 @@ class Game:
             # LARGE WATER TOWER
             CompositeObject(
                 parts_positions_rotations=[
-                    (SpritestackAsset(type='water_tower_large', name='bottom', hitbox_size=(64,64)), [-32,32,0], 0),
-                    (SpritestackAsset(type='water_tower_large', name='bottom', hitbox_size=(64,64)), [-32,-32,0], -90),
-                    (SpritestackAsset(type='water_tower_large', name='bottom', hitbox_size=(64,64)), [32,-32,0], -180),
-                    (SpritestackAsset(type='water_tower_large', name='bottom', hitbox_size=(64,64)), [32,32,0], -270),
-                    (SpritestackAsset(type='water_tower_large', name='middle', hitbox_size=(64,64)), [-32,32,128], 0),
-                    (SpritestackAsset(type='water_tower_large', name='middle', hitbox_size=(64,64)), [-32,-32,128], -90),
-                    (SpritestackAsset(type='water_tower_large', name='middle', hitbox_size=(64,64)), [32,-32,128], -180),
-                    (SpritestackAsset(type='water_tower_large', name='middle', hitbox_size=(64,64)), [32,32,128], -270),
-                    (SpritestackAsset(type='water_tower_large', name='top', hitbox_size=(64,64)), [-32,32,256], 0),
-                    (SpritestackAsset(type='water_tower_large', name='top', hitbox_size=(64,64)), [-32,-32,256], -90),
-                    (SpritestackAsset(type='water_tower_large', name='top', hitbox_size=(64,64)), [32,-32,256], -180),
-                    (SpritestackAsset(type='water_tower_large', name='top', hitbox_size=(64,64)), [32,32,256], -270),
-                    (SpritestackAsset(type='water_tower_large', name='roof', hitbox_size=(64,64)), [-32,32,384], 0),
-                    (SpritestackAsset(type='water_tower_large', name='roof', hitbox_size=(64,64)), [-32,-32,384], -90),
-                    (SpritestackAsset(type='water_tower_large', name='roof', hitbox_size=(64,64)), [32,-32,384], -180),
-                    (SpritestackAsset(type='water_tower_large', name='roof', hitbox_size=(64,64)), [32,32,384], -270),
-
+                    (water_tower_bottom, [-32,32,0], 0),
+                    (water_tower_bottom, [-32,-32,0], -90),
+                    (water_tower_bottom, [32,-32,0], -180),
+                    (water_tower_bottom, [32,32,0], -270),
+                    (water_tower_middle, [-32,32,128], 0),
+                    (water_tower_middle, [-32,-32,128], -90),
+                    (water_tower_middle, [32,-32,128], -180),
+                    (water_tower_middle, [32,32,128], -270),
+                    (water_tower_top, [-32,32,256], 0),
+                    (water_tower_top, [-32,-32,256], -90),
+                    (water_tower_top, [32,-32,256], -180),
+                    (water_tower_top, [32,32,256], -270),
+                    (water_tower_roof, [-32,32,384], 0),
+                    (water_tower_roof, [-32,-32,384], -90),
+                    (water_tower_roof, [32,-32,384], -180),
+                    (water_tower_roof, [32,32,384], -270),
                 ],
                 hitbox_size=(128, 128),
             ), 
@@ -560,11 +593,11 @@ class Game:
             # BEANZ BILLBOARD
             CompositeObject(
                 parts_positions_rotations=[
-                    (SpritestackAsset(type='billboard_beans', name='pillar_bottom', hitbox_size=(64,64)), [0,0,0], 0),
-                    (SpritestackAsset(type='billboard_beans', name='pillar_top', hitbox_size=(64,64)), [0,0,64], 0),
-                    (SpritestackAsset(type='billboard_beans', name='sign_middle', hitbox_size=(64,64)), [0,0,128], 0),
-                    (SpritestackAsset(type='billboard_beans', name='sign_left', hitbox_size=(64,64)), [-64,0,128], 0),
-                    (SpritestackAsset(type='billboard_beans', name='sign_right', hitbox_size=(64,64)), [64,0,128], 0),
+                    (beanz_billboard_pillar_bottom, [0,0,0], 0),
+                    (beanz_billboard_pillar_top, [0,0,64], 0),
+                    (beanz_billboard_sign_left, [-64,0,128], 0),
+                    (beanz_billboard_sign_middle, [0,0,128], 0),
+                    (beanz_billboard_sign_right, [64,0,128], 0),
                 ],
                 hitbox_size=(32, 32),
             ),
@@ -573,33 +606,33 @@ class Game:
             # DINER
             CompositeObject(
                 parts_positions_rotations=[
-                    (SpritestackAsset(type='diner', name='wall_corner', hitbox_size=(64,64)), [-128,64,0], 0),
-                    (SpritestackAsset(type='diner', name='wall_window', hitbox_size=(64,64)), [-64,64,0], 0),
-                    (SpritestackAsset(type='diner', name='wall_front_entrance', hitbox_size=(64,64)), [0,64,0], 0),
-                    (SpritestackAsset(type='diner', name='wall_window', hitbox_size=(64,64)), [64,64,0], 0),
-                    (SpritestackAsset(type='diner', name='wall_corner', hitbox_size=(64,64)), [128,64,0], 90),
-                    (SpritestackAsset(type='diner', name='wall_window', hitbox_size=(64,64)), [128,0,0], 90),
-                    (SpritestackAsset(type='diner', name='wall_corner', hitbox_size=(64,64)), [128,-64,0], 180),
-                    (SpritestackAsset(type='diner', name='wall_back', hitbox_size=(64,64)), [64,-64,0], 180),
-                    (SpritestackAsset(type='diner', name='wall_back', hitbox_size=(64,64)), [0,-64,0], 180),
-                    (SpritestackAsset(type='diner', name='wall_back', hitbox_size=(64,64)), [-64,-64,0], 180),
-                    (SpritestackAsset(type='diner', name='wall_corner', hitbox_size=(64,64)), [-128,-64,0], 270),
-                    (SpritestackAsset(type='diner', name='wall_window', hitbox_size=(64,64)), [-128,0,0], 270),
-                    (SpritestackAsset(type='diner', name='roof_corner', hitbox_size=(64,64)), [-128,64,64], 0),
-                    (SpritestackAsset(type='diner', name='roof_sign_left', hitbox_size=(64,64)), [-64,64,64], 0),
-                    (SpritestackAsset(type='diner', name='roof_sign_middle', hitbox_size=(64,64)), [0,64,64], 0),
-                    (SpritestackAsset(type='diner', name='roof_sign_right', hitbox_size=(64,64)), [64,64,64], 0),
-                    (SpritestackAsset(type='diner', name='roof_corner', hitbox_size=(64,64)), [128,64,64], 90),
-                    (SpritestackAsset(type='diner', name='roof_side', hitbox_size=(64,64)), [128,0,64], 90),
-                    (SpritestackAsset(type='diner', name='roof_corner', hitbox_size=(64,64)), [128,-64,64], 180),
-                    (SpritestackAsset(type='diner', name='roof_side', hitbox_size=(64,64)), [64,-64,64], 180),
-                    (SpritestackAsset(type='diner', name='roof_side', hitbox_size=(64,64)), [0,-64,64], 180),
-                    (SpritestackAsset(type='diner', name='roof_side', hitbox_size=(64,64)), [-64,-64,64], 180),
-                    (SpritestackAsset(type='diner', name='roof_corner', hitbox_size=(64,64)), [-128,-64,64], 270),
-                    (SpritestackAsset(type='diner', name='roof_side', hitbox_size=(64,64)), [-128,0,64], 270),
-                    (SpritestackAsset(type='diner', name='roof_middle', hitbox_size=(64,64)), [-64,0,64], 0),
-                    (SpritestackAsset(type='diner', name='roof_middle', hitbox_size=(64,64)), [0,0,64], 0),
-                    (SpritestackAsset(type='diner', name='roof_middle', hitbox_size=(64,64)), [64,0,64], 0),
+                    (diner_wall_corner, [-128,64,0], 0),
+                    (diner_wall_window, [-64,64,0], 0),
+                    (diner_wall_front_entrance, [0,64,0], 0),
+                    (diner_wall_window, [64,64,0], 0),
+                    (diner_wall_corner, [128,64,0], 90),
+                    (diner_wall_window, [128,0,0], 90),
+                    (diner_wall_corner, [128,-64,0], 180),
+                    (diner_wall_back, [64,-64,0], 180),
+                    (diner_wall_back, [0,-64,0], 180),
+                    (diner_wall_back, [-64,-64,0], 180),
+                    (diner_wall_corner, [-128,-64,0], 270),
+                    (diner_wall_window, [-128,0,0], 270),
+                    (diner_roof_corner, [-128,64,64], 0),
+                    (diner_roof_sign_left, [-64,64,64], 0),
+                    (diner_roof_sign_middle, [0,64,64], 0),
+                    (diner_roof_sign_right, [64,64,64], 0),
+                    (diner_roof_corner, [128,64,64], 90),
+                    (diner_roof_side, [128,0,64], 90),
+                    (diner_roof_corner, [128,-64,64], 180),
+                    (diner_roof_side, [64,-64,64], 180),
+                    (diner_roof_side, [0,-64,64], 180),
+                    (diner_roof_side, [-64,-64,64], 180),
+                    (diner_roof_corner, [-128,-64,64], 270),
+                    (diner_roof_side, [-128,0,64], 270),
+                    (diner_roof_middle, [-64,0,64], 0),
+                    (diner_roof_middle, [0,0,64], 0),
+                    (diner_roof_middle, [64,0,64], 0),
                 ],
                 hitbox_size=(320, 192),
             ),
@@ -608,44 +641,127 @@ class Game:
             # GAS STATION
             CompositeObject(
                 parts_positions_rotations=[
-                    (SpritestackAsset(type='gas_station', name='wall_corner_door', hitbox_size=(64,64)), [64,64,0], 0),
-                    (SpritestackAsset(type='gas_station', name='wall_corner_window', hitbox_size=(64,64)), [128,64,0], 0),
-                    (SpritestackAsset(type='gas_station', name='wall_side', hitbox_size=(64,64)), [128,0,0], 180),
-                    (SpritestackAsset(type='gas_station', name='wall_corner', hitbox_size=(64,64)), [128,-64,0], 180),
-                    (SpritestackAsset(type='gas_station', name='wall_corner', hitbox_size=(64,64)), [64,-64,0], -90),
-                    (SpritestackAsset(type='gas_station', name='wall_side', hitbox_size=(64,64)), [64,0,0], 0),
-
-                    (SpritestackAsset(type='gas_station', name='pump', hitbox_size=(64,64)), [-128,64,0], 0),
-                    (SpritestackAsset(type='gas_station', name='pillar', hitbox_size=(64,64)), [-128,0,0], 0),
-                    (SpritestackAsset(type='gas_station', name='pump', hitbox_size=(64,64)), [-128,-64,0], 0),
-
-                    (SpritestackAsset(type='gas_station', name='roof_corner', hitbox_size=(64,64)), [-128,64,64], 0),
-                    (SpritestackAsset(type='gas_station', name='roof_side', hitbox_size=(64,64)), [-64,64,64], 0),
-                    (SpritestackAsset(type='gas_station', name='roof_side', hitbox_size=(64,64)), [0,64,64], 0),
-                    (SpritestackAsset(type='gas_station', name='roof_side', hitbox_size=(64,64)), [64,64,64], 0),
-                    (SpritestackAsset(type='gas_station', name='roof_corner', hitbox_size=(64,64)), [128,64,64], 90),
-                    (SpritestackAsset(type='gas_station', name='roof_side', hitbox_size=(64,64)), [128,0,64], 90),
-                    (SpritestackAsset(type='gas_station', name='roof_corner', hitbox_size=(64,64)), [128,-64,64], 180),
-                    (SpritestackAsset(type='gas_station', name='roof_side', hitbox_size=(64,64)), [64,-64,64], 180),
-                    (SpritestackAsset(type='gas_station', name='roof_side', hitbox_size=(64,64)), [0,-64,64], 180),
-                    (SpritestackAsset(type='gas_station', name='roof_side', hitbox_size=(64,64)), [-64,-64,64], 180),
-                    (SpritestackAsset(type='gas_station', name='roof_corner', hitbox_size=(64,64)), [-128,-64,64], 270),
-                    (SpritestackAsset(type='gas_station', name='roof_side', hitbox_size=(64,64)), [-128,0,64], 270),
-
-                    (SpritestackAsset(type='gas_station', name='roof_middle', hitbox_size=(64,64)), [-64,0,64], 0),
-                    (SpritestackAsset(type='gas_station', name='roof_middle', hitbox_size=(64,64)), [0,0,64], 0),
-                    (SpritestackAsset(type='gas_station', name='roof_middle', hitbox_size=(64,64)), [64,0,64], 0),
-
-                    (SpritestackAsset(type='gas_station', name='sign', hitbox_size=(64,64)), [-64,96,80], 0),
+                    (gas_station_wall_corner_door, [64,64,0], 0),
+                    (gas_station_wall_corner_window, [128,64,0], 0),
+                    (gas_station_wall_side, [128,0,0], 180),
+                    (gas_station_wall_corner, [128,-64,0], 180),
+                    (gas_station_wall_corner, [64,-64,0], -90),
+                    (gas_station_wall_side, [64,0,0], 0),
+                    (gas_station_pump, [-128,64,0], 0),
+                    (gas_station_pillar, [-128,0,0], 0),
+                    (gas_station_pump, [-128,-64,0], 0),
+                    (gas_station_roof_corner, [-128,64,64], 0),
+                    (gas_station_roof_side, [-64,64,64], 0),
+                    (gas_station_roof_side, [0,64,64], 0),
+                    (gas_station_roof_side, [64,64,64], 0),
+                    (gas_station_roof_corner, [128,64,64], 90),
+                    (gas_station_roof_side, [128,0,64], 90),
+                    (gas_station_roof_corner, [128,-64,64], 180),
+                    (gas_station_roof_side, [64,-64,64], 180),
+                    (gas_station_roof_side, [0,-64,64], 180),
+                    (gas_station_roof_side, [-64,-64,64], 180),
+                    (gas_station_roof_corner, [-128,-64,64], 270),
+                    (gas_station_roof_side, [-128,0,64], 270),
+                    (gas_station_roof_middle, [-64,0,64], 0),
+                    (gas_station_roof_middle, [0,0,64], 0),
+                    (gas_station_roof_middle, [64,0,64], 0),
+                    (gas_station_sign, [-64,96,80], 0),
                 ],
                 hitbox_size=(320, 192),
             ),
 
 
+            # MOTEL
+            CompositeObject(
+                parts_positions_rotations=[
+                    (motel_wall_door, [-160,64,0], 0),
+                    (motel_wall_door, [-160,64,80], 0),
+                    (motel_wall_roof_corner, [-160,64,160], 0),
+                    (motel_wall_window, [-96,64,0], 0),
+                    (motel_wall_window, [-96,64,80], 0),
+                    (motel_wall_roof_side, [-96,64,160], 0),
+                    (motel_wall_plain, [-32,64,0], 0),
+                    (motel_wall_plain, [-32,64,80], 0),
+                    (motel_wall_roof_side, [-32,64,160], 0),
+                    (motel_wall_door, [32,64,0], 0),
+                    (motel_wall_door, [32,64,80], 0),
+                    (motel_wall_roof_side, [32,64,160], 0),
+                    (motel_wall_window, [96,64,0], 0),
+                    (motel_wall_window, [96,64,80], 0),
+                    (motel_wall_roof_side, [96,64,160], 0),
+                    (motel_wall_plain, [160,64,0], 0),
+                    (motel_wall_plain, [160,64,80], 0),
+                    (motel_wall_roof_side, [160,64,160], 0),
+                    (motel_stairs_top, [-224,0,0], 0),
+                    (motel_stairs_bottom, [-224,-64,0], 0),
+                    (motel_balcony_bottom_stairs, [-224,64,0], 0),
+                    (motel_balcony_middle_stairs, [-224,64,80], 0),
+                    (motel_balcony_top_stairs, [-224,64,160], 0),
+                    (motel_balcony_bottom_corner, [-224,128,0], 0),
+                    (motel_balcony_middle_corner, [-224,128,80], 0),
+                    (motel_balcony_top_corner, [-224,128,160], 0),
+                    (motel_balcony_bottom_no_pillar, [-160,128,0], 0),
+                    (motel_balcony_middle_no_pillar, [-160,128,80], 0),
+                    (motel_balcony_top_no_pillar, [-160,128,160], 0),
+                    (motel_balcony_bottom_no_pillar, [-96,128,0], 0),
+                    (motel_balcony_middle_no_pillar, [-96,128,80], 0),
+                    (motel_balcony_top_no_pillar, [-96,128,160], 0),
+                    (motel_balcony_bottom_pillar, [-32,128,0], 0),
+                    (motel_balcony_middle_pillar, [-32,128,80], 0),
+                    (motel_balcony_top_pillar, [-32,128,160], 0),
+                    (motel_balcony_bottom_no_pillar, [32,128,0], 0),
+                    (motel_balcony_middle_no_pillar, [32,128,80], 0),
+                    (motel_balcony_top_no_pillar, [32,128,160], 0),
+                    (motel_balcony_bottom_no_pillar, [96,128,0], 0),
+                    (motel_balcony_middle_no_pillar, [96,128,80], 0),
+                    (motel_balcony_top_no_pillar, [96,128,160], 0),
+                    (motel_balcony_bottom_pillar, [160,128,0], 0),
+                    (motel_balcony_middle_pillar, [160,128,80], 0),
+                    (motel_balcony_top_pillar, [160,128,160], 0),
+                    (motel_wall_plain, [-160,0,0], -90),
+                    (motel_wall_plain, [-160,0,80], -90),
+                    (motel_wall_roof_side, [-160,0,160], -90),
+                    (motel_wall_plain, [-160,-64,0], -90),
+                    (motel_wall_plain, [-160,-64,80], -90),
+                    (motel_wall_roof_corner, [-160,-64,160], -90),
+                    (motel_wall_window, [-96,-64,0], 180),
+                    (motel_wall_window, [-96,-64,80], 180),
+                    (motel_wall_roof_side, [-96,-64,160], 180),
+                    (motel_wall_window, [-32,-64,0], 180),
+                    (motel_wall_window, [-32,-64,80], 180),
+                    (motel_wall_roof_side, [-32,-64,160], 180),
+                    (motel_wall_plain, [32,-64,0], 180),
+                    (motel_wall_plain, [32,-64,80], 180),
+                    (motel_wall_roof_side, [32,-64,160], 180),
+                    (motel_wall_window, [96,-64,0], 180),
+                    (motel_wall_window, [96,-64,80], 180),
+                    (motel_wall_roof_side, [96,-64,160], 180),
+                    (motel_wall_window, [160,-64,0], 180),
+                    (motel_wall_window, [160,-64,80], 180),
+                    (motel_wall_roof_side, [160,-64,160], 180),
+                    (motel_wall_plain, [224,-64,0], 180),
+                    (motel_wall_plain, [224,-64,80], 180),
+                    (motel_wall_roof_corner, [224,-64,160], 180),
+                    (motel_wall_plain, [224,0,0], 90),
+                    (motel_wall_plain, [224,0,80], 90),
+                    (motel_wall_roof_side, [224,0,160], 90),
+                    (motel_wall_plain, [224,64,0], 90),
+                    (motel_wall_plain, [224,64,80], 90),
+                    (motel_wall_roof_corner, [224,64,160], 90),
+                    (motel_wall_reception, [224,128,0], 0),
+                    (motel_wall_plain, [224,128,80], 0),
+                    (motel_roof_reception, [224,128,160], 0),
+                    (motel_wall_roof_middle, [-96,0,160], 0),
+                    (motel_wall_roof_middle, [-32,0,160], 0),
+                    (motel_wall_roof_middle, [32,0,160], 0),
+                    (motel_wall_roof_middle, [96,0,160], 0),
+                    (motel_wall_roof_middle, [160,0,160], 0),
+                    (motel_sign, [224,160,80], 0),
+                ],
+                hitbox_size=(320, 192),
+            ),
 
         ]
-
-
 
 
 

@@ -344,7 +344,7 @@ class Level:
         self.scroll_speed = 0.1
 
         """ TOPOLOGICAL DEPTH SORTING SETTINGS """
-        self.depth_sort_period = 15 # NUMBER OF ITERATIONS AFTER WHICH THE TOPOLOGICAL SORT WILL REORDER THE OBJECTS-TO-RENDER LIST
+        self.depth_sort_period = 20 # NUMBER OF ITERATIONS AFTER WHICH THE TOPOLOGICAL SORT WILL REORDER THE OBJECTS-TO-RENDER LIST
         self.depth_sort_timer = 0
         self.depth_sorted_objects = []
 

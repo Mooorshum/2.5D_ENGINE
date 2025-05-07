@@ -516,7 +516,7 @@ class CompositeObject():
         self.a_omega = 0
 
         # TOPOLOGICAL DEPTH SORT SETTINGS
-        self.depth_sort_pause_time = 10 # Number of iterations between depth sort calls
+        self.depth_sort_pause_time = 20 # Number of iterations between depth sort calls
         self.depth_sort_timer = 0
         self.depth_sorted_parts = []
         self.asset_placement_mode = True # if this is false, the depth sort will be called every interation (used to render a level asset during editing)

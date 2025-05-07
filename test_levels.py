@@ -374,6 +374,38 @@ class Game:
             SpritestackAsset(type='fire_hydrant', name='fire_hydrant_1', hitbox_size=(32,32), hitbox_offset=(0,0), hitbox_type='circle'),
 
 
+            # CHURCH
+            SpritestackAsset(type='church', name='wall_entrance', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+
+            SpritestackAsset(type='church', name='wall_front_bottom_left', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='church', name='wall_front_bottom_middle', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='church', name='wall_front_bottom_right', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+
+            SpritestackAsset(type='church', name='wall_front_top_left', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='church', name='wall_front_top_middle', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='church', name='wall_front_top_right', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+
+            SpritestackAsset(type='church', name='wall_window', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+
+            SpritestackAsset(type='church', name='roof_side_left', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='church', name='roof_side_right', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            
+            SpritestackAsset(type='church', name='wall_tower_bottom', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='church', name='wall_tower_top', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+
+            SpritestackAsset(type='church', name='roof_middle', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+
+            SpritestackAsset(type='church', name='wall_back_bottom_left', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='church', name='wall_back_bottom_right', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='church', name='wall_back_bottom_middle', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+
+            SpritestackAsset(type='church', name='wall_back_top_left', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='church', name='wall_back_top_right', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='church', name='wall_back_top_middle', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            
+
+
+
 
             ### TEST BLOCKS
             #SpritestackAsset(type='test_shapes', name='test_corner', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle', interactable=False),
@@ -505,7 +537,7 @@ class Game:
         diner_wall_window = SpritestackAsset(type='diner', name='wall_window', hitbox_size=(64,64))
         diner_wall_front_entrance = SpritestackAsset(type='diner', name='wall_front_entrance', hitbox_size=(64,64))
         diner_wall_back = SpritestackAsset(type='diner', name='wall_back', hitbox_size=(64,64))
-        diner_roof_corner = SpritestackAsset(type='diner', name='wall_corner', hitbox_size=(64,64))
+        diner_roof_corner = SpritestackAsset(type='diner', name='roof_corner', hitbox_size=(64,64))
         diner_roof_side = SpritestackAsset(type='diner', name='roof_side', hitbox_size=(64,64))
         diner_roof_middle = SpritestackAsset(type='diner', name='roof_middle', hitbox_size=(64,64))
         diner_roof_sign_left = SpritestackAsset(type='diner', name='roof_sign_left', hitbox_size=(64,64))
@@ -548,6 +580,23 @@ class Game:
         motel_wall_reception = SpritestackAsset(type='motel', name='wall_reception', hitbox_size=(64,64))
         motel_roof_reception = SpritestackAsset(type='motel', name='wall_roof_reception', hitbox_size=(64,64))
         motel_sign = SpritestackAsset(type='motel', name='sign', hitbox_size=(64,64))
+
+        # CHURCH
+        #church_wall_entrance = 
+        #church_wall_window_corner = 
+        #church_wall
+
+        # BAR
+
+        # CINEMA
+
+        # GROCERY STORE
+
+        
+
+        
+
+        
 
 
         
@@ -758,7 +807,7 @@ class Game:
                     (motel_wall_roof_middle, [160,0,160], 0),
                     (motel_sign, [224,160,80], 0),
                 ],
-                hitbox_size=(320, 192),
+                hitbox_size=(512, 256),
             ),
 
         ]

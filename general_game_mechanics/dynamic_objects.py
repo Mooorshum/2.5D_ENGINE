@@ -20,8 +20,8 @@ import copy
 
 
 class DynamicObject(SpritestackModel):
-    def __init__(self, asset, asset_index, position, rotation):
-        super().__init__(asset, asset_index, position, rotation)
+    def __init__(self, asset, asset_index, position, rotation, type=None):
+        super().__init__(asset, asset_index, position, rotation, type=type)
 
         self.v_drag = 0.03
         self.omega_drag = 0.05
@@ -453,7 +453,10 @@ class Stairs(DynamicObject):
 
 """ SPECIAL CLASS OF OBJECT CONSISTING OF MULTIPLE SEPARATELY RENDERABLE PARTS """
 class CompositeObject():
-    def __init__(self, parts_positions_rotations, position=[0,0,0], rotation=0, hitbox_size=[64,64], hitbox_offset=(0,0), hitbox_type='rectangle'):
+    def __init__(self, parts_positions_rotations, type=None, position=[0,0,0], rotation=0, hitbox_size=[64,64], hitbox_offset=(0,0), hitbox_type='rectangle'):
+
+        self.type = type
+
         self.movelocked = True
         self.collidable = False
 
@@ -516,7 +519,7 @@ class CompositeObject():
         self.a_omega = 0
 
         # TOPOLOGICAL DEPTH SORT SETTINGS
-        self.depth_sort_pause_time = 20 # Number of iterations between depth sort calls
+        self.depth_sort_pause_time = 10 # Number of iterations between depth sort calls
         self.depth_sort_timer = 0
         self.depth_sorted_parts = []
         self.asset_placement_mode = True # if this is false, the depth sort will be called every interation (used to render a level asset during editing)
@@ -605,8 +608,8 @@ class CompositeObject():
 
 class Vehicle(CompositeObject):
     
-    def __init__(self, parts_positions_rotations, position=[0,0,0], rotation=0, hitbox_size=[64,64], hitbox_offset=(0,0), hitbox_type='rectangle'):
-        super().__init__(parts_positions_rotations, position, rotation, hitbox_size, hitbox_offset, hitbox_type)
+    def __init__(self, parts_positions_rotations, type=None, position=[0,0,0], rotation=0, hitbox_size=[64,64], hitbox_offset=(0,0), hitbox_type='rectangle'):
+        super().__init__(parts_positions_rotations, type, position, rotation, hitbox_size, hitbox_offset, hitbox_type)
 
         self.driver = None
 

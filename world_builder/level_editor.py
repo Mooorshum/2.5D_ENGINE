@@ -226,7 +226,8 @@ def control_editing(level):
                 last_object = level.grass_systems[level.grass_system_index].tiles.pop()
         if level.current_asset_group == 'particle_system':
             if len(level.particle_systems) > 0:
-                last_object = level.particle_systems[level.particle_system_index].pop()
+                #last_object = level.particle_systems[level.particle_system_index].delete()
+                last_object = level.particle_systems.pop()
 
 
     if level.current_asset_group == 'colliding_objects':

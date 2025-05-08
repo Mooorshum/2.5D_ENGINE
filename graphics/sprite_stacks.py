@@ -110,7 +110,10 @@ class SpritestackAsset:
 
 
 class SpritestackModel:
-    def __init__(self, asset, asset_index, position, rotation, movelocked=True, collidable=False):
+    def __init__(self, asset, asset_index, position, rotation, type=None, movelocked=True, collidable=False):
+        self.type = type
+        if hasattr(asset, 'type'):
+            self.type = asset.type
 
         self.asset = asset
         self.asset_index = asset_index

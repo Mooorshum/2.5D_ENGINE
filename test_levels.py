@@ -240,7 +240,6 @@ class Game:
             SpritestackAsset(type='brick_house_parts', name='wall_roof_double_64', hitbox_size=(64,64), hitbox_type='rectangle'),
 
 
-
             # SET THE RIGHT RENDER BOX SIZES !!!!!!!!!
             ### BUILDING DECOR
             SpritestackAsset(type='building_decor', name='flag_1', hitbox_size=(4,32), hitbox_type='rectangle'),
@@ -258,9 +257,7 @@ class Game:
             SpritestackAsset(type='building_decor', name='utility_pole_top_double', hitbox_size=(32,32), hitbox_type='rectangle'),
             SpritestackAsset(type='building_decor', name='utility_pole_top_triple', hitbox_size=(32,32), hitbox_type='rectangle'),
             SpritestackAsset(type='building_decor', name='utility_pole_top_multiple', hitbox_size=(32,32), hitbox_type='rectangle'),
-            
             SpritestackAsset(type='building_decor', name='wires_straight', hitbox_size=(10,32), hitbox_type='rectangle'),
-
 
             ### BRICK HOUSE FLAT ROOF BLOCKS
             SpritestackAsset(type='brick_house_parts', name='wall_garage_door_32', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle'),
@@ -271,7 +268,6 @@ class Game:
             SpritestackAsset(type='brick_house_parts', name='wall_roof_flat_middle_64', hitbox_size=(64,64), hitbox_type='rectangle'),
             SpritestackAsset(type='brick_house_parts', name='wall_roof_flat_64', hitbox_size=(64,64), hitbox_type='rectangle'),
 
-
             ### SCAFFOLDING
             SpritestackAsset(type='building_decor', name='scaffolding_1', hitbox_size=(64,32), hitbox_type='rectangle'),
             SpritestackAsset(type='building_decor', name='scaffolding_2', hitbox_size=(64,32), hitbox_type='rectangle'),
@@ -279,8 +275,7 @@ class Game:
             SpritestackAsset(type='building_decor', name='scaffolding_4', hitbox_size=(64,32), hitbox_type='rectangle'),
             SpritestackAsset(type='building_decor', name='scaffolding_5', hitbox_size=(64,32), hitbox_type='rectangle'),
 
-            
-            # DUMPSTERS
+            # DUMPSTER
             SpritestackAsset(type='building_decor', name='dumpster', hitbox_size=(64,40), hitbox_offset=(0,-10), hitbox_type='rectangle'),
 
             # WIRE FENCES
@@ -360,50 +355,14 @@ class Game:
             SpritestackAsset(type='texture', name='dirt_road_straight', hitbox_size=(32,32), hitbox_offset=(0,0), hitbox_type='rectangle'),
             SpritestackAsset(type='texture', name='dirt_road_turn', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
 
-
-
             # HOTDOG STAND
             SpritestackAsset(type='hot_dog_stand', name='wagon', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
             
-
-
             # TRASH CAN
             SpritestackAsset(type='trash_can', name='trash_can_1', hitbox_size=(32,32), hitbox_offset=(0,0), hitbox_type='rectangle'),
 
             # FIRE HYDRANT
             SpritestackAsset(type='fire_hydrant', name='fire_hydrant_1', hitbox_size=(32,32), hitbox_offset=(0,0), hitbox_type='circle'),
-
-
-            # CHURCH
-            SpritestackAsset(type='church', name='wall_entrance', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-
-            SpritestackAsset(type='church', name='wall_front_bottom_left', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='church', name='wall_front_bottom_middle', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='church', name='wall_front_bottom_right', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-
-            SpritestackAsset(type='church', name='wall_front_top_left', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='church', name='wall_front_top_middle', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='church', name='wall_front_top_right', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-
-            SpritestackAsset(type='church', name='wall_window', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-
-            SpritestackAsset(type='church', name='roof_side_left', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='church', name='roof_side_right', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            
-            SpritestackAsset(type='church', name='wall_tower_bottom', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='church', name='wall_tower_top', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-
-            SpritestackAsset(type='church', name='roof_middle', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-
-            SpritestackAsset(type='church', name='wall_back_bottom_left', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='church', name='wall_back_bottom_right', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='church', name='wall_back_bottom_middle', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-
-            SpritestackAsset(type='church', name='wall_back_top_left', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='church', name='wall_back_top_right', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            SpritestackAsset(type='church', name='wall_back_top_middle', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-            
-
 
 
 
@@ -582,26 +541,78 @@ class Game:
         motel_sign = SpritestackAsset(type='motel', name='sign', hitbox_size=(64,64))
 
         # CHURCH
-        #church_wall_entrance = 
-        #church_wall_window_corner = 
-        #church_wall
-
-        # BAR
-
-        # CINEMA
-
-        # GROCERY STORE
-
         
+        church_wall_front_bottom_left = SpritestackAsset(type='church', name='wall_front_bottom_left', hitbox_size=(64,64), hitbox_offset=(0,0))
+        church_wall_front_bottom_middle = SpritestackAsset(type='church', name='wall_front_bottom_middle', hitbox_size=(64,64), hitbox_offset=(0,0))
+        church_wall_front_bottom_right = SpritestackAsset(type='church', name='wall_front_bottom_right', hitbox_size=(64,64), hitbox_offset=(0,0))
+        church_wall_entrance = SpritestackAsset(type='church', name='wall_entrance', hitbox_size=(64,64), hitbox_offset=(0,0))
 
+        church_wall_window = SpritestackAsset(type='church', name='wall_window', hitbox_size=(64,64), hitbox_offset=(0,0))
+
+        church_wall_back_bottom_left = SpritestackAsset(type='church', name='wall_back_bottom_left', hitbox_size=(64,64), hitbox_offset=(0,0))
+        church_wall_back_bottom_right = SpritestackAsset(type='church', name='wall_back_bottom_right', hitbox_size=(64,64), hitbox_offset=(0,0))
+        church_wall_back_bottom_middle = SpritestackAsset(type='church', name='wall_back_bottom_middle', hitbox_size=(64,64), hitbox_offset=(0,0))
+
+        church_wall_front_top_left = SpritestackAsset(type='church', name='wall_front_top_left', hitbox_size=(64,64), hitbox_offset=(0,0))
+        church_wall_front_top_middle = SpritestackAsset(type='church', name='wall_front_top_middle', hitbox_size=(64,64), hitbox_offset=(0,0))
+        church_wall_front_top_right = SpritestackAsset(type='church', name='wall_front_top_right', hitbox_size=(64,64), hitbox_offset=(0,0))
         
+        church_roof_side_left = SpritestackAsset(type='church', name='roof_side_left', hitbox_size=(64,64), hitbox_offset=(0,0))
+        church_roof_side_right = SpritestackAsset(type='church', name='roof_side_right', hitbox_size=(64,64), hitbox_offset=(0,0))
 
-        
+        church_wall_tower_bottom = SpritestackAsset(type='church', name='wall_tower_bottom', hitbox_size=(64,64), hitbox_offset=(0,0))
+        church_wall_tower_top = SpritestackAsset(type='church', name='wall_tower_top', hitbox_size=(64,64), hitbox_offset=(0,0))
 
+        church_roof_middle = SpritestackAsset(type='church', name='roof_middle', hitbox_size=(64,64), hitbox_offset=(0,0))
 
-        
+        church_wall_back_top_left = SpritestackAsset(type='church', name='wall_back_top_left', hitbox_size=(64,64), hitbox_offset=(0,0))
+        church_wall_back_top_right = SpritestackAsset(type='church', name='wall_back_top_right', hitbox_size=(64,64), hitbox_offset=(0,0))
+        church_wall_back_top_middle = SpritestackAsset(type='church', name='wall_back_top_middle', hitbox_size=(64,64), hitbox_offset=(0,0))
 
         self.composite_object_assets = [
+
+            # CHURCH
+            CompositeObject(
+                parts_positions_rotations=[
+                    (church_wall_entrance, [0,128,0], 0),
+                    (church_wall_front_bottom_left, [-64,64,0], 0),
+                    (church_wall_front_bottom_middle, [0,64,0], 0),
+                    (church_wall_front_bottom_right, [64,64,0], 0),
+                    (church_wall_front_top_left, [-64,64,96], 0),
+                    (church_wall_front_top_middle, [0,64,96], 0),
+                    (church_wall_front_top_right, [64,64,96], 0),
+
+                    (church_wall_window, [-64,0,0], -90),
+                    (church_wall_window, [-64,-64,0], -90),
+                    (church_wall_window, [-64,-128,0], -90),
+                    (church_roof_side_left, [-64,0,96], 0),
+                    (church_roof_side_left, [-64,-64,96], 0),
+                    (church_roof_side_left, [-64,-128,96], 0),
+
+
+                    (church_wall_window, [64,0,0], 90),
+                    (church_wall_window, [64,-64,0], 90),
+                    (church_wall_window, [64,-128,0], 90),
+                    (church_roof_side_right, [64,0,96], 0),
+                    (church_roof_side_right, [64,-64,96], 0),
+                    (church_roof_side_right, [64,-128,96], 0),
+
+                    (church_wall_back_bottom_left, [-64,-192,0], 180),
+                    (church_wall_back_bottom_middle, [0,-192,0], 180),
+                    (church_wall_back_bottom_right, [64,-192,0], 180),
+                    (church_wall_back_top_left, [-64,-192,96], 180),
+                    (church_wall_back_top_middle, [0,-192,96], 180),
+                    (church_wall_back_top_right, [64,-192,96], 180),
+
+                    (church_roof_middle, [0,-64, 160], 0),
+                    (church_roof_middle, [0,-128, 160], 0),
+
+                    (church_wall_tower_bottom, [0,0, 160], 0),
+                    (church_wall_tower_top, [0,0, 208], 0),
+
+                ],
+                hitbox_size=(196, 320),
+            ),
 
             # BUS STOP
             CompositeObject(

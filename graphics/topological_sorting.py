@@ -126,10 +126,10 @@ def depth_sort(objects, camera):
 
             # GETTING THE VALUE OF EACH EQUATION AT THE CENTER OF THE OVERLAP
             line_1_y_at_overlap_centre_x = line_eq_object_1((x_camera_projections_overlap[0] + x_camera_projections_overlap[1])/2)
-            line_2_at_overlap_centre_x = line_eq_object_2((x_camera_projections_overlap[0] + x_camera_projections_overlap[1])/2)
+            line_2_y_at_overlap_centre_x = line_eq_object_2((x_camera_projections_overlap[0] + x_camera_projections_overlap[1])/2)
 
             # COMPARING ORDER IN WHICH LINES WILL BE CROSSED
-            if line_1_y_at_overlap_centre_x > line_2_at_overlap_centre_x:
+            if line_1_y_at_overlap_centre_x > line_2_y_at_overlap_centre_x:
                 front_object = object_2
                 back_object = object_1
             else:
@@ -137,7 +137,7 @@ def depth_sort(objects, camera):
                 back_object = object_2
 
             """ HANDLING CASES WHEN AN OBJECT IS ABOVE A TEXTURE """
-            if hasattr(object_1, 'asset') and hasattr(object_2, 'asset'):
+            """ if hasattr(object_1, 'asset') and hasattr(object_2, 'asset'):
                 if hasattr(object_1.asset, 'type') and hasattr(object_2.asset, 'type'):
                         if object_1.asset.type == 'texture' and object_2.asset.type != 'texture':
                             if object_1.position[2] <= object_2.position[2]:
@@ -158,43 +158,28 @@ def depth_sort(objects, camera):
                         if object_2.asset.type == 'texture':
                             if object_1.position[2] >= object_2.position[2]:
                                 front_object = object_2
-                                back_object = object_1
+                                back_object = object_1 """
+                
+            if hasattr(object_1, 'type'):
+                if object_1.type == 'texture':
+                        front_object = object_1
+                        back_object = object_2
+            if hasattr(object_2, 'type'):
+                if object_2.type == 'texture':
+                        front_object = object_2
+                        back_object = object_1
+            if hasattr(object_1, 'type') and hasattr(object_2, 'type'):
+                    if object_1.type == 'texture' and object_2.type == 'texture':
+                        if object_1.position[2] < object_2.position[2]:
+                            front_object = object_1
+                            back_object = object_2
+                        elif object_1.position[2] > object_2.position[2]:
+                            front_object = object_2
+                            back_object = object_1
 
 
 
 
-            """ FIGURING OUT WHETHER ONE OBJECT IS EXPLICITLY ABOVE THE OTHER """
-            """ EPS = 5
-            object_1_bottom_pos = object_1.position[2]
-            object_1_top_pos = object_1.position[2] + object_1.height
-            object_2_bottom_pos = object_2.position[2]
-            object_2_top_pos = object_2.position[2] + object_2.height
-            if object_1_bottom_pos > object_2_top_pos - EPS:
-                front_object = object_2
-                back_object = object_1
-            elif object_2_bottom_pos > object_1_top_pos - EPS:
-                front_object = object_1
-                back_object = object_2 """
-            
-            """ if object_1.position[2] > object_2.position[2]:
-                front_object = object_2
-                back_object = object_1
-            if object_2.position[2] > object_1.position[2]: 
-                front_object = object_1
-                back_object = object_2 """
-
-            
-            """ if overlap_y_camera:
-                print('overlap y')
-            print(random.randint(0, 0)) """
-
-            """ if int(object_1.position[0]) == int(object_2.position[0]) and int(object_1.position[1]) == int(object_2.position[1]):
-                if object_1.position[2] > object_2.position[2]:
-                    front_object = object_2
-                    back_object = object_1
-                elif object_2.position[2] > object_1.position[2]:
-                    front_object = object_1
-                    back_object = object_2 """
 
             # CREATING GRAPH VERTEX
             adjacency_graph[front_object].add(back_object)

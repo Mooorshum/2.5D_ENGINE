@@ -457,6 +457,8 @@ class CompositeObject():
 
         self.type = type
 
+        print(f'{self.type}')
+
         self.movelocked = True
         self.collidable = False
 

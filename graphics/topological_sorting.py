@@ -162,24 +162,20 @@ def depth_sort(objects, camera):
                 
             if hasattr(object_1, 'type'):
                 if object_1.type == 'texture':
-                        front_object = object_1
-                        back_object = object_2
+                    front_object = object_1
+                    back_object = object_2
             if hasattr(object_2, 'type'):
                 if object_2.type == 'texture':
+                    front_object = object_2
+                    back_object = object_1
+            if hasattr(object_1, 'type') and hasattr(object_2, 'type'):
+                if object_1.type == 'texture' and object_2.type == 'texture':
+                    if object_1.position[2] < object_2.position[2]:
+                        front_object = object_1
+                        back_object = object_2
+                    elif object_1.position[2] > object_2.position[2]:
                         front_object = object_2
                         back_object = object_1
-            if hasattr(object_1, 'type') and hasattr(object_2, 'type'):
-                    if object_1.type == 'texture' and object_2.type == 'texture':
-                        if object_1.position[2] < object_2.position[2]:
-                            front_object = object_1
-                            back_object = object_2
-                        elif object_1.position[2] > object_2.position[2]:
-                            front_object = object_2
-                            back_object = object_1
-
-
-
-
 
             # CREATING GRAPH VERTEX
             adjacency_graph[front_object].add(back_object)

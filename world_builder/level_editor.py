@@ -72,7 +72,8 @@ def control_editing(level):
             parts_positions_rotations=asset.parts_positions_rotations_for_copy,
             hitbox_size=asset.hitbox_size_for_copy,
             position=level.place_position,
-            rotation=level.current_asset_rotation
+            rotation=level.current_asset_rotation,
+            type=asset.type
         )
         # WE NEED TO SOMEHOW UPDATE ALL OF THE PARTS - this will work for now
         level.current_asset.movelocked = False

@@ -44,6 +44,7 @@ class SpritestackAsset:
             rect = pygame.Rect(i * resolution, 0, resolution, resolution)
             sub_image = sheet_image.subsurface(rect).copy()
             images.append(sub_image)
+            images.append(sub_image) # DOUBLING EACH LAYER TO GET TILTED ORTHOGRAHIC PRESPECTIVE WITH HORIZONTALLY STRETCHED SCREEN
         self.height = len(images)
         return images
 
@@ -68,6 +69,7 @@ class SpritestackAsset:
                     render_surface.get_height() - slice_diagonal/2 - rotated_img.get_height() // 2 - i * spread
                 )
             )
+        
         return render_surface
 
 
@@ -93,14 +95,6 @@ class SpritestackAsset:
             for i in range(0, num_unique_angles):
                 rotation += angle_step
                 rotation_rendered_image = self.render_stack(sheet_slices, spread, rotation)
-                if self.scale != 1:
-                    rotation_rendered_image = pygame.transform.scale(
-                        rotation_rendered_image,
-                        (
-                            (rotation_rendered_image.get_width() * self.scale),
-                            (rotation_rendered_image.get_height() * self.scale)
-                        )
-                    )
                 rotation_image[rotation] = rotation_rendered_image
             stack_angle_image.append(rotation_image)
         
@@ -145,6 +139,7 @@ class SpritestackModel:
         rounded_rotation = min(self.asset.stack_angle_image[self.stack_index].keys(), key=lambda k: abs(k - true_rotation))
         image = self.asset.stack_angle_image[self.stack_index][rounded_rotation]
         image.set_colorkey((0, 0, 0))
+
         screen.blit(
             image,
             (
@@ -152,7 +147,6 @@ class SpritestackModel:
                 self.position[1] - image.get_height() + sqrt(self.asset.slice_size[0]**2 + self.asset.slice_size[1]**2)/2 + offset[1] - self.position[2]
             )
         )
-
 
     def get_data(self):
         data = {}

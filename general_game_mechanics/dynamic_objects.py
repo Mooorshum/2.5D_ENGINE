@@ -478,13 +478,13 @@ class CompositeObject():
             self.parts.append(part)
             self.part_positions_nonrotated.append(part_info[1])
             self.part_rotations_nonrotated.append(part_info[2])
-            
-
+        
         # Placing component parts in predefined positions & calculating object height
         max_ceiling = 0
         for part_index in range(len(self.parts)):
             part = self.parts[part_index]
             x_rel, y_rel, z_rel = self.part_positions_nonrotated[part_index]
+            #z_rel *= 2 # MULTIPLYING RELATIVE POSITION TO ACCOUNT FOR SLICE DOUBLING (IN SpriteStackAsset CLASS)
             part_rotation = self.part_rotations_nonrotated[part_index]
             part.position[0] = self.position[0] + x_rel
             part.position[1] = self.position[1] + y_rel

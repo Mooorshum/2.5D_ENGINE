@@ -885,12 +885,912 @@
         },
         {
             "position": [
-                2784,
-                2336,
+                2864,
+                2592,
+                0
+            ],
+            "rotation": -540.0,
+            "asset_index": 101
+        },
+        {
+            "position": [
+                3264,
+                2976,
+                0
+            ],
+            "rotation": -180.0,
+            "asset_index": 72
+        },
+        {
+            "position": [
+                3344,
+                2976,
+                0
+            ],
+            "rotation": -180.0,
+            "asset_index": 28
+        },
+        {
+            "position": [
+                3184,
+                2976,
+                0
+            ],
+            "rotation": -360.0,
+            "asset_index": 91
+        },
+        {
+            "position": [
+                3408,
+                2560,
+                0
+            ],
+            "rotation": -360.0,
+            "asset_index": 72
+        },
+        {
+            "position": [
+                3344,
+                2560,
+                0
+            ],
+            "rotation": -450.0,
+            "asset_index": 72
+        },
+        {
+            "position": [
+                3280,
+                2560,
+                0
+            ],
+            "rotation": -360.0,
+            "asset_index": 72
+        },
+        {
+            "position": [
+                3216,
+                2560,
+                0
+            ],
+            "rotation": -270.0,
+            "asset_index": 72
+        },
+        {
+            "position": [
+                3152,
+                2560,
+                0
+            ],
+            "rotation": -90.0,
+            "asset_index": 72
+        },
+        {
+            "position": [
+                3088,
+                2560,
+                0
+            ],
+            "rotation": -180.0,
+            "asset_index": 72
+        },
+        {
+            "position": [
+                3024,
+                2560,
+                0
+            ],
+            "rotation": -270.0,
+            "asset_index": 72
+        },
+        {
+            "position": [
+                3024,
+                2496,
+                0
+            ],
+            "rotation": -180.0,
+            "asset_index": 72
+        },
+        {
+            "position": [
+                3024,
+                2432,
+                0
+            ],
+            "rotation": -90.0,
+            "asset_index": 72
+        },
+        {
+            "position": [
+                3024,
+                2368,
+                0
+            ],
+            "rotation": -180.0,
+            "asset_index": 72
+        },
+        {
+            "position": [
+                3472,
+                2608,
+                0
+            ],
+            "rotation": -180.0,
+            "asset_index": 72
+        },
+        {
+            "position": [
+                3536,
+                2368,
+                0
+            ],
+            "rotation": -270.0,
+            "asset_index": 72
+        },
+        {
+            "position": [
+                3536,
+                2432,
+                0
+            ],
+            "rotation": -360.0,
+            "asset_index": 72
+        },
+        {
+            "position": [
+                3536,
+                2496,
+                0
+            ],
+            "rotation": -270.0,
+            "asset_index": 72
+        },
+        {
+            "position": [
+                3536,
+                2560,
+                0
+            ],
+            "rotation": -90.0,
+            "asset_index": 72
+        },
+        {
+            "position": [
+                3520,
+                2464,
+                0
+            ],
+            "rotation": 90.0,
+            "asset_index": 57
+        },
+        {
+            "position": [
+                3520,
+                2528,
+                32
+            ],
+            "rotation": 90.0,
+            "asset_index": 26
+        },
+        {
+            "position": [
+                2880,
+                2912,
+                0
+            ],
+            "rotation": 90.0,
+            "asset_index": 72
+        },
+        {
+            "position": [
+                2816,
+                2912,
+                0
+            ],
+            "rotation": 0.0,
+            "asset_index": 72
+        },
+        {
+            "position": [
+                2816,
+                2976,
+                0
+            ],
+            "rotation": 90.0,
+            "asset_index": 72
+        },
+        {
+            "position": [
+                2880,
+                2976,
+                0
+            ],
+            "rotation": 180.0,
+            "asset_index": 72
+        },
+        {
+            "position": [
+                2752,
+                2976,
+                0
+            ],
+            "rotation": 180.0,
+            "asset_index": 72
+        },
+        {
+            "position": [
+                2752,
+                2912,
                 0
             ],
             "rotation": 270.0,
-            "asset_index": 79
+            "asset_index": 72
+        },
+        {
+            "position": [
+                2752,
+                2976,
+                0
+            ],
+            "rotation": 180.0,
+            "asset_index": 102
+        },
+        {
+            "position": [
+                4048,
+                3040,
+                0
+            ],
+            "rotation": 360.0,
+            "asset_index": 71
+        },
+        {
+            "position": [
+                4048,
+                3104,
+                0
+            ],
+            "rotation": 180.0,
+            "asset_index": 71
+        },
+        {
+            "position": [
+                4112,
+                3104,
+                0
+            ],
+            "rotation": 360.0,
+            "asset_index": 71
+        },
+        {
+            "position": [
+                4112,
+                3040,
+                0
+            ],
+            "rotation": 360.0,
+            "asset_index": 71
+        },
+        {
+            "position": [
+                4176,
+                3104,
+                0
+            ],
+            "rotation": 360.0,
+            "asset_index": 71
+        },
+        {
+            "position": [
+                4176,
+                3040,
+                0
+            ],
+            "rotation": 360.0,
+            "asset_index": 71
+        },
+        {
+            "position": [
+                3792,
+                3424,
+                0
+            ],
+            "rotation": 1620.0,
+            "asset_index": 41
+        },
+        {
+            "position": [
+                3664,
+                3424,
+                0
+            ],
+            "rotation": 1620.0,
+            "asset_index": 41
+        },
+        {
+            "position": [
+                3536,
+                3424,
+                0
+            ],
+            "rotation": 1620.0,
+            "asset_index": 41
+        },
+        {
+            "position": [
+                3728,
+                3424,
+                0
+            ],
+            "rotation": 1620.0,
+            "asset_index": 15
+        },
+        {
+            "position": [
+                3856,
+                3424,
+                0
+            ],
+            "rotation": 1620.0,
+            "asset_index": 15
+        },
+        {
+            "position": [
+                3600,
+                3424,
+                0
+            ],
+            "rotation": 1620.0,
+            "asset_index": 15
+        },
+        {
+            "position": [
+                3472,
+                3424,
+                0
+            ],
+            "rotation": 1620.0,
+            "asset_index": 15
+        },
+        {
+            "position": [
+                3856,
+                3488,
+                0
+            ],
+            "rotation": 1530.0,
+            "asset_index": 20
+        },
+        {
+            "position": [
+                3856,
+                3552,
+                0
+            ],
+            "rotation": 1530.0,
+            "asset_index": 20
+        },
+        {
+            "position": [
+                3472,
+                3488,
+                0
+            ],
+            "rotation": 1530.0,
+            "asset_index": 20
+        },
+        {
+            "position": [
+                3472,
+                3552,
+                0
+            ],
+            "rotation": 1530.0,
+            "asset_index": 20
+        },
+        {
+            "position": [
+                3472,
+                3616,
+                0
+            ],
+            "rotation": 1440.0,
+            "asset_index": 14
+        },
+        {
+            "position": [
+                3536,
+                3616,
+                0
+            ],
+            "rotation": 1440.0,
+            "asset_index": 14
+        },
+        {
+            "position": [
+                3600,
+                3616,
+                0
+            ],
+            "rotation": 1440.0,
+            "asset_index": 14
+        },
+        {
+            "position": [
+                3664,
+                3616,
+                0
+            ],
+            "rotation": 1440.0,
+            "asset_index": 14
+        },
+        {
+            "position": [
+                3728,
+                3616,
+                0
+            ],
+            "rotation": 1440.0,
+            "asset_index": 14
+        },
+        {
+            "position": [
+                3792,
+                3616,
+                0
+            ],
+            "rotation": 1440.0,
+            "asset_index": 14
+        },
+        {
+            "position": [
+                3856,
+                3616,
+                0
+            ],
+            "rotation": 1440.0,
+            "asset_index": 14
+        },
+        {
+            "position": [
+                3536,
+                3424,
+                128
+            ],
+            "rotation": 1620.0,
+            "asset_index": 43
+        },
+        {
+            "position": [
+                3600,
+                3424,
+                128
+            ],
+            "rotation": 1620.0,
+            "asset_index": 43
+        },
+        {
+            "position": [
+                3664,
+                3424,
+                128
+            ],
+            "rotation": 1620.0,
+            "asset_index": 43
+        },
+        {
+            "position": [
+                3728,
+                3424,
+                128
+            ],
+            "rotation": 1620.0,
+            "asset_index": 43
+        },
+        {
+            "position": [
+                3792,
+                3424,
+                128
+            ],
+            "rotation": 1620.0,
+            "asset_index": 43
+        },
+        {
+            "position": [
+                3856,
+                3424,
+                128
+            ],
+            "rotation": 1620.0,
+            "asset_index": 44
+        },
+        {
+            "position": [
+                3472,
+                3424,
+                128
+            ],
+            "rotation": 1620.0,
+            "asset_index": 45
+        },
+        {
+            "position": [
+                3856,
+                3616,
+                128
+            ],
+            "rotation": 1800.0,
+            "asset_index": 45
+        },
+        {
+            "position": [
+                3472,
+                3616,
+                128
+            ],
+            "rotation": 1800.0,
+            "asset_index": 44
+        },
+        {
+            "position": [
+                3472,
+                3488,
+                128
+            ],
+            "rotation": 1710.0,
+            "asset_index": 46
+        },
+        {
+            "position": [
+                3472,
+                3552,
+                128
+            ],
+            "rotation": 1710.0,
+            "asset_index": 46
+        },
+        {
+            "position": [
+                3856,
+                3552,
+                128
+            ],
+            "rotation": 1890.0,
+            "asset_index": 46
+        },
+        {
+            "position": [
+                3856,
+                3488,
+                128
+            ],
+            "rotation": 1890.0,
+            "asset_index": 46
+        },
+        {
+            "position": [
+                3536,
+                3488,
+                128
+            ],
+            "rotation": 1890.0,
+            "asset_index": 47
+        },
+        {
+            "position": [
+                3600,
+                3488,
+                128
+            ],
+            "rotation": 1890.0,
+            "asset_index": 47
+        },
+        {
+            "position": [
+                3664,
+                3488,
+                128
+            ],
+            "rotation": 1890.0,
+            "asset_index": 47
+        },
+        {
+            "position": [
+                3728,
+                3488,
+                128
+            ],
+            "rotation": 1890.0,
+            "asset_index": 47
+        },
+        {
+            "position": [
+                3792,
+                3488,
+                128
+            ],
+            "rotation": 1890.0,
+            "asset_index": 47
+        },
+        {
+            "position": [
+                3536,
+                3552,
+                128
+            ],
+            "rotation": 1890.0,
+            "asset_index": 47
+        },
+        {
+            "position": [
+                3600,
+                3552,
+                128
+            ],
+            "rotation": 1890.0,
+            "asset_index": 47
+        },
+        {
+            "position": [
+                3664,
+                3552,
+                128
+            ],
+            "rotation": 1890.0,
+            "asset_index": 47
+        },
+        {
+            "position": [
+                3728,
+                3552,
+                128
+            ],
+            "rotation": 1890.0,
+            "asset_index": 47
+        },
+        {
+            "position": [
+                3792,
+                3552,
+                128
+            ],
+            "rotation": 1890.0,
+            "asset_index": 47
+        },
+        {
+            "position": [
+                3536,
+                3616,
+                128
+            ],
+            "rotation": 1800.0,
+            "asset_index": 43
+        },
+        {
+            "position": [
+                3600,
+                3616,
+                128
+            ],
+            "rotation": 1800.0,
+            "asset_index": 43
+        },
+        {
+            "position": [
+                3664,
+                3616,
+                128
+            ],
+            "rotation": 1800.0,
+            "asset_index": 43
+        },
+        {
+            "position": [
+                3728,
+                3616,
+                128
+            ],
+            "rotation": 1800.0,
+            "asset_index": 43
+        },
+        {
+            "position": [
+                3792,
+                3616,
+                128
+            ],
+            "rotation": 1800.0,
+            "asset_index": 43
+        },
+        {
+            "position": [
+                3792,
+                3392,
+                0
+            ],
+            "rotation": 1800.0,
+            "asset_index": 72
+        },
+        {
+            "position": [
+                3664,
+                3392,
+                0
+            ],
+            "rotation": 1800.0,
+            "asset_index": 72
+        },
+        {
+            "position": [
+                3856,
+                3392,
+                0
+            ],
+            "rotation": 1710.0,
+            "asset_index": 72
+        },
+        {
+            "position": [
+                3728,
+                3392,
+                0
+            ],
+            "rotation": 1620.0,
+            "asset_index": 72
+        },
+        {
+            "position": [
+                3600,
+                3392,
+                0
+            ],
+            "rotation": 1620.0,
+            "asset_index": 72
+        },
+        {
+            "position": [
+                3536,
+                3392,
+                0
+            ],
+            "rotation": 1530.0,
+            "asset_index": 72
+        },
+        {
+            "position": [
+                3472,
+                3392,
+                0
+            ],
+            "rotation": 1530.0,
+            "asset_index": 72
+        },
+        {
+            "position": [
+                3424,
+                3456,
+                0
+            ],
+            "rotation": 1530.0,
+            "asset_index": 49
+        },
+        {
+            "position": [
+                3424,
+                3520,
+                0
+            ],
+            "rotation": 1530.0,
+            "asset_index": 49
+        },
+        {
+            "position": [
+                3424,
+                3584,
+                0
+            ],
+            "rotation": 1530.0,
+            "asset_index": 50
+        },
+        {
+            "position": [
+                3424,
+                3584,
+                48
+            ],
+            "rotation": 1530.0,
+            "asset_index": 51
+        },
+        {
+            "position": [
+                3424,
+                3584,
+                112
+            ],
+            "rotation": 1530.0,
+            "asset_index": 51
+        },
+        {
+            "position": [
+                3424,
+                3520,
+                112
+            ],
+            "rotation": 1530.0,
+            "asset_index": 51
+        },
+        {
+            "position": [
+                3424,
+                3456,
+                112
+            ],
+            "rotation": 1710.0,
+            "asset_index": 51
+        },
+        {
+            "position": [
+                3424,
+                3456,
+                64
+            ],
+            "rotation": 1710.0,
+            "asset_index": 50
+        },
+        {
+            "position": [
+                3424,
+                3520,
+                64
+            ],
+            "rotation": 1710.0,
+            "asset_index": 48
+        },
+        {
+            "position": [
+                3904,
+                3472,
+                32
+            ],
+            "rotation": 1530.0,
+            "asset_index": 27
+        },
+        {
+            "position": [
+                3904,
+                3552,
+                0
+            ],
+            "rotation": 1530.0,
+            "asset_index": 29
+        },
+        {
+            "position": [
+                4160,
+                3296,
+                0
+            ],
+            "rotation": 1440.0,
+            "asset_index": 53
+        },
+        {
+            "position": [
+                3984,
+                3168,
+                0
+            ],
+            "rotation": 1440.0,
+            "asset_index": 72
+        },
+        {
+            "position": [
+                3984,
+                3232,
+                0
+            ],
+            "rotation": 1530.0,
+            "asset_index": 72
         }
     ],
     "grass_systems_data": [

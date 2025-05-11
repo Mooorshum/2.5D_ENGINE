@@ -159,7 +159,10 @@ def depth_sort(objects, camera):
                             if object_1.position[2] >= object_2.position[2]:
                                 front_object = object_2
                                 back_object = object_1 """
-                
+            
+            # STORING PREVIOUS VALUES FOR TEXTURE / TEXTURE CASE
+            front_object_stored = front_object
+            back_object_stored = back_object
             if hasattr(object_1, 'type'):
                 if object_1.type == 'texture':
                     front_object = object_1
@@ -176,6 +179,9 @@ def depth_sort(objects, camera):
                     elif object_1.position[2] > object_2.position[2]:
                         front_object = object_2
                         back_object = object_1
+                    else:
+                        front_object = front_object_stored
+                        back_object = back_object_stored
 
             # CREATING GRAPH VERTEX
             adjacency_graph[front_object].add(back_object)

@@ -82,3 +82,13 @@ def global_render(screen, camera, sorted_objects, bend_objects=[], map_size=(102
         elif isinstance(game_object, CompositeObject):
             game_object.render(screen, camera, offset)
 
+    """ rect_width, rect_height = 60, 40
+    rect_image = pygame.Surface((rect_width, rect_height), pygame.SRCALPHA)
+    rect_image.fill((255, 0, 0))  # Red rectangl
+    horizontal_stretch = pygame.transform.scale(rect_image, (rect_width * 2, rect_height))
+    vertical_stretch = pygame.transform.scale(rect_image, (rect_width, rect_height * 2))
+    x0, y0 = screen.get_width()/2, screen.get_height()/2
+
+    screen.blit(rect_image, (x0, y0))
+    screen.blit(horizontal_stretch, (x0 + 200, y0))
+    screen.blit(vertical_stretch, (x0 + 400, y0)) """

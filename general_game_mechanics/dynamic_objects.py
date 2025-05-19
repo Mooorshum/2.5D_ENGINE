@@ -453,11 +453,11 @@ class Stairs(DynamicObject):
 
 """ SPECIAL CLASS OF OBJECT CONSISTING OF MULTIPLE SEPARATELY RENDERABLE PARTS """
 class CompositeObject():
-    def __init__(self, parts_positions_rotations, type=None, position=[0,0,0], rotation=0, hitbox_size=[64,64], hitbox_offset=(0,0), hitbox_type='rectangle'):
+    def __init__(self, parts_positions_rotations, type=None, position=[0,0,0], rotation=0, hitbox_size=[64,64], hitbox_offset=(0,0), hitbox_type='rectangle', asset_index=None):
 
         self.type = type
 
-        print(f'{self.type}')
+        self.asset_index = asset_index
 
         self.movelocked = True
         self.collidable = False
@@ -597,7 +597,13 @@ class CompositeObject():
             part_offset = [part_offset_x - camera.position[0] + camera.width/2, part_offset_y - camera.position[1] + camera.height/2]
             part.render(screen, camera, part_offset)
 
+    def get_data(self):
+        data = {}
+        data['position'] = self.position
+        data['rotation'] = self.rotation
 
+        data['asset_index'] = self.asset_index
+        return data
 
 
 

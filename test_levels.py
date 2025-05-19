@@ -22,7 +22,7 @@ class Game:
     def __init__(self):
         
         """ DISPLAY SETTINGS """
-        scale = 0.4 #0.6 # 0.75 # Percentage of max screen
+        scale = 0.45 #0.4 # 0.75 # Percentage of max screen
         ratio = 2 #16/9 #4/3 # WIDTH / HEIGHT ratio    ### INTERESTING OBSERVATION: A HORIZONTALLY STRETCHED PICTURE SEEMS TO HAVE MORE DEPTH
 
         info = pygame.display.Info()
@@ -251,13 +251,6 @@ class Game:
             SpritestackAsset(type='building_decor', name='medium_crate', hitbox_size=(32,32), hitbox_type='rectangle'),
             SpritestackAsset(type='building_decor', name='blue_canopy', hitbox_size=(32,32), hitbox_type='rectangle'),
             SpritestackAsset(type='building_decor', name='metal_bench', hitbox_size=(50,20), hitbox_offset=(0,-10), hitbox_type='rectangle'),
-            SpritestackAsset(type='building_decor', name='utility_pole_bottom', hitbox_size=(10,10), hitbox_type='rectangle'),
-            SpritestackAsset(type='building_decor', name='utility_pole_middle', hitbox_size=(10,10), hitbox_type='rectangle'),
-            SpritestackAsset(type='building_decor', name='utility_pole_top_single', hitbox_size=(32,32), hitbox_type='rectangle'),
-            SpritestackAsset(type='building_decor', name='utility_pole_top_double', hitbox_size=(32,32), hitbox_type='rectangle'),
-            SpritestackAsset(type='building_decor', name='utility_pole_top_triple', hitbox_size=(32,32), hitbox_type='rectangle'),
-            SpritestackAsset(type='building_decor', name='utility_pole_top_multiple', hitbox_size=(32,32), hitbox_type='rectangle'),
-            SpritestackAsset(type='building_decor', name='wires_straight', hitbox_size=(10,32), hitbox_type='rectangle'),
 
             ### BRICK HOUSE FLAT ROOF BLOCKS
             SpritestackAsset(type='brick_house_parts', name='wall_garage_door_32', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle'),
@@ -384,6 +377,21 @@ class Game:
             # GRASS
             SpritestackAsset(type='texture', name='grass_64', hitbox_size=(64,64)),
 
+            # BEACH BED
+            SpritestackAsset(type='pool', name='beach_bed', hitbox_size=(32,64)),
+
+            # UMBRELLA
+            SpritestackAsset(type='pool', name='umbrella', hitbox_size=(48,48), hitbox_type='circle'),
+
+            # PICNIC TABLE
+            SpritestackAsset(type='pool', name='picnic_table', hitbox_size=(48,64)),
+
+            # POTTED MOTEL PLANT
+            SpritestackAsset(type='motel', name='plant', hitbox_size=(32,32)),
+
+
+
+
             ### TEST BLOCKS
             #SpritestackAsset(type='test_shapes', name='test_corner', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle', interactable=False),
             #SpritestackAsset(type='test_shapes', name='test_corner_roof', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle', interactable=False),
@@ -490,6 +498,23 @@ class Game:
         """ COMPOSITE OBJECTS """
         # INITIALIZING PART ASSETS TO AVOID CREATING DUPLICATE OBJECTS IN MEMORY
 
+        # POOL
+        pool_side = SpritestackAsset(type='pool', name='pool_side', hitbox_size=(64,64))
+        pool_side_ladder = SpritestackAsset(type='pool', name='pool_side_ladder', hitbox_size=(64,64))
+        pool_corner = SpritestackAsset(type='pool', name='pool_corner', hitbox_size=(64,64))
+        pool_bottom = SpritestackAsset(type='pool', name='pool_bottom', hitbox_size=(64,64))
+        pool_surrounding_tile = SpritestackAsset(type='pool', name='pool_surrounding_tile', hitbox_size=(64,64))
+        pool_lounge_tile = SpritestackAsset(type='pool', name='pool_lounge_tile', hitbox_size=(64,64))
+
+        # UTILITY POLE
+        utility_pole_bottom = SpritestackAsset(type='building_decor', name='utility_pole_bottom', hitbox_size=(10,10), hitbox_type='rectangle')
+        utility_pole_middle = SpritestackAsset(type='building_decor', name='utility_pole_middle', hitbox_size=(10,10), hitbox_type='rectangle')
+        utility_pole_top = SpritestackAsset(type='building_decor', name='utility_pole_top_multiple', hitbox_size=(32,32), hitbox_type='rectangle')
+        utility_pole_wires = SpritestackAsset(type='building_decor', name='wires_straight', hitbox_size=(10,32), hitbox_type='rectangle')
+        # SpritestackAsset(type='building_decor', name='utility_pole_top_single', hitbox_size=(32,32), hitbox_type='rectangle'),
+        # SpritestackAsset(type='building_decor', name='utility_pole_top_double', hitbox_size=(32,32), hitbox_type='rectangle'),
+        # SpritestackAsset(type='building_decor', name='utility_pole_top_triple', hitbox_size=(32,32), hitbox_type='rectangle'),
+            
         # BUS STOP
         bus_stop_bottom_left = SpritestackAsset(type='bus_stop', name='bottom_left', hitbox_size=(64,64))
         bus_stop_bottom_right = SpritestackAsset(type='bus_stop', name='bottom_right', hitbox_size=(64,64))
@@ -558,6 +583,12 @@ class Game:
         motel_roof_reception = SpritestackAsset(type='motel', name='wall_roof_reception', hitbox_size=(64,64))
         motel_sign = SpritestackAsset(type='motel', name='sign', hitbox_size=(64,64))
 
+        # MOTEL FENCE
+        motel_fence_side = SpritestackAsset(type='motel', name='fence_side', hitbox_size=(32,32))
+        motel_fence_entrance_bottom = SpritestackAsset(type='motel', name='fence_entrance_bottom',  hitbox_size=(32,32))
+        motel_fence_entrance_top = SpritestackAsset(type='motel', name='fence_entrance_top',  hitbox_size=(32,32))
+        motel_fence_corner = SpritestackAsset(type='motel', name='fence_corner',  hitbox_size=(32,32))
+
         # CHURCH
         church_wall_front_bottom_left = SpritestackAsset(type='church', name='wall_front_bottom_left', hitbox_size=(64,64), hitbox_offset=(0,0))
         church_wall_front_bottom_middle = SpritestackAsset(type='church', name='wall_front_bottom_middle', hitbox_size=(64,64), hitbox_offset=(0,0))
@@ -586,6 +617,152 @@ class Game:
 
         self.composite_object_assets = [
 
+            # MOTEL FENCE PARTS
+            CompositeObject(
+                parts_positions_rotations=[
+                    (motel_fence_entrance_bottom, [-48,0,0], 180),
+                    (motel_fence_side, [-16,0,0], 0),
+                    (motel_fence_side, [16,0,0], 0),
+                    (motel_fence_side, [48,0,0], 0),
+                ],
+                hitbox_size=(128, 32),
+            ),
+            CompositeObject(
+                parts_positions_rotations=[
+                    (motel_fence_entrance_top, [-16,0,0], 0),
+                    (motel_fence_entrance_top, [16,0,0], 180),
+                ],
+                hitbox_size=(64, 32),
+            ),
+            CompositeObject(
+                parts_positions_rotations=[
+                    (motel_fence_side, [-48,0,0], 0),
+                    (motel_fence_side, [-16,0,0], 0),
+                    (motel_fence_side, [16,0,0], 0),
+                    (motel_fence_side, [48,0,0], 0),
+                ],
+                hitbox_size=(128, 32),
+            ),
+            CompositeObject(
+                parts_positions_rotations=[                    
+                    (motel_fence_side, [-48,0,0], 0),
+                    (motel_fence_side, [-16,0,0], 0),
+                    (motel_fence_side, [16,0,0], 0),
+                    (motel_fence_entrance_bottom, [48,0,0], 0),
+                ],
+                hitbox_size=(128, 32),
+            ),
+            CompositeObject(
+                parts_positions_rotations=[
+                    (motel_fence_corner, [-64,0,0], 0),
+                    (motel_fence_side, [-32,0,0], 0),
+                    (motel_fence_side, [0,0,0], 0),
+                    (motel_fence_side, [32,0,0], 0),
+                    (motel_fence_side, [64,0,0], 0),
+                ],
+                hitbox_size=(160, 32),
+            ),
+            CompositeObject(
+                parts_positions_rotations=[
+                    (motel_fence_side, [-64,0,0], 0),
+                    (motel_fence_side, [-32,0,0], 0),
+                    (motel_fence_side, [0,0,0], 0),
+                    (motel_fence_side, [32,0,0], 0),
+                    (motel_fence_corner, [64,0,0], 90),
+                ],
+                hitbox_size=(160, 32),
+            ),
+            CompositeObject(
+                parts_positions_rotations=[
+                    (motel_fence_side, [-16,0,0], 0),
+                    (motel_fence_side, [16,0,0], 0),
+                ],
+                hitbox_size=(64, 32),
+            ),
+
+
+            # POOL
+            CompositeObject(
+                parts_positions_rotations=[
+                    (pool_corner, [-128,64,-32*2], 0),
+                    (pool_side, [-64,64,-32*2], 0),
+                    (pool_side, [0,64,-32*2], 0),
+                    (pool_side, [64,64,-32*2], 0),
+                    (pool_corner, [128,64,-32*2], 90),
+
+                    (pool_corner, [-128,-64,-32*2], -90),
+                    (pool_side_ladder, [-64,-64,-32*2], 180),
+                    (pool_side, [0,-64,-32*2], 180),
+                    (pool_side, [64,-64,-32*2], 180),
+                    (pool_corner, [128,-64,-32*2], 180),
+
+                    (pool_side, [-128,0,-32*2], -90),
+                    (pool_side, [128,0,-32*2], 90),
+
+                    (pool_bottom, [-64,0,-32*2], 0),
+                    (pool_bottom, [0,0,-32*2], 0),
+                    (pool_bottom, [64,0,-32*2], 0),
+                ],
+                hitbox_size=(320, 192),
+                type='texture',
+            ),
+
+            # POOL SIDE TILES
+            CompositeObject(
+                parts_positions_rotations=[
+                    (pool_surrounding_tile, [-128,0,0], 90),
+                    (pool_surrounding_tile, [-64,0,0], 0),
+                    (pool_surrounding_tile, [0,0,0], -90),
+                    (pool_surrounding_tile, [64,0,0], 180),
+                    (pool_surrounding_tile, [128,0,0], 90),
+                ],
+                hitbox_size=(320, 64),
+                type='texture',
+            ),
+
+            # POOL LOUNGE AREA
+            CompositeObject(
+                parts_positions_rotations=[
+                    (pool_surrounding_tile, [-192,0,0], 0),
+                    (pool_lounge_tile, [-128,0,0], 0),
+                    (pool_lounge_tile, [-64,0,0], 0),
+                    (pool_lounge_tile, [0,0,0], 0),
+                    (pool_lounge_tile, [64,0,0], 0),
+                    (pool_lounge_tile, [128,0,0], 0),
+                    (pool_surrounding_tile, [192,0,0], 0),
+                ],
+                hitbox_size=(448, 64),
+                type='texture',
+            ),
+
+        
+            # UTILITY POLE
+            CompositeObject(
+                parts_positions_rotations=[
+                    (utility_pole_bottom, [0,0,0], 0),
+                    (utility_pole_middle, [0,0,64*2], 0),
+                    (utility_pole_top, [0,0,128*2], 0),
+                ],
+                hitbox_size=(32, 32),
+                hitbox_type='circle',
+            ),
+
+            # UTILITY POLE WIRES
+            CompositeObject(
+                parts_positions_rotations=[
+                    (utility_pole_wires, [-128,0,0], 90),
+                    (utility_pole_wires, [-96,0,0], 90),
+                    (utility_pole_wires, [-64,0,0], 90),
+                    (utility_pole_wires, [-32,0,0,], 90),
+                    (utility_pole_wires, [0,0,0], 90),
+                    (utility_pole_wires, [32,0,0], 90),
+                    (utility_pole_wires, [64,0,0], 90),
+                    (utility_pole_wires, [96,0,0], 90),
+                    (utility_pole_wires, [128,0,0], 90),
+                ],
+                hitbox_size=(288, 32),
+            ),
+
             # NARROW TWO WAY ROAD
             CompositeObject(
                 parts_positions_rotations=[
@@ -613,42 +790,58 @@ class Game:
                 hitbox_size=(320, 192),
             ),
 
-            # CHURCH
+            # CHURCH WALLS
             CompositeObject(
                 parts_positions_rotations=[
-                    (church_wall_entrance, [0,128,0*2], 0),
-                    (church_wall_front_bottom_left, [-64,64,0*2], 0),
-                    (church_wall_front_bottom_middle, [0,64,0*2], 0),
-                    (church_wall_front_bottom_right, [64,64,0*2], 0),
-                    (church_wall_front_top_left, [-64,64,96*2], 0),
-                    (church_wall_front_top_middle, [0,64,96*2], 0),
-                    (church_wall_front_top_right, [64,64,96*2], 0),
-                    (church_wall_window, [-64,0,0*2], -90),
-                    (church_wall_window, [-64,-64,0*2], -90),
-                    (church_wall_window, [-64,-128,0*2], -90),
-                    (church_roof_side_left, [-64,0,96*2], 0),
-                    (church_roof_side_left, [-64,-64,96*2], 0),
-                    (church_roof_side_left, [-64,-128,96*2], 0),
-                    (church_wall_window, [64,0,0*2], 90),
-                    (church_wall_window, [64,-64,0*2], 90),
-                    (church_wall_window, [64,-128,0*2], 90),
-                    (church_roof_side_right, [64,0,96*2], 0),
-                    (church_roof_side_right, [64,-64,96*2], 0),
-                    (church_roof_side_right, [64,-128,96*2], 0),
-                    (church_wall_back_bottom_left, [-64,-192,0*2], 180),
-                    (church_wall_back_bottom_middle, [0,-192,0*2], 180),
-                    (church_wall_back_bottom_right, [64,-192,0*2], 180),
-                    (church_wall_back_top_left, [-64,-192,96*2], 180),
-                    (church_wall_back_top_middle, [0,-192,96*2], 180),
-                    (church_wall_back_top_right, [64,-192,96*2], 180),
-                    (church_roof_middle, [0,-64,160*2], 0),
-                    (church_roof_middle, [0,-128,160*2], 0),
-                    (church_wall_tower_bottom, [0,0,160*2], 0),
-                    (church_wall_tower_top, [0,0,208*2], 0),
-
+                    (church_wall_front_bottom_left, [-64,128,0], 0),
+                    (church_wall_front_bottom_middle, [0,128,0], 0),
+                    (church_wall_front_bottom_right, [64,128,0], 0),
+                    (church_wall_window, [-64,-64,0], -90),
+                    (church_wall_window, [-64,0,0], -90),
+                    (church_wall_window, [-64,64,0], -90),
+                    (church_wall_window, [64,-64,0], 90),
+                    (church_wall_window, [64,0,0], 90),
+                    (church_wall_window, [64,64,0], 90),
+                    (church_wall_back_bottom_left, [-64,-128,0], 180),
+                    (church_wall_back_bottom_middle, [0,-128,0], 180),
+                    (church_wall_back_bottom_right, [64,-128,0], 180),
                 ],
                 hitbox_size=(196, 320),
+                hitbox_offset=(0, -32)
             ),
+
+            # CHURCH ROOF
+            CompositeObject(
+                parts_positions_rotations=[
+                    (church_wall_front_top_left, [-64,128,0], 0),
+                    (church_wall_front_top_middle, [0,128,0], 0),
+                    (church_wall_front_top_right, [64,128,0], 0),
+                    (church_wall_back_top_left, [-64,-128,0], 180),
+                    (church_wall_back_top_middle, [0,-128,0], 180),
+                    (church_wall_back_top_right, [64,-128,0], 180),
+                    (church_roof_side_left, [-64,-64,0], 0),
+                    (church_roof_side_left, [-64,0,0], 0),
+                    (church_roof_side_left, [-64,64,0], 0),
+                    (church_roof_side_right, [64,-64,0], 0),
+                    (church_roof_side_right, [64,0,0], 0),
+                    (church_roof_side_right, [64,64,0], 0),
+                    (church_roof_middle, [0,0,64*2], 0),
+                    (church_roof_middle, [0,-64,64*2], 0),
+                    (church_wall_tower_bottom, [0,64,64*2], 0),
+                    (church_wall_tower_top, [0,64,112*2], 0),
+                ],
+                hitbox_size=(196, 320),
+                hitbox_offset=(0, -32)
+            ),
+
+            # CHURCH ENTERANCE
+            CompositeObject(
+                parts_positions_rotations=[
+                    (church_wall_entrance, [0,0,0], 0),
+                ],
+                hitbox_size=(64, 64),
+            ),
+            
 
             # BUS STOP
             CompositeObject(
@@ -699,163 +892,257 @@ class Game:
             ),
 
 
-            # DINER
+            # DINER WALLS
             CompositeObject(
                 parts_positions_rotations=[
-                    (diner_wall_corner, [-128,64,0*2], 0),
-                    (diner_wall_window, [-64,64,0*2], 0),
-                    (diner_wall_front_entrance, [0,64,0*2], 0),
-                    (diner_wall_window, [64,64,0*2], 0),
-                    (diner_wall_corner, [128,64,0*2], 90),
-                    (diner_wall_window, [128,0,0*2], 90),
-                    (diner_wall_corner, [128,-64,0*2], 180),
-                    (diner_wall_back, [64,-64,0*2], 180),
-                    (diner_wall_back, [0,-64,0*2], 180),
-                    (diner_wall_back, [-64,-64,0*2], 180),
-                    (diner_wall_corner, [-128,-64,0*2], 270),
-                    (diner_wall_window, [-128,0,0*2], 270),
-                    (diner_roof_corner, [-128,64,64*2], 0),
-                    (diner_roof_sign_left, [-64,64,64*2], 0),
-                    (diner_roof_sign_middle, [0,64,64*2], 0),
-                    (diner_roof_sign_right, [64,64,64*2], 0),
-                    (diner_roof_corner, [128,64,64*2], 90),
-                    (diner_roof_side, [128,0,64*2], 90),
-                    (diner_roof_corner, [128,-64,64*2], 180),
-                    (diner_roof_side, [64,-64,64*2], 180),
-                    (diner_roof_side, [0,-64,64*2], 180),
-                    (diner_roof_side, [-64,-64,64*2], 180),
-                    (diner_roof_corner, [-128,-64,64*2], 270),
-                    (diner_roof_side, [-128,0,64*2], 270),
-                    (diner_roof_middle, [-64,0,64*2], 0),
-                    (diner_roof_middle, [0,0,64*2], 0),
-                    (diner_roof_middle, [64,0,64*2], 0),
+                    (diner_wall_corner, [-128,64,0], 0),
+                    (diner_wall_window, [-64,64,0], 0),
+                    (diner_wall_front_entrance, [0,64,0], 0),
+                    (diner_wall_window, [64,64,0], 0),
+                    (diner_wall_corner, [128,64,0], 90),
+                    (diner_wall_window, [128,0,0], 90),
+                    (diner_wall_corner, [128,-64,0], 180),
+                    (diner_wall_back, [64,-64,0], 180),
+                    (diner_wall_back, [0,-64,0], 180),
+                    (diner_wall_back, [-64,-64,0], 180),
+                    (diner_wall_corner, [-128,-64,0], 270),
+                    (diner_wall_window, [-128,0,0], 270),
+                ],
+                hitbox_size=(320, 192),
+            ),
+
+            # DINER ROOF
+            CompositeObject(
+                parts_positions_rotations=[
+                    (diner_roof_corner, [-128,64,0], 0),
+                    (diner_roof_sign_left, [-64,64,0], 0),
+                    (diner_roof_sign_middle, [0,64,0], 0),
+                    (diner_roof_sign_right, [64,64,0], 0),
+                    (diner_roof_corner, [128,64,0], 90),
+                    (diner_roof_side, [128,0,0], 90),
+                    (diner_roof_corner, [128,-64,0], 180),
+                    (diner_roof_side, [64,-64,0], 180),
+                    (diner_roof_side, [0,-64,0], 180),
+                    (diner_roof_side, [-64,-64,0], 180),
+                    (diner_roof_corner, [-128,-64,0], 270),
+                    (diner_roof_side, [-128,0,0], 270),
+                    (diner_roof_middle, [-64,0,0], 0),
+                    (diner_roof_middle, [0,0,0], 0),
+                    (diner_roof_middle, [64,0,0], 0),
                 ],
                 hitbox_size=(320, 192),
             ),
 
 
-            # GAS STATION
+            # GAS STATION WALLS
             CompositeObject(
                 parts_positions_rotations=[
-                    (gas_station_wall_corner_door, [64,64,0*2], 0),
-                    (gas_station_wall_corner_window, [128,64,0*2], 0),
-                    (gas_station_wall_side, [128,0,0*2], 180),
-                    (gas_station_wall_corner, [128,-64,0*2], 180),
-                    (gas_station_wall_corner, [64,-64,0*2], -90),
-                    (gas_station_wall_side, [64,0,0*2], 0),
-                    (gas_station_pump, [-128,64,0*2], 0),
-                    (gas_station_pillar, [-128,0,0*2], 0),
-                    (gas_station_pump, [-128,-64,0*2], 0),
-                    (gas_station_roof_corner, [-128,64,64*2], 0),
-                    (gas_station_roof_side, [-64,64,64*2], 0),
-                    (gas_station_roof_side, [0,64,64*2], 0),
-                    (gas_station_roof_side, [64,64,64*2], 0),
-                    (gas_station_roof_corner, [128,64,64*2], 90),
-                    (gas_station_roof_side, [128,0,64*2], 90),
-                    (gas_station_roof_corner, [128,-64,64*2], 180),
-                    (gas_station_roof_side, [64,-64,64*2], 180),
-                    (gas_station_roof_side, [0,-64,64*2], 180),
-                    (gas_station_roof_side, [-64,-64,64*2], 180),
-                    (gas_station_roof_corner, [-128,-64,64*2], 270),
-                    (gas_station_roof_side, [-128,0,64*2], 270),
-                    (gas_station_roof_middle, [-64,0,64*2], 0),
-                    (gas_station_roof_middle, [0,0,64*2], 0),
-                    (gas_station_roof_middle, [64,0,64*2], 0),
-                    (gas_station_sign, [-64,96,80*2], 0),
+                    (gas_station_wall_corner_door, [64,64,0], 0),
+                    (gas_station_wall_corner_window, [128,64,0], 0),
+                    (gas_station_wall_side, [128,0,0], 180),
+                    (gas_station_wall_corner, [128,-64,0], 180),
+                    (gas_station_wall_corner, [64,-64,0], -90),
+                    (gas_station_wall_side, [64,0,0], 0),
+                    (gas_station_pump, [-128,64,0], 0),
+                    (gas_station_pillar, [-128,0,0], 0),
+                    (gas_station_pump, [-128,-64,0], 0),
+                ],
+                hitbox_size=(320, 192),
+            ),
+
+            # GAS STATION ROOF
+            CompositeObject(
+                parts_positions_rotations=[
+                    (gas_station_roof_corner, [-128,64,0], 0),
+                    (gas_station_roof_side, [-64,64,0], 0),
+                    (gas_station_roof_side, [0,64,0], 0),
+                    (gas_station_roof_side, [64,64,0], 0),
+                    (gas_station_roof_corner, [128,64,0], 90),
+                    (gas_station_roof_side, [128,0,0], 90),
+                    (gas_station_roof_corner, [128,-64,0], 180),
+                    (gas_station_roof_side, [64,-64,0], 180),
+                    (gas_station_roof_side, [0,-64,0], 180),
+                    (gas_station_roof_side, [-64,-64,0], 180),
+                    (gas_station_roof_corner, [-128,-64,0], 270),
+                    (gas_station_roof_side, [-128,0,0], 270),
+                    (gas_station_roof_middle, [-64,0,0], 0),
+                    (gas_station_roof_middle, [0,0,0], 0),
+                    (gas_station_roof_middle, [64,0,0], 0),
+                    (gas_station_sign, [-64,96,16*2], 0),
                 ],
                 hitbox_size=(320, 192),
             ),
 
 
-            # MOTEL
+            # MOTEL FLOOR UNIT
             CompositeObject(
                 parts_positions_rotations=[
-                    (motel_wall_door, [-160,64,0*2], 0),
-                    (motel_wall_door, [-160,64,80*2], 0),
-                    (motel_wall_roof_corner, [-160,64,160*2], 0),
-                    (motel_wall_window, [-96,64,0*2], 0),
-                    (motel_wall_window, [-96,64,80*2], 0),
-                    (motel_wall_roof_side, [-96,64,160*2], 0),
-                    (motel_wall_plain, [-32,64,0*2], 0),
-                    (motel_wall_plain, [-32,64,80*2], 0),
-                    (motel_wall_roof_side, [-32,64,160*2], 0),
-                    (motel_wall_door, [32,64,0*2], 0),
-                    (motel_wall_door, [32,64,80*2], 0),
-                    (motel_wall_roof_side, [32,64,160*2], 0),
-                    (motel_wall_window, [96,64,0*2], 0),
-                    (motel_wall_window, [96,64,80*2], 0),
-                    (motel_wall_roof_side, [96,64,160*2], 0),
-                    (motel_wall_plain, [160,64,0*2], 0),
-                    (motel_wall_plain, [160,64,80*2], 0),
-                    (motel_wall_roof_side, [160,64,160*2], 0),
-                    (motel_stairs_top, [-224,0,0*2], 0),
-                    (motel_stairs_bottom, [-224,-64,0*2], 0),
-                    (motel_balcony_bottom_stairs, [-224,64,0*2], 0),
-                    (motel_balcony_middle_stairs, [-224,64,80*2], 0),
-                    (motel_balcony_top_stairs, [-224,64,160*2], 0),
-                    (motel_balcony_bottom_corner, [-224,128,0*2], 0),
-                    (motel_balcony_middle_corner, [-224,128,80*2], 0),
-                    (motel_balcony_top_corner, [-224,128,160*2], 0),
-                    (motel_balcony_bottom_no_pillar, [-160,128,0*2], 0),
-                    (motel_balcony_middle_no_pillar, [-160,128,80*2], 0),
-                    (motel_balcony_top_no_pillar, [-160,128,160*2], 0),
-                    (motel_balcony_bottom_no_pillar, [-96,128,0*2], 0),
-                    (motel_balcony_middle_no_pillar, [-96,128,80*2], 0),
-                    (motel_balcony_top_no_pillar, [-96,128,160*2], 0),
-                    (motel_balcony_bottom_pillar, [-32,128,0*2], 0),
-                    (motel_balcony_middle_pillar, [-32,128,80*2], 0),
-                    (motel_balcony_top_pillar, [-32,128,160*2], 0),
-                    (motel_balcony_bottom_no_pillar, [32,128,0*2], 0),
-                    (motel_balcony_middle_no_pillar, [32,128,80*2], 0),
-                    (motel_balcony_top_no_pillar, [32,128,160*2], 0),
-                    (motel_balcony_bottom_no_pillar, [96,128,0*2], 0),
-                    (motel_balcony_middle_no_pillar, [96,128,80*2], 0),
-                    (motel_balcony_top_no_pillar, [96,128,160*2], 0),
-                    (motel_balcony_bottom_pillar, [160,128,0*2], 0),
-                    (motel_balcony_middle_pillar, [160,128,80*2], 0),
-                    (motel_balcony_top_pillar, [160,128,160*2], 0),
-                    (motel_wall_plain, [-160,0,0*2], -90),
-                    (motel_wall_plain, [-160,0,80*2], -90),
-                    (motel_wall_roof_side, [-160,0,160*2], -90),
-                    (motel_wall_plain, [-160,-64,0*2], -90),
-                    (motel_wall_plain, [-160,-64,80*2], -90),
-                    (motel_wall_roof_corner, [-160,-64,160*2], -90),
-                    (motel_wall_window, [-96,-64,0*2], 180),
-                    (motel_wall_window, [-96,-64,80*2], 180),
-                    (motel_wall_roof_side, [-96,-64,160*2], 180),
-                    (motel_wall_window, [-32,-64,0*2], 180),
-                    (motel_wall_window, [-32,-64,80*2], 180),
-                    (motel_wall_roof_side, [-32,-64,160*2], 180),
-                    (motel_wall_plain, [32,-64,0*2], 180),
-                    (motel_wall_plain, [32,-64,80*2], 180),
-                    (motel_wall_roof_side, [32,-64,160*2], 180),
-                    (motel_wall_window, [96,-64,0*2], 180),
-                    (motel_wall_window, [96,-64,80*2], 180),
-                    (motel_wall_roof_side, [96,-64,160*2], 180),
-                    (motel_wall_window, [160,-64,0*2], 180),
-                    (motel_wall_window, [160,-64,80*2], 180),
-                    (motel_wall_roof_side, [160,-64,160*2], 180),
-                    (motel_wall_plain, [224,-64,0*2], 180),
-                    (motel_wall_plain, [224,-64,80*2], 180),
-                    (motel_wall_roof_corner, [224,-64,160*2], 180),
-                    (motel_wall_plain, [224,0,0*2], 90),
-                    (motel_wall_plain, [224,0,80*2], 90),
-                    (motel_wall_roof_side, [224,0,160*2], 90),
-                    (motel_wall_plain, [224,64,0*2], 90),
-                    (motel_wall_plain, [224,64,80*2], 90),
-                    (motel_wall_roof_corner, [224,64,160*2], 90),
-                    (motel_wall_reception, [224,128,0*2], 0),
-                    (motel_wall_plain, [224,128,80*2], 0),
-                    (motel_roof_reception, [224,128,160*2], 0),
-                    (motel_wall_roof_middle, [-96,0,160*2], 0),
-                    (motel_wall_roof_middle, [-32,0,160*2], 0),
-                    (motel_wall_roof_middle, [32,0,160*2], 0),
-                    (motel_wall_roof_middle, [96,0,160*2], 0),
-                    (motel_wall_roof_middle, [160,0,160*2], 0),
-                    (motel_sign, [224,160,80*2], 0),
+                    (motel_wall_door, [-64,64,0], 0),
+                    (motel_wall_plain, [-64,0,0], 0),
+                    (motel_wall_plain, [-64,-64,0], 180),
+
+                    (motel_wall_window, [0,64,0], 0),
+                    (motel_wall_window, [0,-64,0], 180),
+
+                    (motel_wall_plain, [64,64,0], 0),
+                    (motel_wall_window, [64,-64,0], 180),
                 ],
-                hitbox_size=(512, 256),
+                hitbox_size=(192, 192),
             ),
+
+            # MOTEL RECEPTION BOTTOM FLOOR
+            CompositeObject(
+                parts_positions_rotations=[
+                    (motel_wall_plain, [0,-96,0], 0),
+                    (motel_wall_plain, [0,-32,0], 0),
+                    (motel_wall_plain, [0,32,0], 0),
+                    (motel_wall_reception, [0,96,0], 0),
+                ],
+                hitbox_size=(64, 256),
+            ),
+
+            # MOTEL RECEPTION MIDDLE FLOOR
+            CompositeObject(
+                parts_positions_rotations=[
+                    (motel_wall_plain, [0,-96,0], 0),
+                    (motel_wall_plain, [0,-32,0], 0),
+                    (motel_wall_plain, [0,32,0], 0),
+                    (motel_wall_plain, [0,96,0], 0),
+                ],
+                hitbox_size=(64, 256),
+            ),
+
+            # MOTEL RECEPTION TOP FLOOR
+            CompositeObject(
+                parts_positions_rotations=[
+                    (motel_wall_roof_corner, [0,-96,0], 180),
+                    (motel_wall_roof_side, [0,-32,0], 90),
+                    (motel_wall_roof_corner, [0,32,0], 90),
+                    (motel_roof_reception, [0,96,0], 0),
+                ],
+                hitbox_size=(64, 256),
+            ),
+
+            # MOTEL SIGN
+            CompositeObject(
+                parts_positions_rotations=[
+                    (motel_sign, [0,0,0], 0),
+                ],
+                hitbox_size=(32, 8),
+                hitbox_offset=(0, 4),
+            ),      
+
+            # MOTEL ROOF PARTS
+            CompositeObject(
+                parts_positions_rotations=[
+                    (motel_wall_roof_corner, [-64,-64,0], -90),
+                    (motel_wall_roof_side, [-64,0,0], -90),
+                    (motel_wall_roof_corner, [-64,64,0], 0),
+                    (motel_wall_roof_side, [0,-64,0], 180),
+                    (motel_wall_roof_middle, [0,0,0], 0),
+                    (motel_wall_roof_side, [0,64,0], 0),
+                    (motel_wall_roof_side, [64,-64,0], 180),
+                    (motel_wall_roof_middle, [64,0,0], 0),
+                    (motel_wall_roof_side, [64,64,0], 0),
+                ],
+                hitbox_size=(192, 192),
+            ),
+            CompositeObject(
+                parts_positions_rotations=[
+                    (motel_wall_roof_side, [-64,-64,0], 180),
+                    (motel_wall_roof_middle, [-64,0,0], 0),
+                    (motel_wall_roof_side, [-64,64,0], 0),
+                    (motel_wall_roof_side, [0,-64,0], 180),
+                    (motel_wall_roof_middle, [0,0,0], 0),
+                    (motel_wall_roof_side, [0,64,0], 0),
+                    (motel_wall_roof_side, [64,-64,0], 180),
+                    (motel_wall_roof_middle, [64,0,0], 0),
+                    (motel_wall_roof_side, [64,64,0], 0),
+                ],
+                hitbox_size=(192, 192),
+            ),
+
+            # MOTEL BALCONY BOTTOM
+            CompositeObject(
+                parts_positions_rotations=[
+                    (motel_balcony_bottom_corner, [-192,0,0], 0),
+                    (motel_balcony_bottom_no_pillar, [-128,0,0], 0),
+                    (motel_balcony_bottom_no_pillar, [-64,0,0], 0),
+                    (motel_balcony_bottom_pillar, [0,0,0], 0),
+                    (motel_balcony_bottom_no_pillar, [64,0,0], 0),
+                    (motel_balcony_bottom_no_pillar, [128,0,0], 0),
+                    (motel_balcony_bottom_pillar, [192,0,0], 0),
+                ],
+                hitbox_size=(448, 64)
+            ),
+
+            # MOTEL BALCONY MIDDLE
+            CompositeObject(
+                parts_positions_rotations=[
+                    (motel_balcony_middle_corner, [-192,0,0], 0),
+                    (motel_balcony_middle_no_pillar, [-128,0,0], 0),
+                    (motel_balcony_middle_no_pillar, [-64,0,0], 0),
+                    (motel_balcony_middle_pillar, [0,0,0], 0),
+                    (motel_balcony_middle_no_pillar, [64,0,0], 0),
+                    (motel_balcony_middle_no_pillar, [128,0,0], 0),
+                    (motel_balcony_middle_pillar, [192,0,0], 0),
+                ],
+                hitbox_size=(448, 64)
+            ),
+
+            # MOTEL BALCONY TOP
+            CompositeObject(
+                parts_positions_rotations=[
+                    (motel_balcony_top_corner, [-192,0,0], 0),
+                    (motel_balcony_top_no_pillar, [-128,0,0], 0),
+                    (motel_balcony_top_no_pillar, [-64,0,0], 0),
+                    (motel_balcony_top_pillar, [0,0,0], 0),
+                    (motel_balcony_top_no_pillar, [64,0,0], 0),
+                    (motel_balcony_top_no_pillar, [128,0,0], 0),
+                    (motel_balcony_top_pillar, [192,0,0], 0),
+                ],
+                hitbox_size=(448, 64)
+            ),
+
+            # MOTEL STAIRS
+            CompositeObject(
+                parts_positions_rotations=[
+                    (motel_stairs_bottom, [0,-64,0], 0),
+                    (motel_stairs_top, [0,0,0], 0),
+                    (motel_balcony_bottom_stairs, [0,64,0], 0),
+                    (motel_balcony_middle_stairs, [0,64,80*2], 0),
+                    (motel_balcony_top_stairs, [0,64,160*2], 0),
+                ],
+                hitbox_size=(64, 192)
+            ),
+
+
+            # MOTEL RECEPTION
+            CompositeObject(
+                parts_positions_rotations=[
+                    (motel_wall_reception, [0,0,0], 0),
+                    (motel_wall_plain, [0,0,80*2], 0),
+                    (motel_roof_reception, [0,0,160*2], 0),
+                    (motel_sign, [0,32,80*2], 0),
+                ],
+                hitbox_size=(64, 64)
+            ),
+
+
+
+            # ELECTRIC POLE
+            CompositeObject(
+                parts_positions_rotations=[
+                    (motel_wall_reception, [0,0,0], 0),
+                    (motel_wall_plain, [0,0,80*2], 0),
+                    (motel_roof_reception, [0,0,160*2], 0),
+                    (motel_sign, [0,32,80*2], 0),
+                ],
+                hitbox_size=(64, 64)
+            ),
+
+
+
 
         ]
 

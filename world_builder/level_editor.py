@@ -71,9 +71,11 @@ def control_editing(level):
         level.current_asset = CompositeObject(
             parts_positions_rotations=asset.parts_positions_rotations_for_copy,
             hitbox_size=asset.hitbox_size_for_copy,
+            hitbox_offset=asset.hitbox.hitbox_offset,
             position=level.place_position,
             rotation=level.current_asset_rotation,
-            type=asset.type
+            type=asset.type,
+            asset_index=level.current_asset_index
         )
         # WE NEED TO SOMEHOW UPDATE ALL OF THE PARTS - this will work for now
         level.current_asset.movelocked = False
@@ -507,6 +509,13 @@ class Level:
             objects_data.append(object_data)
         level_data['objects_data'] = objects_data
 
+        # SAVING COMPOSITE OBJECTS
+        composite_objects_data = []
+        for obj in self.composite_objects:
+            object_data = obj.get_data()
+            composite_objects_data.append(object_data)
+        level_data['composite_objects_data'] = composite_objects_data
+
         # SAVING GRASS SYSTEMS DATA
         grass_systems_data = []
         for grass_system in self.grass_systems:
@@ -576,6 +585,35 @@ class Level:
                         object_position,
                         object_rotation
                     ))
+
+
+                # LOADING COMPOSITE OBJECTS DATA
+                self.composite_objects = []
+                for object_data in data['composite_objects_data']:
+
+                    object_position = object_data['position']
+                    object_rotation = object_data['rotation']
+                    object_asset_index = object_data['asset_index']
+                    asset = self.composite_object_assets[object_asset_index]
+                    reconstructed_object = CompositeObject(
+                        parts_positions_rotations=asset.parts_positions_rotations_for_copy,
+                        hitbox_size=asset.hitbox_size_for_copy,
+                        hitbox_offset=asset.hitbox.hitbox_offset,
+                        position=object_position,
+                        rotation=object_rotation,
+                        type=asset.type,
+                        asset_index=object_asset_index
+                        )
+        
+                    # WE NEED TO SOMEHOW UPDATE ALL OF THE PARTS - this will work for now
+                    reconstructed_object.movelocked = False
+                    reconstructed_object.move() 
+                    for part in reconstructed_object.parts:
+                        part.hitbox.update()
+                    reconstructed_object.movelocked = True
+
+                    self.composite_objects.append(reconstructed_object)
+
 
                 # LOADING GRASS SYSTEM DATA
                 for grass_system_index in range(len(self.grass_systems)):

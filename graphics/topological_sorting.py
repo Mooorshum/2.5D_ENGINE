@@ -106,82 +106,91 @@ def depth_sort(objects, camera):
 
             front_object = None
             back_object = None
-    
-            """ DETERMINE WHICH LINE COMES FIRST IF WE MOVE ALONG THE CAMERA Y AXIS FROM THE CENTER OF THE OVERLAP """
-            # GETTING CAMERA COODRINATES OF THE VERTICES WITH MIN AND MAX X PROJECTIONS FOR OBJECT 1 AND OBJECT 2
-            v1_min_x, v1_max_x = vertices_x[obj_1_index]
-            v2_min_x, v2_max_x = vertices_x[obj_2_index]
 
-            v1_min_cam_x = transform_to_camera_space(v1_min_x, camera_x_axis, camera_y_axis)
-            v1_max_cam_x = transform_to_camera_space(v1_max_x, camera_x_axis, camera_y_axis)
-            v2_min_cam_x = transform_to_camera_space(v2_min_x, camera_x_axis, camera_y_axis)
-            v2_max_cam_x = transform_to_camera_space(v2_max_x, camera_x_axis, camera_y_axis)
-
-            # FINDING THE OVERLAP OF OBJECT PROJECTIONS ONTO THE CAMERA X AXIS
-            x_camera_projections_overlap = find_ranges_overlap(v1_min_cam_x[0], v1_max_cam_x[0], v2_min_cam_x[0], v2_max_cam_x[0])
-
-            # GETTING THE EQUATION FOR OBJECT 2 LINE IN CAMERA COORDINATES
-            line_eq_object_1 = compute_line_equation(v1_min_cam_x, v1_max_cam_x)
-            line_eq_object_2 = compute_line_equation(v2_min_cam_x, v2_max_cam_x)
-
-            # GETTING THE VALUE OF EACH EQUATION AT THE CENTER OF THE OVERLAP
-            line_1_y_at_overlap_centre_x = line_eq_object_1((x_camera_projections_overlap[0] + x_camera_projections_overlap[1])/2)
-            line_2_y_at_overlap_centre_x = line_eq_object_2((x_camera_projections_overlap[0] + x_camera_projections_overlap[1])/2)
-
-            # COMPARING ORDER IN WHICH LINES WILL BE CROSSED
-            if line_1_y_at_overlap_centre_x > line_2_y_at_overlap_centre_x:
-                front_object = object_2
+            """ SPECIAL CASE WHEN ONE OBJECT IS EXPLICITLY ABOVE THE OTHER """
+            if object_1.position[2] >= object_2.position[2] + object_2.height:
+                """ front_object = object_2
                 back_object = object_1
-            else:
+            elif object_2.position[2] >= object_1.position[2] + object_1.height:
                 front_object = object_1
-                back_object = object_2
-
-            """ HANDLING CASES WHEN AN OBJECT IS ABOVE A TEXTURE """
-            """ if hasattr(object_1, 'asset') and hasattr(object_2, 'asset'):
-                if hasattr(object_1.asset, 'type') and hasattr(object_2.asset, 'type'):
-                        if object_1.asset.type == 'texture' and object_2.asset.type != 'texture':
-                            if object_1.position[2] <= object_2.position[2]:
-                                front_object = object_1
-                                back_object = object_2
-                        if object_1.asset.type != 'texture' and object_2.asset.type == 'texture':
-                            if object_1.position[2] >= object_2.position[2]:
-                                front_object = object_2
-                                back_object = object_1
-                
-                if hasattr(object_1.asset, 'type') and not hasattr(object_2.asset, 'type'):
-                        if object_1.asset.type == 'texture':
-                            if object_1.position[2] <= object_2.position[2]:
-                                front_object = object_1
-                                back_object = object_2
+                back_object = object_2 """
+            else:
     
-                if not hasattr(object_1.asset, 'type') and hasattr(object_2.asset, 'type'):
-                        if object_2.asset.type == 'texture':
-                            if object_1.position[2] >= object_2.position[2]:
-                                front_object = object_2
-                                back_object = object_1 """
-            
-            # STORING PREVIOUS VALUES FOR TEXTURE / TEXTURE CASE
-            front_object_stored = front_object
-            back_object_stored = back_object
-            if hasattr(object_1, 'type'):
-                if object_1.type == 'texture':
-                    front_object = object_1
-                    back_object = object_2
-            if hasattr(object_2, 'type'):
-                if object_2.type == 'texture':
+                """ DETERMINE WHICH LINE COMES FIRST IF WE MOVE ALONG THE CAMERA Y AXIS FROM THE CENTER OF THE OVERLAP """
+                # GETTING CAMERA COODRINATES OF THE VERTICES WITH MIN AND MAX X PROJECTIONS FOR OBJECT 1 AND OBJECT 2
+                v1_min_x, v1_max_x = vertices_x[obj_1_index]
+                v2_min_x, v2_max_x = vertices_x[obj_2_index]
+
+                v1_min_cam_x = transform_to_camera_space(v1_min_x, camera_x_axis, camera_y_axis)
+                v1_max_cam_x = transform_to_camera_space(v1_max_x, camera_x_axis, camera_y_axis)
+                v2_min_cam_x = transform_to_camera_space(v2_min_x, camera_x_axis, camera_y_axis)
+                v2_max_cam_x = transform_to_camera_space(v2_max_x, camera_x_axis, camera_y_axis)
+
+                # FINDING THE OVERLAP OF OBJECT PROJECTIONS ONTO THE CAMERA X AXIS
+                x_camera_projections_overlap = find_ranges_overlap(v1_min_cam_x[0], v1_max_cam_x[0], v2_min_cam_x[0], v2_max_cam_x[0])
+
+                # GETTING THE EQUATION FOR OBJECT 2 LINE IN CAMERA COORDINATES
+                line_eq_object_1 = compute_line_equation(v1_min_cam_x, v1_max_cam_x)
+                line_eq_object_2 = compute_line_equation(v2_min_cam_x, v2_max_cam_x)
+
+                # GETTING THE VALUE OF EACH EQUATION AT THE CENTER OF THE OVERLAP
+                line_1_y_at_overlap_centre_x = line_eq_object_1((x_camera_projections_overlap[0] + x_camera_projections_overlap[1])/2)
+                line_2_y_at_overlap_centre_x = line_eq_object_2((x_camera_projections_overlap[0] + x_camera_projections_overlap[1])/2)
+
+                # COMPARING ORDER IN WHICH LINES WILL BE CROSSED
+                if line_1_y_at_overlap_centre_x > line_2_y_at_overlap_centre_x:
                     front_object = object_2
                     back_object = object_1
-            if hasattr(object_1, 'type') and hasattr(object_2, 'type'):
-                if object_1.type == 'texture' and object_2.type == 'texture':
-                    if object_1.position[2] < object_2.position[2]:
+                else:
+                    front_object = object_1
+                    back_object = object_2
+
+                """ HANDLING CASES WHEN AN OBJECT IS ABOVE A TEXTURE """
+                """ if hasattr(object_1, 'asset') and hasattr(object_2, 'asset'):
+                    if hasattr(object_1.asset, 'type') and hasattr(object_2.asset, 'type'):
+                            if object_1.asset.type == 'texture' and object_2.asset.type != 'texture':
+                                if object_1.position[2] <= object_2.position[2]:
+                                    front_object = object_1
+                                    back_object = object_2
+                            if object_1.asset.type != 'texture' and object_2.asset.type == 'texture':
+                                if object_1.position[2] >= object_2.position[2]:
+                                    front_object = object_2
+                                    back_object = object_1
+
+                    if hasattr(object_1.asset, 'type') and not hasattr(object_2.asset, 'type'):
+                            if object_1.asset.type == 'texture':
+                                if object_1.position[2] <= object_2.position[2]:
+                                    front_object = object_1
+                                    back_object = object_2
+
+                    if not hasattr(object_1.asset, 'type') and hasattr(object_2.asset, 'type'):
+                            if object_2.asset.type == 'texture':
+                                if object_1.position[2] >= object_2.position[2]:
+                                    front_object = object_2
+                                    back_object = object_1 """
+
+                # STORING PREVIOUS VALUES FOR TEXTURE / TEXTURE CASE
+                front_object_stored = front_object
+                back_object_stored = back_object
+                if hasattr(object_1, 'type'):
+                    if object_1.type == 'texture':
                         front_object = object_1
                         back_object = object_2
-                    elif object_1.position[2] > object_2.position[2]:
+                if hasattr(object_2, 'type'):
+                    if object_2.type == 'texture':
                         front_object = object_2
                         back_object = object_1
-                    else:
-                        front_object = front_object_stored
-                        back_object = back_object_stored
+                if hasattr(object_1, 'type') and hasattr(object_2, 'type'):
+                    if object_1.type == 'texture' and object_2.type == 'texture':
+                        if object_1.position[2] < object_2.position[2]:
+                            front_object = object_1
+                            back_object = object_2
+                        elif object_1.position[2] > object_2.position[2]:
+                            front_object = object_2
+                            back_object = object_1
+                        else:
+                            front_object = front_object_stored
+                            back_object = back_object_stored
 
             # CREATING GRAPH VERTEX
             adjacency_graph[front_object].add(back_object)

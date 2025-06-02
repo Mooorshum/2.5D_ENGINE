@@ -9,6 +9,9 @@ from math import sin, cos, sqrt, atan2, radians, copysign, degrees
 from general_game_mechanics.collisions import Hitbox
 
 
+pygame.init()
+
+
 class SpritestackAsset:
     def __init__(self, type=None, name=None, hitbox_size=(64, 64), hitbox_offset=(0,0), hitbox_type='rectangle', mass=1000, spread=1, scale=1, y0_base_offset=0):
         self.type = type
@@ -28,12 +31,15 @@ class SpritestackAsset:
         # caching prerendered images of stacks for discrete angles
         self.spread = spread
         self.num_unique_angles = 180
-        self.stack_angle_image = self.generate_images_cache(self.num_unique_angles, self.spread)
+        self.stack_angle_image = None
 
         # hitbox properties
         self.hitbox_size = hitbox_size
         self.hitbox_offset = hitbox_offset
         self.hitbox_type = hitbox_type
+
+    def load_asset(self):  
+        self.stack_angle_image = self.generate_images_cache(self.num_unique_angles, self.spread)
         
 
     def split_sheet_image(self, sheet_image):
@@ -76,7 +82,7 @@ class SpritestackAsset:
     def generate_images_cache(self, num_unique_angles, spread):
         stack_angle_image = []
 
-        sheet_images_folder = f'assets/{self.type}/{self.name}/sprite_stacks'
+        sheet_images_folder = f'asset_files/{self.type}/{self.name}/sprite_stacks'
         num_sheets = len(os.listdir(sheet_images_folder))
         for i in range(num_sheets):
             sheet_image = (
@@ -140,13 +146,18 @@ class SpritestackModel:
         image = self.asset.stack_angle_image[self.stack_index][rounded_rotation]
         image.set_colorkey((0, 0, 0))
 
-        screen.blit(
-            image,
-            (
-                self.position[0] - image.get_width() // 2 + offset[0],
-                self.position[1] - image.get_height() + sqrt(self.asset.slice_size[0]**2 + self.asset.slice_size[1]**2)/2 + offset[1] - self.position[2]
-            )
-        )
+
+        zoom = camera.zoom
+        w, h = image.get_width(), image.get_height()
+        scaled_w, scaled_h = int(w * zoom), int(h * zoom)
+        image = pygame.transform.scale(image, (scaled_w, scaled_h))
+
+        draw_x = self.position[0] + offset[0] - scaled_w // 2
+        draw_y = (self.position[1] + offset[1] - scaled_h + sqrt(self.asset.slice_size[0]**2 + self.asset.slice_size[1]**2) * 0.5 * zoom - self.position[2] * zoom)
+    
+        screen.blit(image, (draw_x, draw_y))
+
+
 
     def get_data(self):
         data = {}

@@ -7,16 +7,13 @@ from itertools import combinations
 
 from graphics.rendering import global_render, get_visible_objects
 from graphics.topological_sorting import depth_sort
-from general_game_mechanics.dynamic_objects import DynamicObject, Vehicle, Character, Stairs, CompositeObject, Vehicle
-
-#### DELETE THIS AFTER COMPOSITE OBJECTS HAVE BEEN IMPLEMENTED
-from graphics.sprite_stacks import SpritestackAsset
-
-from general_game_mechanics.water import WaterBody
+from objects.generic import DynamicObject, CompositeObject
+from objects.vehicles import Vehicle
+from objects.characters import Character
+from objects.grass import GrassTile
+from objects.plants import Plant
 
 from graphics.camera import Camera
-from graphics.grass import GrassTile
-from graphics.plants import Plant
 from graphics.sprite_stacks import SpritestackModel
 
 from world_builder.loadpoints import LoadPoint
@@ -47,6 +44,22 @@ def cycle_list(direction, current_index, lst):
         return (current_index - 1) % len(lst)
     return current_index
 
+def get_mouse_world_position(level, camera, display_surface):
+    screen_w, screen_h = display_surface.get_size()
+    mouse_x, mouse_y = pygame.mouse.get_pos()
+    norm_x = (mouse_x - screen_w / 2) / (screen_w / 2)
+    norm_y = (mouse_y - screen_h / 2) / (screen_h / 2)
+    cam_dx = norm_x * (camera.width / 2)
+    cam_dy = norm_y * (camera.height / 2)
+    cam_dx /= camera.zoom
+    cam_dy /= camera.zoom
+    angle = -radians(camera.rotation)
+    world_dx = cam_dx * cos(angle) - cam_dy * sin(angle)
+    world_dy = cam_dx * sin(angle) + cam_dy * cos(angle)
+    world_x = camera.position[0] + world_dx
+    world_y = camera.position[1] + world_dy
+    world_z = level.place_position[2]  # MIGHT NEED TO REWORK THIS ONE
+    return world_x, world_y, world_z
 
 
 
@@ -278,7 +291,7 @@ class Level:
 
         """ LEVEL EDITING PARAMETERS """
         self.place_position = [0, 0, 0]
-
+        self.rotation_speed = 45
         self.current_asset = None
         self.current_asset_index = 0
         self.current_asset_rotation = 0
@@ -295,18 +308,11 @@ class Level:
 
         self.play = False
 
-
         """ DISPLAY SETTINGS """
-        self.render_width = 400
-        self.render_height = 300
+        self.render_width = 512
+        self.render_height = 512
         self.map_size = map_size
-        self.camera = Camera(
-            width=self.render_width,
-            height=self.render_height,
-            map_width=self.map_size[0],
-            map_height=self.map_size[1]
-        )
-
+        self.fill_colour = fill_colour
 
         """ GAME ASSETS """
         self.texture_assets = []
@@ -341,11 +347,15 @@ class Level:
         self.player.movelocked = False
         self.player.collidable = True
 
-
-        self.fill_colour = fill_colour
-
-        self.rotation_speed = 45
-        self.scroll_speed = 0.1
+        """ CAMERA SETTINGS """
+        self.camera = Camera(
+            width=self.render_width,
+            height=self.render_height,
+            map_width=self.map_size[0],
+            map_height=self.map_size[1],
+            position = [self.player.position[0], self.player.position[1]]
+        )
+        self.zoom_speed = 1
 
         """ TOPOLOGICAL DEPTH SORTING SETTINGS """
         self.depth_sort_period = 20 # NUMBER OF ITERATIONS AFTER WHICH THE TOPOLOGICAL SORT WILL REORDER THE OBJECTS-TO-RENDER LIST
@@ -446,15 +456,9 @@ class Level:
             if keys[pygame.K_LCTRL]:
                     if event.type == pygame.MOUSEWHEEL:
                         if event.y == -1:
-                            self.render_width *= 1 + self.scroll_speed
-                            self.render_height *= 1 + self.scroll_speed
-                            self.camera.width *= 1 + self.scroll_speed
-                            self.camera.height *= 1 + self.scroll_speed
+                            self.camera.zoom_acceleration += self.zoom_speed
                         elif event.y == 1:
-                            self.render_width /= 1 + self.scroll_speed
-                            self.render_height /= 1 + self.scroll_speed
-                            self.camera.width /= 1 + self.scroll_speed
-                            self.camera.height /= 1 + self.scroll_speed
+                            self.camera.zoom_acceleration -= self.zoom_speed
 
             # CHANGE OBJECT PLACEMENT HEIGHT
             if keys[pygame.K_z]:
@@ -652,29 +656,13 @@ class Level:
 
         """ CALCULATING OBJECT PALCEMENT POSITION """
         display_surface = pygame.display.get_surface()
-        display_width, display_height = display_surface.get_size()
-        scale_factor_x = self.camera.width / display_width
-        scale_factor_y = self.camera.height / display_height
-        
-        mouse_camera_x = pygame.mouse.get_pos()[0] * scale_factor_x
-        mouse_camera_y = pygame.mouse.get_pos()[1] * scale_factor_y
-
-        mouse_camera_centre_x = mouse_camera_x - self.camera.width/2
-        mouse_camera_centre_y = mouse_camera_y - self.camera.height/2
-
-        camera_angle = -radians(self.camera.rotation)
-
-        d = sqrt((mouse_camera_centre_x)**2 + (mouse_camera_centre_y)**2)
-        gamma = atan2(mouse_camera_centre_y, mouse_camera_centre_x)
-
-        place_position_x = d * cos(camera_angle + gamma) + self.camera.position[0]
-        place_position_y = d * sin(camera_angle + gamma) + self.camera.position[1]
-        place_position_z = self.place_position[2]
+        place_position_x, place_position_y, place_position_z = get_mouse_world_position(self, self.camera, display_surface)
 
         """ SNAPPING TO NON-ROTATING GRID """
-        place_position_x = 16 * round(place_position_x/16)
-        place_position_y = 16 * round(place_position_y/16)
-        place_position_z = 16 * round(place_position_z/16)
+        GRID_SIZE = 16
+        place_position_x = GRID_SIZE * round(place_position_x / GRID_SIZE)
+        place_position_y = GRID_SIZE * round(place_position_y / GRID_SIZE)
+        place_position_z = GRID_SIZE * round(place_position_z / GRID_SIZE)
         self.place_position = [place_position_x, place_position_y, place_position_z]   
 
         """ CAMERA MOVEMENT"""
@@ -688,6 +676,7 @@ class Level:
             )
         self.camera.follow(camera_follow_position_movement_offset)
         self.camera.move()
+        self.camera.update_zoom()
 
         """ UPDATING PLAYER AND ALL PLAYER-LINKED OBJECTS """
         self.player.update(self.camera)
@@ -790,6 +779,8 @@ class Level:
             loadpoint.handle_loading(player=self.player, game=self.game)
 
 
+
+
     def render(self):
         render_surface = pygame.Surface((self.render_width, self.render_height))
         render_surface.fill(self.fill_colour)
@@ -846,6 +837,7 @@ class Level:
         for grass_system in self.grass_systems:
             grass_system.apply_wind()
 
+        #self.game.screen.blit(render_surface, (0, 0))
         upscaled_surface = pygame.transform.scale(render_surface, (self.game.screen_width, self.game.screen_height))
         self.game.screen.blit(upscaled_surface, (0, 0))
 

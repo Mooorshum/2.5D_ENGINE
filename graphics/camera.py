@@ -6,12 +6,20 @@ from numpy import sign
 
 
 class Camera:
-    def __init__(self, width, height, map_width, map_height):
+    def __init__(self, width, height, map_width, map_height, position=[0,0]):
+
+        self.zoom = 1
+        self.zoom_speed = 0
+        self.zoom_acceleration = 0
+        self.zoom_damping = 0.05
+        self.min_zoom = 0.5
+        self.max_zoom = 2
+        self.max_zoom_speed = 5
 
         self.width = width
         self.height = height
 
-        self.position = [0, 0]
+        self.position = position
         self.rotation = 0
 
         self.vx = 0
@@ -122,3 +130,25 @@ class Camera:
         if self.position[1] > self.map_height - self.height/2:
             self.position[1] = self.map_height - self.height/2
 
+    def update_zoom(self):
+
+        # Updating zoom speed
+        self.zoom_speed += self.zoom_acceleration * self.dt
+        self.zoom_speed *=  1 - self.zoom_damping
+
+        # Limiting zoom speed
+        if abs(self.zoom_speed) >= self.max_zoom_speed * self.zoom:
+            self.zoom_speed = sign(self.zoom) * self.max_zoom_speed
+
+        # Updating zoom value
+        self.zoom += self.zoom_speed * self.dt
+        self.zoom = abs(self.zoom)
+
+        # Limiting zoom value
+        if self.zoom >= self.max_zoom:
+            self.zoom = self.max_zoom
+        if self.zoom <= self.min_zoom:
+            self.zoom = self.min_zoom
+
+        # Updating zoom_acceleration
+        self.zoom_acceleration = 0

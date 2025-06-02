@@ -7,7 +7,7 @@ from graphics.plants import PlantSystem
 from graphics.grass import GrassSystem
 from graphics.sprite_stacks import SpritestackAsset
 
-from general_game_mechanics.dynamic_objects import CompositeObject, Vehicle
+from objects.generic import CompositeObject, Vehicle
 
 from world_builder.level_editor import Level
 
@@ -22,8 +22,8 @@ class Game:
     def __init__(self):
         
         """ DISPLAY SETTINGS """
-        scale = 0.45 #0.4 # 0.75 # Percentage of max screen
-        ratio = 2 #16/9 #4/3 # WIDTH / HEIGHT ratio    ### INTERESTING OBSERVATION: A HORIZONTALLY STRETCHED PICTURE SEEMS TO HAVE MORE DEPTH
+        scale = 0.75 #0.6 #0.5 # Percentage of max screen
+        ratio = 16/9 #4/3 # WIDTH / HEIGHT ratio    ### INTERESTING OBSERVATION: A HORIZONTALLY STRETCHED PICTURE SEEMS TO HAVE MORE DEPTH
 
         info = pygame.display.Info()
         screen_width, screen_height = info.current_w, info.current_h
@@ -191,6 +191,10 @@ class Game:
             #SpritestackAsset(type='cliff', name='cliff_2', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
             #SpritestackAsset(type='cliff', name='cliff_3', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
             #SpritestackAsset(type='cliff', name='cliff_4', hitbox_size=(32,32), scale=1, hitbox_type='rectangle'),
+
+
+
+
 
 
 
@@ -366,13 +370,13 @@ class Game:
             SpritestackAsset(type='grave', name='grave_6', hitbox_size=(32,32), hitbox_offset=(0,0), hitbox_type='rectangle'),
             SpritestackAsset(type='grave', name='grave_7', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
             SpritestackAsset(type='grave', name='grave_8', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
-
-            # CHURCH FENCE
-            SpritestackAsset(type='church', name='gate_post', hitbox_size=(32,32)),
-            SpritestackAsset(type='church', name='fence_middle', hitbox_size=(32,32)),
-            SpritestackAsset(type='church', name='fence_post', hitbox_size=(32,32)),
-            SpritestackAsset(type='church', name='fence_corner', hitbox_size=(32,32)),
-            SpritestackAsset(type='church', name='gate_back', hitbox_size=(32,32)),
+            SpritestackAsset(type='grave', name='grave_9', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='grave', name='grave_10', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='grave', name='grave_11', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='grave', name='grave_12', hitbox_size=(64,64), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='grave', name='grave_fence_side', hitbox_size=(32,32), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='grave', name='grave_fence_corner', hitbox_size=(32,32), hitbox_offset=(0,0), hitbox_type='rectangle'),
+            SpritestackAsset(type='grave', name='grave_fence_gate', hitbox_size=(32,32), hitbox_offset=(0,0), hitbox_type='rectangle'),
 
             # GRASS
             SpritestackAsset(type='texture', name='grass_64', hitbox_size=(64,64)),
@@ -389,14 +393,9 @@ class Game:
             # POTTED MOTEL PLANT
             SpritestackAsset(type='motel', name='plant', hitbox_size=(32,32)),
 
-
-
-
             ### TEST BLOCKS
-            #SpritestackAsset(type='test_shapes', name='test_corner', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle', interactable=False),
-            #SpritestackAsset(type='test_shapes', name='test_corner_roof', hitbox_size=(64,32), hitbox_offset=(0,-16), hitbox_type='rectangle', interactable=False),
-            #SpritestackAsset(type='test_shapes', name='test_wall', hitbox_size=(64,64), hitbox_type='rectangle', interactable=False),
-            #SpritestackAsset(type='test_shapes', name='test_roof', hitbox_size=(64,64), hitbox_type='rectangle', interactable=False),
+            SpritestackAsset(type='test_shapes', name='test_block_32', hitbox_size=(32,32)),
+            SpritestackAsset(type='test_shapes', name='test_block_64', hitbox_size=(64,64)),
         ]
 
 
@@ -507,19 +506,13 @@ class Game:
         pool_lounge_tile = SpritestackAsset(type='pool', name='pool_lounge_tile', hitbox_size=(64,64))
 
         # UTILITY POLE
-        utility_pole_bottom = SpritestackAsset(type='building_decor', name='utility_pole_bottom', hitbox_size=(10,10), hitbox_type='rectangle')
-        utility_pole_middle = SpritestackAsset(type='building_decor', name='utility_pole_middle', hitbox_size=(10,10), hitbox_type='rectangle')
-        utility_pole_top = SpritestackAsset(type='building_decor', name='utility_pole_top_multiple', hitbox_size=(32,32), hitbox_type='rectangle')
-        utility_pole_wires = SpritestackAsset(type='building_decor', name='wires_straight', hitbox_size=(10,32), hitbox_type='rectangle')
+
         # SpritestackAsset(type='building_decor', name='utility_pole_top_single', hitbox_size=(32,32), hitbox_type='rectangle'),
         # SpritestackAsset(type='building_decor', name='utility_pole_top_double', hitbox_size=(32,32), hitbox_type='rectangle'),
         # SpritestackAsset(type='building_decor', name='utility_pole_top_triple', hitbox_size=(32,32), hitbox_type='rectangle'),
             
         # BUS STOP
-        bus_stop_bottom_left = SpritestackAsset(type='bus_stop', name='bottom_left', hitbox_size=(64,64))
-        bus_stop_bottom_right = SpritestackAsset(type='bus_stop', name='bottom_right', hitbox_size=(64,64))
-        bus_stop_roof_left = SpritestackAsset(type='bus_stop', name='roof_left', hitbox_size=(64,64))
-        bus_stop_roof_right = SpritestackAsset(type='bus_stop', name='roof_right', hitbox_size=(64,64))
+
 
         # LARGE WATER TOWER
         water_tower_bottom = SpritestackAsset(type='water_tower_large', name='bottom', hitbox_size=(64,64))
@@ -528,11 +521,7 @@ class Game:
         water_tower_roof = SpritestackAsset(type='water_tower_large', name='roof', hitbox_size=(64,64))
 
         # BEANZ BILLBOARD
-        beanz_billboard_pillar_bottom = SpritestackAsset(type='billboard_beans', name='pillar_bottom', hitbox_size=(64,64))
-        beanz_billboard_pillar_top = SpritestackAsset(type='billboard_beans', name='pillar_top', hitbox_size=(64,64))
-        beanz_billboard_sign_left = SpritestackAsset(type='billboard_beans', name='sign_left', hitbox_size=(64,64))
-        beanz_billboard_sign_middle = SpritestackAsset(type='billboard_beans', name='sign_middle', hitbox_size=(64,64))
-        beanz_billboard_sign_right = SpritestackAsset(type='billboard_beans', name='sign_right', hitbox_size=(64,64))
+
 
         # DINER
         diner_wall_corner = SpritestackAsset(type='diner', name='wall_corner', hitbox_size=(64,64))
@@ -589,7 +578,7 @@ class Game:
         motel_fence_entrance_top = SpritestackAsset(type='motel', name='fence_entrance_top',  hitbox_size=(32,32))
         motel_fence_corner = SpritestackAsset(type='motel', name='fence_corner',  hitbox_size=(32,32))
 
-        # CHURCH
+        # CHURCH BUILDING
         church_wall_front_bottom_left = SpritestackAsset(type='church', name='wall_front_bottom_left', hitbox_size=(64,64), hitbox_offset=(0,0))
         church_wall_front_bottom_middle = SpritestackAsset(type='church', name='wall_front_bottom_middle', hitbox_size=(64,64), hitbox_offset=(0,0))
         church_wall_front_bottom_right = SpritestackAsset(type='church', name='wall_front_bottom_right', hitbox_size=(64,64), hitbox_offset=(0,0))
@@ -610,10 +599,20 @@ class Game:
         church_wall_back_top_right = SpritestackAsset(type='church', name='wall_back_top_right', hitbox_size=(64,64), hitbox_offset=(0,0))
         church_wall_back_top_middle = SpritestackAsset(type='church', name='wall_back_top_middle', hitbox_size=(64,64), hitbox_offset=(0,0))
 
+        # CHURCH FENCE
+        church_gate_post = SpritestackAsset(type='church', name='gate_post', hitbox_size=(32,32))
+        church_fence_middle = SpritestackAsset(type='church', name='fence_middle', hitbox_size=(32,32))
+        church_fence_post = SpritestackAsset(type='church', name='fence_post', hitbox_size=(32,32))
+        church_fence_corner = SpritestackAsset(type='church', name='fence_corner', hitbox_size=(32,32))
+        church_gate_back = SpritestackAsset(type='church', name='gate_back', hitbox_size=(32,32))
+
+        # CHURCH PATH TILES
+        church_entrance_path_tile = SpritestackAsset(type='church', name='entrance_path_tile', hitbox_size=(64,64))
+
         # ROAD
-        road_edge = SpritestackAsset(type='texture', name='road_1', hitbox_size=(64,64))
-        road_centre = SpritestackAsset(type='texture', name='road_2', hitbox_size=(64,64))
-        road_midway = SpritestackAsset(type='texture', name='road_3', hitbox_size=(64,64))
+
+
+
 
         self.composite_object_assets = [
 
@@ -736,59 +735,10 @@ class Game:
             ),
 
         
-            # UTILITY POLE
-            CompositeObject(
-                parts_positions_rotations=[
-                    (utility_pole_bottom, [0,0,0], 0),
-                    (utility_pole_middle, [0,0,64*2], 0),
-                    (utility_pole_top, [0,0,128*2], 0),
-                ],
-                hitbox_size=(32, 32),
-                hitbox_type='circle',
-            ),
 
-            # UTILITY POLE WIRES
-            CompositeObject(
-                parts_positions_rotations=[
-                    (utility_pole_wires, [-128,0,0], 90),
-                    (utility_pole_wires, [-96,0,0], 90),
-                    (utility_pole_wires, [-64,0,0], 90),
-                    (utility_pole_wires, [-32,0,0,], 90),
-                    (utility_pole_wires, [0,0,0], 90),
-                    (utility_pole_wires, [32,0,0], 90),
-                    (utility_pole_wires, [64,0,0], 90),
-                    (utility_pole_wires, [96,0,0], 90),
-                    (utility_pole_wires, [128,0,0], 90),
-                ],
-                hitbox_size=(288, 32),
-            ),
 
-            # NARROW TWO WAY ROAD
-            CompositeObject(
-                parts_positions_rotations=[
-                    (road_edge, [-128,-64,0], 0),
-                    (road_centre, [-128,0,0], 0),
-                    (road_edge, [-128,64,0], 180),
 
-                    (road_edge, [-64,-64,0], 0),
-                    (road_centre, [0-64,0,0], 0),
-                    (road_edge, [-64,64,0], 180),
 
-                    (road_edge, [0,-64,0], 0),
-                    (road_centre, [0,0,0], 0),
-                    (road_edge, [0,64,0], 180),
-
-                    (road_edge, [64,-64,0], 0),
-                    (road_centre, [64,0,0], 0),
-                    (road_edge, [64,64,0], 180),
-
-                    (road_edge, [128,-64,0], 0),
-                    (road_centre, [128,0,0], 0),
-                    (road_edge, [128,64,0], 180),
-                ],
-                type='texture',
-                hitbox_size=(320, 192),
-            ),
 
             # CHURCH WALLS
             CompositeObject(
@@ -841,55 +791,78 @@ class Game:
                 ],
                 hitbox_size=(64, 64),
             ),
-            
 
-            # BUS STOP
+            # CHURCH FENCE FRONT GATE
             CompositeObject(
                 parts_positions_rotations=[
-                    (bus_stop_bottom_left, [-32,0,0*2], 0),
-                    (bus_stop_bottom_right, [32,0,0*2], 0),
-                    (bus_stop_roof_left, [-32,0,64*2], 0),
-                    (bus_stop_roof_right, [32,0,64*2], 0),
+                    (church_gate_post, [32,0,0], 0),
+                    (church_fence_middle, [0,0,0], 0),
+                    (church_fence_middle, [-32,0,0], 0),
                 ],
-                hitbox_size=(128, 64),
+                hitbox_size=(96, 32),
+            ),
+
+            # CHURCH FENCE MIDDLE
+            CompositeObject(
+                parts_positions_rotations=[
+                    (church_fence_middle, [64,0,0], 0),
+                    (church_fence_middle, [32,0,0], 0),
+                    (church_fence_post, [0,0,0], 0),
+                    (church_fence_middle, [-32,0,0], 0),
+                    (church_fence_middle, [-64,0,0], 0),
+                ],
+                hitbox_size=(160, 32),
+            ),
+
+            # CHURCH FENCE LEFT CORNER
+            CompositeObject(
+                parts_positions_rotations=[
+                    (church_fence_middle, [32,0,0], 0),
+                    (church_fence_middle, [0,0,0], 0),
+                    (church_fence_corner, [-32,0,0], 0),
+                ],
+                hitbox_size=(96, 32),
+            ),
+
+            # CHURCH FENCE RIGHT CORNER
+            CompositeObject(
+                parts_positions_rotations=[
+                    (church_fence_corner, [32,0,0], 90),
+                    (church_fence_middle, [0,0,0], 0),
+                    (church_fence_middle, [-32,0,0], 0),
+                ],
+                hitbox_size=(96, 32),
+            ),
+
+            # CHURCH FENCE BACK GATE
+            CompositeObject(
+                parts_positions_rotations=[
+                    (church_gate_back, [32,0,0], 180),
+                    (church_fence_middle, [0,0,0], 0),
+                    (church_fence_middle, [-32,0,0], 0),
+                ],
+                hitbox_size=(96, 32),
+            ),
+
+            # CHURCH ENTRANCE PATH
+            CompositeObject(
+                parts_positions_rotations=[
+                    (church_entrance_path_tile, [0,96,0], 90),
+                    (church_entrance_path_tile, [0,32,0], -90),
+                    (church_entrance_path_tile, [0,-32,0], 180),
+                    (church_entrance_path_tile, [0,-96,0], 0),
+                ],
+                hitbox_size=(64, 256),
+                type='texture',
             ),
 
 
-            # LARGE WATER TOWER
-            CompositeObject(
-                parts_positions_rotations=[
-                    (water_tower_bottom, [-32,32,0*2], 0),
-                    (water_tower_bottom, [-32,-32,0*2], -90),
-                    (water_tower_bottom, [32,-32,0*2], -180),
-                    (water_tower_bottom, [32,32,0*2], -270),
-                    (water_tower_middle, [-32,32,128*2], 0),
-                    (water_tower_middle, [-32,-32,128*2], -90),
-                    (water_tower_middle, [32,-32,128*2], -180),
-                    (water_tower_middle, [32,32,128*2], -270),
-                    (water_tower_top, [-32,32,256*2], 0),
-                    (water_tower_top, [-32,-32,256*2], -90),
-                    (water_tower_top, [32,-32,256*2], -180),
-                    (water_tower_top, [32,32,256*2], -270),
-                    (water_tower_roof, [-32,32,384*2], 0),
-                    (water_tower_roof, [-32,-32,384*2], -90),
-                    (water_tower_roof, [32,-32,384*2], -180),
-                    (water_tower_roof, [32,32,384*2], -270),
-                ],
-                hitbox_size=(128, 128),
-            ), 
 
 
-            # BEANZ BILLBOARD
-            CompositeObject(
-                parts_positions_rotations=[
-                    (beanz_billboard_pillar_bottom, [0,0,0*2], 0),
-                    (beanz_billboard_pillar_top, [0,0,64*2], 0),
-                    (beanz_billboard_sign_left, [-64,0,128*2], 0),
-                    (beanz_billboard_sign_middle, [0,0,128*2], 0),
-                    (beanz_billboard_sign_right, [64,0,128*2], 0),
-                ],
-                hitbox_size=(32, 32),
-            ),
+
+
+
+
 
 
             # DINER WALLS

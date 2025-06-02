@@ -423,12 +423,21 @@ class Hitbox:
 
         if self.show_hitbox:
             # DRAWING HIBOX VERTICES
+
             camera_rotation = radians(camera.rotation)
+            zoom = camera.zoom
+            cam_x, cam_y = camera.position
+            cam_w, cam_h = camera.width, camera.height
+
             self.get_axes()
             for vertex in self.vertices:
-                vertex_offset_x = camera.position[0] - vertex[0] + (vertex[0] - camera.position[0])*cos(camera_rotation) - (vertex[1] - camera.position[1])*sin(camera_rotation)
-                vertex_offset_y = camera.position[1] - vertex[1] + (vertex[0] - camera.position[0])*sin(camera_rotation) + (vertex[1] - camera.position[1])*cos(camera_rotation)
-                vertex_offset = [vertex_offset_x - camera.position[0] + camera.width/2, vertex_offset_y - camera.position[1] + camera.height/2]
+                dx = vertex[0] - cam_x
+                dy = vertex[1] - cam_y
+                rot_dx = dx * cos(camera_rotation) - dy * sin(camera_rotation)
+                rot_dy = dx * sin(camera_rotation) + dy * cos(camera_rotation)
+                screen_x =  cam_w // 2 + rot_dx * zoom - vertex[0]
+                screen_y =  cam_h // 2 + rot_dy * zoom - vertex[1]
+                vertex_offset = [screen_x, screen_y]
                 pygame.draw.circle(
                     screen,
                     self.colour,
@@ -441,17 +450,22 @@ class Hitbox:
 
             # DRAWING HITBOX EDGES
             for vertex_index in range(len(self.vertices)):
-
                 vertex_1 = self.vertices[vertex_index]
-                vertex_1_offset_x = camera.position[0] - vertex_1[0] + (vertex_1[0] - camera.position[0])*cos(camera_rotation) - (vertex_1[1] - camera.position[1])*sin(camera_rotation)
-                vertex_1_offset_y = camera.position[1] - vertex_1[1] + (vertex_1[0] - camera.position[0])*sin(camera_rotation) + (vertex_1[1] - camera.position[1])*cos(camera_rotation)
-                vertex_1_offset = [vertex_1_offset_x - camera.position[0] + camera.width/2, vertex_1_offset_y - camera.position[1] + camera.height/2]
-
+                dx = vertex_1[0] - cam_x
+                dy = vertex_1[1] - cam_y
+                rot_dx = dx * cos(camera_rotation) - dy * sin(camera_rotation)
+                rot_dy = dx * sin(camera_rotation) + dy * cos(camera_rotation)
+                screen_x =  cam_w // 2 + rot_dx * zoom - vertex_1[0]
+                screen_y =  cam_h // 2 + rot_dy * zoom - vertex_1[1]
+                vertex_1_offset = [screen_x, screen_y]
                 vertex_2 = self.vertices[(vertex_index + 1) % len(self.vertices)]
-                vertex_2_offset_x = camera.position[0] - vertex_2[0] + (vertex_2[0] - camera.position[0])*cos(camera_rotation) - (vertex_2[1] - camera.position[1])*sin(camera_rotation)
-                vertex_2_offset_y = camera.position[1] - vertex_2[1] + (vertex_2[0] - camera.position[0])*sin(camera_rotation) + (vertex_2[1] - camera.position[1])*cos(camera_rotation)
-                vertex_2_offset = [vertex_2_offset_x - camera.position[0] + camera.width/2, vertex_2_offset_y - camera.position[1] + camera.height/2]
-
+                dx = vertex_2[0] - cam_x
+                dy = vertex_2[1] - cam_y
+                rot_dx = dx * cos(camera_rotation) - dy * sin(camera_rotation)
+                rot_dy = dx * sin(camera_rotation) + dy * cos(camera_rotation)
+                screen_x =  cam_w // 2 + rot_dx * zoom - vertex_2[0]
+                screen_y =  cam_h // 2 + rot_dy * zoom - vertex_2[1]
+                vertex_2_offset = [screen_x, screen_y]
                 pygame.draw.line(
                     screen,
                     self.colour,
@@ -459,12 +473,15 @@ class Hitbox:
                     (vertex_2[0] + vertex_2_offset[0], vertex_2[1] + vertex_2_offset[1] - self.object.position[2]),
                     1
                 )
-
             # DRAWING COLLISION POINT
             if self.collided:
-                collision_point_offset_x = camera.position[0] - self.contact_point[0] + (self.contact_point[0] - camera.position[0])*cos(camera_rotation) - (self.contact_point[1] - camera.position[1])*sin(camera_rotation)
-                collision_point_offset_y = camera.position[1] - self.contact_point[1] + (self.contact_point[0] - camera.position[0])*sin(camera_rotation) + (self.contact_point[1] - camera.position[1])*cos(camera_rotation)
-                collision_point_offset = [collision_point_offset_x - camera.position[0] + camera.width/2, collision_point_offset_y - camera.position[1] + camera.height/2]
+                dx = self.contact_point[0] - cam_x
+                dy = self.contact_point[1] - cam_y
+                rot_dx = dx * cos(camera_rotation) - dy * sin(camera_rotation)
+                rot_dy = dx * sin(camera_rotation) + dy * cos(camera_rotation)
+                screen_x =  cam_w // 2 + rot_dx * zoom - self.contact_point[0]
+                screen_y =  cam_h // 2 + rot_dy * zoom - self.contact_point[1]
+                collision_point_offset = [screen_x, screen_y]
                 pygame.draw.circle(
                     screen,
                     (255, 255, 255),
@@ -481,10 +498,13 @@ class Hitbox:
                     self.contact_point[0] + self.collision_normal[0]*10,
                     self.contact_point[1] + self.collision_normal[1]*10
                 ]
-                collision_normal_endpoint_offset_x = camera.position[0] - collision_endpoint[0] + (collision_endpoint[0] - camera.position[0])*cos(camera_rotation) - (collision_endpoint[1] - camera.position[1])*sin(camera_rotation)
-                collision_normal_endpoint_offset_y = camera.position[1] - collision_endpoint[1] + (collision_endpoint[0] - camera.position[0])*sin(camera_rotation) + (collision_endpoint[1] - camera.position[1])*cos(camera_rotation)
-                collision_normal_endpoint_offset = [collision_normal_endpoint_offset_x - camera.position[0] + camera.width/2, collision_normal_endpoint_offset_y - camera.position[1] + camera.height/2]
-
+                dx = collision_endpoint[0] - cam_x
+                dy = collision_endpoint[1] - cam_y
+                rot_dx = dx * cos(camera_rotation) - dy * sin(camera_rotation)
+                rot_dy = dx * sin(camera_rotation) + dy * cos(camera_rotation)
+                screen_x =  cam_w // 2 + rot_dx * zoom - collision_endpoint[0]
+                screen_y =  cam_h // 2 + rot_dy * zoom - collision_endpoint[1]
+                collision_normal_endpoint_offset = [screen_x, screen_y]
                 pygame.draw.line(
                     screen,
                     (255, 255, 255),
@@ -500,9 +520,13 @@ class Hitbox:
                     self.contact_point[0] + self.spin_vector[0]*spin_vector_magnitude,
                     self.contact_point[1] + self.spin_vector[1]*spin_vector_magnitude
                 ]
-                spin_endpoint_offset_x = camera.position[0] - spin_endpoint[0] + (spin_endpoint[0] - camera.position[0])*cos(camera_rotation) - (spin_endpoint[1] - camera.position[1])*sin(camera_rotation)
-                spin_endpoint_offset_y = camera.position[1] - spin_endpoint[1] + (spin_endpoint[0] - camera.position[0])*sin(camera_rotation) + (spin_endpoint[1] - camera.position[1])*cos(camera_rotation)
-                spin_endpoint_offset = [spin_endpoint_offset_x - camera.position[0] + camera.width/2, spin_endpoint_offset_y - camera.position[1] + camera.height/2]
+                dx = spin_endpoint[0] - cam_x
+                dy = spin_endpoint[1] - cam_y
+                rot_dx = dx * cos(camera_rotation) - dy * sin(camera_rotation)
+                rot_dy = dx * sin(camera_rotation) + dy * cos(camera_rotation)
+                screen_x =  cam_w // 2 + rot_dx * zoom - spin_endpoint[0]
+                screen_y =  cam_h // 2 + rot_dy * zoom - spin_endpoint[1]
+                spin_endpoint_offset = [screen_x, screen_y]
 
                 pygame.draw.line(
                     screen,

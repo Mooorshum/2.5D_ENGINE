@@ -6,7 +6,7 @@ from graphics import grass, plants
 from graphics.particles import ParticleSystem
 from graphics.static_objects import Building
 from world.particle_presets import flame
-from general_game_mechanics.dynamic_objects import Vehicle
+from objects.generic import Vehicle
 
 from ui.menu import MainMenu
 from ui import START_GAME_EVENT
